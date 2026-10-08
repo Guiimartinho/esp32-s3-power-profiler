@@ -1,0 +1,11 @@
+# Defaults applied when sdkconfig is created. Every line states why it is here.
+
+# The controller is an ESP32-S3 module.
+CONFIG_IDF_TARGET="esp32s3"
+
+# The module carries at least 8 MB of flash (N8R8 or N16R8).
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+
+# Logs go to UART0, which reaches the PC through the USB-to-UART bridge of the
+# development board. The native USB port is reserved for the data stream.
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y

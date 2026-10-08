@@ -1,0 +1,58 @@
+# Static analysis of the firmware C code. Run it with the "tidy" target of the
+# host test project; see README.md.
+#
+# Whole groups are enabled and single checks are switched off below, each
+# with its reason, so that a new check of a clang-tidy release is on by
+# default.
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  misc-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -bugprone-easily-swappable-parameters,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -misc-include-cleaner,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-magic-numbers,
+  -readability-uppercase-literal-suffix
+
+# Why each check above is off:
+#
+# bugprone-easily-swappable-parameters
+#   C interfaces pass (pointer, length) pairs and several integers of the
+#   same type. The check flags nearly every function of the protocol code.
+# clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+#   It asks for memcpy_s and friends of Annex K, which neither the ESP-IDF
+#   C library nor glibc provides. Lengths are checked before every copy.
+# misc-include-cleaner
+#   It wants a direct include for every symbol and rejects umbrella headers
+#   such as unity.h. The headers are checked for self-containment instead.
+# readability-identifier-length
+#   Short names such as i, q and n are clear in the small scopes they have.
+# readability-implicit-bool-conversion
+#   In C the comparison and logical operators yield int, so the check flags
+#   every "return (a) && (b);" of a function that returns bool. The code
+#   compares pointers and integers explicitly by convention.
+# readability-magic-numbers
+#   Bit positions, byte offsets and test data are numbers by nature. Protocol
+#   constants come from the generated header, which is the rule that matters.
+# readability-uppercase-literal-suffix
+#   The generated protocol header writes the unsigned suffix in lowercase,
+#   and the handwritten code follows it.
+
+WarningsAsErrors: '*'
+
+# Report findings in our own headers; leave the generated one and Unity out.
+HeaderFilterRegex: '(components/.*/include/.*|test/host/support/.*)\.h$'
+ExcludeHeaderFilterRegex: 'pp_proto_(defs|vectors)\.h$'
+
+CheckOptions:
+  - key: readability-function-cognitive-complexity.Threshold
+    value: '25'
+  - key: readability-function-cognitive-complexity.IgnoreMacros
+    value: 'true'

@@ -1,0 +1,101 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "gcc"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "Plain build of the unit tests",
+      "inherits": "base"
+    },
+    {
+      "name": "coverage",
+      "displayName": "Coverage",
+      "description": "Unit tests instrumented for gcov",
+      "inherits": "base",
+      "cacheVariables": {
+        "PP_COVERAGE": "ON"
+      }
+    },
+    {
+      "name": "sanitize",
+      "displayName": "Sanitizers",
+      "description": "Unit tests with AddressSanitizer and UndefinedBehaviorSanitizer (Linux)",
+      "inherits": "base",
+      "cacheVariables": {
+        "PP_SANITIZE": "ON"
+      }
+    },
+    {
+      "name": "tsan",
+      "displayName": "ThreadSanitizer",
+      "description": "Unit tests with ThreadSanitizer (Linux)",
+      "inherits": "base",
+      "cacheVariables": {
+        "PP_SANITIZE_THREAD": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage"
+    },
+    {
+      "name": "sanitize",
+      "configurePreset": "sanitize"
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "sanitize",
+      "configurePreset": "sanitize",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

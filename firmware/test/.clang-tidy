@@ -1,0 +1,12 @@
+# Static analysis of the test code: the rules of firmware/.clang-tidy, less
+# the checks that contradict what a test has to do.
+InheritParentConfig: true
+
+Checks: >
+  -clang-analyzer-optin.core.EnumCastOutOfRange
+
+# Why the check above is off:
+#
+# clang-analyzer-optin.core.EnumCastOutOfRange
+#   The tests pass values outside an enumeration on purpose, to prove that
+#   the code under test rejects them.

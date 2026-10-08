@@ -1,0 +1,34 @@
+# Format of the C sources of the firmware. Apply it with the "format" target
+# of the host test project; see README.md.
+BasedOnStyle: LLVM
+
+# Four spaces, never tabs, lines up to 100 columns.
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+
+# The opening brace of a function sits on its own line; every other brace
+# stays on the line of its statement.
+BreakBeforeBraces: Linux
+
+# The star belongs to the name: "uint8_t *data".
+PointerAlignment: Right
+
+# One statement per line, and braces around every body.
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+InsertBraces: true
+
+IndentCaseLabels: false
+AlignTrailingComments: true
+
+# Includes keep the groups the author made and are sorted inside each group.
+IncludeBlocks: Preserve
+SortIncludes: CaseSensitive
+
+InsertNewlineAtEOF: true
