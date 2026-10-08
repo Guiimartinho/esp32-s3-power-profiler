@@ -26,11 +26,11 @@ measurement electronics.
 > hardware has been built and nothing has been measured, so every figure
 > in this repository is a design target.
 >
-> The project started on the ESP32-S3, which the name of the repository
-> still shows. The controller is now a Raspberry Pi Pico 2 (decision D-39
-> of the specification). The firmware still builds for the ESP32-S3: its
-> hardware-independent core carries over, and the port of the rest to the
-> Pico SDK is the next step.
+> The project started on the ESP32-S3, and its repository was called
+> `esp32-s3-power-profiler` until the controller became a Raspberry Pi
+> Pico 2 (decision D-39 of the specification). The firmware still builds
+> for the ESP32-S3: its hardware-independent core carries over, and the
+> port of the rest to the Pico SDK is the next step.
 
 ## Table of Contents
 
@@ -147,8 +147,8 @@ recorded measurements. The exit criteria are in section 13 of the
 ## Getting Started
 
 ```sh
-git clone https://github.com/Guiimartinho/esp32-s3-power-profiler.git
-cd esp32-s3-power-profiler
+git clone https://github.com/Guiimartinho/open-power-profiler.git
+cd open-power-profiler
 ```
 
 Start with the [specification](docs/specification.md). Each part of the

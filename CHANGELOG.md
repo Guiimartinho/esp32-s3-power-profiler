@@ -87,6 +87,8 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
 - **hardware:** reference designators follow the default annotation of
   KiCad (D-45), and the outline shrinks from 160 mm × 100 mm to
   130 mm × 100 mm (D-46).
+- **repo:** the repository is renamed to `open-power-profiler`. Its former
+  address, `esp32-s3-power-profiler`, redirects to the new one.
 
 ### Removed
 
@@ -94,4 +96,4 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   development board, the programmable logic device and the buffer between
   the two boards.
 
-[Unreleased]: https://github.com/Guiimartinho/esp32-s3-power-profiler/commits/main
+[Unreleased]: https://github.com/Guiimartinho/open-power-profiler/commits/main
