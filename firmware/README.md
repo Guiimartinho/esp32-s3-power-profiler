@@ -1,8 +1,15 @@
 # Firmware
 
-ESP-IDF firmware for the ESP32-S3 controller of the instrument. It acquires
-the samples, controls the analog front end and streams the data to the host
-over USB.
+Firmware of the controller of the instrument. It acquires the samples,
+controls the analog front end and streams the data to the host over USB.
+
+> [!IMPORTANT]
+> The controller changed from the ESP32-S3 to the Raspberry Pi Pico 2
+> (decision D-39 of the specification). This directory is not ported yet:
+> it is still the ESP-IDF project of the first plan, and everything below
+> describes it. The hardware-independent core and its unit tests do not
+> depend on the controller and carry over as they are; the build, `main`
+> and the adapters move to the Pico SDK in phase 1.
 
 ## Status
 

@@ -158,15 +158,19 @@
       },
       {
         "netclass": "HighCurrent",
+        "pattern": "PICO_VBUS*"
+      },
+      {
+        "netclass": "HighCurrent",
         "pattern": "GND"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(Q603-S-Pad1)"
+        "pattern": "Net-(Q3-S-Pad1)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(C508-Pad1)"
+        "pattern": "Net-(C36-Pad1)"
       },
       {
         "netclass": "HighCurrent",
@@ -174,31 +178,39 @@
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(Q801-S-Pad1)"
+        "pattern": "Net-(Q10-S-Pad1)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(L501-Pad1)"
+        "pattern": "Net-(JP1-A)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(L501-Pad2)"
+        "pattern": "Net-(D2-A)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(Q701-S)"
+        "pattern": "Net-(L2-Pad1)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(Q702-S)"
+        "pattern": "Net-(L2-Pad2)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(Q703-S-Pad1)"
+        "pattern": "Net-(Q6-S)"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(Q601-S-Pad1)"
+        "pattern": "Net-(Q7-S)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q8-S-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q2-S-Pad1)"
       },
       {
         "netclass": "HighCurrent",
@@ -206,7 +218,7 @@
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(F301-Pad1)"
+        "pattern": "Net-(F1-Pad1)"
       },
       {
         "netclass": "HighCurrent",
@@ -214,11 +226,11 @@
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(J601-Pin_1)"
+        "pattern": "/Output Stage/VIN_RAW"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(D801-common)"
+        "pattern": "Net-(D9-common)"
       },
       {
         "netclass": "HighCurrent",
@@ -226,7 +238,7 @@
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "Net-(C504-Pad1)"
+        "pattern": "Net-(C32-Pad1)"
       },
       {
         "netclass": "Supply",
@@ -250,10 +262,6 @@
       },
       {
         "netclass": "Supply",
-        "pattern": "+3V3_D"
-      },
-      {
-        "netclass": "Supply",
         "pattern": "VREF"
       },
       {
@@ -270,27 +278,31 @@
       },
       {
         "netclass": "Supply",
-        "pattern": "DEVKIT_5V*"
+        "pattern": "PICO_VSYS"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(D401-A)"
+        "pattern": "VCC_B"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(U403-EN)"
+        "pattern": "Net-(D5-A)"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(U403-CPOUT)"
+        "pattern": "Net-(U5-EN)"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(JP201-B)"
+        "pattern": "Net-(U5-CPOUT)"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(D201-K)"
+        "pattern": "Net-(D1-K)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(JP2-C)"
       }
     ]
   },
@@ -304,7 +316,7 @@
     ],
     [
       "ea577196-3ed8-533a-b6c3-87423f7105de",
-      "MCU Interface"
+      "Controller"
     ],
     [
       "0138ac09-93e0-5d3f-aaa7-bd142f9bbe9d",
@@ -339,8 +351,8 @@
       "Comparators"
     ],
     [
-      "bfdd6f0f-27e7-55d1-946f-49ce436b51cc",
-      "Range Logic"
+      "9d6e0a25-f275-536b-8287-be8c1a7bdd1d",
+      "Side Data"
     ],
     [
       "5000732c-27b8-5572-a444-bf20062b556b",

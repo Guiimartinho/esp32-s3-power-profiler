@@ -45,6 +45,12 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   and a power-symbol library for the supply rails.
 - **hardware:** pictures of every schematic sheet and of the board, and the
   schematic as PDF, in `hardware/doc/`.
+- **hardware:** draft A1 of the carrier board. A Raspberry Pi Pico 2 on
+  sockets is the only programmable part; two shift registers carry the
+  side data; the DUT connects through a pin header and a lever terminal
+  block in the pin order of the PPK2, and the logic port has that order
+  too. The board is 130 mm × 100 mm with every part placed near the pin it
+  serves.
 - **repo:** continuous integration for firmware, host software, protocol and
   hardware, with coverage floors and static analysis.
 
@@ -73,5 +79,21 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   schematic.
 - **repo:** the continuous integration workflows are started by hand
   instead of on every push and pull request (D-22).
+- **docs:** the controller is a Raspberry Pi Pico 2 in place of the
+  ESP32-S3 development board and of the programmable logic device: range
+  logic and sampling clock become PIO programs, the pin map, the firmware
+  plan and the phases are rewritten (D-39 to D-43). The firmware in the
+  repository is not ported yet.
+- **hardware:** reference designators follow the default annotation of
+  KiCad (D-45), and the outline shrinks from 160 mm × 100 mm to
+  130 mm × 100 mm (D-46).
+- **repo:** the repository is renamed to `open-power-profiler`. Its former
+  address, `esp32-s3-power-profiler`, redirects to the new one.
 
-[Unreleased]: https://github.com/Guiimartinho/esp32-s3-power-profiler/commits/main
+### Removed
+
+- **hardware:** the symbol and the socket footprint of the ESP32-S3
+  development board, the programmable logic device and the buffer between
+  the two boards.
+
+[Unreleased]: https://github.com/Guiimartinho/open-power-profiler/commits/main

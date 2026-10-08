@@ -45,8 +45,8 @@ dev = [
 s3pp = "s3_power_profiler.cli:main"
 
 [project.urls]
-Repository = "https://github.com/Guiimartinho/esp32-s3-power-profiler"
-Changelog = "https://github.com/Guiimartinho/esp32-s3-power-profiler/blob/main/CHANGELOG.md"
+Repository = "https://github.com/Guiimartinho/open-power-profiler"
+Changelog = "https://github.com/Guiimartinho/open-power-profiler/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 path = "src/s3_power_profiler/__init__.py"
