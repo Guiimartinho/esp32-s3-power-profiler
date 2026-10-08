@@ -15,18 +15,22 @@ The instrument is two boards: an ESP32-S3-DevKitC-1 compatible development
 board, bought ready-made, plugged into a carrier board designed in this
 project that holds the measurement electronics.
 
+![Carrier board, draft A0](hardware/doc/images/board-3d.jpg)
+
 > [!NOTE]
 > The project is in early development. The software foundations exist and
 > are tested without hardware: the protocol definition, the core logic of
 > the firmware and the host package with a device simulator. The carrier
-> board has its interface to the development board drawn and nothing else.
-> No hardware has been built and nothing has been measured, so every figure
+> board exists as a review draft, shown above: the complete schematic and
+> every part placed on the board, with candidate parts and no tracks. No
+> hardware has been built and nothing has been measured, so every figure
 > in this repository is a design target.
 
 ## Table of Contents
 
 - [Target Specifications](#target-specifications)
 - [How It Works](#how-it-works)
+- [Hardware Draft](#hardware-draft)
 - [Repository Structure](#repository-structure)
 - [Roadmap](#roadmap)
 - [Getting Started](#getting-started)
@@ -69,7 +73,9 @@ VIN (ampere mode) ──► protection ──►├── mode switch
 
 - **Two boards.** Everything in the diagram except the ESP32-S3 is on the
   carrier board. The development board brings the microcontroller and both
-  USB ports, and connects through 19 signals on its pin headers.
+  USB ports, and connects through 21 signals on its pin headers. The
+  board in use has an ESP32-S3-WROOM-1 module with 2 MB of quad PSRAM
+  (N8R2 or N16R2).
 - **Four shunt ranges.** Each range is limited to 100 mV of burden voltage.
   Comparators switch to a higher range in hardware within microseconds, so a
   current step does not brown out the device under test. The firmware decides
@@ -85,12 +91,28 @@ VIN (ampere mode) ──► protection ──►├── mode switch
 - **Programmable supply.** In source meter mode a DAC sets a low-noise linear
   regulator, fed by a pre-regulator that tracks the output voltage.
 
+## Hardware Draft
+
+The carrier board is drawn in KiCad 10 as draft A0: thirteen A4 schematic
+sheets and a 160 mm × 100 mm board with every footprint placed by
+functional block. It is a draft to review and to start the layout from,
+not a design to fabricate: the parts are candidates and their checks are
+open.
+
+![Top view of the carrier board](hardware/doc/images/board-top.jpg)
+
+![Block level of the schematic](hardware/doc/images/schematic-01-root.png)
+
+Every sheet and the board are shown in
+[`hardware/doc/`](hardware/doc/README.md); the status and the open work are
+in the [hardware README](hardware/README.md).
+
 ## Repository Structure
 
 | Path | Content | License |
 | --- | --- | --- |
 | [`firmware/`](firmware/) | ESP-IDF firmware for the ESP32-S3 | MIT |
-| [`hardware/`](hardware/) | KiCad project of the carrier board, simulations, fabrication outputs | CERN-OHL-P v2 |
+| [`hardware/`](hardware/) | KiCad project of the carrier board, its pictures, simulations, fabrication outputs | CERN-OHL-P v2 |
 | [`host/`](host/) | Python package: protocol, device client, simulator, capture tool | MIT |
 | [`protocol/`](protocol/) | Protocol definition, generator and shared test vectors | MIT |
 | [`tools/`](tools/) | Calibration and production-test scripts | MIT |
@@ -108,7 +130,7 @@ recorded measurements. The exit criteria are in section 13 of the
 | 2 | Analog front end with one fixed range | Not started |
 | 3 | Shunt ladder and automatic range logic | Not started |
 | 4 | Source meter mode and power input | Not started |
-| 5 | Carrier board, revision A | Not started |
+| 5 | Carrier board, revision A | Not started; a review draft of the schematic and of the part placement exists (draft A0) |
 | 6 | Calibration, protocol freeze and host software | Not started |
 | 7 | Revision B and release | Not started |
 
