@@ -1,0 +1,17 @@
+{
+  // Rule reference: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+  "config": {
+    "default": true,
+    // Prose wraps at 80 columns. Tables and code blocks are exempt.
+    "MD013": { "line_length": 80, "tables": false, "code_blocks": false },
+    // The changelog repeats "Added", "Changed" and "Fixed" under each release.
+    "MD024": { "siblings_only": true }
+  },
+  "globs": ["**/*.md"],
+  "gitignore": true,
+  "ignores": [
+    // Pull request bodies start at heading level 2.
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "hardware/fabrication/**"
+  ]
+}

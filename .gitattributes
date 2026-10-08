@@ -1,0 +1,19 @@
+# Line endings: LF in the repository and in the working tree.
+* text=auto eol=lf
+
+# Windows command scripts need CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.bin binary
+*.elf binary
+
+# Fabrication outputs are generated from the KiCad project.
+hardware/fabrication/** linguist-generated

@@ -1,0 +1,45 @@
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*~
+
+# ESP-IDF (firmware/)
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+
+# Python (host/, tools/)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# KiCad (hardware/)
+*-backups/
+*.kicad_prl
+*.lck
+fp-info-cache
+_autosave-*
+*-bak
+
+# Simulation outputs (hardware/simulation/)
+*.raw
+*.log
+
+# Node tooling (documentation lint runs through npx)
+node_modules/
