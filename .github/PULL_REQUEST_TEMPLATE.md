@@ -7,6 +7,7 @@
 - [ ] Firmware
 - [ ] Hardware
 - [ ] Host software
+- [ ] Protocol
 - [ ] Tools
 - [ ] Documentation or specification
 
@@ -17,6 +18,8 @@
 ## Checklist
 
 - [ ] The pull request title follows the Conventional Commits format.
+- [ ] Tests are added or updated, and the checks of the changed area pass
+      locally.
 - [ ] `CHANGELOG.md` is updated, or the change is not notable.
 - [ ] A deviation from the specification is recorded in its decision log.
 - [ ] Figures taken from datasheets or measurements cite their source.

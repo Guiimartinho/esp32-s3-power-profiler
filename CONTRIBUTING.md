@@ -15,6 +15,9 @@ are proposed, written and merged.
   document, revision and page in a record under
   [`docs/checks/`](docs/checks/). A measured figure cites its report under
   [`docs/reports/`](docs/reports/). Estimates are labeled as estimates.
+- **Tests come with the change.** New logic arrives with its tests, and a fix
+  arrives with the test that would have caught the defect. Continuous
+  integration passes before a merge.
 - **One logical change per commit and per pull request.**
 
 ## Repository Layout
@@ -25,8 +28,9 @@ to is also the scope of its commit message.
 | Path | Content | Commit scope |
 | --- | --- | --- |
 | `firmware/` | ESP-IDF firmware for the ESP32-S3 | `firmware` |
-| `hardware/` | KiCad project, simulations, fabrication outputs | `hardware` |
+| `hardware/` | KiCad project of the carrier board, simulations, fabrication outputs | `hardware` |
 | `host/` | Python package: protocol, capture tool, viewer | `host` |
+| `protocol/` | Protocol definition, generator and shared test vectors | `protocol` |
 | `tools/` | Calibration and production-test scripts | `tools` |
 | `docs/specification.md` | System specification | `spec` |
 | Anything else | Repository-wide files and other documentation | none |
@@ -74,8 +78,8 @@ Commit messages follow
 
 The scope is the area from the table in
 [Repository Layout](#repository-layout): `firmware`, `hardware`, `host`,
-`tools` or `spec`. Release commits use `release`. Leave the scope out for
-repository-wide changes.
+`protocol`, `tools` or `spec`. Release commits use `release`. Leave the
+scope out for repository-wide changes.
 
 ### Subject, Body and Footer
 
@@ -118,6 +122,28 @@ under `Unreleased`, in the matching section (`Added`, `Changed`,
 `Deprecated`, `Removed`, `Fixed` or `Security`), and start each entry with
 the area in bold, for example `**firmware:**`. Write for a reader who uses
 the instrument, not for one who reads the code.
+
+## Quality Gates
+
+Section 18 of the specification defines the engineering rules. Continuous
+integration enforces them on every pull request, and each area documents the
+commands to run the same checks locally.
+
+| Area | Checks | Commands |
+| --- | --- | --- |
+| Firmware | ESP-IDF build, unit tests on the PC, coverage floors, clang-format, clang-tidy, cppcheck | [`firmware/README.md`](firmware/README.md) |
+| Host software | Tests on Windows, Linux and macOS, coverage floor, ruff, mypy | [`host/README.md`](host/README.md) |
+| Protocol | Generated files up to date | [`protocol/README.md`](protocol/README.md) |
+| Hardware | Electrical rules check of the schematic | [`hardware/README.md`](hardware/README.md) |
+| Documentation | markdownlint | [Documentation](#documentation) |
+
+- Coverage floors are minimums. A change does not lower the coverage of the
+  code it touches.
+- A check is never silenced to make a pull request pass. A suppression needs
+  a comment that says why the finding does not apply.
+- The gates cover logic. Timing, throughput and analog behavior are verified
+  on the bench and recorded in a report under
+  [`docs/reports/`](docs/reports/).
 
 ## Versioning
 
