@@ -49,7 +49,7 @@ def _non_negative_int(text: str) -> int:
 def build_parser() -> argparse.ArgumentParser:
     """Create the argument parser of the ``s3pp`` command."""
     parser = argparse.ArgumentParser(
-        prog="s3pp", description="Host tools for the ESP32-S3 Power Profiler."
+        prog="s3pp", description="Host tools for the Open Power Profiler."
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     subcommands = parser.add_subparsers(dest="command", required=True)

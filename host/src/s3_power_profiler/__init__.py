@@ -1,4 +1,4 @@
-"""Host software for the ESP32-S3 Power Profiler.
+"""Host software for the Open Power Profiler.
 
 The package is built in layers, and each layer depends only on the ones below it:
 
