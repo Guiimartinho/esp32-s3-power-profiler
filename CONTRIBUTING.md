@@ -140,7 +140,7 @@ were run.
 | Firmware | ESP-IDF build, unit tests on the PC, coverage floors, clang-format, clang-tidy, cppcheck | [`firmware/README.md`](firmware/README.md) |
 | Host software | Tests on Windows, Linux and macOS, coverage floor, ruff, mypy | [`host/README.md`](host/README.md) |
 | Protocol | Generated files up to date | [`protocol/README.md`](protocol/README.md) |
-| Hardware | Electrical rules check of the schematic | [`hardware/README.md`](hardware/README.md) |
+| Hardware | Electrical rules check of the schematic; board checked against the schematic | [`hardware/README.md`](hardware/README.md) |
 | Documentation | markdownlint | [Documentation](#documentation) |
 
 - Coverage floors are minimums. A change does not lower the coverage of the

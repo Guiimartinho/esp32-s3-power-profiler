@@ -23,8 +23,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  erc:
-    name: Electrical rules check
+  checks:
+    name: Schematic and board checks
     runs-on: ubuntu-latest
     container:
       image: kicad/kicad:10.0
@@ -66,6 +66,29 @@ jobs:
           kicad-cli sch export pdf --output schematic.pdf
           power-profiler-carrier.kicad_sch
 
+      # The board is not routed yet, so the unconnected items are expected and
+      # the exit code of the check cannot be used. The report must show no
+      # rule violation and no difference between board and schematic.
+      - name: Check the board
+        run: >-
+          kicad-cli pcb drc --schematic-parity --severity-all
+          --output drc-report.txt power-profiler-carrier.kicad_pcb
+
+      - name: Add the board check to the job summary
+        run: |
+          {
+            echo '### Design rules check'
+            echo
+            echo '```text'
+            grep -E '^\*\* Found [0-9]+ ' drc-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail on rule violations and on differences from the schematic
+        run: |
+          grep -q '^\*\* Found 0 DRC violations \*\*' drc-report.txt
+          grep -q '^\*\* Found 0 Footprint errors \*\*' drc-report.txt
+
       - name: Upload the schematic and the reports
         if: always()
         uses: actions/upload-artifact@v7
@@ -75,4 +98,5 @@ jobs:
             hardware/kicad/schematic.pdf
             hardware/kicad/erc-report.txt
             hardware/kicad/erc-errors.txt
+            hardware/kicad/drc-report.txt
           if-no-files-found: warn
