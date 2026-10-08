@@ -5,7 +5,7 @@
 | [specification.md](specification.md) | System specification: requirements, architecture, host protocol, calibration, verification plan, development phases, risk register and decision log |
 | [checks/](checks/) | Candidate components verified against their datasheets |
 | [reports/](reports/) | Test reports that close each development phase |
-| [protocol/](protocol/) | Host protocol reference (planned) |
+| [protocol/](protocol/) | Host protocol: where it is defined; user reference planned |
 | [calibration/](calibration/) | Calibration procedure (planned) |
 
 ## How the Documents Relate

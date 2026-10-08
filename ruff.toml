@@ -1,0 +1,41 @@
+# Lint and format rules for every Python file in the repository.
+line-length = 100
+target-version = "py310"
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # import order
+    "N",    # naming
+    "D",    # docstrings
+    "UP",   # modern syntax
+    "B",    # likely bugs
+    "C4",   # comprehensions
+    "PIE",  # unnecessary code
+    "PT",   # pytest style
+    "RET",  # return statements
+    "SIM",  # simplifications
+    "TID",  # tidy imports
+    "PERF", # performance
+    "RUF",  # ruff-specific rules
+]
+ignore = [
+    "D105", # magic methods need no docstring
+    "D107", # __init__ is documented in the class docstring
+]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.isort]
+# The generator runs on Python 3.11 or later, where tomllib is standard.
+extra-standard-library = ["tomllib"]
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[lint.per-file-ignores]
+# Tests document themselves through their names.
+"**/tests/**" = ["D"]

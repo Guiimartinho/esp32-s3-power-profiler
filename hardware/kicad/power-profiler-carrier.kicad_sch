@@ -1,0 +1,164 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "d2e82ebd-83c9-531f-aba6-f2dd41dff64c")
+	(paper "A4")
+	(title_block
+		(title "Power Profiler Carrier")
+		(date "2026-10-08")
+		(rev "0.1")
+		(comment 1 "docs/specification.md")
+	)
+	(lib_symbols)
+	(text "- Source meter: pre-regulator, LDO, DAC (4.2)"
+		(exclude_from_sim no)
+		(at 101.6 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "550f9d49-447e-576d-b9f5-1dc038e1b700")
+	)
+	(text "- Signal chain, ADC and side data (4.5 to 4.7)"
+		(exclude_from_sim no)
+		(at 101.6 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5f91bd1e-8305-5cf8-a342-387f43dfcc74")
+	)
+	(text "- Mode switch, output switch and protection (4.2, 4.9)"
+		(exclude_from_sim no)
+		(at 101.6 52.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "69efc821-811a-529d-95a9-4a6754fbde79")
+	)
+	(text "- Slow monitors (4.2)"
+		(exclude_from_sim no)
+		(at 101.6 71.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7081c72a-4699-5e1c-bbe0-b3865a418d5f")
+	)
+	(text "- Power input and analog rails (specification 4.1, power tree)"
+		(exclude_from_sim no)
+		(at 101.6 44.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a251f648-e4b8-567c-9058-ae5098eb5177")
+	)
+	(text "- Digital inputs (4.8)"
+		(exclude_from_sim no)
+		(at 101.6 67.31 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a947e230-6603-560c-81da-437f929432a0")
+	)
+	(text "- Range control logic and fault latch (4.4)"
+		(exclude_from_sim no)
+		(at 101.6 59.69 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b1777da8-9f30-5245-96b0-0cde359f7edf")
+	)
+	(text "- Shunt ladder with Kelvin multiplexer (4.3)"
+		(exclude_from_sim no)
+		(at 101.6 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b8cb4bfc-26f6-51c3-aa82-4d20b13c23e1")
+	)
+	(text "Planned sheets, added as each block passes its component checks:"
+		(exclude_from_sim no)
+		(at 101.6 40.64 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ecc8d1ff-d246-59ae-8a5c-09e109329f7f")
+	)
+	(sheet
+		(at 25.4 38.1)
+		(size 50.8 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "decceef8-cc00-5ecf-ac19-494f00a10ccf")
+		(property "Sheetname" "MCU Interface"
+			(at 25.4 37.3884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu_interface.kicad_sch"
+			(at 25.4 64.0846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "power-profiler-carrier"
+				(path "/d2e82ebd-83c9-531f-aba6-f2dd41dff64c"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

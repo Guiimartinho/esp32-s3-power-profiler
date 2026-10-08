@@ -1,18 +1,21 @@
 name: Docs
 
+# Runs on demand only for now (decision D-22 of the specification). Start
+# it from the Actions tab or with "gh workflow run docs.yml". To run it
+# on every change again, restore the triggers kept below as comments.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "**/*.md"
-      - ".markdownlint-cli2.jsonc"
-      - ".github/workflows/docs.yml"
-  pull_request:
-    paths:
-      - "**/*.md"
-      - ".markdownlint-cli2.jsonc"
-      - ".github/workflows/docs.yml"
   workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "**/*.md"
+  #     - ".markdownlint-cli2.jsonc"
+  #     - ".github/workflows/docs.yml"
+  # pull_request:
+  #   paths:
+  #     - "**/*.md"
+  #     - ".markdownlint-cli2.jsonc"
+  #     - ".github/workflows/docs.yml"
 
 permissions:
   contents: read

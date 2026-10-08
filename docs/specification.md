@@ -11,6 +11,12 @@ the ESP32-S3. The project was inspired by
 50 Hz, single range, WiFi dashboard). That design is the starting idea only;
 this specification replaces its architecture.
 
+The instrument is built from two boards. The controller is an
+ESP32-S3-DevKitC-1 compatible development board, bought ready-made. The
+instrument's own electronics are on a carrier board, designed in this
+project, that the development board plugs into through its two pin headers
+(sections 4.11 and 5).
+
 This is the architecture and planning baseline. It fixes the structure, the
 interfaces, the budgets and the order of work. It does not replace the
 schematic, the simulations or the bench measurements.
@@ -46,9 +52,10 @@ streaming and battery emulation.
 | R-11 | Host link | Native USB Full-Speed, CDC ACM, binary protocol |
 | R-12 | Calibration | Per-range gain and offset stored on the device |
 | R-13 | Protection | Over-current trip, reverse polarity, over-voltage, thermal |
-| R-14 | Power input | USB-C 5 V; output power limited to what the source offers |
+| R-14 | Power input | USB-C 5 V on the carrier board; output power limited to what the source offers |
 | R-15 | Host software | Capture, live view, statistics, export, on Windows/Linux/macOS |
 | R-16 | Openness | Sources published: firmware and host software under MIT, hardware under CERN-OHL-P v2 |
+| R-17 | Software quality | Automated tests with coverage gates, static analysis and continuous integration for firmware and host software (section 18) |
 
 ## 3. System Architecture
 
@@ -64,6 +71,10 @@ VIN (ampere mode) ──► protection ──►├── mode switch
                                   VOUT ──► DUT          D0..D7 ──► level shift
 ```
 
+Everything in the diagram except the ESP32-S3 is on the carrier board. The
+ESP32-S3 is on the development board, which brings its own USB ports: one
+for the measurement stream and one for flashing and the console.
+
 Design principles:
 
 - Timing belongs to hardware. The sampling clock and the up-range reaction
@@ -77,20 +88,29 @@ Design principles:
 
 ### Power Tree
 
+The carrier board has its own USB-C power connector. The development board is
+powered through its own USB ports and lends only its 3.3 V rail to the
+carrier logic (section 4.11).
+
 ```text
 USB-C VBUS 5 V ─┬─► buck-boost (tracking) ─► V_PRE = VSET + 0.6 V ─► LDO IN
-                ├─► boost ─► LC + LDO ─► +12 V_A (in-amp, mux, gates, VCONTROL)
+(carrier)       ├─► boost ─► LC + LDO ─► +12 V_A (in-amp, mux, gates, VCONTROL)
                 ├─► inverter ─► LC ─► −5 V_A (in-amp, mux, minimum load)
-                ├─► LDO ─► 3V3_D (ESP32-S3, logic)
                 └─► low-noise LDO ─► 3V3_A (ADC, driver, comparators, VREF)
+
+Devkit 3V3 pin ───► 3V3_D (carrier logic: shift registers, level translator)
 ```
 
 ## 4. Analog Hardware Design
 
 ### 4.1 Power Input
 
-- USB-C receptacle as a sink: 5.1 kΩ pull-down on CC1 and CC2. Both CC
-  voltages are read by the MCU to classify the source.
+- The power connector is on the carrier board, separate from the USB ports of
+  the development board. The development board cannot do this job: its CC
+  pins are not on the headers, and on the reference design its 5 V pin sits
+  behind a 1 A Schottky diode.
+- USB-C receptacle as a sink, power only: 5.1 kΩ pull-down on CC1 and CC2.
+  Both CC voltages are read through the monitor ADC to classify the source.
 - 5 V at 1 A on the output needs about 7 W at the input, more than a default
   USB port delivers. The output power budget follows the source:
 
@@ -136,8 +156,12 @@ USB-C VBUS 5 V ─┬─► buck-boost (tracking) ─► V_PRE = VSET + 0.6 V �
   the VIN terminal (ampere mode); break-before-make, both off at reset.
 - Output switch: back-to-back N-MOSFET pair at VOUT, off at reset, opened by
   hardware on a fault.
-- Slow monitors (ESP32-S3 internal ADC, about 1 kSPS): VOUT, VIN, VBUS, CC1,
-  CC2 and a board temperature sensor next to the LDO and shunts.
+- Slow monitors: an external 8-channel, 12-bit SPI converter (to be
+  selected) on the SPI bus of the DAC reads VOUT at about 1 kSPS and, at
+  100 SPS or less, VIN, VBUS, CC1, CC2, a board temperature sensor next to
+  the LDO and shunts, and the +12 V_A and −5 V_A rails. The internal ADC of
+  the ESP32-S3 is not used: the development board leaves too few pins for it
+  (section 5), and an external converter is the more accurate one.
 
 ### 4.3 Shunt Ladder
 
@@ -198,6 +222,9 @@ milliseconds of latency. The range state lives in hardware.
 - Step down: only on a pulse from the MCU, and only if the step-up comparator
   is not active. Firmware issues it when the current stays below the "switch
   down" threshold for N consecutive samples (N configurable, default 100).
+  After a request it waits until the range bits change, or for a hold-off of
+  four blocks, before it evaluates the rule again, so that one request never
+  becomes two.
 - Lock: the MCU can force a fixed range. The jump-up path and the
   over-current trip stay active even when locked.
 - Over-current: a comparator on R3 at about 1.2 A opens the output switch and
@@ -286,46 +313,97 @@ thermal noise about 1.1 µV RMS. To be replaced by measurements in phase 2.
 - Samples inside the settling window after a range change are excluded from
   statistics.
 
+### 4.11 Development Board Interface & Power Domains
+
+The carrier board has two 1×22 pin sockets at 2.54 mm pitch, 22.86 mm apart,
+and the development board plugs into them (section 5 has the pin
+assignment). The interface keeps the two boards independent:
+
+- Domain D (digital): 3V3_D comes from the 3V3 pins of the development board
+  and powers only the carrier logic that talks to the MCU. Budget: 100 mA,
+  to be confirmed against the regulator of the board in hand.
+- Domain A (analog and SMU): every other rail derives from the USB-C power
+  connector of the carrier (section 4.1).
+- The 5 V pin of the development board is not used. A solder jumper, open by
+  default, may connect it to the carrier 5 V rail through a diode, so that
+  one supply powers both boards.
+- Either domain can be powered without the other. Every signal that crosses
+  between them has a series resistor, and the parts on the boundary tolerate
+  a voltage on their pins while unpowered.
+- The carrier holds its control inputs in the safe state with pull-down
+  resistors, whatever the MCU pins do during reset: output switch open,
+  regulators off, range R3.
+- Firmware drives no carrier input until PWR_GOOD reports the analog rails
+  valid, and treats the loss of PWR_GOOD as a fault.
+- The grounds of both boards join at the sockets. The development board,
+  with its switching edges and its antenna, stays away from the shunt ladder
+  and the amplifier (section 10).
+
 ## 5. Microcontroller, Connectivity & Pin Map
 
-- MCU: ESP32-S3-WROOM-1-N8R8 (8 MB flash, 8 MB octal PSRAM). GPIO 35 to 37
-  are used by the PSRAM. GPIO 0, 3, 45 and 46 are strapping pins and are left
-  to their boot function.
-- USB Interface: Dual-USB layout.
-  - Port 1 (USB-UART): CH340K or CP2102 for flashing/debugging.
-  - Port 2 (Native USB-OTG): GPIO 19 (D-) and GPIO 20 (D+). The ESP32-S3 USB
-    is Full-Speed only (12 Mbit/s); it carries the measurement stream and the
-    command channel.
+- Controller: an ESP32-S3-DevKitC-1 compatible development board with an
+  ESP32-S3-WROOM-1 module (N8R8 or N16R8, both with 8 MB of octal PSRAM),
+  plugged into sockets on the carrier board. The board in use is a clone
+  with two USB-C ports; the pinout reference is the Espressif design.
+- Reference data, taken from the Espressif user guide, schematic and layout
+  drawing of the ESP32-S3-DevKitC-1 v1.1: two 1×22 headers at 2.54 mm pitch,
+  22.86 mm between the rows, board outline 25.40 mm × 62.74 mm. A clone can
+  differ in outline, regulator, LED pin and 5 V path, so the carrier depends
+  on none of them. Section 16 lists what to confirm on the board in hand.
+- USB: both ports are on the development board.
+  - UART port (USB-to-UART bridge on GPIO 43 and 44): flashing and console.
+  - Native USB port (GPIO 19 D- and GPIO 20 D+): the measurement stream and
+    the command channel. The ESP32-S3 USB is Full-Speed only (12 Mbit/s).
 - WiFi and Bluetooth stay disabled while capturing, to keep interrupt latency
   and supply noise down.
 
-Proposed pin map, to be confirmed at schematic capture:
+Pins the carrier does not use:
 
-| GPIO | Signal | Direction | Function |
-| --- | --- | --- | --- |
-| 1 | VOUT_MON | Analog in | Output voltage monitor |
-| 2 | VIN_MON | Analog in | External input voltage monitor |
-| 4 | CC1_MON | Analog in | USB-C source capability |
-| 5 | CC2_MON | Analog in | USB-C source capability |
-| 6 | TEMP_MON | Analog in | Board temperature |
-| 7 | VBUS_MON | Analog in | USB supply voltage |
-| 8 | MODE_SEL | Out | Source or ampere mode |
-| 9 | OUT_EN | Out | Output switch request |
-| 10, 11, 12 | DAC_CS, MOSI, SCK | Out | DAC (SPI2) |
-| 13 | SMU_EN | Out | Pre-regulator and LDO enable |
-| 14 | PWR_GOOD | In | Analog rails valid |
-| 15 | ACQ_BCLK | Out | ADC and shift-register clock (I2S0) |
-| 16 | ACQ_WS | Out | Convert-start and load (I2S0) |
-| 17 | ADC_DOUT | In | ADC data (I2S0) |
-| 18 | SIDE_DOUT | In | Shift-register data (I2S1) |
-| 19, 20 | USB D-, D+ | I/O | Native USB |
-| 21 | RANGE_DOWN | Out | Step-down pulse |
-| 38 | RANGE_LOCK | Out | Force fixed range |
-| 39, 40 | RANGE_SET0, RANGE_SET1 | Out | Range to force |
-| 41 | FAULT_N | In | Over-current latch |
-| 42 | FAULT_CLR | Out | Clear the latch |
-| 43, 44 | UART0 TX, RX | I/O | Debug port |
-| 47, 48 | LED_STATUS, LED_RGB | Out | Indicators |
+| GPIO | Reason |
+| --- | --- |
+| 19, 20 | Native USB |
+| 43, 44 | UART0, wired to the USB-to-UART bridge |
+| 35, 36, 37 | Octal PSRAM of the module |
+| 0, 3, 45, 46 | Strapping pins, left to their boot function |
+| 38, 48 | RGB LED of the development board: GPIO 38 on v1.1, GPIO 48 on v1.0 and on most clones |
+| 39, 40, 41, 42 | JTAG, kept free for a debug probe |
+
+Pin map of the 19 signals between the boards. J1 and J3 are the header names
+of the reference design, and pin 1 of both is at the antenna end.
+
+| GPIO | Header pin | Signal | Direction | Function |
+| --- | --- | --- | --- | --- |
+| 4 | J1-4 | RANGE_DOWN | Out | Step-down pulse |
+| 5 | J1-5 | RANGE_LOCK | Out | Force fixed range |
+| 6 | J1-6 | RANGE_SET0 | Out | Range to force, bit 0 |
+| 7 | J1-7 | RANGE_SET1 | Out | Range to force, bit 1 |
+| 15 | J1-8 | DAC_CS | Out | DAC chip select (SPI2) |
+| 16 | J1-9 | SPI_SCK | Out | Clock of the DAC and the monitor ADC (SPI2) |
+| 17 | J1-10 | SPI_MOSI | Out | Data to the DAC and the monitor ADC (SPI2) |
+| 18 | J1-11 | SPI_MISO | In | Data from the monitor ADC (SPI2) |
+| 8 | J1-12 | MON_CS | Out | Monitor ADC chip select (SPI2) |
+| 9 | J1-15 | FAULT_CLR | Out | Clear the over-current latch |
+| 10 | J1-16 | FAULT_N | In | Over-current latch, active low |
+| 11 | J1-17 | SIDE_DOUT | In | Shift-register data (I2S1) |
+| 12 | J1-18 | ADC_DOUT | In | ADC data (I2S0) |
+| 13 | J1-19 | ACQ_BCLK | Out | ADC and shift-register clock (I2S0) |
+| 14 | J1-20 | ACQ_WS | Out | Convert-start and load (I2S0) |
+| 1 | J3-4 | MODE_SEL | Out | Source or ampere mode |
+| 2 | J3-5 | OUT_EN | Out | Output switch request |
+| 47 | J3-17 | PWR_GOOD | In | Analog rails valid |
+| 21 | J3-18 | SMU_EN | Out | Pre-regulator and LDO enable |
+
+- Power and ground: 3V3 (J1-1, J1-2) feeds 3V3_D, 5V (J1-21) goes to the
+  optional jumper, and ground is J1-22, J3-1, J3-21 and J3-22. RST (J1-3) is
+  not connected.
+- The acquisition signals use the pins closest to the ground pin J1-22, to
+  keep their return path short. The I2S and SPI peripherals reach any pin
+  through the GPIO matrix, and the slow SPI bus does not need the dedicated
+  SPI2 pins.
+- The status indicator is the RGB LED of the development board, with its
+  GPIO as a build option.
+- No spare general-purpose pin is left without touching the JTAG pins, so a
+  new signal means sharing the SPI bus or giving up the debug probe.
 
 ## 6. Firmware Architecture & Execution Strategy (ESP-IDF)
 
@@ -358,17 +436,20 @@ ESP-IDF.
 
 | Component | Responsibility |
 | --- | --- |
+| `base` | Primitives shared by every component: status codes, byte-order helpers, block queue |
+| `proto` | Frame encoding/decoding, sample word, command envelopes, error codes |
 | `acq` | I2S capture, stream alignment, decimation, sample-word assembly |
 | `afe` | Range lock and step-down, mode switch, output switch, fault latch |
 | `smu` | DAC, voltage ramp, regulator enable, power budget enforcement |
-| `monitor` | Slow ADC channels: VOUT, VIN, VBUS, CC, temperature |
+| `monitor` | Slow channels of the monitor ADC: VOUT, VIN, VBUS, CC, temperature, rails |
 | `cal` | Calibration table in NVS, zero calibration routine |
-| `proto` | Frame encoding/decoding, command dispatch, error codes |
 | `usb_link` | TinyUSB CDC ACM, host-open detection |
-| `app` | Device state machine, start-up self-test |
+| `app` | Device state machine, command handlers, start-up self-test |
 
-Rules: `acq` depends on nothing but the driver layer; only `app` may call
-across components; no component other than `cal` writes flash.
+Rules: `base` and `proto` are libraries that any component may use. Among
+the others, only `app` calls across components, and no component other than
+`cal` writes flash. Every component keeps its hardware-independent logic
+apart from its ESP-IDF code, as section 18 describes.
 
 ### 6.2 Tasks
 
@@ -388,7 +469,8 @@ across components; no component other than `cal` writes flash.
    `acq_task`.
 3. `acq_task` checks alignment, optionally decimates, merges ADC code and
    side bits into 32-bit sample words and marks the settling window after
-   any change of the range bits.
+   any change of the range bits. The window starts at the first sample that
+   shows the new range.
 4. It evaluates the step-down rule on the block and pulses RANGE_DOWN.
 5. The block goes into the ring buffer. If the buffer is full the block is
    dropped and counted; acquisition never blocks.
@@ -417,9 +499,14 @@ BOOT ─► SELFTEST ─► IDLE ◄──────────────�
 ```
 
 - SELFTEST: analog rails valid, ADC responds, range logic steps through all
-  ranges, zero calibration with the output open.
+  ranges, zero calibration with the output open. A failed self-test goes to
+  FAULT.
 - STREAMING stops by itself when the host closes the port.
-- FAULT always opens the output switch first and reports second.
+- FAULT always opens the output switch first and reports second. A fault can
+  be raised in every state after BOOT.
+- An event that the current state does not allow is refused, and the command
+  behind it answers "wrong state". The output cannot be switched off while
+  STREAMING: the stream is stopped first.
 
 ### 6.5 USB Streaming
 
@@ -445,7 +532,24 @@ both directions.
 | length | 2 bytes | Payload length in bytes |
 | sequence | 2 bytes | Per-type counter; reveals lost frames |
 | payload | length | See below |
-| crc16 | 2 bytes | CRC-16/CCITT over header and payload |
+| crc16 | 2 bytes | CRC-16/CCITT-FALSE over header and payload |
+
+- The magic word is sent little-endian like every other field, so a frame
+  starts with the bytes `0x5A`, `0xA5`.
+- The CRC is CRC-16/CCITT-FALSE: polynomial `0x1021`, initial value `0xFFFF`,
+  no reflection, no final XOR. The CRC of the ASCII string "123456789" is
+  `0x29B1`.
+- A payload is at most 2048 bytes, and a command payload at most 256.
+- A receiver that finds an impossible length or a wrong CRC drops the first
+  byte of the candidate frame and searches for the next magic word.
+- A receiver skips a frame whose type it does not know.
+
+| Type | Code | Direction |
+| --- | --- | --- |
+| Stream | `0x01` | Device to host |
+| Command | `0x02` | Host to device |
+| Response | `0x03` | Device to host |
+| Event | `0x04` | Device to host |
 
 ### 7.2 Stream Payload
 
@@ -469,25 +573,81 @@ both directions.
 
 ### 7.4 Commands
 
-Every command gets a response with the same sequence number and a status
-code (OK, bad argument, wrong state, fault active, busy).
+A command payload is the command code followed by its arguments. Every
+command gets a response frame with the same sequence number, whose payload is
+the command code, a status code and the response data.
 
-| Command | Purpose |
+| Command | Code | Arguments | Purpose |
+| --- | --- | --- | --- |
+| GET_INFO | `0x01` | None | Protocol version, firmware version, hardware revision, range table, calibration |
+| GET_STATUS | `0x02` | None | State, faults, dropped blocks, VOUT, VIN, VBUS, temperature, power budget |
+| SET_MODE | `0x10` | Mode, 1 byte: 0 ampere meter, 1 source meter | Select the mode (only in IDLE) |
+| SET_VOLTAGE | `0x11` | Millivolts, 2 bytes | Output voltage in source mode |
+| DUT_POWER | `0x12` | On, 1 byte: 0 or 1 | Turn the output switch on or off |
+| SET_RANGE | `0x13` | Range, 1 byte: 0 to 3, or `0xFF` for automatic | Lock one range, or return to automatic |
+| SET_DOWN_N | `0x14` | Samples, 2 bytes | Number of samples for the step-down rule |
+| START | `0x20` | None | Start the sample stream |
+| STOP | `0x21` | None | Stop the sample stream |
+| CAL_ZERO | `0x30` | None | Run the zero calibration (output open) |
+| CAL_WRITE | `0x31` | Target, 1 byte: 0 to 3 for a range, `0x10` for the DAC; gain and offset, 4-byte floats | Store gain and offset values |
+| CLEAR_FAULT | `0x40` | None | Reset the over-current latch |
+
+| Status | Code |
 | --- | --- |
-| GET_INFO | Protocol version, firmware version, hardware revision, range table, calibration |
-| SET_MODE | Source meter or ampere meter (only in IDLE) |
-| SET_VOLTAGE | Output voltage in mV (source mode) |
-| DUT_POWER | Turn the output switch on or off |
-| START / STOP | Start or stop the sample stream |
-| SET_RANGE | Automatic, or locked to one range |
-| SET_DOWN_N | Number of samples for the step-down rule |
-| CAL_ZERO | Run the zero calibration (output open) |
-| CAL_WRITE | Store gain/offset values for a range or the DAC |
-| GET_STATUS | State, faults, dropped blocks, VOUT, VIN, VBUS, temperature, power budget |
-| CLEAR_FAULT | Reset the over-current latch |
+| OK | 0 |
+| Bad argument | 1 |
+| Wrong state | 2 |
+| Fault active | 3 |
+| Busy | 4 |
+| Unknown command | 5 |
 
-Events (device to host, unsolicited): fault raised, power budget changed,
-state changed.
+Which commands a state accepts, checked in this order:
+
+- GET_INFO and GET_STATUS are answered in every state.
+- During BOOT and SELFTEST every other command answers "busy".
+- In FAULT every other command answers "fault active", except CLEAR_FAULT,
+  which returns to IDLE.
+- SET_MODE and CAL_ZERO are accepted only in IDLE.
+- DUT_POWER on moves IDLE to ARMED. DUT_POWER off moves ARMED to IDLE and is
+  refused while STREAMING. Asking for the present state changes nothing and
+  answers OK.
+- START is accepted only in ARMED and STOP only in STREAMING.
+- SET_VOLTAGE needs source meter mode and a value from 800 mV to 5000 mV.
+  CAL_WRITE is refused while STREAMING.
+- Any other request answers "wrong state". A command code the device does
+  not know answers "unknown command", and a command frame without a payload
+  answers "bad argument" with command code 0.
+
+An event payload is the event code followed by its data. Events are sent by
+the device without a request. Every change of state is announced with a
+"state changed" event, sent after the response when a command caused it.
+
+| Event | Code | Data |
+| --- | --- | --- |
+| Fault raised | `0x01` | Fault flags, 2 bytes |
+| Power budget changed | `0x02` | Budget in mW, 2 bytes |
+| State changed | `0x03` | State, 1 byte |
+
+- Fault flags: bit 0 over-current, bit 1 power limit, bit 2 thermal, bit 3
+  self-test.
+- States are numbered 0 to 5 in the order BOOT, SELFTEST, IDLE, ARMED,
+  STREAMING, FAULT.
+- The response data of GET_INFO, GET_STATUS and CAL_ZERO is provisional
+  until the protocol is frozen in phase 6. For now GET_INFO returns the
+  protocol version, the hardware revision and the firmware major, minor and
+  patch numbers, one byte each; GET_STATUS returns the state (1 byte), the
+  fault flags (2 bytes) and the dropped blocks (4 bytes); CAL_ZERO returns
+  no data. A receiver ignores bytes after the fields it knows, so fields can
+  be appended.
+
+### 7.5 Single Definition
+
+Every number in this section lives in `protocol/definition.toml`. A generator
+turns that file into the C header used by the firmware and the Python module
+used by the host, and encodes a set of shared test vectors that both codecs
+must reproduce byte for byte. A check, run locally and in continuous
+integration, fails when a generated file is stale. This section describes
+the protocol; the definition file decides it.
 
 ## 8. Calibration
 
@@ -510,6 +670,10 @@ state changed.
 ## 9. Host Software
 
 - Python package with a command-line capture tool and a desktop viewer.
+- Architecture: the protocol layer does no I/O and is shared by every front
+  end; transports are adapters behind one interface; a device simulator
+  implements the instrument side of the protocol, so the package is developed
+  and tested without hardware (section 18).
 - Device layer: protocol codec, resynchronization on the magic word, CRC
   check, gap detection from the sample index.
 - Live plot of current against time with min/max decimation, so short pulses
@@ -523,8 +687,13 @@ state changed.
 ## 10. PCB & Mechanical Guidelines
 
 - Four layers: signal, solid ground, power, signal. No ground-plane splits;
-  partition by placement, with the switching converters and the MCU away
-  from the front end.
+  partition by placement, with the switching converters and the development
+  board away from the front end.
+- Development board: on sockets, with its USB connectors at the edge of the
+  carrier and within reach; no carrier copper or parts under its antenna
+  end; the front end at the opposite end of the carrier.
+- Socket footprint: two rows of 22 holes, 22.86 mm apart, as on the
+  reference design. Confirm it on the board in hand before fabrication.
 - Guard ring driven at VOUT potential around the R0 sense node and the
   amplifier inputs; no solder mask over the guard; clean flux residue.
 - Kelvin routing as a tightly coupled pair from each shunt to the
@@ -532,7 +701,8 @@ state changed.
 - Shield can over the shunt ladder, multiplexer, amplifier and ADC.
 - Thermal relief for the LDO and R3 away from R0 and the reference.
 - Test points on every rail, sense node, comparator output and range bit.
-- Connectors: USB-C (data), USB-UART, VIN, VOUT/GND, 10-pin logic header.
+- Connectors on the carrier: USB-C (power only), the two sockets of the
+  development board, VIN, VOUT/GND and a 10-pin logic header.
 
 ## 11. Verification Plan
 
@@ -549,13 +719,17 @@ state changed.
 | R-10 | Square wave on D0 to D7 at 10 kHz | Edges aligned with current within 1 sample |
 | R-13 | Short circuit, reverse supply, over-voltage | Trip, no damage, fault reported |
 | R-14 | 500 mA, 1.5 A and 3 A sources | Budget respected, no VBUS collapse |
+| R-17 | Run every continuous integration workflow on the release commit | All jobs pass, coverage at or above the gates of section 18 |
+| R-17 | Run the shared protocol vectors through the firmware and host codecs | Byte-for-byte agreement in both directions |
 
 ## 12. Repository Structure
 
 ```text
-hardware/     KiCad project, simulations, fabrication outputs
+hardware/     KiCad project of the carrier board, simulations, fabrication
+              outputs
 firmware/     ESP-IDF project, one directory per component of section 6.1
 host/         Python package: protocol, CLI, viewer, analysis
+protocol/     Protocol definition, generator and shared test vectors
 docs/         This specification, component checks, test reports, protocol
               reference, calibration procedure
 tools/        Calibration and production-test scripts
@@ -574,8 +748,8 @@ tools/        Calibration and production-test scripts
    passed; range-logic implementation chosen.
 4. Source mode and power. Exit: tests for R-08, R-13 and R-14 passed;
    thermal measurements at 1 A recorded.
-5. Integrated board, revision A. Exit: full verification plan executed,
-   issues listed.
+5. Carrier board, revision A, with the development board plugged in. Exit:
+   full verification plan executed, issues listed.
 6. Calibration, protocol freeze and host software. Exit: R-05 and R-15
    demonstrated end to end.
 7. Revision B and release: sources, documentation and test reports
@@ -598,6 +772,9 @@ protocol of section 7 is implemented from the first prototype.
 | Switching noise in the measurement | Noise above budget | LC filters, placement, shield, converter frequency above 1 MHz |
 | USB source too weak | Brown-out of the instrument | CC detection, power budget, VBUS monitor |
 | Candidate part unsuitable or unavailable | Redesign | Section 16 checks first; second source noted in the BOM |
+| Development board differs from the reference design | Wrong pin, weak 3.3 V rail or mechanical misfit | Checks of section 16 on the board in hand; the carrier uses neither the 5 V pin nor the LED and strapping pins |
+| Noise and ground bounce through the board sockets | Jitter on the convert-start signal | Acquisition signals next to a ground pin, series resistors, low drive strength, measurement in phase 1 |
+| Firmware and host disagree on the protocol | Corrupt or misread data | One definition file, generated constants, shared test vectors, stale-file check in continuous integration |
 
 ## 15. Decision Log
 
@@ -616,6 +793,15 @@ protocol of section 7 is implemented from the first prototype.
 | D-11 | Raw codes to the host, calibration on the host | Short real-time path; recalibration without reflashing |
 | D-12 | WiFi and Bluetooth off during capture | Interrupt latency and supply noise |
 | D-13 | MIT for firmware and host software, CERN-OHL-P v2 for hardware | Permissive licenses, chosen by the project owner |
+| D-14 | ESP32-S3-DevKitC-1 compatible board on sockets, with the instrument on a carrier board | No module, USB or UART-bridge layout on the first boards, and firmware work starts before any PCB exists; chosen by the project owner |
+| D-15 | Separate USB-C power connector on the carrier; the 5 V pin of the development board is unused | The development board does not bring CC to its headers and feeds its 5 V pin through a 1 A diode |
+| D-16 | Slow monitors on an external SPI converter instead of the internal ADC | The development board leaves 19 usable pins once USB, UART, PSRAM, strapping, LED and JTAG pins are set aside |
+| D-17 | Hardware-independent logic kept apart from ESP-IDF code in every firmware component | The logic is unit-tested on a PC with coverage, and the hardware code stays thin |
+| D-18 | A `base` component for shared primitives; `base` and `proto` usable by every component | The block queue and the status codes are shared by components that must not call each other |
+| D-19 | Protocol constants generated from one definition file, with shared test vectors | Firmware and host cannot drift apart unnoticed |
+| D-20 | Quality gates in continuous integration: tests, coverage floors, static analysis, formatting | Defects are found before bench time is spent on them; required by R-17 |
+| D-21 | Host package with an I/O-free protocol layer, transports behind one interface and a device simulator | Development and end-to-end tests without the instrument |
+| D-22 | Continuous integration workflows are started by hand instead of on every push and pull request | Requested by the project owner, to save processing time while the project is in early development; the gates of D-20 stay, run locally and on demand |
 
 ## 16. Open Checks Before Freezing the Schematic
 
@@ -636,12 +822,26 @@ protocol of section 7 is implemented from the first prototype.
 - Level translator: supply current drawn from VOUT and behavior when VOUT
   is off.
 - USB-C: CC thresholds and behavior on 500 mA, 1.5 A and 3 A sources.
+- Development board in hand: header labels against the reference pinout,
+  spacing between the rows (reported by the owner as 22.86 mm), module
+  marking (N8R8 or N16R8), GPIO of the RGB LED, regulator type with its
+  current rating, and how the 5 V pin connects to the USB ports.
+- Monitor ADC: part selection, input range and source impedance of each
+  channel, SPI mode shared with the DAC.
+- Board interface: behavior of the boundary parts with one power domain off,
+  and series resistor values against the clock edges at 3.2 MHz and 16 MHz.
+- USB device stack: ESP-IDF v6.0 ships no TinyUSB component. Confirm the
+  component to use from the component registry, its version and its license
+  before phase 1.
 
 ## 17. Master Component Bill of Materials (BOM) Summary
 
 | Category | Component Part Number | Package | Key Attribute |
 | --- | --- | --- | --- |
-| MCU | ESP32-S3-WROOM-1-N8R8 | Module | Native USB, Dual-Core, 8MB PSRAM |
+| Controller | ESP32-S3-DevKitC-1 compatible board, N8R8 or N16R8 module | 2 × 22 pins | Native USB and USB-to-UART bridge on board |
+| Board sockets | 1×22 pin socket, 2.54 mm, two parts | Through-hole | Rows 22.86 mm apart |
+| Power connector | USB-C receptacle, power only | — | Instrument supply with CC sense |
+| Monitor ADC | 8-channel, 12-bit SPI converter (to be selected) | — | VOUT, VIN, VBUS, CC, temperature, rails |
 | ADC | ADS8860 (candidate) | MSOP-10 | 16-bit, single-ended, 1 Msps |
 | ADC driver | Rail-to-rail op-amp, 3.3 V (to be selected) | — | Limiter, filter and ADC drive |
 | Reference | REF5025 (candidate) | SOIC-8 | 2.5 V, shared by ADC and DAC |
@@ -661,4 +861,74 @@ protocol of section 7 is implemented from the first prototype.
 | Switch FETs | N-MOSFET, few mΩ, low leakage (to be selected) | — | Branch, mode and output switches |
 | Clamp | Low-leakage diode clamp (to be selected) | — | Transient path across the ladder |
 | Level shifter | 8-bit translator, DUT side on VOUT (to be selected) | — | Digital inputs D0 to D7 |
-| USB-UART | CH340K or CP2102 | — | Flashing/debugging port |
+
+## 18. Software Engineering Practices
+
+These rules apply to the firmware, the host software and every script in the
+repository. They are the baseline behind requirement R-17.
+
+### 18.1 Architecture
+
+- Ports and adapters. Logic that does not need hardware is written against
+  small interfaces and knows nothing about ESP-IDF, serial ports or files.
+  Hardware and I/O code implements those interfaces and stays thin.
+- Firmware: every component of section 6.1 keeps its pure C sources apart
+  from its ESP-IDF adapters. Pure code is C11, allocates nothing, keeps its
+  state in structures passed by the caller, and compiles for the PC and for
+  the target from the same files.
+- Host: the protocol layer does no I/O. Transports implement one interface,
+  and the device client depends on that interface, never on a concrete
+  transport. A simulator implements the instrument side of the protocol.
+- The wire protocol has one definition (section 7.5). No protocol number is
+  typed by hand in C or in Python.
+
+Patterns in use, each for a stated reason:
+
+| Pattern | Where | Reason |
+| --- | --- | --- |
+| Ports and adapters | Every firmware component, host transports | Logic is tested without hardware |
+| Table-driven state machine | Device states of section 6.4 | Every transition is listed, reviewed and tested |
+| Single-producer, single-consumer queue | Block hand-off between the cores | No lock in the real-time path |
+| Incremental parser | Frame decoders | Bytes arrive in arbitrary chunks |
+| Dependency injection | Interface structures in C, protocols in Python | Fakes and the simulator replace hardware in tests |
+| Immutable value objects | Frames, samples and tables on the host | No hidden state between layers |
+
+### 18.2 Tests
+
+| Level | Firmware | Host |
+| --- | --- | --- |
+| Unit | Unity on the PC, for all pure code | pytest, for every module |
+| Property | — | hypothesis on the codec: round trip, chunking, resynchronization |
+| Contract | Shared protocol vectors | Shared protocol vectors |
+| Integration | Test application on the development board, from phase 1 | Client against the simulator, end to end |
+| System | Verification plan of section 11 | Verification plan of section 11 |
+
+- A defect gets a failing test before its fix.
+- Tests that need the instrument are kept apart from the ones that run
+  anywhere.
+
+### 18.3 Quality Gates
+
+The gates run locally with the commands documented in each area, and as
+continuous integration workflows. The workflows are started by hand for now
+(D-22); they run on the head of a pull request before it is merged and on
+the release commit. A failing gate blocks the merge.
+
+| Gate | Firmware | Host |
+| --- | --- | --- |
+| Build | ESP-IDF build for `esp32s3`, warnings as errors | Package builds and installs |
+| Unit tests | All pass, also under the address and undefined-behavior sanitizers | All pass on Windows, Linux and macOS, on the oldest and the newest supported Python |
+| Coverage of pure code | Lines 90 %, branches 80 % | Lines and branches 90 % |
+| Static analysis | clang-tidy and cppcheck clean | mypy in strict mode clean |
+| Format and lint | clang-format | ruff |
+| Protocol | Generated files up to date | Generated files up to date |
+| Documentation | markdownlint | markdownlint |
+
+The coverage figures are floors, not targets. A change does not lower the
+coverage of the code it touches.
+
+### 18.4 What the Gates Do Not Cover
+
+Timing, throughput, noise and every analog property are verified on the bench
+(sections 11 and 13). A passing pipeline shows that the logic does what its
+tests say. It shows nothing about the hardware.

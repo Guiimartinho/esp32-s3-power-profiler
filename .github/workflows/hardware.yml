@@ -1,0 +1,78 @@
+name: Hardware
+
+# Runs on demand only for now (decision D-22 of the specification). Start
+# it from the Actions tab or with "gh workflow run hardware.yml". To run it
+# on every change again, restore the triggers kept below as comments.
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "hardware/kicad/**"
+  #     - ".github/workflows/hardware.yml"
+  # pull_request:
+  #   paths:
+  #     - "hardware/kicad/**"
+  #     - ".github/workflows/hardware.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  erc:
+    name: Electrical rules check
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:10.0
+      # The image runs as an unprivileged user that cannot write to the
+      # workspace mounted by the runner.
+      options: --user root
+    defaults:
+      run:
+        working-directory: hardware/kicad
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Show the KiCad version
+        run: kicad-cli version
+
+      - name: Write the full report
+        run: >-
+          kicad-cli sch erc --severity-all --output erc-report.txt
+          power-profiler-carrier.kicad_sch
+
+      - name: Add the report to the job summary
+        run: |
+          {
+            echo '### Electrical rules check'
+            echo
+            echo '```text'
+            cat erc-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail on errors
+        run: >-
+          kicad-cli sch erc --severity-error --exit-code-violations
+          --output erc-errors.txt power-profiler-carrier.kicad_sch
+
+      - name: Export the schematic
+        run: >-
+          kicad-cli sch export pdf --output schematic.pdf
+          power-profiler-carrier.kicad_sch
+
+      - name: Upload the schematic and the reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: carrier-schematic
+          path: |
+            hardware/kicad/schematic.pdf
+            hardware/kicad/erc-report.txt
+            hardware/kicad/erc-errors.txt
+          if-no-files-found: warn

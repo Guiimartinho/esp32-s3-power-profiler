@@ -1,0 +1,87 @@
+# Wire protocol between the instrument and the host.
+#
+# This file is the single source of truth for every constant of the protocol.
+# After editing it, run `python protocol/generate.py` and commit the generated
+# files together with the change. Section 7 of docs/specification.md describes
+# the protocol in prose.
+
+[protocol]
+version = 1
+magic = 0xA55A          # sent little-endian: 0x5A, then 0xA5
+header_size = 8         # magic, type, flags, length, sequence
+crc_size = 2
+max_payload = 2048      # largest payload any frame may carry
+max_command_payload = 256
+block_samples = 256     # samples in a normal stream frame
+
+[crc]
+# CRC-16/CCITT-FALSE: not reflected, no final XOR, sent little-endian.
+polynomial = 0x1021
+init = 0xFFFF
+check = 0x29B1          # CRC of the ASCII string "123456789"
+
+[frame_types]
+STREAM = 0x01           # device to host
+COMMAND = 0x02          # host to device
+RESPONSE = 0x03         # device to host
+EVENT = 0x04            # device to host, unsolicited
+
+[commands]
+GET_INFO = 0x01
+GET_STATUS = 0x02
+SET_MODE = 0x10
+SET_VOLTAGE = 0x11
+DUT_POWER = 0x12
+SET_RANGE = 0x13
+SET_DOWN_N = 0x14
+START = 0x20
+STOP = 0x21
+CAL_ZERO = 0x30
+CAL_WRITE = 0x31
+CLEAR_FAULT = 0x40
+
+[status]
+OK = 0
+BAD_ARGUMENT = 1
+WRONG_STATE = 2
+FAULT_ACTIVE = 3
+BUSY = 4
+UNKNOWN_COMMAND = 5
+
+[events]
+FAULT_RAISED = 0x01
+POWER_BUDGET_CHANGED = 0x02
+STATE_CHANGED = 0x03
+
+[states]
+BOOT = 0
+SELFTEST = 1
+IDLE = 2
+ARMED = 3
+STREAMING = 4
+FAULT = 5
+
+[modes]
+AMPERE_METER = 0
+SOURCE_METER = 1
+
+# Bit positions in the 16-bit fault flags.
+[faults]
+OVERCURRENT = 0
+POWER_LIMIT = 1
+THERMAL = 2
+SELFTEST = 3
+
+# Fields of the 32-bit sample word: [least significant bit, width in bits].
+[sample_word]
+adc = [0, 16]
+range = [16, 2]
+invalid = [18, 1]
+fault = [19, 1]
+reserved = [20, 4]
+logic = [24, 8]
+
+[constants]
+RANGE_COUNT = 4
+RANGE_AUTO = 0xFF       # SET_RANGE argument for automatic ranging
+CAL_TARGET_DAC = 0x10   # CAL_WRITE target for the DAC; ranges use 0 to 3

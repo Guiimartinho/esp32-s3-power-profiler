@@ -1,0 +1,14 @@
+# Editor support for clangd.
+#
+# The unit tests compile every hardware-independent file with a native
+# compiler, so their compilation database is the one clangd understands.
+# Create it once with "cmake --preset debug" in test/host.
+CompileFlags:
+  CompilationDatabase: test/host/build/debug
+---
+# main/ needs the ESP-IDF headers and the cross compiler, which clangd does
+# not know. These files are checked by the ESP-IDF build instead.
+If:
+  PathMatch: main/.*
+Diagnostics:
+  Suppress: "*"
