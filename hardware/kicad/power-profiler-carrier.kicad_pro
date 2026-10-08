@@ -19,22 +19,336 @@
     "version": 1
   },
   "net_settings": {
-    "classes": [],
+    "classes": [
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Default",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "HighCurrent",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 1.0,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Supply",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.4,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      }
+    ],
     "meta": {
-      "version": 0
-    }
+      "version": 5
+    },
+    "net_colors": null,
+    "netclass_assignments": null,
+    "netclass_patterns": [
+      {
+        "netclass": "HighCurrent",
+        "pattern": "VBUS"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "+5V"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "V_PRE"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "LDO_IN"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "LDO_OUT"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "SRC_MID"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "AMP_MID"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "VIN_RAW"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "VIN_P"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "SUPPLY"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "SNS1"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "SNS2"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "SNS3"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "VOUT_S"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "OUT_MID"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "VOUT"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "PRE_L1"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "PRE_L2"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "GND"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q603-S-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(C508-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "/Path Switching/LDO_OUT"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q801-S-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(L501-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(L501-Pad2)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q701-S)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q702-S)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q703-S-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(Q601-S-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "/Path Switching/SUPPLY"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(F301-Pad1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "/Monitors/VIN_P"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(J601-Pin_1)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(D801-common)"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "/Output Stage/VOUT_S"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "Net-(C504-Pad1)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "+13V5"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "+12V_A"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "-4V_A"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "+3V3_A"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "+3V3_C"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "+3V3_D"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "VREF"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "BOOST_SW"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "CP_IN"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "CP_OUT"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "DEVKIT_5V*"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(D401-A)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U403-EN)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U403-CPOUT)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(JP201-B)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(D201-K)"
+      }
+    ]
   },
   "pcbnew": {
     "page_layout_descr_file": ""
   },
   "sheets": [
     [
-      "d2e82ebd-83c9-531f-aba6-f2dd41dff64c",
+      "f565bb5d-729e-50de-bc50-2ad3654b1f99",
       "Root"
     ],
     [
-      "decceef8-cc00-5ecf-ac19-494f00a10ccf",
+      "ea577196-3ed8-533a-b6c3-87423f7105de",
       "MCU Interface"
+    ],
+    [
+      "0138ac09-93e0-5d3f-aaa7-bd142f9bbe9d",
+      "Power Input"
+    ],
+    [
+      "f1640b8a-ff94-555b-a48b-637fa25df509",
+      "Analog Rails"
+    ],
+    [
+      "97c3965f-d4c3-58fe-8ab4-2026fd9534b9",
+      "Source Meter"
+    ],
+    [
+      "b386ca03-747d-56e1-a002-2141df503a33",
+      "Path Switching"
+    ],
+    [
+      "19103e86-4cdb-58de-9a88-01eba84d7f2d",
+      "Shunt Ladder"
+    ],
+    [
+      "07870aa5-4f18-5ba9-a54d-09916b4eaaa1",
+      "Output Stage"
+    ],
+    [
+      "e447f600-8e16-5a38-b011-2b664ca81e81",
+      "Signal Chain"
+    ],
+    [
+      "d5ed0f1b-5e9e-5f6c-ad1b-4821c01ea280",
+      "Comparators"
+    ],
+    [
+      "bfdd6f0f-27e7-55d1-946f-49ce436b51cc",
+      "Range Logic"
+    ],
+    [
+      "5000732c-27b8-5572-a444-bf20062b556b",
+      "Digital Inputs"
+    ],
+    [
+      "72a3aead-8950-5be1-b73b-05def54fe553",
+      "Monitors"
     ]
   ],
   "text_variables": {}
