@@ -1,4 +1,4 @@
-# Power Profiler
+# Open Power Profiler
 
 [![Checks: run on demand][badge-checks]](CONTRIBUTING.md#quality-gates)
 [![Status: early development][badge-status]](#roadmap)
@@ -18,24 +18,25 @@ measurement electronics.
 ![Carrier board, draft A1](hardware/doc/images/board-3d.jpg)
 
 > [!NOTE]
-> The project is in early development. The software foundations exist and
-> are tested without hardware: the protocol definition, the core logic of
-> the firmware and the host package with a device simulator. The carrier
-> board exists as a review draft, shown above: the complete schematic and
-> every part placed on the board, with candidate parts and no tracks. No
-> hardware has been built and nothing has been measured, so every figure
-> in this repository is a design target.
+> The project is in early development. No hardware has been built and
+> nothing has been measured, so every figure in this repository is a design
+> target.
 >
-> The project started on the ESP32-S3, and its repository was called
-> `esp32-s3-power-profiler` until the controller became a Raspberry Pi
-> Pico 2 (decision D-39 of the specification). The firmware still builds
-> for the ESP32-S3: its hardware-independent core carries over, and the
-> port of the rest to the Pico SDK is the next step.
+> - **Hardware:** the carrier board exists as a review draft, shown above:
+>   the complete schematic and every part placed on the board, with
+>   candidate parts and no tracks.
+> - **Software:** the protocol definition, the core logic of the firmware
+>   and the host package with a device simulator exist and are tested
+>   without hardware.
+> - **Firmware target:** not ported to the Pico 2 yet. The build in
+>   [`firmware/`](firmware/) is still the one of the first plan, for the
+>   ESP32-S3; see its [guide](firmware/README.md).
 
 ## Table of Contents
 
 - [Target Specifications](#target-specifications)
 - [How It Works](#how-it-works)
+- [Connections](#connections)
 - [Hardware Draft](#hardware-draft)
 - [Repository Structure](#repository-structure)
 - [Roadmap](#roadmap)
@@ -56,10 +57,10 @@ measurement electronics.
 | Source meter mode | Programmable output from 0.8 V to 5.0 V, up to 1 A |
 | Ampere meter mode | External supply from 0.8 V to 5.0 V through the shunts |
 | Digital inputs | 8 logic channels sampled together with the current |
-| Host link | Native USB (Full-Speed), CDC ACM, binary protocol |
-| Controller | Raspberry Pi Pico 2 (RP2350) on sockets |
+| Host link | USB Full-Speed, CDC ACM, binary protocol |
+| Controller | Raspberry Pi Pico 2 (RP2350) on pin sockets |
 | Power input | USB-C, 5 V, on the carrier board; the USB cable of the Pico 2 alone at low load |
-| DUT connectors | Pin header and lever terminal block, in the pin order of the PPK2 |
+| DUT connections | Pin header and lever terminal block, in the pin order of the PPK2 |
 
 The complete list, with requirement IDs, is in section 2 of the
 [specification](docs/specification.md).
@@ -71,27 +72,27 @@ USB-C 5 V ──► pre-regulator ──► LDO (source mode) ◄── DAC ◄�
                                     │
 VIN (ampere mode) ──► protection ──►├── mode switch
                                     │
-                         shunt ladder + range FETs ◄── range logic
+                         shunt ladder + range FETs ◄── range sequencer
                                     │         │ Kelvin sense   ▲
                          output switch     in-amp ──┬──► comparators
-                                    │               └──► ADC ──► Pico 2
+                                    │               └──► ADC ──► Pico 2 ──► USB
                                   VOUT ──► DUT          D0..D7 ──► level shift
 ```
 
 - **Two boards.** Everything in the diagram except the controller is on the
-  carrier board. The Raspberry Pi Pico 2 brings the microcontroller and
-  the USB port, and uses every one of its 26 GPIO pins.
-- **One programmable part.** The range logic and the sampling clock are
-  programs for the PIO blocks of the RP2350, small state machines that
-  run from the system clock whatever the processors do. Firmware is
-  loaded through USB; no programmer and no vendor tool is needed.
+  carrier board. The Raspberry Pi Pico 2 brings the microcontroller and the
+  USB port, and uses every one of its 26 GPIO pins.
+- **One programmable part.** The range sequencer and the sampling clock are
+  programs for the PIO blocks of the RP2350: small state machines that run
+  from the system clock whatever the processors do. Firmware is loaded
+  through USB; no programmer and no vendor tool is needed.
 - **Four shunt ranges.** Each range is limited to 100 mV of burden voltage.
   Comparators switch to a higher range in hardware within microseconds, so a
   current step does not brown out the device under test. The firmware decides
   when to step back down.
 - **Hardware-timed sampling.** A 16-bit SAR ADC is clocked by a PIO state
-  machine, so the sampling instant does not depend on firmware latency.
-  The same state machine reads the range and the logic inputs with every
+  machine, so the sampling instant does not depend on firmware latency. The
+  same state machine reads the range and the logic inputs with every
   conversion result.
 - **Self-describing samples.** Every sample is a 32-bit word that carries the
   ADC code, the active range, a validity flag, the fault flag and the eight
@@ -100,6 +101,29 @@ VIN (ampere mode) ──► protection ──►├── mode switch
   frames the blocks and streams them over USB.
 - **Programmable supply.** In source meter mode a DAC sets a low-noise linear
   regulator, fed by a pre-regulator that tracks the output voltage.
+- **Protection that does not wait for firmware.** The over-current trip is a
+  PIO state machine, and an over-voltage on the external supply input holds
+  its switch open through one transistor.
+
+## Connections
+
+The back edge of the carrier has the USB connector of the Pico 2 (data, and
+power for small loads) and a USB-C connector for power. Either one powers
+the whole instrument. The front edge has the connections to the device under
+test, in the pin order of the Nordic PPK2:
+
+| Connector | Type | Pins, left to right |
+| --- | --- | --- |
+| DUT | 1×4 pin header, 2.54 mm | GND, VIN, VOUT, GND |
+| DUT | Lever terminal block, 3.5 mm | GND, VIN, VOUT, GND |
+| Logic port | 1×10 pin header, 2.54 mm | VCC, GND, D7 down to D0 |
+
+- **Source meter mode:** the device under test connects to VOUT and GND.
+- **Ampere meter mode:** the external supply connects to VIN and GND, the
+  device under test to VOUT and GND.
+- **Logic port:** as built, the logic inputs follow the output voltage, and
+  the VCC pin is not needed. A solder jumper makes the VCC pin the reference
+  instead, for a device whose logic runs on another voltage.
 
 ## Hardware Draft
 
@@ -114,14 +138,15 @@ are candidates and their checks are open.
 ![Block level of the schematic](hardware/doc/images/schematic-01-root.png)
 
 Every sheet and the board are shown in
-[`hardware/doc/`](hardware/doc/README.md); the status and the open work are
-in the [hardware README](hardware/README.md).
+[`hardware/doc/`](hardware/doc/README.md), and the whole schematic is in
+[`hardware/doc/schematic.pdf`](hardware/doc/schematic.pdf). The status and
+the open work are in the [hardware guide](hardware/README.md).
 
 ## Repository Structure
 
 | Path | Content | License |
 | --- | --- | --- |
-| [`firmware/`](firmware/) | Firmware of the controller (still the ESP-IDF project of the first plan) | MIT |
+| [`firmware/`](firmware/) | Firmware of the controller: hardware-independent core with its unit tests; target build not ported to the Pico 2 yet | MIT |
 | [`hardware/`](hardware/) | KiCad project of the carrier board, its pictures, simulations, fabrication outputs | CERN-OHL-P v2 |
 | [`host/`](host/) | Python package: protocol, device client, simulator, capture tool | MIT |
 | [`protocol/`](protocol/) | Protocol definition, generator and shared test vectors | MIT |
@@ -136,9 +161,9 @@ recorded measurements. The exit criteria are in section 13 of the
 
 | Phase | Goal | Status |
 | --- | --- | --- |
-| 1 | Risk prototypes: hardware-timed ADC capture and USB throughput | In progress: software foundations done; firmware port to the Pico SDK and bench work not started |
+| 1 | Risk prototypes: firmware on the Pico 2, hardware-timed ADC capture, USB throughput | In progress: software foundations done; firmware port to the Pico SDK and bench work not started |
 | 2 | Analog front end with one fixed range | Not started |
-| 3 | Shunt ladder and automatic range logic | Not started |
+| 3 | Shunt ladder and automatic range sequencer | Not started |
 | 4 | Source meter mode and power input | Not started |
 | 5 | Carrier board, revision A | Not started; a review draft of the schematic and of the part placement exists (draft A1) |
 | 6 | Calibration, protocol freeze and host software | Not started |
@@ -156,7 +181,7 @@ repository documents its own setup and commands:
 
 | Part | Needs | Guide |
 | --- | --- | --- |
-| Firmware | CMake, Ninja and gcc for the unit tests; ESP-IDF v6.0 for the target build of the first plan | [`firmware/README.md`](firmware/README.md) |
+| Firmware | CMake, Ninja and gcc for the unit tests | [`firmware/README.md`](firmware/README.md) |
 | Host software | Python 3.10 or later | [`host/README.md`](host/README.md) |
 | Protocol | Python 3.11 or later | [`protocol/README.md`](protocol/README.md) |
 | Hardware | KiCad 10 | [`hardware/README.md`](hardware/README.md) |
@@ -184,8 +209,14 @@ and in the [contributing guide](CONTRIBUTING.md).
 ## Documentation
 
 - [System specification](docs/specification.md): requirements, analog and
-  firmware architecture, host protocol, calibration, verification plan,
-  risks and decision log.
+  firmware architecture, pin map, host protocol, calibration, verification
+  plan, risks and decision log.
+- [Hardware guide](hardware/README.md) and
+  [the draft in pictures](hardware/doc/README.md): the carrier board, sheet
+  by sheet.
+- [Firmware guide](firmware/README.md), [host guide](host/README.md) and
+  [protocol guide](protocol/README.md): architecture, commands and tests of
+  each part.
 - [Component checks](docs/checks/): candidate parts verified against their
   datasheets.
 - [Test reports](docs/reports/): the measurements that close each phase.
@@ -208,12 +239,14 @@ and how changes to the specification are recorded.
 
 - Inspired by
   [Gedankenn/power_profiller](https://github.com/Gedankenn/power_profiller),
-  an ESP32 and INA226 power profiler with a web dashboard.
+  an ESP32 and INA226 power profiler with a web dashboard. This project
+  started on the ESP32-S3 too, and was called `esp32-s3-power-profiler`
+  until its controller changed.
+- The feature set and the pin order of the connectors follow the Nordic
+  Semiconductor Power Profiler Kit II (PPK2). This project is independent
+  and is not affiliated with or endorsed by Nordic Semiconductor.
 - The controller module is a Raspberry Pi Pico 2. This project is
   independent and is not affiliated with or endorsed by Raspberry Pi Ltd.
-- The feature set follows the Nordic Semiconductor Power Profiler Kit II
-  (PPK2). This project is independent and is not affiliated with or endorsed
-  by Nordic Semiconductor.
 
 [badge-checks]: https://img.shields.io/badge/checks-run%20on%20demand-lightgrey
 [badge-status]: https://img.shields.io/badge/status-early%20development-orange

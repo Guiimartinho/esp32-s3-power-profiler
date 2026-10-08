@@ -89,6 +89,12 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   130 mm × 100 mm (D-46).
 - **repo:** the repository is renamed to `open-power-profiler`. Its former
   address, `esp32-s3-power-profiler`, redirects to the new one.
+- **docs:** the README presents the project as the Open Power Profiler,
+  with its connections and the state of each part; the firmware guide
+  separates what is valid for the Raspberry Pi Pico 2 from the ESP-IDF
+  build of the first plan.
+- **host:** the description of the package, its keywords and the help of
+  the `s3pp` command no longer name the ESP32-S3.
 
 ### Removed
 

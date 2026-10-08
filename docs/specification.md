@@ -1,4 +1,4 @@
-# System Specification: OpenSource Power Profiler (Raspberry Pi Pico 2)
+# System Specification: Open Power Profiler (Raspberry Pi Pico 2)
 
 Target Performance: 100 kSPS Sampling Rate | Range: 100 nA to 1 A | Dual-Mode:
 Source Meter & Ampere Meter.
