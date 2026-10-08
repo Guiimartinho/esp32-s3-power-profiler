@@ -1,34 +1,34 @@
 # Firmware
 
-Firmware of the controller of the instrument. It acquires the samples,
-controls the analog front end and streams the data to the host over USB.
-
-> [!IMPORTANT]
-> The controller changed from the ESP32-S3 to the Raspberry Pi Pico 2
-> (decision D-39 of the specification). This directory is not ported yet:
-> it is still the ESP-IDF project of the first plan, and everything below
-> describes it. The hardware-independent core and its unit tests do not
-> depend on the controller and carry over as they are; the build, `main`
-> and the adapters move to the Pico SDK in phase 1.
+Firmware of the controller of the instrument, a Raspberry Pi Pico 2
+(RP2350). It acquires the samples, controls the analog front end and streams
+the data to the host over USB.
 
 ## Status
 
-The hardware-independent core exists and is tested on the host: the wire
-protocol, the block queue between the two cores, the ranging rules and the
-device state machine. The ESP-IDF project builds for the `esp32s3` target and
-boots into a banner; it drives no hardware yet.
+| Part | State |
+| --- | --- |
+| Hardware-independent core | Done for the wire protocol, the block queue between the two cores, the ranging rules and the device state machine. Unit-tested on the PC |
+| Target build for the Pico 2 | Not started. It will use the Pico SDK (C and CMake), the TinyUSB stack the SDK brings, and PIO programs for the sampling clock and the range sequencer |
+| Adapters for acquisition, analog front end and USB | Not started. They come with the target build, in phase 1 |
+| Target build in this directory today | The ESP-IDF project of the first plan, for the ESP32-S3. It builds, boots into a banner and drives no hardware. The port replaces it |
 
-The adapters for the acquisition, the analog front end and USB are added in
-the development phases that bring up the hardware. Nothing here has run on a
-board: timing, throughput and loss figures are still design targets of the
-[specification](../docs/specification.md).
+The controller changed from the ESP32-S3 to the Pico 2 with decision D-39 of
+the [specification](../docs/specification.md). The core does not depend on
+the controller, so it and its tests carry over as they are; sections 5 and 6
+of the specification describe the pins and the execution model the port
+follows.
+
+Nothing here has run on a board: timing, throughput and loss figures are
+still design targets of the specification.
 
 ## Architecture
 
 The firmware follows the ports and adapters pattern. The logic of the
-instrument is plain C11 that knows nothing about ESP-IDF or the board. It
-reaches the hardware only through small interfaces, the ports. Adapters
-implement the ports with ESP-IDF drivers, and `main` wires the two together.
+instrument is plain C11 that knows nothing about the SDK of the controller
+or about the board. It reaches the hardware only through small interfaces,
+the ports. Adapters implement the ports with the drivers of the SDK, and
+`main` wires the two together.
 
 ```text
 main                 composition root: creates adapters, injects them
@@ -45,15 +45,15 @@ main                 composition root: creates adapters, injects them
 ```
 
 Dependencies point downward only. `base` depends on nothing, and no
-component below `main` includes an ESP-IDF header in its hardware-independent
+component below `main` includes an SDK header in its hardware-independent
 part.
 
 | Component | Hardware-independent part | Depends on | State |
 | --- | --- | --- | --- |
 | `base` | Status codes, little-endian access, block queue | Nothing | Done |
 | `proto` | CRC-16, frame encoder and parser, sample word, stream payload, command, response and event envelopes | `base` | Done |
-| `acq` | Settling window after a range change, step-down rule | `base`, `proto` | Core done; I2S capture adapter to come |
-| `afe` | Port to the analog front end | `base`, `proto` | Port declared; GPIO adapter to come |
+| `acq` | Settling window after a range change, step-down rule | `base`, `proto` | Core done; PIO capture adapter to come |
+| `afe` | Port to the analog front end | `base`, `proto` | Port declared; range sequencer and GPIO adapter to come |
 | `app` | Device state machine | `base`, `proto` | State machine done; command handling to come |
 | `smu`, `monitor`, `cal`, `usb_link` | As in section 6.1 of the specification | | Not started |
 | `main` | Composition root | All of the above | Banner and state machine |
@@ -65,8 +65,8 @@ the ones of section 6.1 of the specification.
 ### Rules for the Hardware-Independent Code
 
 - C11, compiled with warnings as errors.
-- No ESP-IDF header, no dynamic allocation, no global variable. Every
-  function works on a context structure and on buffers the caller supplies.
+- No SDK header, no dynamic allocation, no global variable. Every function
+  works on a context structure and on buffers the caller supplies.
 - Every number of the wire protocol comes from `proto/pp_proto_defs.h`, which
   is generated from [`protocol/definition.toml`](../protocol/definition.toml).
   Do not edit the header; change the definition and run
@@ -77,10 +77,11 @@ the ones of section 6.1 of the specification.
 ### Patterns and Why They Are Used
 
 - **Ports and adapters.** The core is tested on a PC in milliseconds, without
-  a board, and before the board exists. `afe/pp_afe_port.h` is the first
-  port; `test/host/support/fake_afe.c` is its test double.
+  a board, and before the board exists. It is also why the change of
+  controller left the core untouched. `afe/pp_afe_port.h` is the first port;
+  `test/host/support/fake_afe.c` is its test double.
 - **Lock-free single-producer, single-consumer queue** (`pp_blockq`). The
-  acquisition task must never wait for the USB task. Each index has one
+  acquisition side must never wait for the USB side. Each index has one
   writer, a full queue refuses the block and counts the drop, and the storage
   belongs to the caller.
 - **Incremental parser** (`pp_frame_parser_feed`). Bytes arrive from USB in
@@ -92,7 +93,7 @@ the ones of section 6.1 of the specification.
   the actions, so the machine itself touches no hardware.
 - **Caller-owned memory.** No heap means no fragmentation and no allocation
   failure in the real-time path, and it makes the memory budget visible.
-- **One manifest per component** (`sources.cmake`). The ESP-IDF build and the
+- **One manifest per component** (`sources.cmake`). The target build and the
   host test build read the same list of sources and dependencies, so they
   cannot drift apart.
 
@@ -100,17 +101,17 @@ the ones of section 6.1 of the specification.
 
 ```text
 firmware/
-├── CMakeLists.txt        ESP-IDF project file
-├── sdkconfig.defaults    Project configuration defaults, each with its reason
+├── CMakeLists.txt        Target project file (ESP-IDF, until the port)
+├── sdkconfig.defaults    Configuration of the ESP-IDF build, each entry with its reason
 ├── cmake/                Warning flags shared by both builds
-├── main/                 Composition root (app_main)
+├── main/                 Composition root (app_main of the ESP-IDF build)
 ├── components/
 │   └── <name>/
-│       ├── CMakeLists.txt    ESP-IDF component, built from sources.cmake
+│       ├── CMakeLists.txt    Component of the target build, built from sources.cmake
 │       ├── sources.cmake     Sources and dependencies of the component
 │       ├── include/<name>/   Public headers
 │       ├── src/              Hardware-independent sources
-│       └── port/             ESP-IDF adapters (none yet)
+│       └── port/             Adapters for the SDK of the controller (none yet)
 ├── test/
 │   └── host/
 │       ├── CMakeLists.txt    Host test project
@@ -126,10 +127,21 @@ firmware/
 
 ## Building the Firmware
 
-The project is developed against
-[ESP-IDF](https://github.com/espressif/esp-idf) v6.0. Load the ESP-IDF
-environment in the shell first, then run these from the root of the
-repository:
+### For the Pico 2
+
+There is no target build for the Pico 2 yet. The port adds a Pico SDK
+project to this directory: one CMake project that builds the components
+from their `sources.cmake`, the adapters in `port/` and the PIO programs,
+and produces a `.uf2` image. That image is copied to the USB drive the
+Pico 2 shows when it starts with its BOOTSEL button held; no programmer is
+needed. This section gets its commands when that project exists.
+
+### ESP-IDF Build of the First Plan
+
+Kept until the port replaces it. It shows only that the core compiles for a
+target. It needs [ESP-IDF](https://github.com/espressif/esp-idf) v6.0. Load
+the ESP-IDF environment in the shell first, then run these from the root of
+the repository:
 
 ```sh
 idf.py -C firmware set-target esp32s3
@@ -149,7 +161,7 @@ generated and are not committed; `sdkconfig.defaults` is.
 The unit tests compile the hardware-independent sources with a native
 compiler and run them with [Unity](https://github.com/ThrowTheSwitch/Unity),
 which CMake downloads at the first configuration. They need CMake 3.20 or
-later, Ninja and gcc.
+later, Ninja and gcc. They do not depend on the controller.
 
 Run these from `firmware/test/host`:
 
@@ -219,8 +231,8 @@ These targets belong to the host test project. Run them from
 - cppcheck runs with the warning, style, performance and portability checks
   at the exhaustive level, and any finding fails the run.
 - The generated protocol headers are excluded from all three.
-- `main/app_main.c` needs the ESP-IDF headers, so clang-tidy does not analyze
-  it; the ESP-IDF build compiles it with warnings as errors.
+- `main/app_main.c` needs the headers of the target SDK, so clang-tidy does
+  not analyze it; the target build compiles it with warnings as errors.
 
 ## Adding Code
 
@@ -228,9 +240,11 @@ These targets belong to the host test project. Run them from
   `components/<name>/include/<name>/`, the source in `src/`, add the source
   to `sources.cmake`, write `test/host/tests/test_<module>.c` and register it
   with `pp_add_test` in `test/host/CMakeLists.txt`.
-- **An adapter:** put it in `components/<name>/port/` and list it in the
-  `CMakeLists.txt` of the component only, never in `sources.cmake`. It
-  implements a port declared in a public header and is created in `main`.
+- **An adapter:** it belongs to the port to the Pico 2 and goes in
+  `components/<name>/port/`, listed in the `CMakeLists.txt` of the component
+  only, never in `sources.cmake`. It implements a port declared in a public
+  header and is created in `main`. Do not add adapters for ESP-IDF: that
+  build is being replaced.
 - **A protocol constant:** change `protocol/definition.toml` at the root of
   the repository and regenerate. The compiler then points at the code that
   has to follow, for instance the list of known commands.

@@ -4,6 +4,11 @@ Python package that talks to the instrument: the wire protocol, the
 transports, a device client, capture helpers and a simulated instrument for
 working without hardware.
 
+The package knows the instrument only through the wire protocol, so the
+change of controller from the ESP32-S3 to the Raspberry Pi Pico 2 did not
+touch it. Its names, `s3-power-profiler` and the `s3pp` command, date from
+the first controller and are kept for now.
+
 ## Status
 
 The layers described below exist and are tested against the simulated

@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "s3-power-profiler"
 dynamic = ["version"]
-description = "Host software for the ESP32-S3 Power Profiler: protocol codec, device client, capture and simulation."
+description = "Host software for the Open Power Profiler: protocol codec, device client, capture and simulation."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-keywords = ["esp32-s3", "power-profiler", "current-measurement", "instrumentation"]
+keywords = ["power-profiler", "current-measurement", "instrumentation", "raspberry-pi-pico"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
