@@ -1,27 +1,30 @@
-# Carrier Board, Draft A0 in Pictures
+# Carrier Board, Draft A1 in Pictures
 
 The schematic and the board of [`../kicad/`](../kicad/), plotted so that the
 design can be read without KiCad. The complete schematic is also in
 [`schematic.pdf`](schematic.pdf).
 
-Draft A0 is a review draft. Its parts are candidates, no component check is
+Draft A1 is a review draft. Its parts are candidates, no component check is
 closed, nothing was simulated or measured, and the board has no tracks. The
 status and the open work are in the [hardware README](../README.md).
 
 ## Board
 
-Outline 160 mm × 100 mm, four copper layers, four M3 holes. Every footprint
-is placed inside the area of its functional block; nothing is routed.
+Outline 130 mm × 100 mm, four copper layers, four M3 holes. Every footprint
+is placed near the pin it serves, inside the area of its functional block;
+nothing is routed.
 
 ![Perspective view of the board](images/board-3d.jpg)
 
 ![Top view of the board](images/board-top.jpg)
 
-The areas of the blocks, as drawn on the `Dwgs.User` layer. The development
-board plugs into the two sockets on the left, with its USB connectors at the
-bottom edge; the parts of its interface sit between the socket rows. The
-power connector is beside it, and the VIN and VOUT terminals and the logic
-header are on the right edge, next to the front end.
+The areas of the blocks, as drawn on the `Dwgs.User` layer. The back of the
+instrument is the left edge: the Raspberry Pi Pico 2 lies along it with its
+USB connector at the edge, and the USB-C power connector is below it. The
+front is the right edge: the logic port, then the two DUT connectors, in the
+pin order of the PPK2. The switching converters are on the left, the front
+end on the right. KiCad has no 3D model of the lever terminal block, so the
+3D views show its pads only.
 
 ![Placement of the functional blocks](images/board-placement.png)
 
@@ -33,20 +36,19 @@ label, and the root sheet joins the labels with wires.
 
 ### 1. Root
 
-One block per sheet and the 60 signals between them.
+One block per sheet and the 44 signals between them.
 
 ![Root sheet](images/schematic-01-root.png)
 
-### 2. MCU Interface
+### 2. Controller
 
-The development board on its sockets. Every output of the MCU passes a
-series resistor on its way to the logic device, and the request lines have
-pull-downs. The outputs of the carrier reach the MCU through a buffer
-powered from the 3.3 V pin of the development board. A header brings out the
-JTAG pins of the module, and a solder jumper can feed 5 V to the development
-board.
+The Raspberry Pi Pico 2 on its sockets, the only programmable part of the
+instrument. Two diodes join its USB supply and the 5 V rail of the carrier,
+so either connector powers both boards. Resistor arrays sit in the slow SPI
+lines and in the acquisition outputs. A push button resets the controller,
+and a 3-pin header brings out its console.
 
-![MCU interface](images/schematic-02-mcu-interface.png)
+![Controller](images/schematic-02-controller.png)
 
 ### 3. Power Input
 
@@ -75,8 +77,9 @@ amplifier, linear regulator with its control pin on the boost rail, and the
 ### 6. Path Switching
 
 Two back-to-back MOSFET pairs select the source meter or the external
-supply. The VIN terminal has a fuse, a reverse clamp and a detector that
-keeps its switch open above 5.5 V.
+supply. The VIN input has a fuse, a reverse clamp and a detector that keeps
+its switch open above 5.5 V: the detector pulls the input of the gate driver
+low through a transistor, whatever the controller asks.
 
 ![Path switching](images/schematic-06-path-switching.png)
 
@@ -90,17 +93,18 @@ active shunt to the amplifier.
 
 ### 8. Output Stage
 
-Output switch after the shunts, the VOUT terminal with low-leakage clamps,
-and the buffer that copies the ladder output for the guard ring, the level
-translator and the monitor.
+Output switch after the shunts, the two DUT connectors with low-leakage
+clamps, and the buffer that copies the ladder output for the guard ring, the
+level translator and the monitor. The pin header and the lever terminal
+block carry the same four nets: GND, VIN, VOUT, GND.
 
 ![Output stage](images/schematic-08-output-stage.png)
 
 ### 9. Signal Chain
 
 Instrumentation amplifier with a gain of 19.93 and a 50 mV pedestal, limiter,
-two-pole filter at 40 kHz and the 16-bit converter clocked by the I2S
-peripheral of the MCU.
+two-pole filter at 40 kHz and the 16-bit converter, clocked by a PIO state
+machine of the controller.
 
 ![Signal chain](images/schematic-09-signal-chain.png)
 
@@ -111,18 +115,22 @@ over-current at 120 mV, jump to the highest range at 150 mV.
 
 ![Comparators](images/schematic-10-comparators.png)
 
-### 11. Range Logic
+### 11. Side Data
 
-One programmable logic device holds the range register, the switch timing,
-the fault latch, the mode interlock and the side-data shift register. Its
-description is not written yet.
+Two shift registers take, at the instant of every sample, the range, the
+state of the output switch, the over-voltage detector, the comparators, the
+power-good signal and the eight logic inputs. The clock of the converter
+shifts them out, and the controller reads them together with the conversion
+result.
 
-![Range logic](images/schematic-11-range-logic.png)
+![Side data](images/schematic-11-side-data.png)
 
 ### 12. Digital Inputs
 
-Eight logic inputs with protection, series resistors and pull-downs, and a
-level translator whose DUT side follows the output voltage.
+The logic port in the pin order of the PPK2, eight inputs with protection,
+series resistors and pull-downs, and a level translator. A solder jumper
+selects the supply of its DUT side: the output voltage of the instrument, as
+built, or the VCC pin of the port.
 
 ![Digital inputs](images/schematic-12-digital-inputs.png)
 
@@ -140,7 +148,7 @@ Run from [`../kicad/`](../kicad/) after a change, with KiCad 10:
 ```sh
 kicad-cli sch export pdf --output ../doc/schematic.pdf power-profiler-carrier.kicad_sch
 kicad-cli pcb render --output ../doc/images/board-3d.jpg --width 1800 --height 1170 --rotate "-42,0,-25" --perspective --zoom 0.92 --quality high --background opaque power-profiler-carrier.kicad_pcb
-kicad-cli pcb render --output ../doc/images/board-top.jpg --width 1800 --height 1170 --zoom 1.45 --quality high --background opaque power-profiler-carrier.kicad_pcb
+kicad-cli pcb render --output ../doc/images/board-top.jpg --width 1800 --height 1420 --zoom 1.22 --quality high --background opaque power-profiler-carrier.kicad_pcb
 kicad-cli pcb export svg --output board-placement.svg --layers F.Cu,F.SilkS,F.Fab,Edge.Cuts,Dwgs.User,F.CrtYd --page-size-mode 2 --exclude-drawing-sheet power-profiler-carrier.kicad_pcb
 ```
 
