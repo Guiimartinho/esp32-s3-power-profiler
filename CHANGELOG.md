@@ -52,5 +52,7 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   which state accepts which command.
 - **docs:** software engineering practices and quality gates (section 18,
   requirement R-17, D-17 to D-21).
+- **repo:** the continuous integration workflows are started by hand
+  instead of on every push and pull request (D-22).
 
 [Unreleased]: https://github.com/Guiimartinho/esp32-s3-power-profiler/commits/main

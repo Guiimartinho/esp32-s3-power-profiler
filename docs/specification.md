@@ -645,9 +645,9 @@ the device without a request. Every change of state is announced with a
 Every number in this section lives in `protocol/definition.toml`. A generator
 turns that file into the C header used by the firmware and the Python module
 used by the host, and encodes a set of shared test vectors that both codecs
-must reproduce byte for byte. Continuous integration fails when a generated
-file is stale. This section describes the protocol; the definition file
-decides it.
+must reproduce byte for byte. A check, run locally and in continuous
+integration, fails when a generated file is stale. This section describes
+the protocol; the definition file decides it.
 
 ## 8. Calibration
 
@@ -801,6 +801,7 @@ protocol of section 7 is implemented from the first prototype.
 | D-19 | Protocol constants generated from one definition file, with shared test vectors | Firmware and host cannot drift apart unnoticed |
 | D-20 | Quality gates in continuous integration: tests, coverage floors, static analysis, formatting | Defects are found before bench time is spent on them; required by R-17 |
 | D-21 | Host package with an I/O-free protocol layer, transports behind one interface and a device simulator | Development and end-to-end tests without the instrument |
+| D-22 | Continuous integration workflows are started by hand instead of on every push and pull request | Requested by the project owner, to save processing time while the project is in early development; the gates of D-20 stay, run locally and on demand |
 
 ## 16. Open Checks Before Freezing the Schematic
 
@@ -908,8 +909,10 @@ Patterns in use, each for a stated reason:
 
 ### 18.3 Quality Gates
 
-Continuous integration runs on every pull request and on `main`. A failing
-gate blocks the merge.
+The gates run locally with the commands documented in each area, and as
+continuous integration workflows. The workflows are started by hand for now
+(D-22); they run on the head of a pull request before it is merged and on
+the release commit. A failing gate blocks the merge.
 
 | Gate | Firmware | Host |
 | --- | --- | --- |

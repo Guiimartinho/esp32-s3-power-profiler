@@ -125,9 +125,15 @@ the instrument, not for one who reads the code.
 
 ## Quality Gates
 
-Section 18 of the specification defines the engineering rules. Continuous
-integration enforces them on every pull request, and each area documents the
-commands to run the same checks locally.
+Section 18 of the specification defines the engineering rules. Each area
+documents the commands that run its checks locally: run the ones your change
+touches before you commit, and state the results in the pull request.
+
+The same checks exist as continuous integration workflows, one per area.
+For now they are started by hand, to save processing time (decision D-22):
+from the Actions tab, or with `gh workflow run <file> --ref <branch>`. A
+pull request is merged only with its checks passing, whichever way they
+were run.
 
 | Area | Checks | Commands |
 | --- | --- | --- |

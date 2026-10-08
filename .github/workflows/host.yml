@@ -1,20 +1,23 @@
 name: Host
 
+# Runs on demand only for now (decision D-22 of the specification). Start
+# it from the Actions tab or with "gh workflow run host.yml". To run it
+# on every change again, restore the triggers kept below as comments.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "host/**"
-      - "protocol/**"
-      - "ruff.toml"
-      - ".github/workflows/host.yml"
-  pull_request:
-    paths:
-      - "host/**"
-      - "protocol/**"
-      - "ruff.toml"
-      - ".github/workflows/host.yml"
   workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "host/**"
+  #     - "protocol/**"
+  #     - "ruff.toml"
+  #     - ".github/workflows/host.yml"
+  # pull_request:
+  #   paths:
+  #     - "host/**"
+  #     - "protocol/**"
+  #     - "ruff.toml"
+  #     - ".github/workflows/host.yml"
 
 permissions:
   contents: read

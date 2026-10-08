@@ -1,18 +1,21 @@
 name: Firmware
 
+# Runs on demand only for now (decision D-22 of the specification). Start
+# it from the Actions tab or with "gh workflow run firmware.yml". To run it
+# on every change again, restore the triggers kept below as comments.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "firmware/**"
-      - "protocol/**"
-      - ".github/workflows/firmware.yml"
-  pull_request:
-    paths:
-      - "firmware/**"
-      - "protocol/**"
-      - ".github/workflows/firmware.yml"
   workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "firmware/**"
+  #     - "protocol/**"
+  #     - ".github/workflows/firmware.yml"
+  # pull_request:
+  #   paths:
+  #     - "firmware/**"
+  #     - "protocol/**"
+  #     - ".github/workflows/firmware.yml"
 
 permissions:
   contents: read

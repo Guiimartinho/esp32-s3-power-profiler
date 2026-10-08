@@ -38,8 +38,8 @@ committed, and they are never edited by hand:
    the new vectors.
 5. Commit the edited files and the generated files together.
 
-Continuous integration runs `python protocol/generate.py --check` and fails
-when a generated file is stale.
+The Protocol workflow runs `python protocol/generate.py --check` and fails
+when a generated file is stale. Run the same command before you commit.
 
 ## Reference Encoder
 

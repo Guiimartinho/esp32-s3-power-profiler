@@ -1,24 +1,27 @@
 name: Protocol
 
+# Runs on demand only for now (decision D-22 of the specification). Start
+# it from the Actions tab or with "gh workflow run protocol.yml". To run it
+# on every change again, restore the triggers kept below as comments.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "protocol/**"
-      - "firmware/components/proto/include/proto/pp_proto_defs.h"
-      - "firmware/test/host/generated/**"
-      - "host/src/s3_power_profiler/protocol/_defs.py"
-      - "ruff.toml"
-      - ".github/workflows/protocol.yml"
-  pull_request:
-    paths:
-      - "protocol/**"
-      - "firmware/components/proto/include/proto/pp_proto_defs.h"
-      - "firmware/test/host/generated/**"
-      - "host/src/s3_power_profiler/protocol/_defs.py"
-      - "ruff.toml"
-      - ".github/workflows/protocol.yml"
   workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "protocol/**"
+  #     - "firmware/components/proto/include/proto/pp_proto_defs.h"
+  #     - "firmware/test/host/generated/**"
+  #     - "host/src/s3_power_profiler/protocol/_defs.py"
+  #     - "ruff.toml"
+  #     - ".github/workflows/protocol.yml"
+  # pull_request:
+  #   paths:
+  #     - "protocol/**"
+  #     - "firmware/components/proto/include/proto/pp_proto_defs.h"
+  #     - "firmware/test/host/generated/**"
+  #     - "host/src/s3_power_profiler/protocol/_defs.py"
+  #     - "ruff.toml"
+  #     - ".github/workflows/protocol.yml"
 
 permissions:
   contents: read

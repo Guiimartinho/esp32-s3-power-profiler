@@ -1,10 +1,6 @@
 # ESP32-S3 Power Profiler
 
-[![Firmware][badge-firmware]][workflow-firmware]
-[![Host][badge-host]][workflow-host]
-[![Protocol][badge-protocol]][workflow-protocol]
-[![Hardware][badge-hardware]][workflow-hardware]
-[![Docs][badge-docs]][workflow-docs]
+[![Checks: run on demand][badge-checks]](CONTRIBUTING.md#quality-gates)
 [![Status: early development][badge-status]](#roadmap)
 [![Software license: MIT][badge-mit]](LICENSE)
 [![Hardware license: CERN-OHL-P v2][badge-ohl]](hardware/LICENSE)
@@ -143,9 +139,10 @@ unit tests on the PC, and the host package talks to a simulator.
   in firmware and in host software, and is covered by unit tests.
 - The wire protocol has one definition. The constants of both sides are
   generated from it, and both codecs must reproduce the same test vectors.
-- Continuous integration builds the firmware, runs the tests with coverage
-  floors, and runs the formatters and static analyzers on every pull
-  request.
+- Continuous integration workflows build the firmware, run the tests with
+  coverage floors, run the formatters and static analyzers and check the
+  hardware project. For now they are started by hand, not on every push;
+  the same checks run locally before a change is recorded.
 - Timing, throughput and analog behavior are not claimed from tests. They
   are measured on the bench and recorded in a report.
 
@@ -184,16 +181,7 @@ and how changes to the specification are recorded.
   (PPK2). This project is independent and is not affiliated with or endorsed
   by Nordic Semiconductor.
 
-[badge-firmware]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/firmware.yml/badge.svg
-[workflow-firmware]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/firmware.yml
-[badge-host]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/host.yml/badge.svg
-[workflow-host]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/host.yml
-[badge-protocol]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/protocol.yml/badge.svg
-[workflow-protocol]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/protocol.yml
-[badge-hardware]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/hardware.yml/badge.svg
-[workflow-hardware]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/hardware.yml
-[badge-docs]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/docs.yml/badge.svg
-[workflow-docs]: https://github.com/Guiimartinho/esp32-s3-power-profiler/actions/workflows/docs.yml
+[badge-checks]: https://img.shields.io/badge/checks-run%20on%20demand-lightgrey
 [badge-status]: https://img.shields.io/badge/status-early%20development-orange
 [badge-mit]: https://img.shields.io/badge/software-MIT-blue
 [badge-ohl]: https://img.shields.io/badge/hardware-CERN--OHL--P%20v2-blue
