@@ -1,0 +1,118 @@
+# Inputs of the shared test vectors.
+#
+# `python protocol/generate.py` encodes each entry with a reference
+# implementation and writes the results to protocol/vectors.json (host tests)
+# and to a C header (firmware tests). Both codecs must reproduce them byte for
+# byte. Payloads and data are hexadecimal strings.
+
+# --- CRC ---------------------------------------------------------------
+
+[[crc]]
+name = "check_string"
+data = "313233343536373839"
+
+[[crc]]
+name = "empty"
+data = ""
+
+[[crc]]
+name = "single_zero"
+data = "00"
+
+[[crc]]
+name = "all_ones"
+data = "ffffffff"
+
+# --- Frames ------------------------------------------------------------
+
+[[frame]]
+name = "command_get_info"
+type = "COMMAND"
+sequence = 1
+payload = "01"
+
+[[frame]]
+name = "command_set_voltage_3300mv"
+type = "COMMAND"
+sequence = 2
+payload = "11e40c"
+
+[[frame]]
+name = "response_start_ok"
+type = "RESPONSE"
+sequence = 3
+payload = "2000"
+
+[[frame]]
+name = "response_set_mode_wrong_state"
+type = "RESPONSE"
+sequence = 4
+payload = "1002"
+
+[[frame]]
+name = "event_fault_overcurrent"
+type = "EVENT"
+sequence = 0
+payload = "010100"
+
+[[frame]]
+name = "stream_two_samples"
+type = "STREAM"
+sequence = 7
+# first_index = 0x00012345 (45230100), dropped = 0 (0000), count = 2 (0200),
+# then the sample words 0xA5021234 and 0x000FFFFF.
+payload = "4523010000000200341202a5ffff0f00"
+
+[[frame]]
+name = "empty_payload_last_sequence"
+type = "COMMAND"
+sequence = 0xFFFF
+payload = ""
+
+[[frame]]
+name = "payload_contains_magic"
+type = "EVENT"
+sequence = 0x1234
+payload = "5aa55aa5"
+
+# --- Sample words --------------------------------------------------------
+
+[[sample]]
+name = "typical"
+adc = 0x1234
+range = 2
+invalid = 0
+fault = 0
+logic = 0xA5
+
+[[sample]]
+name = "all_zero"
+adc = 0
+range = 0
+invalid = 0
+fault = 0
+logic = 0
+
+[[sample]]
+name = "all_fields_at_maximum"
+adc = 0xFFFF
+range = 3
+invalid = 1
+fault = 1
+logic = 0xFF
+
+[[sample]]
+name = "invalid_during_range_change"
+adc = 0x8000
+range = 1
+invalid = 1
+fault = 0
+logic = 0x01
+
+[[sample]]
+name = "fault_latched"
+adc = 0xFFFF
+range = 3
+invalid = 0
+fault = 1
+logic = 0x00

@@ -1,0 +1,135 @@
+{
+  "protocol_version": 1,
+  "crc": [
+    {
+      "name": "check_string",
+      "data": "313233343536373839",
+      "crc": 10673
+    },
+    {
+      "name": "empty",
+      "data": "",
+      "crc": 65535
+    },
+    {
+      "name": "single_zero",
+      "data": "00",
+      "crc": 57840
+    },
+    {
+      "name": "all_ones",
+      "data": "ffffffff",
+      "crc": 7439
+    }
+  ],
+  "frames": [
+    {
+      "name": "command_get_info",
+      "type": 2,
+      "sequence": 1,
+      "payload": "01",
+      "frame": "5aa50200010001000139d8"
+    },
+    {
+      "name": "command_set_voltage_3300mv",
+      "type": 2,
+      "sequence": 2,
+      "payload": "11e40c",
+      "frame": "5aa502000300020011e40c5ceb"
+    },
+    {
+      "name": "response_start_ok",
+      "type": 3,
+      "sequence": 3,
+      "payload": "2000",
+      "frame": "5aa50300020003002000f922"
+    },
+    {
+      "name": "response_set_mode_wrong_state",
+      "type": 3,
+      "sequence": 4,
+      "payload": "1002",
+      "frame": "5aa503000200040010020356"
+    },
+    {
+      "name": "event_fault_overcurrent",
+      "type": 4,
+      "sequence": 0,
+      "payload": "010100",
+      "frame": "5aa5040003000000010100ff98"
+    },
+    {
+      "name": "stream_two_samples",
+      "type": 1,
+      "sequence": 7,
+      "payload": "4523010000000200341202a5ffff0f00",
+      "frame": "5aa50100100007004523010000000200341202a5ffff0f000eeb"
+    },
+    {
+      "name": "empty_payload_last_sequence",
+      "type": 2,
+      "sequence": 65535,
+      "payload": "",
+      "frame": "5aa502000000ffffc141"
+    },
+    {
+      "name": "payload_contains_magic",
+      "type": 4,
+      "sequence": 4660,
+      "payload": "5aa55aa5",
+      "frame": "5aa50400040034125aa55aa51e5d"
+    }
+  ],
+  "samples": [
+    {
+      "name": "typical",
+      "adc": 4660,
+      "range": 2,
+      "invalid": 0,
+      "fault": 0,
+      "reserved": 0,
+      "logic": 165,
+      "word": 2768376372
+    },
+    {
+      "name": "all_zero",
+      "adc": 0,
+      "range": 0,
+      "invalid": 0,
+      "fault": 0,
+      "reserved": 0,
+      "logic": 0,
+      "word": 0
+    },
+    {
+      "name": "all_fields_at_maximum",
+      "adc": 65535,
+      "range": 3,
+      "invalid": 1,
+      "fault": 1,
+      "reserved": 0,
+      "logic": 255,
+      "word": 4279238655
+    },
+    {
+      "name": "invalid_during_range_change",
+      "adc": 32768,
+      "range": 1,
+      "invalid": 1,
+      "fault": 0,
+      "reserved": 0,
+      "logic": 1,
+      "word": 17137664
+    },
+    {
+      "name": "fault_latched",
+      "adc": 65535,
+      "range": 3,
+      "invalid": 0,
+      "fault": 1,
+      "reserved": 0,
+      "logic": 0,
+      "word": 786431
+    }
+  ]
+}
