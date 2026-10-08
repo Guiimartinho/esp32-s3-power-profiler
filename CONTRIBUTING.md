@@ -27,7 +27,7 @@ to is also the scope of its commit message.
 
 | Path | Content | Commit scope |
 | --- | --- | --- |
-| `firmware/` | ESP-IDF firmware for the ESP32-S3 | `firmware` |
+| `firmware/` | Firmware of the controller | `firmware` |
 | `hardware/` | KiCad project of the carrier board, simulations, fabrication outputs | `hardware` |
 | `host/` | Python package: protocol, capture tool, viewer | `host` |
 | `protocol/` | Protocol definition, generator and shared test vectors | `protocol` |
@@ -40,7 +40,7 @@ to is also the scope of its commit message.
 1. Open an issue for anything larger than a small fix, so the approach can be
    discussed before work starts.
 2. Create a branch from `main` named `<type>/<short-description>`, for
-   example `feat/i2s-capture` or `docs/protocol-reference`.
+   example `feat/pio-capture` or `docs/protocol-reference`.
 3. Make the change in small commits that follow the format below.
 4. Update [`CHANGELOG.md`](CHANGELOG.md) when the change is notable.
 5. Open a pull request and fill in the template. The pull request title uses
@@ -96,7 +96,7 @@ scope out for repository-wide changes.
 ### Examples
 
 ```text
-feat(firmware): add I2S capture at 100 kSPS
+feat(firmware): add PIO capture at 100 kSPS
 fix(host): resync after a corrupted frame
 docs(spec): record decision D-14
 perf(firmware): assemble sample words in place
@@ -137,7 +137,7 @@ were run.
 
 | Area | Checks | Commands |
 | --- | --- | --- |
-| Firmware | ESP-IDF build, unit tests on the PC, coverage floors, clang-format, clang-tidy, cppcheck | [`firmware/README.md`](firmware/README.md) |
+| Firmware | Target build, unit tests on the PC, coverage floors, clang-format, clang-tidy, cppcheck | [`firmware/README.md`](firmware/README.md) |
 | Host software | Tests on Windows, Linux and macOS, coverage floor, ruff, mypy | [`host/README.md`](host/README.md) |
 | Protocol | Generated files up to date | [`protocol/README.md`](protocol/README.md) |
 | Hardware | Electrical rules check of the schematic; board checked against the schematic | [`hardware/README.md`](hardware/README.md) |
