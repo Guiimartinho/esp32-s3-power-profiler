@@ -28,6 +28,10 @@ schematic, the simulations or the bench measurements.
   datasheets. Section 16 lists what must be confirmed before the schematic is
   frozen; each check is filed as a record in [`checks/`](checks/). No value
   in this document has been simulated or measured yet.
+- The schematic in [`../hardware/kicad/`](../hardware/kicad/) is draft A0.
+  Every sheet is drawn, so the design can be reviewed as a whole, but its
+  parts are the candidates of this document and no check of section 16 is
+  closed yet (D-37). It is a review draft, not a design to fabricate.
 - Every deviation from this document is recorded as a new entry in the
   decision log (section 15), with the reason.
 
@@ -89,16 +93,18 @@ Design principles:
 ### Power Tree
 
 The carrier board has its own USB-C power connector. The development board is
-powered through its own USB ports and lends only its 3.3 V rail to the
-carrier logic (section 4.11).
+powered through its own USB ports, and its 3.3 V rail powers only the buffer
+that drives its own inputs (section 4.11).
 
 ```text
-USB-C VBUS 5 V ─┬─► buck-boost (tracking) ─► V_PRE = VSET + 0.6 V ─► LDO IN
-(carrier)       ├─► boost ─► LC + LDO ─► +12 V_A (in-amp, mux, gates, VCONTROL)
-                ├─► inverter ─► LC ─► −5 V_A (in-amp, mux, minimum load)
-                └─► low-noise LDO ─► 3V3_A (ADC, driver, comparators, VREF)
+USB-C VBUS 5 V ─┬─► buck-boost (tracking) ─► V_PRE = VSET + 0.45 V ─► LDO IN
+(carrier)       ├─► boost ─► +13.5 V ─┬─► LDO ─► +12 V_A (in-amp, mux, gates, VREF)
+                │                     └─► VCONTROL of the output LDO
+                ├─► inverter with regulator ─► −4 V_A (in-amp, mux, minimum load)
+                ├─► low-noise LDO ─► 3V3_A (ADC, driver, comparators, DAC)
+                └─► LDO ─► 3V3_C (carrier logic)
 
-Devkit 3V3 pin ───► 3V3_D (carrier logic: shift registers, level translator)
+Devkit 3V3 pin ───► 3V3_D (buffer towards the MCU)
 ```
 
 ## 4. Analog Hardware Design
@@ -107,10 +113,14 @@ Devkit 3V3 pin ───► 3V3_D (carrier logic: shift registers, level transla
 
 - The power connector is on the carrier board, separate from the USB ports of
   the development board. The development board cannot do this job: its CC
-  pins are not on the headers, and on the reference design its 5 V pin sits
-  behind a 1 A Schottky diode.
+  pins are not on the headers, and its 5 V pin sits behind a Schottky diode
+  (an input only, on the board in use).
 - USB-C receptacle as a sink, power only: 5.1 kΩ pull-down on CC1 and CC2.
   Both CC voltages are read through the monitor ADC to classify the source.
+- A resettable fuse and a transient suppressor follow the connector. Two of
+  the parts on this rail are rated for 5.8 V and 6 V only, so the suppressor
+  and the bulk capacitor must hold a hot-plug transient below that
+  (section 16).
 - 5 V at 1 A on the output needs about 7 W at the input, more than a default
   USB port delivers. The output power budget follows the source:
 
@@ -129,39 +139,48 @@ Devkit 3V3 pin ───► 3V3_D (carrier logic: shift registers, level transla
 - Main Regulator: LT3080 (candidate; 1.1 A, low noise, output follows the SET
   pin down to 0 V). The MIC29302 is not suitable: its minimum output is about
   1.24 V, above the 0.8 V requirement.
-  - IN pin from the tracking pre-regulator at VSET + 0.6 V; VCONTROL pin from
-    +12 V_A. This split keeps the dissipation near 0.8 W at 1 A. Feeding both
-    pins from one rail 1.5 V above the output would dissipate 1.5 W, too much
-    for the DFN package.
-  - Minimum load: about 1 mA, provided by a 5.6 kΩ resistor from the
-    regulator output to −5 V_A. It sits before the shunts, so it is not
+  - IN pin from the tracking pre-regulator at about VSET + 0.45 V (D-30);
+    VCONTROL pin from the +13.5 V output of the boost converter, ahead of
+    the +12 V_A regulator, so its load-dependent current stays off the clean
+    rail (D-31). This split keeps the dissipation near 0.7 W at 1 A. Feeding
+    both pins from one rail 1.5 V above the output would dissipate 1.5 W,
+    too much for the DFN package.
+  - Minimum load: about 1 mA, provided by a 4.3 kΩ resistor from the
+    regulator output to −4 V_A. It sits before the shunts, so it is not
     measured.
   - Output capacitor at the regulator, before the shunts. After the shunts
     keep the capacitance on VOUT at or below 100 nF (C0G), because its
     charging current is measured as DUT current.
-- Pre-regulator: buck-boost converter (candidate: TPS63020 class) from VBUS.
-  The tracking is analog: the SET voltage is injected into the feedback node,
-  so no firmware is in the loop. Minimum output 1.4 V. An LC filter follows
-  it; the LDO rejects the remaining ripple.
+- Pre-regulator: buck-boost converter (candidate: TPS63020) from VBUS, in
+  forced PWM at 2.4 MHz. The tracking is analog, with no firmware in the
+  loop: a difference amplifier drives the feedback pin with
+  0.2 × (V_PRE − VSET) + 0.41 V, and the converter holds that at its 0.5 V
+  reference, so V_PRE stays 0.45 V to 0.49 V above the set-point. The
+  converter output covers 1.2 V to 5.5 V, which limits the set-point to
+  0.75 V to 5.0 V; firmware enforces it. A ferrite bead and a capacitor
+  follow the converter; the LDO rejects the remaining ripple.
 - Voltage Control (DAC): MCP4921-E/SN (12-bit, SPI), 1x gain, 2.5 V reference.
-  A buffer amplifier with gain 2.1, powered from +12 V_A, drives the SET pin:
-  0 V to 5.25 V in 1.28 mV steps. The DAC is not run at 2x gain from VBUS,
-  because VBUS can be below 5 V.
+  A buffer amplifier with gain 2.1, powered from +12 V_A and −4 V_A, drives
+  the SET pin: 0 V to 5.25 V in 1.28 mV steps. The DAC is not run at 2x gain
+  from VBUS, because VBUS can be below 5 V.
 - Voltage changes are ramped by firmware (default 1 V/ms) to limit inrush.
 - Output sag: the regulator senses its own output, ahead of the shunts and
   switches, so the DUT sees up to 150 mV less at 1 A. A slow firmware loop
   (about 10 Hz, using the VOUT monitor) may trim the set-point; it is
   optional and off by default.
 - Mode switch: back-to-back N-MOSFET pairs select the LDO (source mode) or
-  the VIN terminal (ampere mode); break-before-make, both off at reset.
+  the VIN terminal (ampere mode); break-before-make, both off at reset. Its
+  own request line, PATH_EN, closes the selected pair without closing the
+  output switch: the zero calibration then runs with the ladder at its real
+  voltage and no load (D-29).
 - Output switch: back-to-back N-MOSFET pair at VOUT, off at reset, opened by
   hardware on a fault.
-- Slow monitors: an external 8-channel, 12-bit SPI converter (to be
-  selected) on the SPI bus of the DAC reads VOUT at about 1 kSPS and, at
-  100 SPS or less, VIN, VBUS, CC1, CC2, a board temperature sensor next to
-  the LDO and shunts, and the +12 V_A and −5 V_A rails. The internal ADC of
-  the ESP32-S3 is not used: the development board leaves too few pins for it
-  (section 5), and an external converter is the more accurate one.
+- Slow monitors: an external 8-channel, 12-bit SPI converter (candidate:
+  MCP3208) on the SPI bus of the DAC reads the buffered ladder output at
+  about 1 kSPS and, at 100 SPS or less, VIN, VBUS, CC1, CC2, a board
+  temperature sensor next to the LDO and shunts, and the +12 V_A and −4 V_A
+  rails. The internal ADC of the ESP32-S3 is not used: an external converter
+  is the more accurate one and needs no extra pins (section 5).
 
 ### 4.3 Shunt Ladder
 
@@ -189,18 +208,19 @@ with a fixed gain of 20 into a 2.5 V ADC full scale (25 % headroom).
 - Make-before-break: when changing range the new branch turns on about 1 µs
   before the old one turns off, so the DUT is never left on R0 alone.
 - Range switches: N-channel MOSFETs, a few mΩ, gates driven from +12 V_A
-  through level shifters. The IRLML6402 P-MOSFET driven by a GPIO does not
-  work here: with the rail at 0.8 V there is no gate drive to turn it on,
-  with the rail at 5 V a 3.3 V GPIO cannot turn it off, and its 65 mΩ is
-  comparable to the 0.1 Ω shunt.
+  through gate drivers, with no gate-to-source resistors: on a branch that
+  is off such a resistor would draw its current through a shunt. The
+  IRLML6402 P-MOSFET driven by a GPIO does not work here: with the rail at
+  0.8 V there is no gate drive to turn it on, with the rail at 5 V a 3.3 V
+  GPIO cannot turn it off, and its 65 mΩ is comparable to the 0.1 Ω shunt.
 - Kelvin sensing: the amplifier measures across the shunt element only. A
-  low-leakage 4:1 analog multiplexer on the positive input selects the sense
-  node of the active branch (the supply node for R0); the negative input is
-  the common VOUT node. The switch resistance therefore adds burden but no
-  measurement error.
-- Transient clamp: a low-leakage diode clamp across the ladder carries a
-  current step during the first microseconds, before the range logic reacts.
-  Its leakage at 100 mV must fit the leakage budget.
+  low-leakage dual 4:1 analog multiplexer (candidate: MUX509) selects both
+  sense taps of the active shunt, the positive and the negative one (D-27).
+  The switch resistance and the copper between the shunts therefore add
+  burden but no measurement error.
+- Transient clamp: two low-leakage diodes in anti-parallel across the ladder
+  carry a current step during the first microseconds, before the range logic
+  reacts. Their leakage at 100 mV must fit the leakage budget.
 - Leakage budget: everything that bypasses R0 or loads the sense nodes must
   total below 10 nA at 40 °C. An off MOSFET sees only the burden voltage
   across it, so its channel leakage is small; gate leakage appears as an
@@ -211,14 +231,22 @@ with a fixed gain of 20 into a 2.5 V ADC full scale (25 % headroom).
 Firmware is too slow to protect the DUT: samples arrive in DMA blocks with
 milliseconds of latency. The range state lives in hardware.
 
-- State: a 2-bit range register (R0 to R3) built from discrete logic or a
-  small programmable mixed-signal device; the choice is made in phase 3.
-- Step up: a comparator on the amplified signal at 90 % of full scale moves
-  the register one range up. Target: under 2 µs from threshold crossing to
-  the new branch conducting. A blanking time of about 2 µs follows each step,
-  then a further step is allowed, so a large step climbs range by range.
-- Jump up: a second comparator directly across the ladder trips at about
-  150 mV and forces R3 at once, without waiting for the amplifier.
+- State: a 2-bit range register (R0 to R3) in a small programmable logic
+  device (candidate: MAX II EPM240, D-24). The same device holds the blanking
+  timers, the make-before-break sequencing of the gates, the multiplexer
+  address, the fault latch, the mode interlock and the side-data shift
+  register of section 4.7. It runs from its internal oscillator, so none of
+  this depends on a clock from the MCU. Its description is written and
+  simulated in phase 3; until it is programmed its pins float, and
+  pull-down resistors at the gate drivers keep every switch open.
+- Comparators: three, on the amplifier output divided by four, with
+  thresholds taken from the reference (D-28). Referred to the shunt they
+  trip at 90 mV, 120 mV and 150 mV.
+- Step up: the 90 mV comparator (90 % of full scale) moves the register one
+  range up. Target: under 2 µs from threshold crossing to the new branch
+  conducting. A blanking time of about 2 µs follows each step, then a
+  further step is allowed, so a large step climbs range by range.
+- Jump up: the 150 mV comparator forces R3 at once.
 - Step down: only on a pulse from the MCU, and only if the step-up comparator
   is not active. Firmware issues it when the current stays below the "switch
   down" threshold for N consecutive samples (N configurable, default 100).
@@ -227,8 +255,11 @@ milliseconds of latency. The range state lives in hardware.
   becomes two.
 - Lock: the MCU can force a fixed range. The jump-up path and the
   over-current trip stay active even when locked.
-- Over-current: a comparator on R3 at about 1.2 A opens the output switch and
-  sets a fault latch that only the MCU can clear.
+- Over-current: in R3 the 120 mV comparator means 1.2 A; it opens the output
+  switch and sets a fault latch that only the MCU can clear. In the lower
+  ranges the same level is only passed on the way up and is ignored.
+- Other faults that set the latch: over-voltage on VIN (section 4.9) and the
+  loss of PWR_GOOD.
 - Reset state: R3 selected, output switch open, mode switch open.
 
 ### 4.5 Signal Chain
@@ -236,15 +267,18 @@ milliseconds of latency. The range state lives in hardware.
 - Instrumentation Amplifier: AD8421 (candidate) at G = 20 (gain resistor
   523 Ω, 0.1 %, 10 ppm/°C). It must settle within one sample period (10 µs)
   after a range change. The INA188 is too slow for this rate.
-  - Supplies +12 V_A and −5 V_A, so the 0.8 V to 5 V common mode stays inside
-    the input range.
+  - Supplies +12 V_A and −4 V_A, so the 0.8 V to 5 V common mode stays inside
+    the input range. The negative rail is −4 V and not −5 V because an
+    inverting charge pump cannot regulate −5 V from a USB supply that may
+    sag to 4.4 V (D-26).
   - Reference pin at +50 mV (buffered). Zero current then reads about 1300
     codes, so offset, noise and small reverse currents are not clipped.
   - The amplifier offset is larger than the 100 µV that 100 nA produces in
     R0, so per-range offset calibration is mandatory.
 - Limiter: the amplifier output can reach 10 V while a range change is in
-  progress. A series resistor and clamp, followed by an ADC driver powered
-  from 3V3_A, keep the ADC and comparator inputs inside their ratings.
+  progress. A series resistor and a low-leakage diode clamp, followed by an
+  ADC driver powered from 3V3_A, keep the ADC input inside its ratings; the
+  divider by four does the same for the comparators.
 - Anti-alias filter: two poles near 40 kHz around the ADC driver, plus the RC
   network the ADC input requires.
 
@@ -254,10 +288,12 @@ milliseconds of latency. The range state lives in hardware.
   (the MCP33131D-10 from the first draft is the differential 1 Msps version,
   and the ADS8326 tops out at 250 kSPS).
 - Reference: 2.5 V precision reference (candidate: REF5025), shared with the
-  DAC so both scale together.
+  DAC so both scale together. The monitor converter and the comparator
+  thresholds use it too.
 - Conversion timing: the convert-start signal is the word clock of the I2S
   peripheral, never an interrupt handler. Sampling jitter then does not
-  depend on firmware.
+  depend on firmware. Both clocks reach the converter through the logic
+  device of section 4.4, as plain combinational paths.
 - Clocking: at 100 kSPS with 32 bit clocks per frame the bit clock is
   3.2 MHz, an integer division (50) of the 160 MHz source. Keep every divider
   in the chain an integer; a fractional divider adds sampling jitter.
@@ -267,10 +303,10 @@ milliseconds of latency. The range state lives in hardware.
 
 ### 4.7 Synchronous Side Data
 
-- A 16-bit parallel-load shift register (two 74LVC165-class parts) is loaded
-  by the same convert-start edge and shifted by the same bit clock as the
-  ADC. It carries the 2 range bits, the fault bit, the 8 digital inputs and 5
-  spare bits.
+- A 16-bit parallel-load shift register, inside the logic device of section
+  4.4, is loaded by the same convert-start edge and shifted by the same bit
+  clock as the ADC. It carries the 2 range bits, the fault bit, the 8 digital
+  inputs and 5 spare bits.
 - Candidate capture: the second I2S port as a slave receiver on the same
   clocks. Both DMA streams are started before the clocks are enabled, so
   they stay aligned sample for sample.
@@ -280,15 +316,27 @@ milliseconds of latency. The range state lives in hardware.
 ### 4.8 Digital Inputs
 
 - 8 logic channels, D0 to D7, through a level translator whose DUT-side
-  supply is VOUT, so they follow the DUT logic level from 1.6 V to 5.5 V.
-- Series resistors and ESD protection on every pin. Input leakage must not
-  load the DUT; the translator supply current from VOUT is taken ahead of the
-  shunts or accounted for in the zero calibration.
+  supply is a buffered copy of the ladder output, so they follow the DUT
+  logic level from 1.65 V to 5.5 V. The buffer, an amplifier with picoampere
+  input current, senses the ladder ahead of the output switch (D-32); the
+  translator supply current comes from it and not from the DUT.
+- The control pins of the translator are referenced to its 3.3 V side, so
+  they stay valid while the DUT supply is off (D-33).
+- Series resistors and ESD protection on every pin, and a 1 MΩ pull-down:
+  a channel driven high therefore loads the DUT with a few microamperes,
+  which is real DUT current and is measured.
+- The same buffer drives the guard ring of section 10 and the VOUT channel
+  of the monitor.
 
 ### 4.9 Protection & Grounding
 
-- Reverse-polarity and over-voltage protection (clamp at about 5.5 V) on VIN
-  and VOUT; ESD protection on all external terminals.
+- VIN: a fuse with a reverse clamp diode takes a reversed supply. The
+  ampere-mode switch blocks up to 30 V while it is open, and an
+  over-voltage detector keeps it open above 5.5 V and sets the fault latch
+  (D-35).
+- VOUT: low-leakage clamp diodes to ground and to a 5.6 V node. Anything
+  with more leakage would be measured as DUT current.
+- ESD protection on all external terminals.
 - Thermal: the board temperature sensor derates the output current and shuts
   the output down above a limit.
 - The DUT ground is the USB ground: there is no galvanic isolation. State
@@ -315,26 +363,38 @@ thermal noise about 1.1 µV RMS. To be replaced by measurements in phase 2.
 
 ### 4.11 Development Board Interface & Power Domains
 
-The carrier board has two 1×22 pin sockets at 2.54 mm pitch, 22.86 mm apart,
-and the development board plugs into them (section 5 has the pin
-assignment). The interface keeps the two boards independent:
+The carrier board has two 1×22 pin sockets at 2.54 mm pitch and the
+development board plugs into them (section 5 has the pin assignment). The
+rows of the board in use are 25.40 mm apart; the footprint has a second row
+of holes for boards with 22.86 mm (D-23). The interface keeps the two boards
+independent:
 
-- Domain D (digital): 3V3_D comes from the 3V3 pins of the development board
-  and powers only the carrier logic that talks to the MCU. Budget: 100 mA,
-  to be confirmed against the regulator of the board in hand.
-- Domain A (analog and SMU): every other rail derives from the USB-C power
-  connector of the carrier (section 4.1).
+- Domain D (development board): 3V3_D comes from the 3V3 pins of the
+  development board and powers one part only, the buffer that drives the
+  MCU inputs. Its load is a few milliamperes, so the regulator of the
+  development board does not matter.
+- Domain C (carrier): every other rail derives from the USB-C power
+  connector of the carrier (section 4.1), including 3V3_C, the supply of the
+  carrier logic.
+- Each direction is received by a part powered from the receiving side
+  (D-25). MCU outputs end at inputs of the logic device of section 4.4,
+  which tolerates a voltage on its pins while unpowered and passes the SPI
+  and acquisition signals on. Carrier outputs reach the MCU through the
+  buffer on 3V3_D, which has the same property.
 - The 5 V pin of the development board is not used. A solder jumper, open by
   default, may connect it to the carrier 5 V rail through a diode, so that
   one supply powers both boards.
 - Either domain can be powered without the other. Every signal that crosses
-  between them has a series resistor, and the parts on the boundary tolerate
-  a voltage on their pins while unpowered.
-- The carrier holds its control inputs in the safe state with pull-down
-  resistors, whatever the MCU pins do during reset: output switch open,
-  regulators off, range R3.
-- Firmware drives no carrier input until PWR_GOOD reports the analog rails
-  valid, and treats the loss of PWR_GOOD as a fault.
+  between them has a series resistor.
+- The requests of the MCU are active high and have pull-down resistors on
+  the carrier, whatever the MCU pins do during reset: output switch open,
+  mode switch open, regulators off, no step down, no fault clear. The clock
+  and data lines are held by the pull-ups of the logic device. The power-up
+  glitches of the ESP32-S3 pins are low pulses, which an active-high request
+  ignores (D-34).
+- PWR_GOOD is pulled up to 3V3_C, so it reads low while the carrier has no
+  power. Firmware drives no carrier input until it reports the analog rails
+  valid, and treats its loss as a fault.
 - The grounds of both boards join at the sockets. The development board,
   with its switching edges and its antenna, stays away from the shunt ladder
   and the amplifier (section 10).
@@ -342,14 +402,22 @@ assignment). The interface keeps the two boards independent:
 ## 5. Microcontroller, Connectivity & Pin Map
 
 - Controller: an ESP32-S3-DevKitC-1 compatible development board with an
-  ESP32-S3-WROOM-1 module (N8R8 or N16R8, both with 8 MB of octal PSRAM),
-  plugged into sockets on the carrier board. The board in use is a clone
-  with two USB-C ports; the pinout reference is the Espressif design.
-- Reference data, taken from the Espressif user guide, schematic and layout
-  drawing of the ESP32-S3-DevKitC-1 v1.1: two 1×22 headers at 2.54 mm pitch,
-  22.86 mm between the rows, board outline 25.40 mm × 62.74 mm. A clone can
-  differ in outline, regulator, LED pin and 5 V path, so the carrier depends
-  on none of them. Section 16 lists what to confirm on the board in hand.
+  ESP32-S3-WROOM-1 module, N8R2 or N16R2 (8 MB or 16 MB of flash, 2 MB of
+  quad PSRAM), plugged into sockets on the carrier board. The board in use
+  is the common clone with two USB-C ports (the "YD-ESP32-S3" design).
+  Modules with octal PSRAM (R8, R16V) do not fit this carrier: they use
+  GPIO 35 to 37 internally (D-23).
+- Reference data. Pinout: the Espressif user guide of the
+  ESP32-S3-DevKitC-1 v1.1; the board in use has the same pin order on both
+  headers. Dimensions of the board in use, from the drawing of its
+  manufacturer: two 1×22 headers at 2.54 mm pitch, 25.40 mm between the
+  rows, outline 27.94 mm × 57.15 mm with the antenna 6.2 mm beyond it. The
+  Espressif board is 25.40 mm × 62.74 mm with 22.86 mm between the rows.
+  Both fit the socket footprint. Section 16 lists what to confirm on the
+  board in hand before the carrier is fabricated.
+- Other facts of the board in use, from its schematic: USB-to-UART bridge
+  CH343P, RGB LED on GPIO 48, and a 5 V pin that is an input behind a
+  Schottky diode unless a solder jumper on the board is closed.
 - USB: both ports are on the development board.
   - UART port (USB-to-UART bridge on GPIO 43 and 44): flashing and console.
   - Native USB port (GPIO 19 D- and GPIO 20 D+): the measurement stream and
@@ -363,12 +431,12 @@ Pins the carrier does not use:
 | --- | --- |
 | 19, 20 | Native USB |
 | 43, 44 | UART0, wired to the USB-to-UART bridge |
-| 35, 36, 37 | Octal PSRAM of the module |
+| 37 | Free on R2 modules; not connected |
 | 0, 3, 45, 46 | Strapping pins, left to their boot function |
-| 38, 48 | RGB LED of the development board: GPIO 38 on v1.1, GPIO 48 on v1.0 and on most clones |
-| 39, 40, 41, 42 | JTAG, kept free for a debug probe |
+| 38, 48 | RGB LED of the development board: GPIO 48 on the board in use, GPIO 38 on the Espressif v1.1 board |
+| 39, 40, 41, 42 | JTAG, brought to a header on the carrier for a debug probe |
 
-Pin map of the 19 signals between the boards. J1 and J3 are the header names
+Pin map of the 21 signals between the boards. J1 and J3 are the header names
 of the reference design, and pin 1 of both is at the antenna end.
 
 | GPIO | Header pin | Signal | Direction | Function |
@@ -382,16 +450,18 @@ of the reference design, and pin 1 of both is at the antenna end.
 | 17 | J1-10 | SPI_MOSI | Out | Data to the DAC and the monitor ADC (SPI2) |
 | 18 | J1-11 | SPI_MISO | In | Data from the monitor ADC (SPI2) |
 | 8 | J1-12 | MON_CS | Out | Monitor ADC chip select (SPI2) |
-| 9 | J1-15 | FAULT_CLR | Out | Clear the over-current latch |
-| 10 | J1-16 | FAULT_N | In | Over-current latch, active low |
+| 9 | J1-15 | FAULT_CLR | Out | Clear the fault latch |
+| 10 | J1-16 | FAULT_N | In | Fault latch, active low |
 | 11 | J1-17 | SIDE_DOUT | In | Shift-register data (I2S1) |
 | 12 | J1-18 | ADC_DOUT | In | ADC data (I2S0) |
 | 13 | J1-19 | ACQ_BCLK | Out | ADC and shift-register clock (I2S0) |
 | 14 | J1-20 | ACQ_WS | Out | Convert-start and load (I2S0) |
 | 1 | J3-4 | MODE_SEL | Out | Source or ampere mode |
 | 2 | J3-5 | OUT_EN | Out | Output switch request |
+| 36 | J3-12 | SPARE0 | In/Out | Spare line to the logic device |
+| 35 | J3-13 | PATH_EN | Out | Mode switch request |
 | 47 | J3-17 | PWR_GOOD | In | Analog rails valid |
-| 21 | J3-18 | SMU_EN | Out | Pre-regulator and LDO enable |
+| 21 | J3-18 | SMU_EN | Out | Pre-regulator enable |
 
 - Power and ground: 3V3 (J1-1, J1-2) feeds 3V3_D, 5V (J1-21) goes to the
   optional jumper, and ground is J1-22, J3-1, J3-21 and J3-22. RST (J1-3) is
@@ -402,8 +472,11 @@ of the reference design, and pin 1 of both is at the antenna end.
   SPI2 pins.
 - The status indicator is the RGB LED of the development board, with its
   GPIO as a build option.
-- No spare general-purpose pin is left without touching the JTAG pins, so a
-  new signal means sharing the SPI bus or giving up the debug probe.
+- Request lines (RANGE_DOWN, RANGE_LOCK, FAULT_CLR, MODE_SEL, OUT_EN,
+  PATH_EN, SMU_EN) are active high. The output reaches the DUT only with
+  SMU_EN (source mode), PATH_EN and OUT_EN all high and no fault latched.
+- One general-purpose pin is left, GPIO 37, besides the spare line. A
+  further signal means sharing the SPI bus or giving up the debug probe.
 
 ## 6. Firmware Architecture & Execution Strategy (ESP-IDF)
 
@@ -692,17 +765,26 @@ the protocol; the definition file decides it.
 - Development board: on sockets, with its USB connectors at the edge of the
   carrier and within reach; no carrier copper or parts under its antenna
   end; the front end at the opposite end of the carrier.
-- Socket footprint: two rows of 22 holes, 22.86 mm apart, as on the
-  reference design. Confirm it on the board in hand before fabrication.
-- Guard ring driven at VOUT potential around the R0 sense node and the
-  amplifier inputs; no solder mask over the guard; clean flux residue.
+- Socket footprint: one row of 22 holes for J1 and two rows for J3, 25.40 mm
+  and 22.86 mm from J1, so both board widths fit (D-23). Confirm the board
+  in hand before fabrication.
+- Outline of the first draft: 160 mm × 100 mm with four M3 holes, as a
+  starting point for the layout (D-38). The development board sits at the
+  left with its USB end at the bottom edge, the power connector beside it,
+  and VIN, VOUT and the logic header on the right edge.
+- Guard ring driven by the buffered ladder output (section 4.8) around the
+  R0 sense node and the amplifier inputs; no solder mask over the guard;
+  clean flux residue.
 - Kelvin routing as a tightly coupled pair from each shunt to the
-  multiplexer.
+  multiplexer. R2 and R3 are four-terminal parts; R0 and R1 are sensed at
+  their pads.
 - Shield can over the shunt ladder, multiplexer, amplifier and ADC.
 - Thermal relief for the LDO and R3 away from R0 and the reference.
-- Test points on every rail, sense node, comparator output and range bit.
+- Test points on every rail, comparator output and range gate.
 - Connectors on the carrier: USB-C (power only), the two sockets of the
-  development board, VIN, VOUT/GND and a 10-pin logic header.
+  development board, VIN, VOUT/GND, a 10-pin logic header, a header for
+  the debug probe of the module and the programming header of the logic
+  device.
 
 ## 11. Verification Plan
 
@@ -745,7 +827,8 @@ tools/        Calibration and production-test scripts
    offset, drift and settling measured and the budget of section 4.10
    updated; oversampling decision taken.
 3. Shunt ladder and range logic. Exit: verification tests for R-06 and R-07
-   passed; range-logic implementation chosen.
+   passed; description of the range logic verified in simulation and on the
+   device.
 4. Source mode and power. Exit: tests for R-08, R-13 and R-14 passed;
    thermal measurements at 1 A recorded.
 5. Carrier board, revision A, with the development board plugged in. Exit:
@@ -757,6 +840,11 @@ tools/        Calibration and production-test scripts
 
 Firmware and host software start in phase 1 and grow with each phase; the
 protocol of section 7 is implemented from the first prototype.
+
+The schematic of the carrier board and a placement of its parts exist as
+draft A0, drawn ahead of these phases (D-37). The draft is the hypothesis
+that the phases test: the checks of section 16 and the results of phases 1
+to 4 change it before revision A is fabricated in phase 5.
 
 ## 14. Risk Register
 
@@ -772,7 +860,10 @@ protocol of section 7 is implemented from the first prototype.
 | Switching noise in the measurement | Noise above budget | LC filters, placement, shield, converter frequency above 1 MHz |
 | USB source too weak | Brown-out of the instrument | CC detection, power budget, VBUS monitor |
 | Candidate part unsuitable or unavailable | Redesign | Section 16 checks first; second source noted in the BOM |
-| Development board differs from the reference design | Wrong pin, weak 3.3 V rail or mechanical misfit | Checks of section 16 on the board in hand; the carrier uses neither the 5 V pin nor the LED and strapping pins |
+| Development board differs from the reference design | Wrong pin or mechanical misfit | Checks of section 16 on the board in hand; socket footprint for both row spacings; the carrier loads the 3.3 V pin with one buffer and uses neither the 5 V pin nor the LED and strapping pins |
+| Module with octal PSRAM plugged in | GPIO 35 and 36 belong to the memory: mode switch request and spare line do not work | Only N8R2 and N16R2 modules; firmware checks the module at start-up |
+| Logic device blank or wrongly programmed | No range switching, switches in an undefined state | Pull-downs at the gate drivers keep every switch open; simulation of the description; programming header on the carrier |
+| Draft schematic taken as a finished design | Boards built with unchecked parts | Draft marked A0 on every sheet; section 16 lists the open checks; fabrication only in phase 5 |
 | Noise and ground bounce through the board sockets | Jitter on the convert-start signal | Acquisition signals next to a ground pin, series resistors, low drive strength, measurement in phase 1 |
 | Firmware and host disagree on the protocol | Corrupt or misread data | One definition file, generated constants, shared test vectors, stale-file check in continuous integration |
 
@@ -802,34 +893,73 @@ protocol of section 7 is implemented from the first prototype.
 | D-20 | Quality gates in continuous integration: tests, coverage floors, static analysis, formatting | Defects are found before bench time is spent on them; required by R-17 |
 | D-21 | Host package with an I/O-free protocol layer, transports behind one interface and a device simulator | Development and end-to-end tests without the instrument |
 | D-22 | Continuous integration workflows are started by hand instead of on every push and pull request | Requested by the project owner, to save processing time while the project is in early development; the gates of D-20 stay, run locally and on demand |
+| D-23 | Development board with an N8R2 or N16R2 module; socket footprint for rows 25.40 mm or 22.86 mm apart | The board of the project owner is the common two-port clone, 27.94 mm wide; R2 modules leave GPIO 35 to 37 free; the second row of holes costs nothing |
+| D-24 | Range register, timers, fault latch, mode interlock and side-data shift register in one programmable logic device with its own oscillator | The timing is too tight and too likely to change for discrete logic, and the protection must not depend on a clock from the MCU; replaces the two shift registers of D-08 |
+| D-25 | Every signal between the boards is received by a part powered from the receiving side; the carrier has its own 3.3 V logic rail | Either board can be powered alone without current through input protection diodes, and the unknown regulator of the development board carries almost no load |
+| D-26 | Negative rail of −4 V instead of −5 V | A charge pump cannot regulate −5 V from a 5 V supply that sags; −4 V covers the amplifier input range and the minimum load of the LDO |
+| D-27 | Dual 4:1 multiplexer: both sense taps of the active shunt are selected | With a common negative tap the copper between the shunts would be inside the measurement of the 0.1 Ω range |
+| D-28 | All three comparators on the amplifier output divided by four | A comparator across the floating ladder needs a high-side differential stage; the amplifier is fast enough and one threshold string from the reference serves all three |
+| D-29 | Separate request lines for the mode switch (PATH_EN) and the output switch (OUT_EN) | The zero calibration needs the ladder at its working voltage with the DUT disconnected |
+| D-30 | Pre-regulator headroom of 0.45 V, set by a difference amplifier at the feedback pin | The converter output ends at 5.5 V, so 0.6 V above a 5.0 V set-point is out of range; a gain of 0.2 keeps the loop gain of the converter near its usual value |
+| D-31 | VCONTROL of the output LDO from the boost output ahead of the +12 V_A regulator | The control current follows the load current and would modulate the analog rail |
+| D-32 | A buffer copies the ladder output for the guard ring, the level translator and the monitor | Nothing resistive may hang on the node after the shunts; taken ahead of the output switch so the guard is valid during the zero calibration |
+| D-33 | Level translator with the DUT on the side that has no control pins | Direction and enable stay valid while the DUT supply is off |
+| D-34 | Request lines active high with pull-downs on the carrier; clock and data lines on the pull-ups of the logic device | The power-up glitches of the MCU pins are low pulses; fewer parts |
+| D-35 | VIN protected by a fuse with reverse clamp and by an over-voltage detector that keeps the ampere switch open | A clamp at 5.5 V on a terminal that may see a bench supply would have to absorb its full current; the open switch blocks 30 V |
+| D-36 | Candidate parts chosen for the draft: MAX II EPM240, MUX509, MCP3208, LT3042, LM27761, LMR62014, TC4427, MCP6561 and MCP6562, OPA197, OPA365, SN74LVC8T245, CSD17577Q3A, IRLML0030, BAV199 | Needed to draw the schematic; each one stays a candidate until its check record is closed |
+| D-37 | Schematic and part placement drawn as draft A0 before the checks of section 16 are closed | Requested by the project owner, to review the design as a whole and to start the layout work early |
+| D-38 | Draft outline of 160 mm × 100 mm with four M3 holes | A standard size with room for a first layout; to be reduced when the placement is final |
 
 ## 16. Open Checks Before Freezing the Schematic
 
-- AD8421: input common-mode range with +12 V / −5 V, settling time and noise
+The draft schematic uses the parts below. Pin numbers of the symbols from the
+KiCad library were not compared with the datasheets yet; that comparison is
+part of every check. Four symbols were drawn for the project from the
+manufacturer's datasheet (ADS8860, MUX509, TPS63020 and the development
+board).
+
+- AD8421: input common-mode range with +12 V / −4 V, settling time and noise
   at G = 20, bias current against the leakage budget.
 - ADS8860: convert-start and data timing against the I2S frame at 100 kSPS
-  and 500 kSPS; input driver and reference drive requirements.
+  and 500 kSPS, including the delay through the logic device and the
+  buffer; input driver and reference drive requirements.
 - ESP32-S3 I2S: integer clock dividers for the chosen rates, master and
   slave ports on shared clocks, DMA block callbacks.
-- LT3080: dropout on both supply pins, minimum load, thermal resistance of
-  the package on the planned copper.
-- Pre-regulator: feedback injection range, stability over 1.4 V to 5.6 V,
-  ripple after the filter.
+- LT3080: dropout on both supply pins (0.45 V of headroom at 1 A is close
+  to it), minimum load, thermal resistance of the package on the planned
+  copper.
+- Pre-regulator (TPS63020): stability with the difference amplifier in its
+  feedback path over 1.2 V to 5.5 V, behavior at the 5.5 V end against its
+  over-voltage protection, ripple after the filter, land pattern of the
+  package (the draft uses a generic 14-pin footprint).
 - Range MOSFETs, multiplexer and clamp: leakage at 40 °C; gate-charge
-  injection into VOUT when switching.
+  injection into VOUT when switching; surge current of the clamp diodes.
 - Comparators: propagation delay, input range, thresholds and hysteresis in
   simulation.
-- Level translator: supply current drawn from VOUT and behavior when VOUT
-  is off.
+- Logic device (MAX II EPM240): supply voltage and current, behavior of its
+  pins while blank and while unpowered, internal oscillator, pull-up
+  values; description of the range logic and its simulation.
+- Gate drivers: input thresholds with 3.3 V logic, propagation delay,
+  supply current, output state without supply.
+- Analog rails: load of each rail against the converters (LMR62014,
+  LT3042, LM27761), start-up order, noise of the boost converter after the
+  +12 V_A regulator, the −4 V rail at the lowest USB voltage.
+- VBUS transients: the charge pump is rated for 5.8 V and the low-noise
+  regulators for 6 V; hot-plug overshoot with the chosen suppressor and
+  bulk capacitor.
+- Level translator: supply current drawn from the buffer and behavior when
+  VOUT is off or below 1.65 V.
 - USB-C: CC thresholds and behavior on 500 mA, 1.5 A and 3 A sources.
 - Development board in hand: header labels against the reference pinout,
-  spacing between the rows (reported by the owner as 22.86 mm), module
-  marking (N8R8 or N16R8), GPIO of the RGB LED, regulator type with its
-  current rating, and how the 5 V pin connects to the USB ports.
-- Monitor ADC: part selection, input range and source impedance of each
-  channel, SPI mode shared with the DAC.
+  spacing between the rows (25.40 mm on the manufacturer's drawing; the
+  owner first reported 22.86 mm), module marking (N8R2 or N16R2), GPIO of
+  the RGB LED, and how the 5 V pin connects to the USB ports.
+- Monitor ADC (MCP3208): input range and source impedance of each channel,
+  SPI mode shared with the DAC.
 - Board interface: behavior of the boundary parts with one power domain off,
   and series resistor values against the clock edges at 3.2 MHz and 16 MHz.
+- Path resistance: switches, shunt, fuse and connectors against the 150 mV
+  limit of R-06 in ampere mode.
 - USB device stack: ESP-IDF v6.0 ships no TinyUSB component. Confirm the
   component to use from the component registry, its version and its license
   before phase 1.
@@ -838,29 +968,32 @@ protocol of section 7 is implemented from the first prototype.
 
 | Category | Component Part Number | Package | Key Attribute |
 | --- | --- | --- | --- |
-| Controller | ESP32-S3-DevKitC-1 compatible board, N8R8 or N16R8 module | 2 × 22 pins | Native USB and USB-to-UART bridge on board |
-| Board sockets | 1×22 pin socket, 2.54 mm, two parts | Through-hole | Rows 22.86 mm apart |
-| Power connector | USB-C receptacle, power only | — | Instrument supply with CC sense |
-| Monitor ADC | 8-channel, 12-bit SPI converter (to be selected) | — | VOUT, VIN, VBUS, CC, temperature, rails |
+| Controller | ESP32-S3-DevKitC-1 compatible board, N8R2 or N16R2 module | 2 × 22 pins | Native USB and USB-to-UART bridge on board |
+| Board sockets | 1×22 pin socket, 2.54 mm, two parts | Through-hole | Rows 25.40 mm apart (22.86 mm also fits) |
+| Power connector | USB-C receptacle, power only | 6 pins | Instrument supply with CC sense |
+| Monitor ADC | MCP3208 (candidate) | SOIC-16 | VOUT, VIN, VBUS, CC, temperature, rails |
+| Temperature sensor | MCP9700A (candidate) | SOT-23 | Next to the LDO |
 | ADC | ADS8860 (candidate) | MSOP-10 | 16-bit, single-ended, 1 Msps |
-| ADC driver | Rail-to-rail op-amp, 3.3 V (to be selected) | — | Limiter, filter and ADC drive |
-| Reference | REF5025 (candidate) | SOIC-8 | 2.5 V, shared by ADC and DAC |
+| ADC driver | OPA365 (candidate) | SOT-23-5 | Limiter, filter and ADC drive |
+| Reference | REF5025 (candidate) | SOIC-8 | 2.5 V, shared by ADC, DAC, monitor and thresholds |
 | In-amp | AD8421 (candidate) | SOIC-8 | Fast settling, low noise, G = 20 |
-| Comparators | Under 100 ns, three channels (to be selected) | — | Step up, jump up, over-current |
-| Range logic | Discrete logic or programmable mixed-signal (phase 3) | — | Range register, blanking, interlock |
-| Multiplexer | Low-leakage 4:1 analog mux (to be selected) | — | Kelvin sense selection |
-| Shift register | 74LVC165 class, two parts | TSSOP-16 | Range, fault and logic bits |
+| Precision op-amp | OPA197 (candidate), three parts | SOT-23-5 | Set-point gain, pedestal, guard buffer |
+| Comparators | MCP6562 and MCP6561 (candidates) | SOIC-8, SOT-23-5 | Step up, over-current, jump up; VIN over-voltage |
+| Range logic | MAX II EPM240 (candidate) | TQFP-100 | Range register, timers, fault latch, interlock, side data |
+| Multiplexer | MUX509 (candidate) | TSSOP-16 | Dual 4:1, Kelvin sense selection |
+| Gate drivers | TC4427 (candidate), three parts | SOIC-8 | Six gate lines from +12 V_A |
 | DAC | MCP4921-E/SN | SOIC-8 | 12-bit voltage output DAC, SPI |
 | Regulator | LT3080EDD#PBF (candidate) | DFN-8 | 1.1A, Low Noise Linear Reg |
-| Pre-regulator | TPS63020 class buck-boost (candidate) | — | Tracks VSET + 0.6 V |
-| Analog rails | Boost to +12 V, inverter to −5 V, LDOs (to be selected) | — | Filtered analog supplies |
+| Pre-regulator | TPS63020 (candidate) | VSON-14 | Tracks VSET + 0.45 V |
+| Analog rails | LMR62014 boost, LT3042 +12 V, LM27761 −4 V, LP5907 3.3 V (candidates) | — | Filtered analog supplies |
+| Board buffer | SN74LVC245A (candidate) | TSSOP-20 | Carrier outputs to the MCU, powered from the development board |
 | Shunt R0 | 1 kΩ, 0.1 %, 25 ppm/°C | 0805 | 100 µA range |
 | Shunt R1 | 33 Ω, 0.1 %, 25 ppm/°C | 0805 | 3 mA range |
 | Shunt R2 | 1 Ω, 0.1 %, 4-terminal | 1206 | 100 mA range |
 | Shunt R3 | 0.1 Ω, 0.1 %, 4-terminal | 1206 | 1 A range |
-| Switch FETs | N-MOSFET, few mΩ, low leakage (to be selected) | — | Branch, mode and output switches |
-| Clamp | Low-leakage diode clamp (to be selected) | — | Transient path across the ladder |
-| Level shifter | 8-bit translator, DUT side on VOUT (to be selected) | — | Digital inputs D0 to D7 |
+| Switch FETs | CSD17577Q3A and IRLML0030 (candidates) | SON 3.3 mm, SOT-23 | Branch, mode and output switches |
+| Clamp | BAV199 (candidate) | SOT-23 | Transient path across the ladder, terminal and limiter clamps |
+| Level shifter | SN74LVC8T245 (candidate) | TSSOP-24 | Digital inputs D0 to D7, DUT side on the buffered output |
 
 ## 18. Software Engineering Practices
 
