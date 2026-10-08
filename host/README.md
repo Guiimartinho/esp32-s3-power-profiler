@@ -1,29 +1,173 @@
 # Host Software
 
-Python package that talks to the instrument: protocol codec, command-line
-capture tool, desktop viewer and analysis.
+Python package that talks to the instrument: the wire protocol, the
+transports, a device client, capture helpers and a simulated instrument for
+working without hardware.
 
-Status: not started. The package grows together with the firmware from
-phase 1, and the protocol in section 7 of the
-[specification](../docs/specification.md) is implemented from the first
-prototype.
+## Status
 
-## Planned Layout
+The layers described below exist and are tested against the simulated
+instrument. Nothing has run against real hardware, because the hardware does
+not exist yet. The desktop viewer, the export formats and the burst analysis
+of section 9 of the [specification](../docs/specification.md) are not
+written.
 
-| Path | Content |
+The numbers the simulator and the nominal calibration produce are design
+targets taken from the specification, not measurements.
+
+## Architecture
+
+The package is `s3_power_profiler`. It is built in layers, and each layer
+depends only on what the table lists.
+
+| Package | Role | Depends on |
+| --- | --- | --- |
+| `protocol` | Frames, CRC, sample word, stream payload, command, response and event envelopes | Nothing |
+| `transport` | The `Transport` interface and its adapters: `SerialTransport` and `MemoryTransport` | Nothing |
+| `device` | `DeviceClient`: sends commands, matches responses, collects stream frames and events | `protocol`, the `Transport` interface |
+| `capture` | `StreamReader` with gap detection, calibration, statistics | `protocol` |
+| `sim` | `Simulator`, a deterministic fake instrument, and `connect_simulator` | `protocol`, the `Transport` interface; `connect_simulator` also uses `MemoryTransport` |
+| `cli` | The `s3pp` command | All of the above |
+
+`errors` holds every exception of the package and is used by all layers.
+
+```text
+                 cli
+                  │
+      ┌───────────┼───────────┐
+      ▼           ▼           ▼
+     sim        device     capture
+      │           │           │
+      ├───────────┤           │
+      ▼           ▼           ▼
+  Transport    protocol ◄─────┘
+  interface
+      ▲
+      │ implemented by
+  SerialTransport, MemoryTransport
+```
+
+The design rules behind it:
+
+- **The protocol does no I/O.** Encoders return bytes and decoders take
+  bytes. `FrameDecoder` accepts chunks of any size, resynchronizes on the
+  magic word and counts what it discards, so it can be tested with plain byte
+  strings.
+- **Ports and adapters.** `DeviceClient` and `Simulator` receive a
+  `Transport` through their constructors and never import a concrete one. A
+  serial port, an in-memory pipe or a test double are interchangeable.
+- **Value objects are immutable.** Frames, samples, payloads and messages are
+  frozen dataclasses that validate their fields when created.
+- **One source for the protocol numbers.** `protocol/_defs.py` is generated
+  from [`protocol/definition.toml`](../protocol/definition.toml) at the root
+  of the repository. Do not edit it; change the definition and run
+  `python protocol/generate.py`.
+- **One place for the provisional layouts.** The arguments of the commands
+  and the data of the responses and events are not frozen yet. They are
+  defined only in `protocol/commands.py`, which the client and the simulator
+  share.
+- **Typed errors.** Everything the package raises derives from
+  `ProfilerError`. A wrong argument from the caller raises `ValueError`.
+
+## Setup
+
+Python 3.10 or later is required. From this directory:
+
+```sh
+python -m venv .venv
+.venv/Scripts/python -m pip install -e ".[dev]"   # Windows
+.venv/bin/python -m pip install -e ".[dev]"       # Linux and macOS
+```
+
+Activate the environment, or call its `python` directly, for the commands
+below.
+
+## Try It Without Hardware
+
+The `simulate` command runs the client against the simulated instrument and
+prints the statistics of the capture:
+
+```sh
+s3pp --version
+s3pp simulate --blocks 100
+s3pp simulate --blocks 100 --drop-every 10
+s3pp simulate --blocks 20 --range 3
+```
+
+The same from Python:
+
+```python
+from s3_power_profiler.capture import StatisticsAccumulator, StreamReader, nominal_table
+from s3_power_profiler.device import DeviceClient
+from s3_power_profiler.sim import connect_simulator
+
+transport, simulator = connect_simulator()
+reader = StreamReader(start_index=0)
+statistics = StatisticsAccumulator(nominal_table())
+
+with DeviceClient(transport) as client:
+    print(client.get_info())
+    client.set_dut_power(True)
+    client.start()
+    for _ in range(10):
+        payload = client.read_stream()
+        if payload is None:
+            break
+        statistics.add(reader.push(payload).words)
+    client.stop()
+
+print(reader.gaps)
+print(statistics.result())
+```
+
+For a real instrument, replace the first line of the session with
+`transport = SerialTransport.open("COM5")`, using the port name of the
+instrument. That path is tested only with the loopback port of pyserial.
+
+## Checks
+
+Run these from this directory:
+
+| Check | Command |
 | --- | --- |
-| `src/` | The Python package: device layer, capture tool, viewer, analysis |
-| `tests/` | Unit tests, including the protocol frames shared with the firmware |
+| Tests | `python -m pytest` |
+| Tests with coverage | `python -m pytest --cov` |
+| Type check, strict | `python -m mypy` |
 
-## Planned Features
+Run these from the root of the repository, where the shared `ruff.toml` is:
 
-From section 9 of the specification:
+| Check | Command |
+| --- | --- |
+| Lint | `python -m ruff check host` |
+| Formatting | `python -m ruff format --check host` |
 
-- Device layer with the protocol codec, resynchronization on the magic word,
-  CRC check and gap detection from the sample index.
-- Live plot of current against time with min/max decimation, with the
-  digital channels below the trace.
-- Statistics over a selection: average, maximum, charge and energy.
-- Controls for mode, voltage, DUT power, range and calibration.
-- Export to CSV and to a compact binary format.
-- Burst detection and battery-life estimate.
+How the tests are organized:
+
+- One test module per source module, in `tests/`.
+- The CRC, the frames and the sample word are checked against
+  [`protocol/vectors.json`](../protocol/vectors.json), the vectors shared
+  with the firmware tests. The codec has to reproduce them byte for byte in
+  both directions.
+- Property tests cover the round trips, decoding with arbitrary chunk
+  boundaries and resynchronization after noise and after a corrupted frame.
+  They run with a fixed set of examples, so a run is repeatable.
+- The client is tested end to end against the simulator, error paths
+  included.
+- Coverage is measured with branches. The run fails below 90 %; the
+  configuration is in `pyproject.toml`.
+
+## Layout
+
+```text
+host/
+├── pyproject.toml           Package metadata and tool configuration
+├── src/s3_power_profiler/
+│   ├── protocol/            crc, frame, sample, stream, commands, _defs
+│   ├── transport/           base (interface), memory, serial
+│   ├── device/              client
+│   ├── capture/             reader, calibration, statistics
+│   ├── sim/                 simulator, loopback
+│   ├── cli.py               The s3pp command
+│   └── errors.py            Every exception of the package
+└── tests/                   One module per source module
+```
