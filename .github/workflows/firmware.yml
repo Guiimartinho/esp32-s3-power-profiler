@@ -1,0 +1,191 @@
+name: Firmware
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "firmware/**"
+      - "protocol/**"
+      - ".github/workflows/firmware.yml"
+  pull_request:
+    paths:
+      - "firmware/**"
+      - "protocol/**"
+      - ".github/workflows/firmware.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Unit tests and coverage
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: firmware/test/host
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install the tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ninja-build
+          python -m pip install gcovr==8.6
+
+      - name: Build and run the tests
+        run: |
+          cmake --preset debug
+          cmake --build --preset debug
+          ctest --preset debug
+
+      - name: Build and run the tests with coverage instrumentation
+        run: |
+          cmake --preset coverage
+          cmake --build --preset coverage
+          ctest --preset coverage
+
+      - name: Check the coverage floors
+        run: cmake --build --preset coverage --target coverage
+
+      - name: Add the coverage summary to the job summary
+        if: always()
+        working-directory: firmware
+        run: |
+          {
+            echo '### Firmware coverage (hardware-independent code)'
+            echo
+            echo '```text'
+            gcovr --txt || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the coverage report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: firmware-coverage
+          path: firmware/test/host/build/coverage/coverage*
+          if-no-files-found: warn
+
+  sanitizers:
+    name: Sanitizers
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: firmware/test/host
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Install the tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ninja-build
+
+      - name: Lower the address space randomization
+        # The sanitizer runtimes cannot map their shadow memory with the
+        # default of recent kernels.
+        run: sudo sysctl vm.mmap_rnd_bits=28
+
+      - name: Address and undefined-behavior sanitizers
+        run: |
+          cmake --preset sanitize
+          cmake --build --preset sanitize
+          ctest --preset sanitize
+
+      - name: Thread sanitizer
+        run: |
+          cmake --preset tsan
+          cmake --build --preset tsan
+          ctest --preset tsan
+
+  static-analysis:
+    name: Format and static analysis
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: firmware/test/host
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install the tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ninja-build cppcheck
+          python -m pip install clang-format==22.1.4 clang-tidy==22.1.8
+
+      - name: Show the tool versions
+        run: |
+          clang-format --version
+          clang-tidy --version
+          cppcheck --version
+
+      - name: Configure
+        run: cmake --preset debug
+
+      - name: Check the formatting
+        run: cmake --build --preset debug --target format-check
+
+      - name: Run clang-tidy
+        run: cmake --build --preset debug --target tidy
+
+      - name: Run cppcheck
+        run: cmake --build --preset debug --target cppcheck
+
+  build:
+    name: ESP-IDF build
+    runs-on: ubuntu-latest
+    container:
+      image: espressif/idf:v6.0.2
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Build for the ESP32-S3
+        shell: bash
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          . "$IDF_PATH/export.sh"
+          idf.py -C firmware build
+
+      - name: Add the size report to the job summary
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          {
+            echo '### Firmware size'
+            echo
+            echo '```text'
+            idf.py -C firmware size
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the binaries
+        uses: actions/upload-artifact@v7
+        with:
+          name: firmware-esp32s3
+          path: |
+            firmware/build/*.bin
+            firmware/build/*.elf
+            firmware/build/*.map
+            firmware/build/bootloader/bootloader.bin
+            firmware/build/partition_table/partition-table.bin
+            firmware/build/flash_args
+          if-no-files-found: error
