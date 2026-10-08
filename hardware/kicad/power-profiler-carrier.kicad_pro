@@ -1,0 +1,41 @@
+{
+  "board": {
+    "design_settings": {
+      "defaults": {},
+      "diff_pair_dimensions": [],
+      "drc_exclusions": [],
+      "rules": {},
+      "track_widths": [],
+      "via_dimensions": []
+    }
+  },
+  "boards": [],
+  "libraries": {
+    "pinned_footprint_libs": [],
+    "pinned_symbol_libs": []
+  },
+  "meta": {
+    "filename": "power-profiler-carrier.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [],
+    "meta": {
+      "version": 0
+    }
+  },
+  "pcbnew": {
+    "page_layout_descr_file": ""
+  },
+  "sheets": [
+    [
+      "d2e82ebd-83c9-531f-aba6-f2dd41dff64c",
+      "Root"
+    ],
+    [
+      "decceef8-cc00-5ecf-ac19-494f00a10ccf",
+      "MCU Interface"
+    ]
+  ],
+  "text_variables": {}
+}
