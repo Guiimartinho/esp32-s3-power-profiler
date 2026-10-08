@@ -9,11 +9,15 @@ desktop.ini
 *.swp
 *~
 
-# ESP-IDF (firmware/)
+# ESP-IDF and the host unit tests (firmware/)
 build/
 sdkconfig
 sdkconfig.old
 managed_components/
+CMakeUserPresets.json
+
+# clangd index
+.cache/
 
 # Python (host/, tools/)
 __pycache__/
@@ -26,7 +30,10 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.hypothesis/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
 
 # KiCad (hardware/)
