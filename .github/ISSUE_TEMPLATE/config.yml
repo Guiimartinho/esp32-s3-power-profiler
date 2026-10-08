@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: System specification
+    url: https://github.com/Guiimartinho/esp32-s3-power-profiler/blob/main/docs/specification.md
+    about: Read the architecture and the development plan before proposing a change.

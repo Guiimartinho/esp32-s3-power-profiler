@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a problem in the firmware, hardware, host software or documentation.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Please search the
+        existing issues first to avoid duplicates.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Firmware
+        - Hardware
+        - Host software
+        - Tools
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: The setup and the exact steps that show the problem.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions and setup
+      description: >-
+        Firmware version or commit, hardware revision, host software version,
+        operating system, and the device under test if it matters.
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs, captures or measurements
+      description: Paste logs, or attach capture files and oscilloscope screenshots.
+    validations:
+      required: false

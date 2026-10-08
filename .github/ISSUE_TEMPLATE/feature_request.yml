@@ -1,0 +1,46 @@
+name: Feature request or design change
+description: Propose a new capability or a change to the specification.
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Firmware
+        - Hardware
+        - Host software
+        - Tools
+        - Documentation
+        - Several areas
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: The use case or the limitation behind the request.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: What should change, in as much detail as you have.
+    validations:
+      required: true
+  - type: textarea
+    id: specification
+    attributes:
+      label: Impact on the specification
+      description: >-
+        Sections, requirements (R-xx) or decisions (D-xx) of
+        docs/specification.md that would change. Leave empty if there are none.
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
