@@ -20,6 +20,10 @@ check is closed when its record is merged and the specification is updated.
 | Comparators | Propagation delay, input range, thresholds and hysteresis | — | Open |
 | Level translator | Supply current drawn from VOUT, behavior when VOUT is off | — | Open |
 | USB-C power | CC thresholds, behavior on 500 mA, 1.5 A and 3 A sources | — | Open |
+| Development board in hand | Header labels, row spacing, module marking, LED pin, regulator rating, 5 V path | — | Open |
+| Monitor ADC | Part selection, input range and source impedance, SPI mode shared with the DAC | — | Open |
+| Board interface | Boundary parts with one power domain off, series resistor values | — | Open |
+| USB device stack | TinyUSB component for ESP-IDF v6.0: name, version and license | — | Open |
 
 ## Writing a Record
 
