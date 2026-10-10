@@ -9,6 +9,7 @@
 - [ ] Host software
 - [ ] Protocol
 - [ ] Tools
+- [ ] Simulation
 - [ ] Documentation or specification
 - [ ] Repository (workflows, templates, configuration)
 
@@ -17,9 +18,11 @@
 <!--
 Which checks did you run, and with what result? The workflows do not start
 by themselves: name the checks you ran locally and the workflows you started
-by hand. Say what could not be run (sanitizers, other operating systems).
-For a measurement, attach logs or captures or link the report. Do not call
-anything verified or measured that was calculated, simulated or estimated.
+by hand. Say what could not be run (sanitizers, other operating systems,
+the tests that need the ngspice library). For a measurement, attach logs or
+captures or link the report. For a simulation, name the benches that ran
+and the version of ngspice. Do not call anything verified or measured that
+was calculated, simulated or estimated.
 -->
 
 ## Checklist
@@ -36,5 +39,11 @@ anything verified or measured that was calculated, simulated or estimated.
       the generated files and the test vectors.
 - [ ] A change to the schematic or the board includes the pictures and the
       PDF in `hardware/doc/`, plotted again.
+- [ ] A change to the schematic includes the netlist snapshot in
+      `simulation/netlist/`, written again, and a new run of the benches
+      of the blocks it touches.
+- [ ] A change to a model or a bench includes its result files and the
+      pages written from them. A figure that fails is kept and explained,
+      not tuned until it passes.
 - [ ] The guides of the changed area say what is true after this change.
 - [ ] The documentation lint passes (`npx --yes markdownlint-cli2@0.23.3`).

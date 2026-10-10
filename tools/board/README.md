@@ -28,8 +28,12 @@ what a bench will read.
   guarded nets without a via. All of them are calculated from the drawn
   copper.
 - Missing: an automated test of the dump adapter, which needs KiCad; the
-  scripts that drew the layout and the simulation files, which are not in
-  the repository; and any comparison with a built board.
+  scripts that drew the layout, which are not in the repository; and any
+  comparison with a built board.
+- Not the job of this package: the circuits. They are simulated from the
+  netlist of the schematic by the package in
+  [`../../simulation/`](../../simulation/README.md), which knows nothing
+  of the copper, as this package knows nothing of the parts.
 - Next: the first board replaces these figures with bench readings, and
   the temperature rise of the linear regulator (D-93) is read there, not
   calculated here.

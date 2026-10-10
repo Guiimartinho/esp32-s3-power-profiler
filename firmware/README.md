@@ -198,6 +198,60 @@ groups below are the six tables of that section.
 The figures in the table are those of the specification: calculated,
 simulated or taken from datasheets, as each rule says. None is measured.
 
+The circuit simulations of 2026-10-10 ran against these rules without any
+firmware: the [simulation guide](../simulation/README.md) has the account.
+The range sequencer and the trip are a model of F-16 to F-18 in them,
+because no program exists. The 100 ns of F-16, the blanking of F-17 and
+the 12 µs of F-18 are inputs of those runs and not results. Phase 1
+measures the reaction time of a PIO state machine (F-16); phase 3 runs
+the programs of the sequencer and the trip and confirms the qualification
+time (F-18). Where a run steps down or closes a switch, the instants are
+written into it as the rules give them.
+
+The simulations touch the text of these rules. Nothing is changed in
+section 6.6 until the project owner decides, and section 16 of the
+specification lists the places as open; the reading window at 15 MHz
+under F-34 and the 0.38 V under F-35 are in the simulation guide only.
+The four decisions that followed
+the simulations on 2026-10-10, D-95 to D-98, change hardware and no rule.
+All figures are simulated:
+
+- **F-18.** While a large capacitor at the DUT recharges after a step to
+  1.0 A, the over-current comparator is high for up to 12.83 µs, longer
+  than the 12 µs of the rule, of which 8.174 µs at the most in R3. No run
+  trips, because the model counts in R3 only. Proposed: the rule says
+  that the 12 µs count in R3, the program counts the same way, and the
+  criterion of section 11 is read in R3.
+- **F-7.** PWR_GOOD is below 2.0 V at the controller pin 145.1 µs after
+  the supervisor falls, not 0.05 ms to 0.07 ms after the rails begin to
+  fall, and below 0.8 V after 604.5 µs, not 0.3 ms. The flag still does
+  not lead the rails. These times are those of the rail monitor with
+  1 nF at its comparator inputs. Decision D-95 makes the three capacitors
+  10 nF, which is not drawn yet: the nodes become ten times slower, and
+  the times are simulated again when the change is drawn.
+- **F-8 and F-24.** The gate of the output pair is below 2 V within 7 µs
+  at 5 V (6.288 µs). At 0.8 V it takes 7.274 µs to 7.448 µs, and 8.109 µs
+  in the slow corner. With 100 µF the DUT voltage is at 10 % 6.458 ms
+  after GATE_OUT at 5 V and 5.381 ms at 0.8 V, where F-24 says that it
+  starts to rise 6 ms to 7 ms later.
+- **F-23.** A mode pair that opens under load lifts VIN to 16.01 V to
+  25.12 V, where the rule estimates 20 V to 24 V.
+- **F-26 and F-28.** With the input leakage of the monitor converter at
+  its datasheet maximum of 1 µA, the VIN channel reads 430 mV off, where
+  F-26 allows 130 mV before calibration, and the channel of the ladder
+  output 120 mV off, where F-28 asks for 100 mV.
+- **F-34.** By its datasheet the converter shifts its result out after
+  convert-start has fallen, where section 4.6 says "while that line is
+  still high". With one reading instant for weak and for strong pads the
+  reading window at 15 MHz, the 500 kSPS option, is 11.43 ns against the
+  13.33 ns of two system clocks; at 100 kSPS the window is far wider.
+- **F-35.** A step of the 5 V rail of more than 0.3 V flags samples for
+  5 ms. A load step of 1 A moves the rail by 282.3 mV behind a cable of
+  0.15 Ω, which is an assumption, so ordinary load steps come close to
+  that level: the 1.34 A that section 4.1 calculates for 5 V at 1 A would
+  move the rail by about 0.38 V (calculated from the 0.28 V per ampere of
+  that run).
+
 What the core already holds of these rules:
 
 - **F-35, settling window: partly.** `pp_range_tracker_update` flags the

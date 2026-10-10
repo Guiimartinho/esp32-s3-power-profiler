@@ -31,10 +31,22 @@ state:
   the figures of the board layout from the board file and is tested
   without hardware. The calibration tool and the production test are not
   started.
-- `hardware/simulation/` and `hardware/fabrication/` are empty, so the
-  figures that the specification marks "simulated" have no file in the
-  repository behind them yet. The scripts that drew the copper of the
-  board are not in the repository either.
+- `simulation/` holds the circuit simulations of the carrier board: a
+  package that takes the parts of every circuit of the board from a
+  snapshot of the netlist of the schematic and runs it in the ngspice
+  library of KiCad 10, the models written for the project, 134 benches
+  and their results. The central design figures of the specification come
+  out again. The four points that the simulations raised are decided
+  (D-95 to D-98 of the specification). Three of them change the schematic
+  and are not drawn yet: the schematic, the board, the bill of materials,
+  the netlist snapshot and the results still hold the state before them.
+  In fourteen places the simulations differ from the text of the
+  specification, which is unchanged until the owner decides. The
+  [simulation guide](simulation/README.md) lists them. A simulated figure
+  is not a measured one.
+- `hardware/fabrication/` is empty. The scripts that drew the copper of
+  the board are not in the repository, and neither are the model files of
+  the manufacturers, whose licenses do not allow a copy.
 
 The [documentation index](docs/README.md) lists every document with its
 state and the work that comes next.
@@ -51,9 +63,11 @@ state and the work that comes next.
   document, revision and page in a record under
   [`docs/checks/`](docs/checks/). A measured figure cites its report under
   [`docs/reports/`](docs/reports/). Estimates, calculations and simulations
-  are labeled as such. No record and no report is filed yet, so nothing in
-  the repository is called verified, and a change does not introduce that
-  word for a design that was not built.
+  are labeled as such, and a simulated figure names the bench under
+  [`simulation/results/`](simulation/results/README.md) that gives it. No
+  record and no report is filed yet, so nothing in the repository is
+  called verified, and a change does not introduce that word for a design
+  that was not built. A simulation that passes is not a verification.
 - **Tests come with the change.** New logic arrives with its tests, and a fix
   arrives with the test that would have caught the defect. The checks of
   every area a change touches pass before a merge. They are run locally;
@@ -70,7 +84,8 @@ entry.
 | Path | Content | Commit scope | Changelog area |
 | --- | --- | --- | --- |
 | `firmware/` | Firmware of the controller: hardware-independent core with its unit tests; the target build is not ported to the Pico 2 yet | `firmware` | `firmware` |
-| `hardware/` | KiCad project of the carrier board (draft A2) and its pictures; the folders for simulations and fabrication outputs are empty | `hardware` | `hardware` |
+| `hardware/` | KiCad project of the carrier board (draft A2) and its pictures; the folder for fabrication outputs is empty | `hardware` | `hardware` |
+| `simulation/` | Circuit simulations of the carrier board: the package `circuit-sim`, the snapshot of the netlist, the models, the benches and their results | `simulation` | `simulation` |
 | `host/` | Python package: protocol, transports, device client, capture helpers, simulator | `host` | `host` |
 | `protocol/` | Protocol definition, generator and shared test vectors | `protocol` | `protocol` |
 | `tools/` | The board figures in `tools/board/`: a Python package that calculates the layout figures of the carrier board from its board file. The calibration and production-test scripts are not started | `tools` | `tools` |
@@ -105,6 +120,15 @@ pull request:
   calculated again from the changed board file with the package in
   `tools/board/`; the [board figures guide](tools/board/README.md) says
   how.
+- A change to the schematic also carries the snapshot of its netlist in
+  `simulation/netlist/`, written again, and a new run of the benches of
+  the blocks that it touches, with their result files and pages. The
+  [simulation guide](simulation/README.md#when-the-schematic-changes) has
+  the steps. No check compares the snapshot with the schematic by itself.
+- A change to a model or to a bench carries the result files, the graphs,
+  the decks and the pages that it changes, and the documents that quote a
+  changed figure. The pages are written by `circuit-sim report`, never by
+  hand.
 - A part that replaces a candidate, or a value that changes, carries the
   sections of the specification that name it: design section, pin map, bill
   of materials, verification plan and open checks.
@@ -145,8 +169,10 @@ Commit messages follow
 
 The scope is the area from the table in
 [Repository Layout](#repository-layout): `firmware`, `hardware`, `host`,
-`protocol`, `tools` or `spec`. Release commits use `release`. Leave the
-scope out for repository-wide changes.
+`protocol`, `tools`, `simulation` or `spec`. The scope `simulation` covers
+everything under `simulation/`: the package, the models, the benches and
+the results. Release commits use `release`. Leave the scope out for
+repository-wide changes.
 
 ### Subject, Body and Footer
 
@@ -171,6 +197,7 @@ feat(firmware): add PIO capture at 100 kSPS
 fix(host): resync after a corrupted frame
 docs(spec): record decision D-14
 perf(firmware): assemble sample words in place
+feat(simulation): add a bench for the guard buffer
 chore: add editor and lint configuration
 ```
 
@@ -192,7 +219,8 @@ Closes #31
 under `Unreleased`, in the matching section (`Added`, `Changed`,
 `Deprecated`, `Removed`, `Fixed` or `Security`), and start each entry with
 the area in bold, for example `**firmware:**`. The areas are `firmware`,
-`hardware`, `host`, `protocol`, `tools`, `docs` and `repo`; the table in
+`hardware`, `host`, `protocol`, `tools`, `simulation`, `docs` and `repo`;
+the table in
 [Repository Layout](#repository-layout) says which one a path belongs to.
 An entry for a breaking change puts `**BREAKING**` after the area. Write
 for a reader who uses the instrument, not for one who reads the code, and
@@ -223,6 +251,7 @@ a contributor is not expected to.
 | Protocol | `Protocol` (`protocol.yml`) | Generated files up to date; ruff and mypy on the generator | [`protocol/README.md`](protocol/README.md) |
 | Hardware | `Hardware` (`hardware.yml`) | Electrical rules check of the schematic with no error; design rules check of the board with schematic parity, whose report shows no rule violation, no unconnected pad and no difference between board and schematic | [`hardware/README.md`](hardware/README.md) |
 | Tools | `Tools` (`tools.yml`) | For the package in `tools/board/`: tests on Windows, Linux and macOS on the oldest and the newest supported Python, coverage floor of 90 % of lines and branches, ruff, mypy in strict mode, and the package built and installed | [`tools/board/README.md`](tools/board/README.md) |
+| Simulation | `Simulation` (`simulation.yml`) | For the package in `simulation/`: ruff, and mypy in strict mode over the package, its tests and the benches; tests on Windows, Linux and macOS on the oldest and the newest supported Python, coverage floor of 90 % of lines and branches; the tests that run a circuit, with the ngspice library of a Linux distribution; the package built and installed. It does not run the benches | [`simulation/README.md`](simulation/README.md) |
 | Documentation | `Docs` (`docs.yml`) | markdownlint | [Documentation](#documentation) |
 
 The checks of the tools area, as an example of the commands of an area. In
@@ -242,6 +271,20 @@ tools/board/.venv/Scripts/python -m ruff format --check tools/board
 
 On Linux and macOS the interpreter is `.venv/bin/python`.
 
+The checks of the simulation area. In `simulation/`, with the environment
+that its guide sets up:
+
+```sh
+.venv/Scripts/python -m pytest --cov
+.venv/Scripts/python -m mypy
+.venv/Scripts/python -m ruff check .
+.venv/Scripts/python -m ruff format --check .
+```
+
+The tests that run a circuit need the ngspice shared library, which
+KiCad 10 ships. The variable `NGSPICE_LIBRARY` names it; without the
+library those tests are skipped and the others run.
+
 What these checks are today, and what they are not:
 
 - The target build of the firmware is still the ESP-IDF build for the
@@ -255,6 +298,28 @@ What these checks are today, and what they are not:
   in `tools/board/` ran locally, on Windows with Python 3.11: 260 tests,
   100 % of lines and branches covered. The adapter that dumps the board
   runs under the Python of KiCad and has no automated test.
+- The Simulation workflow has not been started yet either. The checks of
+  the package in `simulation/` ran locally, on Windows with Python 3.11
+  and the ngspice 45.2 library of KiCad 10: 777 tests, of which 11 need
+  the library, 100 % of lines and branches covered, no issue from mypy in
+  172 source files, no finding from ruff. The module that loads the
+  library runs in a child process and is outside the coverage measurement.
+  Linux, macOS, other versions of Python and other versions of ngspice
+  have not run the package.
+- A passing gate of the simulation area says that the package builds the
+  circuit it is asked for and measures what it says. It says nothing about
+  the figures of the board: 122 of the filed figures fail, and they are
+  kept. Do not widen a limit, drop a figure or change a stimulus to turn
+  a failing figure into a passing one: say in the notes of the bench what
+  the failure is, and bring a difference from the specification to an
+  issue. A limit that a bench sets by itself is named as such in the
+  column "Source" of its page.
+- The filed results come from one machine and from version 45.2 of
+  ngspice. A change that runs benches again states the version of the
+  library, which the result files record. The model files of the
+  manufacturers are not part of the repository, and no text of one is
+  copied into a file of it; the values of a run with them may be filed
+  beside the others, in a column of their own, and change no verdict.
 - The board of draft A2 has all 984 connections routed since the layout
   review of 2026-10-10; the autorouted board before it had 28 open. The
   report of the design rules check shows no rule violation, no unconnected
@@ -290,14 +355,18 @@ The rules that hold for every area:
 - A check is never silenced to make a pull request pass. A suppression needs
   a comment that says why the finding does not apply.
 - A script whose result goes into a document is code of the repository:
-  it lives under `tools/`, with its tests, its type and lint checks and a
-  guide, and what is specific to one board or one instrument is data, not
-  code. `tools/board/` is the example: its calculations are pure functions
+  it lives under `tools/` or, for the circuit simulations, under
+  `simulation/`, with its tests, its type and lint checks and a guide, and
+  what is specific to one board or one instrument is data, not code.
+  `tools/board/` is the example: its calculations are pure functions
   tested on small synthetic boards, and the nets, pads and assumptions of
-  the carrier board are in `tools/board/carrier.toml`.
+  the carrier board are in `tools/board/carrier.toml`. In `simulation/`
+  the circuit of a bench is not typed: it is written from the snapshot of
+  the netlist.
 - The gates cover logic. Timing, throughput and analog behavior are verified
   on the bench and recorded in a report under
-  [`docs/reports/`](docs/reports/).
+  [`docs/reports/`](docs/reports/). A simulation is neither a gate nor a
+  report: it is filed as a simulation, with the models it used.
 
 ## Versioning
 

@@ -7,7 +7,7 @@ The format is based on
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 Each entry starts with the area it affects: **firmware**, **hardware**,
-**host**, **protocol**, **tools**, **docs** or **repo**.
+**host**, **protocol**, **tools**, **simulation**, **docs** or **repo**.
 
 ## [Unreleased]
 
@@ -123,6 +123,64 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
 - **docs:** a guide of the board figures in `tools/board/README.md`: how
   to install the package, make the dump and run each command, with the
   method, the assumptions and the limits of each calculation.
+- **simulation:** the package `circuit-sim` in `simulation/`, with a
+  command of the same name, simulates the circuits of the carrier board
+  (D-94). A bench names parts of the schematic by their reference
+  designators; the package writes their elements from a snapshot of the
+  netlist that KiCad exports, runs the circuit in the ngspice shared
+  library that KiCad 10 ships, takes figures from the waveforms, and
+  judges each against its limit: a figure of the specification, a rating
+  of a datasheet, or a limit that the bench sets and names. It files the
+  figures, a graph of the waveforms and the decks, the circuit files
+  that the simulator ran, and writes a page for each block from them. No
+  part of the board is typed by hand; sources, loads and cables are.
+- **simulation:** models of the parts, written for the project from their
+  datasheets, each with the source of its figures and a list of what it
+  leaves out. 41 benches put them into the test circuits of their
+  datasheets; four models have no such bench, and the simulation guide
+  names them. The model files of the manufacturers are not in the
+  repository, because their licenses do not allow a copy; where a copy is
+  present, a second run gives a second value beside the first.
+- **simulation:** the results of 2026-10-10 on the netlist of draft A2, in
+  `simulation/results/`: 134 benches, 93 on the circuits of the board in
+  ten blocks (shunt ladder, signal chain, range logic, source meter,
+  output stage, path switching, power input, analog rails, digital lines,
+  whole measuring path) and 41 on the models. Of 3162 figures 1834 pass,
+  122 fail and 1206 carry no limit; a figure that fails is kept as it is.
+  The folder holds 251 graphs and 289 decks. Everything in it is
+  simulated: no board is built and nothing is measured.
+- **simulation:** what those results say. The central design figures of
+  the specification come out again block by block, among them the drop of
+  requirement R-07 on a step from 1 µA to 500 mA with 1 µF: 301.9 mV with
+  nominal delays, and 388.2 mV with every delay at its limit and the
+  capacitor 10 % low, against the limit of 500 mV (simulated). The
+  simulations raised four points for a decision before boards are
+  ordered: the capacitors of the rail monitor, the buffer of the driver
+  rail, the detector position at the boost converter and the damper on
+  the module input. The project owner decided them (D-95 to D-98, under
+  "Changed"). In fourteen places the simulation and the text of the
+  specification differ. Those are not decided, and the specification
+  keeps its text there.
+- **simulation:** the package is tested: 777 tests, of which 11 need the
+  ngspice library, 100 % of lines and branches covered against a floor of
+  90 %, the module that loads the simulator excepted, ruff, and mypy in
+  strict mode over the package, its tests and the benches. These checks
+  ran locally on Windows with Python 3.11 and ngspice 45.2. The package
+  brings numpy and matplotlib as dependencies.
+- **repo:** the workflow `Simulation` runs the checks of `simulation/` on
+  Windows, Linux and macOS, runs the tests that need the simulator with
+  the ngspice library of a Linux distribution, and builds and installs the
+  package. It does not run the benches. Like the other workflows it is
+  started by hand (D-22); it has not been started yet.
+- **docs:** a guide of the simulations in `simulation/README.md`: the state
+  of the results block by block, what they reproduce, the four points
+  that are decided, the places where they differ from the text of the
+  specification, what stays for the bench, what the 122 failing figures
+  are, the limits of the models, the traps of the simulator, and how to
+  set up, run and extend the package.
+- **docs:** the README shows the circuit simulations on the front page: a
+  row in the status table, the results by block, what they say, and two
+  graphs of simulation runs, each called a simulation.
 
 ### Changed
 
@@ -280,8 +338,8 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
 - **docs:** the specification records the seven points in which the
   reviewed board deviates from its layout guidelines as decisions, and
   sections 10.3, 10.4, 10.6, 10.8, 13, 14 and 16 follow them. The project
-  owner accepted each on the recommendation of the layout review. The
-  decision log ends at D-93.
+  owner accepted each on the recommendation of the layout review. With
+  them the decision log reached D-93.
   - D-87: the rule file of the board states every spacing, among them
     1.0 mm from VIN on the outer layers and 0.5 mm on the inner layers.
   - D-88: the high-side sense line of the 0.1 Ω shunt keeps two vias and
@@ -307,6 +365,53 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   review: what is drawn, which figures are calculated, what is decided,
   what is open and what comes next. The tools guide and the contributing
   guide name the board figures and their checks.
+- **docs:** the specification records where the circuit simulations live
+  and how they are made, as decision D-94 of the project owner: a package
+  of their own in `simulation/`, circuits built from a snapshot of the
+  netlist, models written for the project. Its head, the repository
+  structure of section 12 and the practices of section 18 follow, and
+  section 16 gains a list at its end: the fourteen places where the
+  simulation and the text differ. In those places no requirement, figure,
+  rule or earlier decision changes: the text stands until the owner
+  decides.
+- **hardware:** four decisions follow the circuit simulations, taken by
+  the project owner on 2026-10-10 on their recommendation. The three
+  capacitors C32 to C34 at the comparator inputs of the rail monitor are
+  10 nF, not 1 nF (D-95, which changes the value of D-54). A position for
+  a capacitor from the non-inverting input of the buffer U28 of the
+  driver rail to ground is added; its value is chosen on the bench, and
+  the position may stay empty (D-96). The position U9 at the enable pin
+  of the boost converter stays without a part and is no longer meant for
+  the 803 type with its time-out of 0.24 s (D-97, which changes D-84).
+  The damper R14 with C5 on the input from the controller module is
+  fitted (D-98, which changes D-84). None of this is drawn yet: the
+  schematic, the board, the bill of materials and the netlist snapshot of
+  the simulations hold the earlier state, and drawing D-95, D-96 and D-98
+  is the next step of the hardware.
+- **docs:** the specification records decisions D-95 to D-98 and follows
+  them in its head and in sections 3, 4.1, 4.5, 4.7, 10.8, 11, 13, 14, 16
+  and 17. The four points leave the list of open points at the end of
+  section 16; what the decisions leave to check stays in its lists, and
+  drawing them is the first item before the board is ordered. With them
+  the decision log reached D-98.
+- **docs:** the README, the hardware guide, the picture guide, the
+  documentation index, the index of the checks and the pages on tools,
+  firmware, host software, calibration and test reports describe the
+  project after the simulations of 2026-10-10: what was simulated and
+  with which models, what is reproduced, where the simulation and the
+  specification differ, and what only a bench can settle. The README,
+  the hardware guide, the picture guide, the documentation index, the
+  index of the checks, the firmware guide and the page on test reports
+  also carry the four decisions that followed and what is still to be
+  drawn. The next steps begin with drawing decisions D-95, D-96 and
+  D-98; the fourteen places and the order of proof-of-concept boards are
+  the open decisions of the owner; filing the simulations is no longer a
+  step.
+- **repo:** the contributing guide and the issue and pull request forms
+  name the simulation area: the commit scope and changelog area
+  `simulation`, the four checks of the package, what a change of the
+  schematic, of a model or of a bench has to carry, and the rule that a
+  figure that fails in a simulation is kept.
 
 ### Removed
 
@@ -321,5 +426,9 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
 - **hardware:** the picture `board-open-connections.png` and, in the
   hardware guide, the list and the map of the 28 open connections: no
   connection is open after the layout review.
+- **hardware:** the empty folder `hardware/simulation/` and, in the
+  hardware guide, the list of the simulations that had to be filed: the
+  simulations are in `simulation/`, made again from the final netlist
+  (D-94).
 
 [Unreleased]: https://github.com/Guiimartinho/open-power-profiler/commits/main
