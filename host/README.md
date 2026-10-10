@@ -13,12 +13,16 @@ the first controller and are kept for now.
 
 The layers described below exist and are tested against the simulated
 instrument. Nothing has run against real hardware, because the hardware does
-not exist yet. The desktop viewer, the export formats and the burst analysis
-of section 9 of the [specification](../docs/specification.md) are not
-written.
+not exist yet. The desktop viewer, the export formats, the burst analysis
+and the marks that follow from the hardware, all in section 9 of the
+[specification](../docs/specification.md), are not written.
 
 The numbers the simulator and the nominal calibration produce are design
-targets taken from the specification, not measurements.
+targets, not measurements. The nominal table is computed with a gain of 20
+and shunts of 1 kΩ, 33 Ω, 1 Ω and 0.1 Ω. It does not follow the nominal
+values of section 8 of the specification yet: a gain of 19.93, and 31.95 Ω
+and 0.999 Ω for ranges 1 and 2, where range 0 stays in parallel with the
+active shunt (calculated).
 
 ## Architecture
 
