@@ -28,7 +28,10 @@ schematic, the simulations or the bench measurements.
   accepted. Section 16 lists what must be confirmed before the schematic is
   frozen; each check is filed as a record in [`checks/`](checks/). No value
   in this document has been measured: each figure is a datasheet value, a
-  calculation, a simulation or an estimate, and says which.
+  calculation, a simulation or an estimate, and says which. The files of
+  the simulations are not in
+  [`../hardware/simulation/`](../hardware/simulation/) yet: until they are
+  filed, a figure marked "simulated" can be read but not repeated.
 - The schematic in [`../hardware/kicad/`](../hardware/kicad/) is draft A2. Every
   sheet is drawn, 14 below the root sheet (D-83), so the design can be reviewed
   as a whole. It passes the electrical rules check, and an independent review of
@@ -36,8 +39,11 @@ schematic, the simulations or the bench measurements.
   review closes no check of section 16. Its parts are the candidates of this
   document, no check of section 16 is closed (D-37), and nothing has been built
   or measured. The board of the draft is placed by a generator and routed
-  automatically (D-86, section 10). It is a review draft, not a design to
-  fabricate.
+  automatically (D-86, section 10): 956 of its 984 connections are drawn
+  and 28 are open, 25 of which break a function, so the board does not
+  work until they are closed.
+  [`../hardware/README.md`](../hardware/README.md) lists them one by one.
+  It is a review draft, not a design to fabricate.
 - Names that look alike: R0 to R3 are the four current ranges and D0 to D7
   the logic inputs, as on the PPK2. The parts of the drawings are numbered
   as KiCad numbers them (D-45), so the drawings also hold resistors R1 to
@@ -633,13 +639,13 @@ to ground only the 5 V rail and +13.5 V are up.
     set-point would pull the IN pin volts below the output. With this law
     the IN pin stays at least 0.44 V above the output on a full-scale
     set-point step down (simulated).
-  - Sense path: R65 (6.65 kΩ) with C55 (100 nF) is a low-pass of
-    0.62 ms (calculated), and one diode of D13 lies across R65. The
-    pre-regulator therefore follows a rise of the output at once and a
-    fall slowly. The slow fall keeps the converter from returning the
-    charge of its output capacitors to the 5 V rail when a short circuit
-    empties the regulator output; the fast rise does the same when a
-    charged DUT lifts the output.
+  - Sense path: R65 (6.65 kΩ) and C55 (100 nF), with R64 (93.1 kΩ) as
+    their load, are a low-pass of 0.62 ms (calculated), and one diode of
+    D13 lies across R65. The pre-regulator therefore follows a rise of
+    the output at once and a fall slowly. The slow fall keeps the
+    converter from returning the charge of its output capacitors to the
+    5 V rail when a short circuit empties the regulator output; the fast
+    rise does the same when a charged DUT lifts the output.
   - Loop: C52 (10 pF) across the feedback resistor R63 gives the
     amplifier a phase margin of 73° to 77° (simulated with the model of its
     maker). The loop of the converter with this amplifier shows 55° or
@@ -2990,14 +2996,18 @@ Notes on the tests:
 ## 12. Repository Structure
 
 ```text
-hardware/     KiCad project of the carrier board, simulations, fabrication
-              outputs
+hardware/     KiCad project of the carrier board (kicad/), the draft in
+              pictures with its bill of materials (doc/), simulations
+              and fabrication outputs (both empty in draft A2)
 firmware/     Firmware project, one directory per component of section 6.1
-host/         Python package: protocol, CLI, viewer, analysis
+host/         Python package: protocol, transports, device client,
+              capture, simulator, command line (viewer and analysis are
+              not written)
 protocol/     Protocol definition, generator and shared test vectors
-docs/         This specification, component checks, test reports, protocol
-              reference, calibration procedure
-tools/        Calibration and production-test scripts
+docs/         This specification, component checks, test reports, and the
+              pages for the protocol reference and the calibration
+              procedure (both not written)
+tools/        Calibration and production-test scripts (not started)
 ```
 
 ## 13. Development Phases & Exit Criteria
@@ -3089,10 +3099,11 @@ marked for it are done.
 
 The schematic of the carrier board exists as draft A2, drawn ahead of
 these phases (D-37), with a board whose parts are placed by a script and
-whose tracks come from an autorouter (D-86). The draft is the hypothesis
-that the phases test: the checks of section 16 and the results of phases 1
-to 4 change it, and a layout review precedes the fabrication of revision A
-in phase 5.
+whose tracks come from an autorouter (D-86), which left 28 of the 984
+connections open. The draft is the hypothesis that the phases test: the
+checks of section 16 and the results of phases 1 to 4 change it, and the
+open connections are closed and the layout is reviewed before revision A
+is fabricated in phase 5.
 
 ## 14. Risk Register
 
@@ -3386,7 +3397,7 @@ Parts and blocks:
   and its start from a supply limited to 0.7 A. The −4 V rail at 4.25 V on
   the 5 V rail (answered on typical curves with 0.1 % feedback resistors).
   Noise of the boost converter after the +12 V_A regulator, with 0.47 Ω, 0 Ω
-  and a bead in R37. Clamp levels at power-off at TP12 and TP14.
+  and a bead in R37. Clamp levels at power-off at TP12 and TP16.
 - Input stage (D-47, D-48): current limiters TPS259621 (U4, U3),
   multiplexer TPS2116 (U5), supervisor TPS3808G01 (U6); all figures
   come from behavioral models with typical delays. Open: hot plug into the
@@ -3452,6 +3463,28 @@ Parts and blocks:
   counts the 250 ms of output settling (section 9). They are added to the
   definition file, with the generated files and the test vectors, before the
   firmware of phase 1 reports them.
+- Sections 6 to 8, not decided yet; each point is settled, with a decision,
+  before the software of phase 1 builds on it:
+  - how the record of section 8 travels. CAL_WRITE carries one gain and
+    one offset for a range or for the DAC; no command or field carries
+    the chip identifier, the serial number and revision of the carrier,
+    the calibration temperature, the settling window, the closed-switch
+    zero or the nine or more set-points of the DAC (D-58, D-59, D-82);
+  - the content that the table of section 7.4 names for GET_INFO and
+    GET_STATUS beyond the provisional data: range table, calibration,
+    VOUT, VIN, the 5 V rail, temperature and power budget;
+  - the reports that rules name without a place in the protocol: the
+    count of consecutive trips and "start over-current" (F-19), the
+    settled set-point (F-30) and "DUT above the set-point" (F-31);
+  - where the constants are stored that rules take from a board and
+    section 8 does not list: the offset of the VIN channel (F-26), the
+    constants of the input model (F-14) and the thermal limit (F-15);
+  - the step in which firmware evaluates F-21 and F-22: both ask for a
+    reaction within 2 ms, and section 6.3 evaluates the under-range rule
+    once per block of 256 samples, which is 2.56 ms at 100 kSPS;
+  - how a fault is reported while firmware still waits in BOOT (F-2),
+    and the transition by which the bring-up runs again when PWR_GOOD
+    returns: the diagram of section 6.4 has neither.
 
 Before the board is ordered. These items need no carrier board:
 
