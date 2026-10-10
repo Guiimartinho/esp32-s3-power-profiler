@@ -15,16 +15,19 @@ The instrument is two boards: a Raspberry Pi Pico 2, bought ready-made,
 plugged into a carrier board designed in this project that holds the
 measurement electronics.
 
-![Carrier board, draft A1](hardware/doc/images/board-3d.jpg)
+![Carrier board, draft A2](hardware/doc/images/board-3d.jpg)
 
 > [!NOTE]
 > The project is in early development. No hardware has been built and
 > nothing has been measured, so every figure in this repository is a design
 > target.
 >
-> - **Hardware:** the carrier board exists as a review draft, shown above:
->   the complete schematic and every part placed on the board, with
->   candidate parts and no tracks.
+> - **Hardware:** the carrier board exists as draft A2, shown above. Its
+>   schematic is complete, passes the electrical rules check and was
+>   checked independently against datasheets; its parts are candidates
+>   whose component checks are open. The board is placed and routed
+>   automatically: an autorouted draft that needs a layout review before
+>   fabrication.
 > - **Software:** the protocol definition, the core logic of the firmware
 >   and the host package with a device simulator exist and are tested
 >   without hardware.
@@ -54,12 +57,13 @@ measurement electronics.
 | Sampling rate | 100 kSPS, timed by hardware |
 | Current range | 100 nA to 1 A in four ranges, switched automatically |
 | Burden voltage | 100 mV maximum across the shunt |
-| Source meter mode | Programmable output from 0.8 V to 5.0 V, up to 1 A |
+| Source meter mode | Programmable output from 0.8 V to 5.0 V; 1.0 A up to 2.0 V, falling to 0.6 A at 5.0 V |
 | Ampere meter mode | External supply from 0.8 V to 5.0 V through the shunts |
-| Digital inputs | 8 logic channels sampled together with the current |
+| Path drop | 200 mV maximum from input to output at 1 A |
+| Digital inputs | 8 logic channels sampled together with the current, logic levels from 1.65 V to 5.5 V |
 | Host link | USB Full-Speed, CDC ACM, binary protocol |
 | Controller | Raspberry Pi Pico 2 (RP2350) on pin sockets |
-| Power input | USB-C, 5 V, on the carrier board; the USB cable of the Pico 2 alone at low load |
+| Power input | USB-C, 5 V, on the carrier board, used whenever it is present; the USB cable of the Pico 2 alone at low load |
 | DUT connections | Pin header and lever terminal block, in the pin order of the PPK2 |
 
 The complete list, with requirement IDs, is in section 2 of the
@@ -68,7 +72,11 @@ The complete list, with requirement IDs, is in section 2 of the
 ## How It Works
 
 ```text
-USB-C 5 V ──► pre-regulator ──► LDO (source mode) ◄── DAC ◄── SPI
+USB-C 5 V ──┐
+            ├► limiters, selector ──► 5 V rail
+Pico 2 USB ─┘
+
+5 V rail ───► pre-regulator ──► LDO (source mode) ◄── DAC ◄── SPI
                                     │
 VIN (ampere mode) ──► protection ──►├── mode switch
                                     │
@@ -88,8 +96,9 @@ VIN (ampere mode) ──► protection ──►├── mode switch
   through USB; no programmer and no vendor tool is needed.
 - **Four shunt ranges.** Each range is limited to 100 mV of burden voltage.
   Comparators switch to a higher range in hardware within microseconds, so a
-  current step does not brown out the device under test. The firmware decides
-  when to step back down.
+  current step costs the device under test only a short dip; requirement R-07
+  of the specification gives its size. The firmware decides when to step back
+  down.
 - **Hardware-timed sampling.** A 16-bit SAR ADC is clocked by a PIO state
   machine, so the sampling instant does not depend on firmware latency. The
   same state machine reads the range and the logic inputs with every
@@ -127,11 +136,18 @@ test, in the pin order of the Nordic PPK2:
 
 ## Hardware Draft
 
-The carrier board is drawn in KiCad 10 as draft A1: thirteen A4 schematic
-sheets and a 130 mm × 100 mm board with every footprint placed near the
-pin it serves, inside the area of its functional block. It is a draft to
-review and to start the layout from, not a design to fabricate: the parts
-are candidates and their checks are open.
+The carrier board is drawn in KiCad 10 as draft A2: 428 parts on fifteen
+A4 schematic pages, and a four-layer board of 150 mm × 100 mm. The
+schematic passes the electrical rules check, and its netlist was checked
+independently against the datasheets of its parts. That closes none of the
+[component checks](docs/checks/README.md): the parts are candidates.
+
+On the board a script places every footprint inside the area of its
+functional block, and an autorouter draws the tracks: 956 of the 984
+connections, with 28 left open. It is an autorouted draft that needs a
+layout review before fabrication, not a design to fabricate: the open
+connections, the pours of the 1 A path, the guard ring, the sense pairs
+and the loops of the switching converters are work for that review.
 
 ![Top view of the carrier board](hardware/doc/images/board-top.jpg)
 
@@ -147,11 +163,11 @@ the open work are in the [hardware guide](hardware/README.md).
 | Path | Content | License |
 | --- | --- | --- |
 | [`firmware/`](firmware/) | Firmware of the controller: hardware-independent core with its unit tests; target build not ported to the Pico 2 yet | MIT |
-| [`hardware/`](hardware/) | KiCad project of the carrier board, its pictures, simulations, fabrication outputs | CERN-OHL-P v2 |
+| [`hardware/`](hardware/) | KiCad project of the carrier board and its pictures; the folders for simulations and fabrication outputs are empty | CERN-OHL-P v2 |
 | [`host/`](host/) | Python package: protocol, device client, simulator, capture tool | MIT |
 | [`protocol/`](protocol/) | Protocol definition, generator and shared test vectors | MIT |
-| [`tools/`](tools/) | Calibration and production-test scripts | MIT |
-| [`docs/`](docs/) | Specification, component checks, test reports | MIT |
+| [`tools/`](tools/) | Calibration and production-test scripts; not started | MIT |
+| [`docs/`](docs/) | Specification, component checks (all open), test reports (none yet) | MIT |
 
 ## Roadmap
 
@@ -161,13 +177,16 @@ recorded measurements. The exit criteria are in section 13 of the
 
 | Phase | Goal | Status |
 | --- | --- | --- |
-| 1 | Risk prototypes: firmware on the Pico 2, hardware-timed ADC capture, USB throughput | In progress: software foundations done; firmware port to the Pico SDK and bench work not started |
-| 2 | Analog front end with one fixed range | Not started |
-| 3 | Shunt ladder and automatic range sequencer | Not started |
-| 4 | Source meter mode and power input | Not started |
-| 5 | Carrier board, revision A | Not started; a review draft of the schematic and of the part placement exists (draft A1) |
+| 1 | Risk prototypes. On a Pico 2 with an ADC evaluation module: firmware on the Pico SDK, hardware-timed ADC capture, reaction time of the range sequencer, USB throughput. On evaluation modules: the pre-regulator with its tracking amplifier, and the start of the boost converter from a supply limited to 0.7 A | In progress: software foundations done; firmware port to the Pico SDK and bench work not started |
+| 2 | Analog front end with one fixed range on a test board | Not started |
+| 3 | Shunt ladder and range logic | Not started |
+| 4 | Source mode and power | Not started |
+| 5 | Carrier board, revision A, with the Pico 2 plugged in. Entry: the open checks that precede fabrication are closed and the layout is reviewed | Not started; draft A2 of the schematic and an autorouted draft of the board exist, drawn ahead of the phases |
 | 6 | Calibration, protocol freeze and host software | Not started |
 | 7 | Revision B and release | Not started |
+
+Draft A2 is the hypothesis that the phases test: the component checks and
+the results of phases 1 to 4 change it before revision A is fabricated.
 
 ## Getting Started
 
@@ -217,9 +236,10 @@ and in the [contributing guide](CONTRIBUTING.md).
 - [Firmware guide](firmware/README.md), [host guide](host/README.md) and
   [protocol guide](protocol/README.md): architecture, commands and tests of
   each part.
-- [Component checks](docs/checks/): candidate parts verified against their
-  datasheets.
-- [Test reports](docs/reports/): the measurements that close each phase.
+- [Component checks](docs/checks/): the open checks of the candidate parts
+  against their datasheets; no record is filed yet.
+- [Test reports](docs/reports/): the measurements that close each phase; no
+  report is filed yet.
 - [Changelog](CHANGELOG.md): notable changes by release.
 
 ## Contributing

@@ -7,7 +7,7 @@ The format is based on
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 Each entry starts with the area it affects: **firmware**, **hardware**,
-**host**, **tools**, **docs** or **repo**.
+**host**, **protocol**, **tools**, **docs** or **repo**.
 
 ## [Unreleased]
 
@@ -53,6 +53,32 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   serves.
 - **repo:** continuous integration for firmware, host software, protocol and
   hardware, with coverage floors and static analysis.
+- **hardware:** draft A2 of the carrier schematic: 428 parts on 15 A4
+  pages, 14 sheets below the root sheet (D-83). It passes the electrical
+  rules check and was checked independently against datasheets; the parts
+  stay candidates, and nothing is built or measured.
+- **hardware:** input stage with a current limiter on each USB input and a
+  priority multiplexer that supplies the 5 V rail from USB-C whenever it is
+  present (D-47). A supervisor on the 5 V rail switches the supplies of the
+  carrier off as one below 3.9 V (calculated, D-48).
+- **hardware:** rail monitor on a sheet of its own: PWR_GOOD comes from
+  four comparators that watch 3V3_A, +12 V_A, −4 V_A and the reference
+  (D-54).
+- **hardware:** VIN protection that withstands −20 V to +20 V while the
+  ampere switch is open (simulated), with a bidirectional suppressor, a
+  fuse and a detector that refuses to close the switch above 5.46 V
+  (calculated, D-60). An interlock transistor keeps the two mode switches
+  from closing together (D-62).
+- **hardware:** ESD arrays at the CC pins and at the VCC pin of the logic
+  port (D-50), test points on the nodes that draft A2 adds, and positions
+  without parts for a voltage detector at the boost converter and for a
+  damper on the input from the controller module (D-84).
+- **hardware:** a project symbol for the input multiplexer TPS2116, and
+  project footprints for the lever terminal block and for the controller
+  module (D-83, D-85).
+- **docs:** one list of the firmware rules that guard hardware, in section
+  6.6 of the specification, with the hardware watchdog of the controller as
+  the last line of defense (D-81).
 
 ### Changed
 
@@ -95,11 +121,65 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   build of the first plan.
 - **host:** the description of the package, its keywords and the help of
   the `s3pp` command no longer name the ESP32-S3.
+- **docs:** the specification follows draft A2 of the schematic: decisions
+  D-47 to D-86, the open checks of section 16, the phases of section 13
+  with three risk prototypes in phase 1, and the layout guidelines of
+  section 10.
+- **docs:** **BREAKING** seven requirements are re-baselined to the
+  figures that the architecture delivers. None of the figures is measured;
+  section 2 of the specification states the evidence of each and compares
+  it with the PPK2.
+  - R-04: RMS noise in the lowest range at most 5 nA in ampere mode from a
+    quiet supply and at most 40 nA in source mode (D-59).
+  - R-06: total path drop of 200 mV at 1 A in place of 150 mV; the shunt
+    drop stays at 100 mV (D-64).
+  - R-07: on a step from 1 µA to 500 mA the instrument adds at most 0.5 V
+    of drop with 1 µF at the output and at most 0.25 V with 10 µF (D-65).
+  - R-08: 1.0 A up to 2.0 V, falling in a straight line to 0.6 A at 5.0 V,
+    in place of 1 A at every voltage (D-56).
+  - R-09: the VIN terminal withstands −20 V to +20 V while the ampere
+    switch is open (D-60).
+  - R-10: logic inputs from 1.65 V to 5.5 V in place of 1.6 V to 5.5 V
+    (D-79).
+  - R-14: the budget is an input current for each source, 0.45 A, 1.4 A or
+    1.7 A, and the 5 V rail may fall to 4.25 V (D-49).
+- **docs:** **BREAKING** the calibration record of section 8 is tied to
+  the module and the carrier: it gains the chip identifier of the RP2350
+  and the serial number and revision of the carrier (D-82), a
+  closed-switch zero (D-59) and nine or more set-points of the DAC in
+  place of two (D-58).
+- **hardware:** source meter: the pre-regulator tracks the output of the
+  linear regulator (D-55), and the set-point DAC is referenced to half the
+  reference, which caps the output at about 5.26 V (calculated, D-58).
+- **hardware:** the over-current trip is at 1.15 A in the highest range in
+  place of 1.2 A (D-74), and the output switch closes slowly and opens fast
+  (D-71).
+- **hardware:** the ladder clamp is two diode-connected MOSFETs (D-66), and
+  VOUT is protected by one 15 V suppressor to ground (D-70).
+- **hardware:** the shunts of ranges 0 and 1 are thin-film resistors, range
+  2 uses a two-terminal part on a Kelvin land and range 3 a four-terminal
+  part (D-68).
+- **hardware:** the board grows from 130 mm × 100 mm to 150 mm × 100 mm
+  with a shield can over the front end (D-85). Its parts are placed by a
+  script and its tracks come from an autorouter, which leaves 28 of the
+  984 connections open (D-86): an autorouted draft that needs a layout
+  review before fabrication.
+- **hardware:** the pictures and the PDF in `hardware/doc/` show draft A2,
+  and the reference designators are numbered anew for it by the rule of
+  D-45.
+- **docs:** the table of open component checks follows section 16 of the
+  specification for draft A2, and the README states the status and the
+  roadmap of that draft.
 
 ### Removed
 
 - **hardware:** the symbol and the socket footprint of the ESP32-S3
   development board, the programmable logic device and the buffer between
   the two boards.
+- **hardware:** the resettable fuse and the OR-ing diode of the power
+  input, replaced by the input stage of D-47.
+- **hardware:** the reverse clamp diode of the VIN terminal (D-60), the
+  anti-parallel diode pair across the shunt ladder (D-66) and the diode
+  clamp of VOUT to a 5.6 V node (D-70).
 
 [Unreleased]: https://github.com/Guiimartinho/open-power-profiler/commits/main

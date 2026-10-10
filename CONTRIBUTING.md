@@ -14,7 +14,8 @@ are proposed, written and merged.
 - **Numbers need a source.** A figure taken from a datasheet cites the
   document, revision and page in a record under
   [`docs/checks/`](docs/checks/). A measured figure cites its report under
-  [`docs/reports/`](docs/reports/). Estimates are labeled as estimates.
+  [`docs/reports/`](docs/reports/). Estimates, calculations and simulations
+  are labeled as such.
 - **Tests come with the change.** New logic arrives with its tests, and a fix
   arrives with the test that would have caught the defect. Continuous
   integration passes before a merge.
