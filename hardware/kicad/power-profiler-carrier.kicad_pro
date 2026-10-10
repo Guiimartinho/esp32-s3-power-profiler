@@ -1,22 +1,255 @@
 {
   "board": {
+    "3dviewports": [],
     "design_settings": {
-      "defaults": {},
+      "defaults": {
+        "apply_defaults_to_fp_barcodes": false,
+        "apply_defaults_to_fp_dimensions": false,
+        "apply_defaults_to_fp_fields": false,
+        "apply_defaults_to_fp_shapes": false,
+        "apply_defaults_to_fp_text": false,
+        "board_outline_line_width": 0.05,
+        "copper_line_width": 0.2,
+        "copper_text_italic": false,
+        "copper_text_size_h": 1.5,
+        "copper_text_size_v": 1.5,
+        "copper_text_thickness": 0.3,
+        "copper_text_upright": false,
+        "courtyard_line_width": 0.05,
+        "dimension_precision": 4,
+        "dimension_units": 3,
+        "dimensions": {
+          "arrow_length": 1270000,
+          "extension_offset": 500000,
+          "keep_text_aligned": true,
+          "suppress_zeroes": true,
+          "text_position": 0,
+          "units_format": 0
+        },
+        "fab_line_width": 0.1,
+        "fab_text_italic": false,
+        "fab_text_size_h": 1.0,
+        "fab_text_size_v": 1.0,
+        "fab_text_thickness": 0.15,
+        "fab_text_upright": false,
+        "other_line_width": 0.1,
+        "other_text_italic": false,
+        "other_text_size_h": 1.0,
+        "other_text_size_v": 1.0,
+        "other_text_thickness": 0.15,
+        "other_text_upright": false,
+        "pads": {
+          "drill": 0.8,
+          "height": 1.27,
+          "width": 2.54
+        },
+        "silk_line_width": 0.1,
+        "silk_text_italic": false,
+        "silk_text_size_h": 1.0,
+        "silk_text_size_v": 1.0,
+        "silk_text_thickness": 0.1,
+        "silk_text_upright": false,
+        "zones": {
+          "min_clearance": 0.5
+        }
+      },
       "diff_pair_dimensions": [],
       "drc_exclusions": [],
-      "rules": {},
+      "meta": {
+        "version": 2
+      },
+      "rule_severities": {
+        "annular_width": "error",
+        "clearance": "error",
+        "connection_width": "warning",
+        "copper_edge_clearance": "error",
+        "copper_sliver": "warning",
+        "courtyards_overlap": "error",
+        "creepage": "error",
+        "diff_pair_gap_out_of_range": "error",
+        "diff_pair_uncoupled_length_too_long": "error",
+        "drill_out_of_range": "error",
+        "duplicate_footprints": "warning",
+        "extra_footprint": "warning",
+        "footprint": "error",
+        "footprint_filters_mismatch": "ignore",
+        "footprint_symbol_field_mismatch": "warning",
+        "footprint_symbol_mismatch": "warning",
+        "footprint_type_mismatch": "ignore",
+        "hole_clearance": "error",
+        "hole_to_hole": "warning",
+        "holes_co_located": "warning",
+        "invalid_outline": "error",
+        "isolated_copper": "warning",
+        "item_on_disabled_layer": "error",
+        "items_not_allowed": "error",
+        "length_out_of_range": "error",
+        "lib_footprint_issues": "warning",
+        "lib_footprint_mismatch": "warning",
+        "malformed_courtyard": "error",
+        "microvia_drill_out_of_range": "error",
+        "mirrored_text_on_front_layer": "warning",
+        "missing_courtyard": "ignore",
+        "missing_footprint": "warning",
+        "missing_tuning_profile": "warning",
+        "net_conflict": "warning",
+        "nonmirrored_text_on_back_layer": "warning",
+        "npth_inside_courtyard": "error",
+        "padstack": "warning",
+        "pth_inside_courtyard": "error",
+        "shorting_items": "error",
+        "silk_edge_clearance": "warning",
+        "silk_over_copper": "warning",
+        "silk_overlap": "warning",
+        "skew_out_of_range": "error",
+        "solder_mask_bridge": "error",
+        "starved_thermal": "error",
+        "text_height": "warning",
+        "text_on_edge_cuts": "error",
+        "text_thickness": "warning",
+        "through_hole_pad_without_hole": "error",
+        "too_many_vias": "error",
+        "track_angle": "error",
+        "track_dangling": "warning",
+        "track_not_centered_on_via": "ignore",
+        "track_on_post_machined_layer": "error",
+        "track_segment_length": "error",
+        "track_width": "error",
+        "tracks_crossing": "error",
+        "tuning_profile_track_geometries": "ignore",
+        "unconnected_items": "error",
+        "unresolved_variable": "error",
+        "via_dangling": "warning",
+        "zones_intersect": "error"
+      },
+      "rules": {
+        "max_error": 0.005,
+        "min_clearance": 0.127,
+        "min_connection": 0.0,
+        "min_copper_edge_clearance": 0.5,
+        "min_groove_width": 0.0,
+        "min_hole_clearance": 0.3,
+        "min_hole_to_hole": 0.5,
+        "min_microvia_diameter": 0.2,
+        "min_microvia_drill": 0.1,
+        "min_resolved_spokes": 2,
+        "min_silk_clearance": 0.0,
+        "min_text_height": 1.0,
+        "min_text_thickness": 0.15,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.15,
+        "min_via_diameter": 0.6,
+        "solder_mask_to_copper_clearance": 0.0,
+        "use_height_for_length_calcs": true
+      },
+      "teardrop_options": [
+        {
+          "td_onpthpad": true,
+          "td_onroundshapesonly": false,
+          "td_onsmdpad": true,
+          "td_ontrackend": false,
+          "td_onvia": true
+        }
+      ],
+      "teardrop_parameters": [
+        {
+          "td_allow_use_two_tracks": true,
+          "td_curve_segcount": 0,
+          "td_height_ratio": 1.0,
+          "td_length_ratio": 0.5,
+          "td_maxheight": 2.0,
+          "td_maxlen": 1.0,
+          "td_on_pad_in_zone": false,
+          "td_target_name": "td_round_shape",
+          "td_width_to_size_filter_ratio": 0.9
+        },
+        {
+          "td_allow_use_two_tracks": true,
+          "td_curve_segcount": 0,
+          "td_height_ratio": 1.0,
+          "td_length_ratio": 0.5,
+          "td_maxheight": 2.0,
+          "td_maxlen": 1.0,
+          "td_on_pad_in_zone": false,
+          "td_target_name": "td_rect_shape",
+          "td_width_to_size_filter_ratio": 0.9
+        },
+        {
+          "td_allow_use_two_tracks": true,
+          "td_curve_segcount": 0,
+          "td_height_ratio": 1.0,
+          "td_length_ratio": 0.5,
+          "td_maxheight": 2.0,
+          "td_maxlen": 1.0,
+          "td_on_pad_in_zone": false,
+          "td_target_name": "td_track_end",
+          "td_width_to_size_filter_ratio": 0.9
+        }
+      ],
       "track_widths": [],
-      "via_dimensions": []
-    }
+      "tuning_pattern_settings": {
+        "diff_pair_defaults": {
+          "corner_radius_percentage": 80,
+          "corner_style": 1,
+          "max_amplitude": 1.0,
+          "min_amplitude": 0.2,
+          "single_sided": false,
+          "spacing": 1.0
+        },
+        "diff_pair_skew_defaults": {
+          "corner_radius_percentage": 80,
+          "corner_style": 1,
+          "max_amplitude": 1.0,
+          "min_amplitude": 0.2,
+          "single_sided": false,
+          "spacing": 0.6
+        },
+        "single_track_defaults": {
+          "corner_radius_percentage": 80,
+          "corner_style": 1,
+          "max_amplitude": 1.0,
+          "min_amplitude": 0.2,
+          "single_sided": false,
+          "spacing": 0.6
+        }
+      },
+      "via_dimensions": [],
+      "zones_allow_external_fillets": false
+    },
+    "ipc2581": {
+      "bom_rev": "",
+      "dist": "",
+      "distpn": "",
+      "internal_id": "",
+      "mfg": "",
+      "mpn": "",
+      "sch_revision": ""
+    },
+    "layer_pairs": [],
+    "layer_presets": [],
+    "viewports": []
   },
   "boards": [],
+  "component_class_settings": {
+    "assignments": [],
+    "meta": {
+      "version": 0
+    },
+    "sheet_component_classes": {
+      "enabled": false
+    }
+  },
+  "cvpcb": {
+    "equivalence_files": []
+  },
   "libraries": {
     "pinned_footprint_libs": [],
     "pinned_symbol_libs": []
   },
   "meta": {
     "filename": "power-profiler-carrier.kicad_pro",
-    "version": 1
+    "version": 3
   },
   "net_settings": {
     "classes": [
@@ -48,9 +281,142 @@
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "name": "HighCurrent",
+        "name": "Clock",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 11,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "GateDrive",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 10,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "GateHiZ",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 9,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.25,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Guard",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 8,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.5,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Guarded",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 7,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Node1A",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 1.5,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Power1A",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 1.5,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "PowerIn",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 1.0,
         "tuning_profile": "",
@@ -67,14 +433,71 @@
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
+        "name": "Sense",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 6,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
         "name": "Supply",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 1,
+        "priority": 5,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.4,
         "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "SwitchNode",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 4,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.8,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "VinRaw",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 1.5,
+        "tuning_profile": "",
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
         "wire_width": 6
       }
     ],
@@ -85,164 +508,216 @@
     "netclass_assignments": null,
     "netclass_patterns": [
       {
-        "netclass": "HighCurrent",
-        "pattern": "VBUS"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "+5V"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "V_PRE"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "LDO_IN"
-      },
-      {
-        "netclass": "HighCurrent",
+        "netclass": "Power1A",
         "pattern": "LDO_OUT"
       },
       {
-        "netclass": "HighCurrent",
+        "netclass": "Power1A",
         "pattern": "SRC_MID"
       },
       {
-        "netclass": "HighCurrent",
+        "netclass": "Power1A",
         "pattern": "AMP_MID"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "VIN_RAW"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "VIN_P"
-      },
-      {
-        "netclass": "HighCurrent",
+        "netclass": "Power1A",
         "pattern": "SUPPLY"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "SNS1"
+        "netclass": "Power1A",
+        "pattern": "Net-(D19-A)"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "SNS2"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "SNS3"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "VOUT_S"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "OUT_MID"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "VOUT"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "PRE_L1"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "PRE_L2"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "PICO_VBUS*"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "GND"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(Q3-S-Pad1)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(C36-Pad1)"
-      },
-      {
-        "netclass": "HighCurrent",
+        "netclass": "Power1A",
         "pattern": "/Path Switching/LDO_OUT"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(Q10-S-Pad1)"
+        "netclass": "Power1A",
+        "pattern": "Net-(D18-A)"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(JP1-A)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(D2-A)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(L2-Pad1)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(L2-Pad2)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(Q6-S)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(Q7-S)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(Q8-S-Pad1)"
-      },
-      {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(Q2-S-Pad1)"
-      },
-      {
-        "netclass": "HighCurrent",
+        "netclass": "Power1A",
         "pattern": "/Path Switching/SUPPLY"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(F1-Pad1)"
+        "netclass": "Node1A",
+        "pattern": "SNS3"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "/Monitors/VIN_P"
+        "netclass": "Node1A",
+        "pattern": "VOUT_S"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "/Output Stage/VIN_RAW"
+        "netclass": "Node1A",
+        "pattern": "OUT_MID"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(D9-common)"
+        "netclass": "Node1A",
+        "pattern": "VOUT"
       },
       {
-        "netclass": "HighCurrent",
+        "netclass": "Node1A",
+        "pattern": "Net-(Q15-S-Pad1)"
+      },
+      {
+        "netclass": "Node1A",
+        "pattern": "Net-(Q14-S-Pad1)"
+      },
+      {
+        "netclass": "Node1A",
+        "pattern": "Net-(D21-K)"
+      },
+      {
+        "netclass": "Node1A",
         "pattern": "/Output Stage/VOUT_S"
       },
       {
-        "netclass": "HighCurrent",
-        "pattern": "Net-(C32-Pad1)"
+        "netclass": "VinRaw",
+        "pattern": "VIN_RAW"
+      },
+      {
+        "netclass": "VinRaw",
+        "pattern": "VIN_P"
+      },
+      {
+        "netclass": "VinRaw",
+        "pattern": "/Monitors/VIN_P"
+      },
+      {
+        "netclass": "VinRaw",
+        "pattern": "/Output Stage/VIN_RAW"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "VBUS_C"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "VBUS_CP"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "VBUS_P"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "VBUS_DMP"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "PICO_VBUS"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "PICO_5V"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "+5V"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "V_PRE"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "LDO_IN"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "DAMP"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "SUPPLY_DMP"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(C43-Pad2)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(D11-K)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "/Controller/PICO_5V"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(JP1-A)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(C63-Pad1)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(D2-A1)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(D4-A)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(C10-Pad1)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(D3-A)"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "Net-(C42-Pad1)"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "PRE_L1"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "PRE_L2"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "BOOST_SW"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "CP_CP"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "CP_CN"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "Net-(D6-A)"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "Net-(U11-C-)"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "Net-(U11-C+)"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "Net-(L2-Pad1)"
+      },
+      {
+        "netclass": "SwitchNode",
+        "pattern": "Net-(L2-Pad2)"
       },
       {
         "netclass": "Supply",
         "pattern": "+13V5"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "+13V5_F"
       },
       {
         "netclass": "Supply",
@@ -266,7 +741,27 @@
       },
       {
         "netclass": "Supply",
-        "pattern": "BOOST_SW"
+        "pattern": "VREF_DAC"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "REF_IN"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "REF_CAP"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "VREF_DMP"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "VDRV"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "VDRV_O"
       },
       {
         "netclass": "Supply",
@@ -286,15 +781,51 @@
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(D5-A)"
+        "pattern": "VCCB_SRC"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(U5-EN)"
+        "pattern": "LOGIC_VCC"
       },
       {
         "netclass": "Supply",
-        "pattern": "Net-(U5-CPOUT)"
+        "pattern": "LOGIC_VCC_R"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "LDO_VCTL"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "VCTL_F"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "U9_VINA"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(C29-Pad1)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U11-VIN)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U11-CPOUT)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(D10-K)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(J5-Pin_1)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(JP2-B)"
       },
       {
         "netclass": "Supply",
@@ -302,12 +833,435 @@
       },
       {
         "netclass": "Supply",
+        "pattern": "Net-(C89-Pad1)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U12-Vin)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U16-PS?slash?SYNC)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "/Digital Inputs/VCCB_SRC"
+      },
+      {
+        "netclass": "Supply",
         "pattern": "Net-(JP2-C)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(D10-A)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(D22-K)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(R127-Pad1)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(U15-Vref)"
+      },
+      {
+        "netclass": "Supply",
+        "pattern": "Net-(C26-Pad1)"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "INP"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "INN"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "K2P"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "K2N"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "K3P"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "K3N"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "/Shunt Ladder/INN"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "/Shunt Ladder/INP"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "Net-(U24-S3B)"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "Net-(U24-S3A)"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "Net-(U24-S4B)"
+      },
+      {
+        "netclass": "Sense",
+        "pattern": "Net-(U24-S4A)"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "SNS1"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "SNS2"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "BUF_IN"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "RG_A"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "RG_B"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "Net-(U25-+)"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "Net-(R123-Pad1)"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "Net-(R123-Pad2)"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "Net-(Q12-S)"
+      },
+      {
+        "netclass": "Guarded",
+        "pattern": "Net-(Q13-S)"
+      },
+      {
+        "netclass": "Guard",
+        "pattern": "VOUT_BUF"
+      },
+      {
+        "netclass": "Guard",
+        "pattern": "BUF_OUT"
+      },
+      {
+        "netclass": "Guard",
+        "pattern": "Net-(U25--)"
+      },
+      {
+        "netclass": "Guard",
+        "pattern": "/Monitors/VOUT_BUF"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_SRC"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_AMP"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_OUT"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "OUT_GATE"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_OUT_OFF"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "SRC_OFF"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "AMP_OFF"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "SRC_RAMP"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "AMP_RAMP"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "SRC_CLB"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "AMP_CLB"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_R1"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_R2"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "G_R3"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D19-K)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D17-common)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(C61-Pad2)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D17-A)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(Q15-G)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D20-K)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(Q12-G)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(Q13-G)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(Q14-G)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D16-A)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D20-common)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D18-K)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(D16-common)"
+      },
+      {
+        "netclass": "GateHiZ",
+        "pattern": "Net-(C60-Pad2)"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "DRV_R1"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "DRV_R2"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "DRV_R3"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "DRV_OUT"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "DRV_SRC"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "DRV_AMP"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "Net-(U20-OUT_B)"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "/Output Stage/DRV_OUT"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "Net-(U23-OUT_B)"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "Net-(U23-OUT_A)"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "Net-(U22-OUT_B)"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "Net-(U20-OUT_A)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "ADC_SCK"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "ADC_SCK_R"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "ADC_CNV"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "ADC_CNV_R"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "ADC_DOUT"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "ADC_SDO"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "PIO_SCK"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "PIO_CNV"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "PIO_LOAD"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "SIDE_LOAD"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "SIDE_DOUT"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "SIDE_Q"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "SIDE_CHAIN"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "/Controller/ADC_CNV"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(RN5-R3.1)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "/Controller/ADC_DOUT"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "/Controller/ADC_SCK"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(RN5-R1.1)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(RN5-R2.1)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(RN3-R2.1)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(RN3-R3.1)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(RN3-R1.1)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(U33-Q7)"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "/Controller/SIDE_DOUT"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "/Controller/SIDE_LOAD"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "Net-(U34-Q7)"
       }
     ]
   },
   "pcbnew": {
+    "last_paths": {
+      "idf": "",
+      "netlist": "",
+      "plot": "",
+      "specctra_dsn": "",
+      "vrml": ""
+    },
     "page_layout_descr_file": ""
+  },
+  "schematic": {
+    "bus_aliases": {},
+    "legacy_lib_dir": "",
+    "legacy_lib_list": [],
+    "top_level_sheets": [
+      {
+        "filename": "power-profiler-carrier.kicad_sch",
+        "name": "power-profiler-carrier",
+        "uuid": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
   },
   "sheets": [
     [
@@ -323,8 +1277,16 @@
       "Power Input"
     ],
     [
+      "10bf24f9-abb9-58f9-b047-b02c15757171",
+      "Logic Supplies"
+    ],
+    [
       "f1640b8a-ff94-555b-a48b-637fa25df509",
       "Analog Rails"
+    ],
+    [
+      "0632515d-e980-580e-a91e-d2a637158013",
+      "Rail Monitor"
     ],
     [
       "97c3965f-d4c3-58fe-8ab4-2026fd9534b9",
@@ -363,5 +1325,11 @@
       "Monitors"
     ]
   ],
-  "text_variables": {}
+  "text_variables": {},
+  "tuning_profiles": {
+    "meta": {
+      "version": 0
+    },
+    "tuning_profiles_impedance_geometric": []
+  }
 }

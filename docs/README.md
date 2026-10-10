@@ -3,8 +3,8 @@
 | Document | Content |
 | --- | --- |
 | [specification.md](specification.md) | System specification: requirements, architecture, host protocol, calibration, verification plan, development phases, risk register and decision log |
-| [checks/](checks/) | Candidate components verified against their datasheets |
-| [reports/](reports/) | Test reports that close each development phase |
+| [checks/](checks/) | Component checks: the candidate parts against their datasheets; every check is open and no record is filed yet |
+| [reports/](reports/) | Test reports that close each development phase; none is filed yet |
 | [protocol/](protocol/) | Host protocol: where it is defined; user reference planned |
 | [calibration/](calibration/) | Calibration procedure (planned) |
 
@@ -24,7 +24,8 @@
 - American English.
 - Prose wraps at 80 columns; tables and code blocks are exempt.
 - SI units, with a space between the number and the unit: `100 mV`.
-- Estimates, datasheet values and measurements are labeled as such.
+- Estimates, calculations, simulations, datasheet values and measurements
+  are labeled as such.
 - Check the Markdown from the repository root before committing:
 
   ```sh

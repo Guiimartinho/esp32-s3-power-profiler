@@ -1,0 +1,40 @@
+(version 1)
+
+# Custom design rules of the carrier board, draft A2 (proposal of the layout brief).
+# They add spacings that a net class cannot express, because a class clearance
+# also applies between the pads of one footprint (0.14 mm between the gate and
+# source pads of the CSD17577Q3A, 0.15 mm in the MSOP-10). The first rule sets
+# 0.15 mm for everything but a pair of pads; the next five leave pads out, and
+# they leave out a track that touches the courtyard of a footprint: at the pins
+# of a part the pad pitch decides the spacing, and a wider one cannot be kept
+# there. The last rule keeps the copper fills of other nets away from the
+# measured node, pads included. Net classes are those of section 4 of the
+# brief. Where two rules match, the later one in this file applies.
+
+(rule "0.15 mm except from pad to pad"
+	(condition "A.Type != 'Pad' || B.Type != 'Pad'")
+	(constraint clearance (min 0.15mm)))
+
+(rule "1 A path to other nets"
+	(condition "(A.NetClass == 'Power1A' || A.NetClass == 'Node1A') && A.Type != 'Pad' && B.Type != 'Pad' && !A.intersectsCourtyard('*') && !B.intersectsCourtyard('*')")
+	(constraint clearance (min 0.3mm)))
+
+(rule "switch nodes to other nets"
+	(condition "A.NetClass == 'SwitchNode' && A.Type != 'Pad' && B.Type != 'Pad' && !A.intersectsCourtyard('*') && !B.intersectsCourtyard('*')")
+	(constraint clearance (min 0.3mm)))
+
+(rule "measured node to foreign nets"
+	(condition "(A.NetClass == 'Sense' || A.NetClass == 'Guarded') && B.NetClass != 'Sense' && B.NetClass != 'Guarded' && B.NetClass != 'Guard' && B.NetClass != 'Power1A' && B.NetClass != 'Node1A' && A.Type != 'Pad' && B.Type != 'Pad' && !A.intersectsCourtyard('*') && !B.intersectsCourtyard('*')")
+	(constraint clearance (min 0.5mm)))
+
+(rule "gate nodes to other nets"
+	(condition "A.NetClass == 'GateHiZ' && B.NetClass != 'GateHiZ' && A.Type != 'Pad' && B.Type != 'Pad' && !A.intersectsCourtyard('*') && !B.intersectsCourtyard('*')")
+	(constraint clearance (min 0.5mm)))
+
+(rule "VIN input to other nets"
+	(condition "A.NetClass == 'VinRaw' && B.NetClass != 'VinRaw' && A.Type != 'Pad' && B.Type != 'Pad' && !A.intersectsCourtyard('*') && !B.intersectsCourtyard('*')")
+	(constraint clearance (min 1.0mm)))
+
+(rule "copper fills away from the measured node"
+	(condition "A.NetClass == 'Node1A' && B.Type == 'Zone' && B.NetClass != 'Node1A' && B.NetClass != 'Power1A' && B.NetClass != 'Sense' && B.NetClass != 'Guarded' && B.NetClass != 'Guard'")
+	(constraint clearance (min 1.0mm)))
