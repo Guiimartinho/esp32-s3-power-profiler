@@ -10,17 +10,31 @@ state:
 
 - The controller is a Raspberry Pi Pico 2 (RP2350) on a carrier board
   designed here. The carrier exists as draft A2: a complete schematic and
-  an autorouted board that needs a layout review before fabrication.
+  a board with every connection routed, whose layout was reviewed against
+  section 10 of the specification. That review was done with scripts and
+  checked by independent calculation. The board has not yet been looked at
+  by a person in the KiCad editor. The seven points in which it deviates
+  from the earlier guidelines of section 10 are recorded as decisions D-87
+  to D-93 of the specification; the [hardware guide](hardware/README.md)
+  lists them with the open items of the layout. It is not a design to
+  fabricate.
 - Nothing has been built and nothing has been measured. Every figure in
   the repository is a datasheet value, a calculation, a simulation or an
-  estimate. The parts are candidates until their checks are closed.
+  estimate. The figures of the board are calculated from the drawn copper.
+  The parts are candidates until their checks are closed, and no check is
+  closed.
 - The protocol definition, the hardware-independent core of the firmware
   and the host package exist and are tested without hardware. The firmware
   is not ported to the Pico SDK yet: the target build in `firmware/` is
   still the one of the first plan, for the ESP32-S3.
-- `tools/` holds a guide and no script. `hardware/simulation/` and
-  `hardware/fabrication/` are empty, so the figures that the specification
-  marks "simulated" have no file in the repository behind them yet.
+- `tools/` holds one tool: the package in `tools/board/`, which calculates
+  the figures of the board layout from the board file and is tested
+  without hardware. The calibration tool and the production test are not
+  started.
+- `hardware/simulation/` and `hardware/fabrication/` are empty, so the
+  figures that the specification marks "simulated" have no file in the
+  repository behind them yet. The scripts that drew the copper of the
+  board are not in the repository either.
 
 The [documentation index](docs/README.md) lists every document with its
 state and the work that comes next.
@@ -59,7 +73,7 @@ entry.
 | `hardware/` | KiCad project of the carrier board (draft A2) and its pictures; the folders for simulations and fabrication outputs are empty | `hardware` | `hardware` |
 | `host/` | Python package: protocol, transports, device client, capture helpers, simulator | `host` | `host` |
 | `protocol/` | Protocol definition, generator and shared test vectors | `protocol` | `protocol` |
-| `tools/` | Calibration and production-test scripts; not started | `tools` | `tools` |
+| `tools/` | The board figures in `tools/board/`: a Python package that calculates the layout figures of the carrier board from its board file. The calibration and production-test scripts are not started | `tools` | `tools` |
 | `docs/specification.md` | System specification | `spec` | `docs` |
 | Other documentation: `docs/`, the README files | Guides, component checks, test reports | none | `docs` |
 | Anything else | Repository-wide files: this guide, workflows, issue and pull request templates, lint and editor configuration, licenses | none | `repo` |
@@ -87,7 +101,10 @@ pull request:
   [protocol guide](protocol/README.md).
 - A change to the schematic or to the board carries the pictures and the
   PDF in `hardware/doc/`, plotted again, and the figures of the
-  [hardware guide](hardware/README.md).
+  [hardware guide](hardware/README.md). The figures of the layout are
+  calculated again from the changed board file with the package in
+  `tools/board/`; the [board figures guide](tools/board/README.md) says
+  how.
 - A part that replaces a candidate, or a value that changes, carries the
   sections of the specification that name it: design section, pin map, bill
   of materials, verification plan and open checks.
@@ -204,8 +221,26 @@ a contributor is not expected to.
 | Firmware | `Firmware` (`firmware.yml`) | Unit tests on the PC, coverage floors of 90 % of lines and 80 % of branches, the tests under the address, undefined-behavior and thread sanitizers, clang-format, clang-tidy, cppcheck, and the target build | [`firmware/README.md`](firmware/README.md) |
 | Host software | `Host` (`host.yml`) | Tests on Windows, Linux and macOS on the oldest and the newest supported Python, coverage floor of 90 % of lines and branches, ruff, mypy in strict mode, and the package built and installed | [`host/README.md`](host/README.md) |
 | Protocol | `Protocol` (`protocol.yml`) | Generated files up to date; ruff and mypy on the generator | [`protocol/README.md`](protocol/README.md) |
-| Hardware | `Hardware` (`hardware.yml`) | Electrical rules check of the schematic with no error; design rules check of the board with schematic parity, whose report shows no rule violation and no difference between board and schematic | [`hardware/README.md`](hardware/README.md) |
+| Hardware | `Hardware` (`hardware.yml`) | Electrical rules check of the schematic with no error; design rules check of the board with schematic parity, whose report shows no rule violation, no unconnected pad and no difference between board and schematic | [`hardware/README.md`](hardware/README.md) |
+| Tools | `Tools` (`tools.yml`) | For the package in `tools/board/`: tests on Windows, Linux and macOS on the oldest and the newest supported Python, coverage floor of 90 % of lines and branches, ruff, mypy in strict mode, and the package built and installed | [`tools/board/README.md`](tools/board/README.md) |
 | Documentation | `Docs` (`docs.yml`) | markdownlint | [Documentation](#documentation) |
+
+The checks of the tools area, as an example of the commands of an area. In
+`tools/board/`, with the environment that its guide sets up:
+
+```sh
+.venv/Scripts/python -m pytest --cov
+.venv/Scripts/python -m mypy
+```
+
+From the repository root:
+
+```sh
+tools/board/.venv/Scripts/python -m ruff check tools/board
+tools/board/.venv/Scripts/python -m ruff format --check tools/board
+```
+
+On Linux and macOS the interpreter is `.venv/bin/python`.
 
 What these checks are today, and what they are not:
 
@@ -216,11 +251,35 @@ What these checks are today, and what they are not:
   MinGW on Windows does not have, and the host tests on three operating
   systems need three machines. Where a check cannot run locally, say so in
   the pull request and start the workflow for it.
-- The board of draft A2 is an autorouted draft with 28 connections open.
-  The design rules check therefore reports unconnected items, and its exit
-  code is not used: the report itself must show no rule violation and no
-  footprint error. Before a board is ordered it must also show no
-  unconnected item (section 10.8 of the specification).
+- The Tools workflow has not been started yet. The checks of the package
+  in `tools/board/` ran locally, on Windows with Python 3.11: 260 tests,
+  100 % of lines and branches covered. The adapter that dumps the board
+  runs under the Python of KiCad and has no automated test.
+- The board of draft A2 has all 984 connections routed since the layout
+  review of 2026-10-10; the autorouted board before it had 28 open. The
+  report of the design rules check shows no rule violation, no unconnected
+  pad, no footprint error and no difference between board and schematic,
+  against a rule file that the review made stricter. A change to the board
+  keeps all four at zero. The Hardware workflow fails when the report shows
+  a rule violation, an unconnected pad or a footprint error, which is how
+  the report names a difference between board and schematic. State the
+  four counts in the pull request.
+- What a contributor may rely on: the board file, the rule file and the
+  schematic agree with each other, and the pictures in `hardware/doc/` are
+  plotted from that board file. The seven points in which the layout
+  deviates from the earlier guidelines of section 10 are recorded
+  decisions (D-87 to D-93), and sections 10.3, 10.4, 10.6 and 10.8 of the
+  specification describe the board as it is drawn: a change may build on
+  them, and a change that goes against one of them is a new decision. The
+  figures of the layout (squares and milliohms of the pours, leakage into
+  the measured node, lengths of the pairs) can be calculated again from
+  the board file with the package in `tools/board/`. What not: that the
+  layout keeps every rule of section 10, or that a figure is a
+  measurement. The board has open items that need a part moved, nobody
+  has reviewed it in the KiCad editor yet, and every figure is calculated
+  from the drawn copper. The temperature rise of the linear regulator on
+  its copper is an open check (D-93). Open an issue before moving parts or
+  copper of the front end, the 1 A path or the converters.
 - A passing hardware check says that the drawings are consistent. It is not
   a layout review, and it closes no component check.
 
@@ -230,6 +289,12 @@ The rules that hold for every area:
   code it touches.
 - A check is never silenced to make a pull request pass. A suppression needs
   a comment that says why the finding does not apply.
+- A script whose result goes into a document is code of the repository:
+  it lives under `tools/`, with its tests, its type and lint checks and a
+  guide, and what is specific to one board or one instrument is data, not
+  code. `tools/board/` is the example: its calculations are pure functions
+  tested on small synthetic boards, and the nets, pads and assumptions of
+  the carrier board are in `tools/board/carrier.toml`.
 - The gates cover logic. Timing, throughput and analog behavior are verified
   on the bench and recorded in a report under
   [`docs/reports/`](docs/reports/).
@@ -244,7 +309,8 @@ The rules that hold for every area:
 - Hardware revisions are named with letters: revision A, revision B. A
   revision is a board that is fabricated. What is drawn before that is a
   draft with a number, and the carrier board is at draft A2: a review draft
-  on the way to revision A, not a design to fabricate.
+  on the way to revision A, not a design to fabricate. The layout review
+  of 2026-10-10 did not change the number of the draft.
 - The host protocol has its own integer version, reported by the device.
   It is 1, and the protocol is not frozen: the freeze is part of phase 6.
 

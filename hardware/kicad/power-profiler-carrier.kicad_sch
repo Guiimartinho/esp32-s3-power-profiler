@@ -5,7 +5,7 @@
 	(uuid "f565bb5d-729e-50de-bc50-2ad3654b1f99")
 	(paper "A4")
 	(title_block
-		(title "Power Profiler - Carrier Board")
+		(title "Open Power Profiler - Carrier Board")
 		(date "2026-10-09")
 		(rev "A2 (draft)")
 	)

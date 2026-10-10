@@ -22,12 +22,32 @@ the port to the Pico SDK nor the bench work has begun.
 | 7 | Revision B and release | None |
 
 The carrier board exists as draft A2, drawn ahead of the phases. A draft is
-not measured. Phases 1 to 4 come before a carrier board is built: phase 1
-runs on evaluation modules and phase 2 on a test board, and the
-specification does not name the hardware of phases 3 and 4 yet. The first
-report on a carrier board belongs to revision A in phase 5, after the
-layout review and the open checks that precede fabrication (section 13 and
-section 16 of the specification).
+not measured. Its layout was reviewed on 2026-10-10: all 984 connections
+are routed, and the pours of the 1 A path, the guard, the Kelvin pairs and
+the copper of the converters are drawn. The figures of that review, such as
+19.5 and 23.3 squares of copper in the 1 A path and 5.1 nA of surface
+leakage into the measured node, are calculated from the drawn copper. The
+package in `tools/board/` calculates them again from the board file; its
+tests show that the calculation does what it says, not that a board
+behaves so. The figures are not evidence for a criterion, and no report
+cites them as a result.
+
+Phases 1 to 4 come before a carrier board is built: phase 1 runs on
+evaluation modules and phase 2 on a test board, and the specification does
+not name the hardware of phases 3 and 4 yet. The first report on a carrier
+board belongs to revision A in phase 5. The layout review with scripts is
+done, and the seven points in which the drawn board deviates from the
+earlier text of section 10 of the specification are recorded as decisions
+D-87 to D-93. What still precedes fabrication is a review of the board by a
+person in the KiCad editor, the open items of the layout that need a part
+moved, the silkscreen and test point items, and the open checks (section 13
+and section 16 of the specification). The
+[hardware guide](../../hardware/README.md) lists them.
+
+One measurement on that first board is already named: the temperature rise
+of the linear regulator U18 at its full dissipation on the island of
+copper of draft A2 (D-93, an open check of section 16). It belongs to the
+report of phase 5.
 
 The first report to expect is the one of phase 1. Its three prototypes need
 no carrier board: a Pico 2 with an ADC evaluation module, an evaluation

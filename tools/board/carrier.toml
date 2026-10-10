@@ -1,0 +1,224 @@
+# What the board figures are calculated for on the carrier board.
+#
+# Every net name, pad and assumption that is specific to this board lives
+# here, so that the Python package holds none. Pads are written as
+# REFERENCE.NUMBER, lengths in millimeters, and rectangles as
+# [left, top, right, bottom] in the coordinates of the board editor.
+#
+# The values are design assumptions and limits. None of them is measured.
+
+[copper]
+# Layers that can carry the current of a net between its pads, in the order
+# of the stack. In1.Cu is the solid ground plane and takes no part.
+layers = ["F.Cu", "In2.Cu", "B.Cu"]
+# One square is counted in copper of this thickness.
+reference_thickness_um = 35.0
+# Resistance of one square of the reference copper at the temperature below.
+milliohm_per_square = 0.531
+temperature_c = 40.0
+# A via of 0.4 mm drill counts as 1.7 squares from one layer to the next
+# (25 um of plating over 1.6 mm of board); another drill counts in inverse
+# proportion, so a via of 0.3 mm is about 2.3 squares.
+via_squares = 1.7
+via_drill_mm = 0.4
+# The plated hole of a through-hole pad, filled with the pin and solder.
+plated_hole_squares = 0.5
+
+[copper.thickness_um]
+"F.Cu" = 35.0
+"In1.Cu" = 17.5
+"In2.Cu" = 17.5
+"B.Cu" = 35.0
+
+# The 1 A path, piece by piece from the source to the DUT terminal. Each
+# piece is the copper of one net between the pads where the current enters
+# and leaves it; the parts between the pieces (transistors, shunt, fuse)
+# are not copper of the board and are not counted.
+[path]
+grid_mm = 0.1
+# Limit of section 10 of the specification, in either mode.
+limit_squares = 30.0
+
+[[path.source_mode]]
+label = "regulator output"
+net = "/Path Switching/LDO_OUT"
+from = ["U18.1", "U18.2", "U18.3", "U18.9"]
+to = ["Q4.5"]
+
+[[path.source_mode]]
+label = "source pair, common source"
+net = "Net-(D18-A)"
+from = ["Q4.1", "Q4.2", "Q4.3"]
+to = ["Q8.1", "Q8.2", "Q8.3"]
+
+[[path.source_mode]]
+label = "supply node"
+net = "/Path Switching/SUPPLY"
+from = ["Q8.5"]
+to = ["Q14.5"]
+
+[[path.source_mode]]
+label = "range 3 transistor to shunt"
+net = "Net-(Q14-S-Pad1)"
+from = ["Q14.1", "Q14.2", "Q14.3"]
+to = ["R110.1"]
+
+[[path.source_mode]]
+label = "ladder output"
+net = "/Output Stage/VOUT_S"
+from = ["R110.4"]
+to = ["Q15.5"]
+
+[[path.source_mode]]
+label = "output pair, common source"
+net = "Net-(Q15-S-Pad1)"
+from = ["Q15.1", "Q15.2", "Q15.3"]
+to = ["Q16.1", "Q16.2", "Q16.3"]
+
+[[path.source_mode]]
+label = "VOUT to the terminal"
+net = "Net-(D21-K)"
+from = ["Q16.5"]
+to = ["J4.3"]
+
+[[path.ampere_mode]]
+label = "VIN terminal to fuse"
+net = "/Output Stage/VIN_RAW"
+from = ["J4.2"]
+to = ["F1.1"]
+
+[[path.ampere_mode]]
+label = "fuse to ampere pair"
+net = "/Monitors/VIN_P"
+from = ["F1.2"]
+to = ["Q5.5"]
+
+[[path.ampere_mode]]
+label = "ampere pair, common source"
+net = "Net-(D19-A)"
+from = ["Q5.1", "Q5.2", "Q5.3"]
+to = ["Q9.1", "Q9.2", "Q9.3"]
+
+[[path.ampere_mode]]
+label = "supply node"
+net = "/Path Switching/SUPPLY"
+from = ["Q9.5"]
+to = ["Q14.5"]
+
+[[path.ampere_mode]]
+label = "range 3 transistor to shunt"
+net = "Net-(Q14-S-Pad1)"
+from = ["Q14.1", "Q14.2", "Q14.3"]
+to = ["R110.1"]
+
+[[path.ampere_mode]]
+label = "ladder output"
+net = "/Output Stage/VOUT_S"
+from = ["R110.4"]
+to = ["Q15.5"]
+
+[[path.ampere_mode]]
+label = "output pair, common source"
+net = "Net-(Q15-S-Pad1)"
+from = ["Q15.1", "Q15.2", "Q15.3"]
+to = ["Q16.1", "Q16.2", "Q16.3"]
+
+[[path.ampere_mode]]
+label = "VOUT to the terminal"
+net = "Net-(D21-K)"
+from = ["Q16.5"]
+to = ["J4.3"]
+
+# The Kelvin pairs: two conductors that should be as long as each other.
+[[pair]]
+label = "range 3 shunt to multiplexer"
+first = { net = "Net-(U24-S4A)", from = "R110.2", to = "U24.7" }
+second = { net = "Net-(U24-S4B)", from = "R110.3", to = "U24.10" }
+
+[[pair]]
+label = "range 2 shunt to multiplexer"
+first = { net = "Net-(U24-S3A)", from = "R107.2", to = "U24.6" }
+second = { net = "Net-(U24-S3B)", from = "R107.3", to = "U24.11" }
+
+[[pair]]
+label = "multiplexer to amplifier"
+first = { net = "/Shunt Ladder/INP", from = "U24.8", to = "U27.4" }
+second = { net = "/Shunt Ladder/INN", from = "U24.9", to = "U27.1" }
+
+[leakage]
+# The measured node is every net of these net classes.
+node_classes = ["Sense", "Guarded", "Node1A"]
+# Copper that follows the potential of the node and feeds no current into
+# it: the guard, the output of the guard buffer, the supply node (it differs
+# from the node by the burden voltage only) and the gates of the two ladder
+# clamps, which hang on the supply node through 22 ohm.
+followers = [
+    "/Monitors/VOUT_BUF",
+    "Net-(U25--)",
+    "/Path Switching/SUPPLY",
+    "Net-(Q10-G)",
+    "Net-(Q11-G)",
+]
+# Assumption of section 10.3 of the specification for a clean board surface.
+ohm_per_square = 1e11
+# Outer layers, on which a surface is exposed.
+layers = ["F.Cu", "B.Cu"]
+# The part of the board that holds the measured node.
+window = [136.0, 84.0, 200.0, 134.0]
+grid_mm = 0.04
+# The bare surface is solved up to this distance from the node.
+reach_mm = 3.0
+# The fence of the shield can.
+can = [122.75, 87.45, 167.55, 118.75]
+
+[leakage.voltage]
+# Voltage between the node and a conductor: 5 V to ground and logic unless
+# a rule below matches. The first rule that matches a net decides.
+default = 5.0
+
+# The -4 V rail, against a node at up to 5 V.
+[[leakage.voltage.rule]]
+volts = 9.0
+name_prefixes = ["-4V"]
+
+# The +12 V rail and the gate nodes, which are driven from it.
+[[leakage.voltage.rule]]
+volts = 7.0
+name_contains = ["+12V", "-G)"]
+classes = ["GateHiZ", "GateDrive"]
+
+[sense]
+# Net classes whose nets should stay on one layer, without a via.
+classes = ["Sense", "Guarded"]
+
+[track_width]
+# Width that the rule file of the project asks of each net class.
+default_mm = 0.2
+
+[track_width.class_mm]
+Default = 0.2
+Clock = 0.2
+GateDrive = 0.3
+GateHiZ = 0.25
+Guard = 0.5
+Guarded = 0.3
+Node1A = 1.5
+Power1A = 1.5
+PowerIn = 1.0
+Sense = 0.2
+Supply = 0.4
+SwitchNode = 0.8
+VinRaw = 1.5
+
+[mounting_holes]
+# References of the mounting holes, as a regular expression.
+reference = 'H\d+'
+# No track on these layers nearer than this to the center of a hole.
+layers = ["F.Cu", "B.Cu"]
+keepout_mm = 4.0
+
+[shield_can]
+reference = "SH1"
+# Each land of the can wants a via of this net within this distance.
+ground_net = "GND"
+via_within_mm = 1.5

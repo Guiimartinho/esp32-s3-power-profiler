@@ -91,6 +91,38 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   what the specification of draft A2 asks, item by item, and give the next
   steps of each area; the pages on calibration, tools and test reports say
   what the specification defines today and what is not written.
+- **hardware:** two pictures of the reviewed board in
+  `hardware/doc/images/`: `board-front-end.png`, the measured node under
+  the shield can with the guard and the Kelvin lines, and
+  `board-1a-path.png`, the pours from the linear regulator to the terminal
+  block. Both are plots of the board file, not photographs.
+- **docs:** the hardware guide lists, one by one, the seven points in which
+  the reviewed board deviates from the layout guidelines that section 10
+  of the specification had for draft A2, each recorded as a decision (D-87
+  to D-93), and the open items of the layout that need a part moved or
+  another footprint.
+- **tools:** the package `board-figures` in `tools/board/`, with a command
+  of the same name. It calculates the layout figures that the documents
+  quote from a dump of the board file of the carrier: the resistance of
+  the copper of a net between pads in squares and in milliohms, a path on
+  one layer alone, the center-line lengths of the two lines of a pair, the
+  surface leakage into the measured node, and all figures of the carrier
+  in one report. What is specific to the carrier board is in
+  `tools/board/carrier.toml`, and an adapter that runs under the Python of
+  KiCad 10 writes the dump. Every figure it gives is calculated from the
+  drawn copper; it measures nothing.
+- **tools:** the package is tested without hardware and without KiCad: 260
+  tests on small synthetic boards with answers known by hand, 100 % of
+  lines and branches covered against a floor of 90 %, ruff, and mypy in
+  strict mode. These checks ran locally on Windows. The package brings
+  numpy, scipy and shapely as dependencies, for this package only.
+- **repo:** the workflow `Tools` runs the checks of `tools/board/` on
+  Windows, Linux and macOS and builds and installs the package. Like the
+  other workflows it is started by hand (D-22); it has not been started
+  yet.
+- **docs:** a guide of the board figures in `tools/board/README.md`: how
+  to install the package, make the dump and run each command, with the
+  method, the assumptions and the limits of each calculation.
 
 ### Changed
 
@@ -189,6 +221,92 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   during start-up.
 - **repo:** the contributing guide and the issue and pull request forms
   follow the present state: the Pico 2, draft A2, checks started by hand.
+- **hardware:** the layout of the carrier board of draft A2 is reviewed
+  against section 10 of the specification. All 984 connections are routed,
+  where the autorouter had left 28 open, and the design rules check
+  reports no violation, no unconnected pad, no footprint error and no
+  difference from the schematic. The schematic and the bill of materials
+  are unchanged; 35 of the 425 footprints moved or turned. The review was
+  done with scripts and checked by independent calculation. Nobody has
+  reviewed the board in the KiCad editor yet, the seven points in which it
+  deviates from the earlier text of section 10 are recorded as decisions
+  (D-87 to D-93), and the board is not a design to fabricate.
+  Every figure of it is calculated from the drawn copper; nothing is built
+  and nothing is measured.
+- **hardware:** the 1 A path is drawn as pours on the top layer, with the
+  supply band doubled on the bottom layer: 19.5 squares of copper in
+  source mode and 23.3 squares in ampere mode against the limit of 30
+  squares, 10.4 mΩ and 12.3 mΩ at 40 °C (calculated from the drawn copper,
+  copper only). The autorouted tracks had 397 and 217 squares.
+- **hardware:** the measured node has a guard around it under the shield
+  can, with the solder mask open over 84 % of the guard track, and 10 of
+  the 11 sense and guarded nets run on the top layer without a via. The
+  Kelvin pair of the 0.1 Ω shunt runs side by side over 83 % of its
+  length; the pair of the 1 Ω shunt and the pair to the amplifier are
+  equal in length within 0.9 mm and not side by side throughout, and the
+  taps of the 1 kΩ and 33 Ω shunts run through a via each on the second
+  inner layer. The calculated surface leakage into the measured
+  node is 5.1 nA against a budget of 10 nA, with the assumptions of
+  section 10.3 (10¹¹ Ω per square on a clean surface; solder mask,
+  cleanliness and humidity not modeled).
+- **hardware:** the switch nodes and the output copper of the converters
+  are pours, the 5 V rail is a pour on the second inner layer, and the
+  reference leaves its output pin as a star of ten branches. The capacitor
+  loops of the pre-regulator, the boost converter and the charge pump are
+  longer than section 10.5 asks and stay open: their capacitors have to be
+  placed again.
+- **hardware:** ground fills on the second inner layer and on the bottom
+  layer, stitched to the ground plane with 41 added vias; the ground plane
+  stays one piece with no track on its layer. Through-hole ground pads
+  have thermal reliefs, and the pads of the 1 A path are joined solid.
+- **hardware:** the rule file of the board is rewritten and stricter. The
+  exemption of the larger spacings near pins applies on the top layer
+  only; the 0.5 mm of the measured node apply on the bottom layer too;
+  copper fills keep 1.0 mm from the measured node on the outer layers; the
+  pours of the measured node keep 1.0 mm from ground and rail copper, pads
+  included; the VIN input keeps 1.0 mm on the outer layers and 0.5 mm on
+  the inner layers; the guard may run 0.2 mm beside the measured node.
+  These rules are recorded as decision D-87.
+- **hardware:** the pictures of the board in `hardware/doc/images/` are
+  plotted again from the reviewed board file. The views of the assembled
+  board are renderings.
+- **repo:** the Hardware workflow also fails on an unconnected pad of the
+  board. It could not while the autorouted board had open connections;
+  the design rules check of the reviewed board reports none.
+- **docs:** the specification gives the state of the board after the
+  layout review in its head, in section 10.8 and in the open checks of
+  section 16, and section 10.3 carries the calculated leakage figure in
+  place of the earlier estimate of 1.3 nA to 2.9 nA.
+- **docs:** the specification records the seven points in which the
+  reviewed board deviates from its layout guidelines as decisions, and
+  sections 10.3, 10.4, 10.6, 10.8, 13, 14 and 16 follow them. The project
+  owner accepted each on the recommendation of the layout review. The
+  decision log ends at D-93.
+  - D-87: the rule file of the board states every spacing, among them
+    1.0 mm from VIN on the outer layers and 0.5 mm on the inner layers.
+  - D-88: the high-side sense line of the 0.1 Ω shunt keeps two vias and
+    1.9 mm on the second inner layer.
+  - D-89: the Kelvin pairs are routed as on draft A2: equal in length
+    within 1 mm, and side by side only where the pins allow.
+  - D-90: the guard is one piece of copper, open on the top layer at the
+    three exits of the measured node and joined on the other layers.
+  - D-91: the supply, address and enable pins of the multiplexer and their
+    parts stand inside the guard, with no ground pour inside it.
+  - D-92: the 1 A path is judged by its resistance, 30 squares or less in
+    either mode, and two of its pieces run on the bottom layer.
+  - D-93: the island of output copper under the linear regulator U18 is
+    291 mm² on the bottom layer, joined by 22 vias to 102 mm² on the top
+    layer. The temperature rise of U18 at full dissipation is an open
+    check of section 16, to be read on the first board.
+- **hardware:** the board carries the name of the project. The silkscreen
+  and the title blocks of the board and of the schematic read "Open Power
+  Profiler - Carrier Board". The schematic PDF and the picture of its root
+  page are exported again; the other 14 pages are unchanged.
+- **docs:** the README, the guides, the indexes of the checks and of the
+  reports and the contributing guide describe the board after the layout
+  review: what is drawn, which figures are calculated, what is decided,
+  what is open and what comes next. The tools guide and the contributing
+  guide name the board figures and their checks.
 
 ### Removed
 
@@ -200,5 +318,8 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
 - **hardware:** the reverse clamp diode of the VIN terminal (D-60), the
   anti-parallel diode pair across the shunt ladder (D-66) and the diode
   clamp of VOUT to a 5.6 V node (D-70).
+- **hardware:** the picture `board-open-connections.png` and, in the
+  hardware guide, the list and the map of the 28 open connections: no
+  connection is open after the layout review.
 
 [Unreleased]: https://github.com/Guiimartinho/open-power-profiler/commits/main

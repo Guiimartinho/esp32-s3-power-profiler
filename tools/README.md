@@ -5,21 +5,68 @@ software its users run.
 
 ## Status
 
-Not started. The two directories below are empty, and nothing they would
-drive exists yet: no board is built, the firmware is not ported to the
-Raspberry Pi Pico 2, and the calibration commands of the protocol are
-provisional. Calibration is the work of phase 6, and a production test
-needs the carrier board of phase 5 (section 13 of the
-[specification](../docs/specification.md)).
+One tool exists: the board figures in `board/`, which calculate the figures
+of the carrier board layout from its KiCad file. They are tested without
+hardware and measure nothing.
 
-| Path | State | What the tool will have to do |
+The calibration tool and the production test are not started. Their two
+directories are empty, and nothing they would drive exists yet: no
+board is built, the firmware is not ported to the Raspberry Pi Pico 2, and
+the calibration commands of the protocol are provisional. Calibration is
+the work of phase 6, and a production test needs the carrier board of
+phase 5 (section 13 of the [specification](../docs/specification.md)).
+
+| Path | State | What the tool does, or will have to do |
 | --- | --- | --- |
+| `board/` | Exists, tested without hardware | Calculate the layout figures that the documents quote from the board file of the carrier: the 1 A path in squares, a path on one layer, the lengths of the Kelvin pairs, the surface leakage into the measured node. See the [board figures guide](board/README.md) |
 | `calibration/` | Empty | Run the calibration of section 8 of the specification on one instrument against reference equipment, and write the record into the flash of its Pico 2 |
 | `production-test/` | Empty | Check every assembled carrier board before it is calibrated and before a DUT is connected. The specification has no section for this test yet; the checks it already asks of every board are listed below |
 
-The form of the scripts is not decided. The host package already holds the
-link to the instrument (see the [host guide](../host/README.md)); a tool
-built on it keeps the wire protocol in one place.
+What comes next here: the figures are calculated again after every change
+of the board, and the `Tools` workflow is started when the owner asks for
+it. The calibration tool and the production test wait for the software
+step and for a board, as their sections below say.
+
+The form of the calibration and production-test scripts is not decided.
+The host package already holds the link to the instrument (see the
+[host guide](../host/README.md)); a tool built on it keeps the wire
+protocol in one place.
+
+## Board Figures
+
+`board/` is a Python package, `board-figures`, with a command of the same
+name. It answers the layout rules of section 10 of the specification that
+a design rules check does not: the resistance of the 1 A path in squares of
+copper and in milliohms, whether a loop closes on the top layer without a
+via, the center-line lengths of the three Kelvin pairs, the vias of the
+sense nets, and the surface leakage into the measured node. Every figure is
+calculated from the drawn copper. None is measured, and no board is built.
+
+- An adapter that runs under the Python of KiCad writes the board as JSON.
+  The package reads that file and needs numpy, scipy and shapely, not
+  KiCad.
+- The nets, pads and assumptions of the carrier board are in
+  `board/carrier.toml`, not in the code.
+- The calculations are pure functions on an immutable model of the board.
+  Their 260 tests run on small synthetic boards with answers known by hand
+  and need neither KiCad nor the board file; lines and branches are covered
+  to 100 %, above the floor of 90 %.
+- On the board in `hardware/kicad/` the package gives the figures that the
+  documents quote: 19.5 squares (10.4 mΩ) in source mode and 23.3 squares
+  (12.3 mΩ) in ampere mode for the copper of the 1 A path, against a limit
+  of 30 squares (D-92), and a surface leakage into the measured node of
+  4.46 nA on the top layer and 0.67 nA on the bottom layer, against a
+  budget of 10 nA.
+- Not in the repository: the scripts that drew the layout, and the
+  simulation files, which are still to be filed in `hardware/simulation/`.
+- The checks (ruff, mypy in strict mode, pytest with coverage on Linux,
+  Windows and macOS, a build of the wheel) are the workflow `Tools`,
+  started by hand like the others (D-22). It has not been started yet: so
+  far the checks ran on one Windows machine.
+
+How to make the dump, each command with an example on the carrier board,
+the method and the assumptions of each calculation and its limits are in
+the [board figures guide](board/README.md).
 
 ## Calibration Tool
 

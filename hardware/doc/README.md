@@ -9,19 +9,35 @@ of KiCad with no errors and no warnings, and its netlist was checked
 independently against datasheets. The parts are candidates, no component
 check is closed, and nothing was built or measured: every figure below is a
 datasheet value, a calculation, a simulation or an estimate, as marked. The
-files of the simulations are not in the repository yet. The board is an
-autorouted draft: it passes the design rules check with no violation, 28 of
-its 984 connections are open, and it needs a layout review before
-fabrication. The status and the open work, with the open connections one
-by one, are in the [hardware README](../README.md); the reasons behind
-every value are in the [specification](../../docs/specification.md), whose
-sections are named with each sheet.
+files of the simulations are not in the repository yet.
+
+The board was an autorouted draft with 28 of its 984 connections open. On
+2026-10-10 its layout was reviewed: the open connections were closed and the
+copper that an autorouter does not draw was drawn, with scripts on the board
+file, block by block, and checked by independent calculation. All 984
+connections are routed now, and the design rules check reports no violation,
+no unconnected pad and no difference between board and schematic. Every
+figure of the board in this guide is calculated from the drawn copper. No
+board exists, and nobody has yet looked at the layout in the KiCad editor
+the way a person does before ordering boards. The seven points in which the
+drawn board differs from the earlier text of section 10 of the specification
+are recorded as decisions D-87 to D-93, and some open items need parts
+moved; both lists are in the [Board](#board) part below.
+
+The status and the open work of the hardware are in the
+[hardware README](../README.md); the reasons behind every value are in the
+[specification](../../docs/specification.md), whose sections are named with
+each sheet.
 
 The pages, the PDF and the pictures of the board are plotted from the
-files as they are now: the fifteen pages and the PDF on 2026-10-09, after
-the notes of the sheets were compared with the specification, and the
-pictures of the board on 2026-10-10. The text of each section below was
-read against its picture, notes included.
+files as they are now. The fifteen pages were plotted on 2026-10-09, after
+the notes of the sheets were compared with the specification. On 2026-10-10
+the title block of the root page got the name of the project, and the PDF
+and the picture of the root page were exported again; the other fourteen
+pages were compared page by page and are unchanged. The pictures of the
+board were plotted on 2026-10-10 from the final board file. The circuit did
+not change in the layout review: the same 428 parts and the same nets. The
+text of each section below was read against its picture, notes included.
 
 ## Schematic
 
@@ -34,7 +50,8 @@ its block. A part drawn with a cross is a position without a part.
 ### 1. Root
 
 One block per sheet and the 48 signals between them. The supply rails are
-not on this page: they are power symbols on the sheets.
+not on this page: they are power symbols on the sheets. The title block
+reads "Open Power Profiler - Carrier Board".
 
 The controller is in the middle. To its left are the sheets of the
 measurement: the signal chain with the comparators above it, and the side
@@ -581,23 +598,56 @@ alone (rule F-10).
 
 ## Board
 
-Outline 150 mm × 100 mm, four copper layers, four M3 holes. All 425
-footprints are on the top side, placed by a script inside the areas of
-their functional blocks, and the tracks are drawn by an autorouter. The
-design rules check of KiCad reports no rule violation and no difference
-between board and schematic, and 28 unconnected items. It is a draft that
-needs a layout review before fabrication: the
-[hardware README](../README.md) describes how it was made, lists the 28
-open connections one by one and says what the review still has to do.
-Nobody has reviewed the placement or the tracks by hand, and the project
-has not been opened in the KiCad editor.
+Outline 150 mm × 100 mm, four copper layers, four M3 holes, 425 footprints,
+all on the top side. The board came about in two steps.
+
+- Draft A2 was placed by a script inside the areas of its functional blocks
+  and routed by an autorouter: 956 of 984 connections, 28 open, 25 of them
+  breaking a function. That board did not work as drawn.
+- On 2026-10-10 the layout was reviewed. The open connections were closed
+  and the copper that an autorouter does not draw was drawn: the pours of
+  the 1 A path, the guard, the Kelvin lines, the copper of the converters,
+  the 5 V rail and the ground fills. The work was done with scripts on the
+  board file, block by block against the rules of section 10 of the
+  specification, each block checked by an independent check that calculated
+  every rule again. A final review by rule group followed, then a repair
+  round for the leakage paths into the measured node that it found. 35 of
+  the 425 footprints moved or turned, 33 of them by 2.75 mm or less; no part
+  was added or removed.
+
+What the board rests on: it is drawn, and its figures are calculated from
+the drawn copper. Nothing is built and nothing is measured, every part is a
+candidate, and nobody has opened the board in the KiCad editor and looked at
+it as a person would before ordering boards.
+
+The figures can be calculated again: the package in
+[`tools/board`](../../tools/board/README.md) reads a dump of the board file
+and gives the resistance of the 1 A path in squares and milliohms, the
+lengths of the Kelvin pairs, the surface leakage into the measured node and
+the count of sense and guarded nets without a via. On the board in the
+repository it gives the figures of this guide. The scripts that drew the
+layout and the files of the simulations are not in the repository.
+
+### Renderings
 
 The two views below are renderings from the board file, with the Pico 2 on
-its sockets. They are not photographs: no board has been built.
+its sockets. They are not photographs: no board has been built. KiCad has
+no 3D model of the lever terminal block, so the views show its pads only,
+and the cover of the shield can is not drawn. The text on the silkscreen at
+the bottom edge reads "Open Power Profiler - Carrier Board rev A2 draft".
 
 ![Rendered perspective view of the board](images/board-3d.jpg)
 
+In the top view the gold line around the front end is the guard: the solder
+mask is open over it, so the rendering shows the plated copper. It runs
+inside the dashed frame of the shield can, around the amplifier, the
+multiplexer and the shunts, and leaves the can at the lower right toward
+the 0.1 Ω shunt. The lighter green areas at the lower edge and at the right
+are the pours of the 1 A path.
+
 ![Rendered top view of the board](images/board-top.jpg)
+
+### Placement
 
 The areas of the sixteen blocks, as drawn on the `Dwgs.User` layer. The back
 of the instrument is the left edge: the Raspberry Pi Pico 2 lies along the
@@ -606,34 +656,263 @@ is below it. The front is the right edge: the logic port, then the two DUT
 connectors, in the pin order of the PPK2. The switching converters are on
 the left. The front end is on the right, under the frame of the shield can,
 with the 1 A branch of the ladder between the can and the terminal block.
-KiCad has no 3D model of the lever terminal block, so the 3D views show its
-pads only.
+The placement is that of the script; the review moved 35 parts inside
+their blocks, the farthest being the test point of VOUT (11.2 mm, onto the
+VOUT pour) and the suppressor of VOUT (8.6 mm).
 
 ![Placement of the functional blocks](images/board-placement.png)
 
-The three routing layers of the board: the top layer `F.Cu` with all parts
-in red, the inner layer `In2.Cu` for power and signals in orange, and the
-bottom layer `B.Cu` in blue. The ground plane on `In1.Cu` is solid and is
-left out of the picture, because it would cover the others. The picture
-shows what the review has to change: the power nets are thin tracks where
-section 10 of the specification asks for pours, and no guard ring
-surrounds the measured node inside the dashed frame of the shield can.
+### Copper Layers
 
-![The three routing layers](images/board-copper.png)
+The four copper layers, each with its caption: the top layer `F.Cu` in red,
+the ground plane `In1.Cu` in green, the second inner layer `In2.Cu` in
+orange and the bottom layer `B.Cu` in blue. Each layer is drawn in one
+color, so a pour and a ground fill differ only by their outlines.
 
-956 of the 984 connections are routed, with 7.83 m of track and 499 vias;
-28 connections are open and are listed by the design rules check. The
-copper picture does not show them: it draws copper, not the missing
-links. The next picture does. Every open connection is a link between its
-two ends over the pale copper, with the number it has in the table of the
-[hardware README](../README.md#still-to-do), which gives the net, both
-ends, the place and the effect of each.
+- Top: all parts, the pours of the 1 A path along the lower edge and up the
+  right side, the sense lines and the guard inside the dashed frame of the
+  shield can. 3.76 m of track.
+- Inner layer 1: the ground plane, one piece of 14205 mm² with no track on
+  the layer. The white dots are the clearances of vias and pins; where the
+  clearances of a via group merge, the plane has an opening, up to
+  4.7 mm × 2.3 mm under the linear regulator.
+- Inner layer 2: the 5 V rail as a pour of 1623 mm² in three pieces, the
+  trunks of the other rails, 2.84 m of track in all, and a ground fill of
+  10891 mm² in the space between, which the tracks cut into 80 pieces.
+- Bottom: crossings, the second layer of the 1 A path under the supply
+  band and under the linear regulator, 1.79 m of track, and a ground fill
+  of 12108 mm².
 
-![The 28 open connections of the board](images/board-open-connections.png)
+The fills are stitched to the plane with 41 added vias.
 
-25 of them break a function while they are open: the 5 V rail is in
-pieces, neither the source path nor the ampere path is complete, and one
-of the two Kelvin sense lines of the 0.1 Ω shunt has no track.
+![The four copper layers](images/board-copper.png)
+
+| Item | Autorouted board | After the layout review |
+| --- | --- | --- |
+| Connections | 956 of 984, 28 open | 984 of 984, none open |
+| Design rules check | 0 violations, 28 unconnected items | 0 violations, 0 unconnected pads, 0 footprint errors, 0 differences between board and schematic, against a stricter rule file |
+| Tracks | 7.83 m in 3228 segments | 8.38 m in 3716 segments |
+| Vias | 499, 26 of them 0.8/0.4 mm | 694: 594 of 0.6/0.3 mm, 100 of 0.8/0.4 mm; 336 on ground |
+| Copper zones | 1, the ground plane | 42 |
+| 5 V rail | Tracks of 0.4 mm | A pour on the second inner layer |
+| Ground fills | None | Second inner layer and bottom |
+| Reference texts hidden on the silkscreen | 115 | 123 |
+
+The [rule file](../kicad/power-profiler-carrier.kicad_dru) was rewritten in
+the review and is stricter than the one the autorouted board passed; the
+five checks that the project ignores are the same as before. 1069 tracks
+were widened toward the width of their net class where the copper around
+them left room. The share of the track length at the class width or wider
+is 62 % for the rails (0.4 mm), 71 % for the gate drives (0.3 mm), 34 % for
+the power input nets (1.0 mm) and 100 % for the sense nets (0.2 mm).
+
+### Front End
+
+The top layer under the shield can, enlarged: copper in red, openings of
+the solder mask in pink. Every pad is pink, and so is the guard where its
+mask is open.
+
+![The front end on the top layer](images/board-front-end.png)
+
+What to find in it:
+
+- The rows of pink rectangles at the top and at the bottom and the column
+  at the right are the lands of the can frame; the column is the east wall.
+  All 32 lands have a ground via within 1.5 mm.
+- The part in the middle with two rows of eight pins is the Kelvin
+  multiplexer U24. Above it to the left is the amplifier U27, above it to
+  the right the buffer U25, and the four-pad land at the bottom is the 1 Ω
+  shunt R107.
+- The pink line along the edge of the large red area is the guard ring, the
+  buffered copy of the ladder output. The red area inside it is the guard
+  pour, 227 mm² under solder mask. The ring is not closed on this layer: it
+  is three arcs, cut where the measured node itself leaves through the wall
+  (the ladder output, the supply node, the pair of range 3), with a guard
+  track on both sides of each exit. The arcs are joined through 11 vias
+  on the other layers.
+- The solder mask is open over 160 mm of the 190 mm of guard track (84 %).
+  It stays closed at the six wall crossings and between pads, and no bare
+  guard lies within 0.3 mm of a land of the can. In the can 109 mm of the
+  guard track is 0.5 mm wide, 24 mm is 0.25 mm and 7 mm is 0.15 mm.
+- The lines that fan out below the multiplexer are the Kelvin lines to the
+  shunts. The pair of range 3 runs down, along the lower edge and out
+  through the wall at the lower right, with guard on both sides as far as
+  the 0.1 Ω shunt below the picture: 46.3 mm and 45.4 mm, side by side at
+  0.2 mm over 83 % of the run. The pair of range 2 is 28.4 mm and 27.8 mm,
+  equal in length but not side by side. The pair from the multiplexer to the
+  amplifier, with the small meander between the two parts, is 17.0 mm and
+  17.9 mm, side by side over about 4 mm.
+- Inside the ring there is no ground pour, but 29 pads of 10 other nets:
+  the supply, address and enable pins of the multiplexer and their parts.
+- Right of the east wall the large red areas are the pours of the ladder
+  output and of VOUT at the output switch. No ground copper lies within
+  1.0 mm of them.
+
+Of the 11 sense and guarded nets, 10 are on the top layer without a via.
+The eleventh, the high-side sense line of the 0.1 Ω shunt, has two vias and
+1.9 mm on the second inner layer at the shunt: with the pin order of the
+multiplexer and the pad order of the four-terminal shunt the two lines of
+that pair cross once, and no rotation of a part changes that. The taps of
+the shunts of ranges 0 and 1 run through a via each and 12 mm and 10 mm on
+the second inner layer, for the same reason. The ladder output has no track
+on the bottom layer and 41 mm on the second inner layer.
+
+The surface leakage into the measured node is 5.1 nA, calculated from the
+drawn copper, against the budget of 10 nA: 4.46 nA on the top layer (0.73 nA
+inside the can, 3.73 nA outside) and 0.67 nA on the bottom layer. The
+calculation uses the assumptions of section 10.3 of the specification:
+10¹¹ Ω per square on a clean surface, 5 V to ground and logic, 7 V to the
++12 V rail and to gate nodes, 9 V to the −4 V rail. Solder mask,
+cleanliness and humidity are not modeled, and nothing is measured. Before
+the repair round the same calculation gave about 20 nA. Almost all of the
+rest is pad pitch: gate beside source in a transistor package, the poles of
+the two DUT connectors, neighbor pins of the multiplexer and of the buffer.
+An estimate from before the board was drawn gave 1.3 nA to 2.9 nA; section
+10.3 now carries the figure calculated from the board.
+
+### 1 A Path
+
+The top layer from the linear regulator at the bottom left, along the
+supply band at the lower edge, to the shunt branch, the output switch and
+the terminal block at the right. The dashed frame is the shield can.
+
+![The 1 A path on the top layer](images/board-1a-path.png)
+
+The path is pours on the top layer. The supply band, 38 mm from the source
+pair to the shunt branch, is doubled on the bottom layer through groups of
+four to eight vias of 0.8/0.4 mm, which show as white dots in the band. The
+linear regulator stands on an island of output copper, 102 mm² on top and
+291 mm² on the bottom, joined by 22 vias. Two pieces of the path run on the
+bottom layer because parts stand in the way on top: from the regulator
+output to the source pair, and from the fuse to the ampere pair.
+
+Section 10.4 of the specification allows 30 squares of 35 µm copper in
+either mode. Calculated from the drawn copper, at 40 °C, copper only
+(transistors, shunt and fuse are not counted):
+
+| Mode | Autorouted board | After the layout review |
+| --- | --- | --- |
+| Source mode, regulator output to the VOUT terminal | 397 squares, about 211 mΩ | 19.5 squares, 10.4 mΩ |
+| Ampere mode, VIN terminal to the VOUT terminal | 217 squares, about 116 mΩ | 23.3 squares, 12.3 mΩ |
+
+| Piece | Squares |
+| --- | --- |
+| Source mode: output of the linear regulator to the source pair | 2.2 |
+| Source mode: common source of the source pair | 0.4 |
+| Source mode: supply node to the transistor of range 3 | 6.5 |
+| Ampere mode: VIN terminal to the fuse | 3.5 |
+| Ampere mode: fuse to the ampere pair | 8.0 |
+| Ampere mode: common source of the ampere pair | 0.3 |
+| Ampere mode: supply node | 1.0 |
+| Both: transistor of range 3 to the 0.1 Ω shunt | 1.3 |
+| Both: ladder output from the shunt to the output switch | 5.6 |
+| Both: common source of the output pair | 0.6 |
+| Both: VOUT to the terminal | 2.9 |
+
+Each piece is rounded by itself: the pieces of ampere mode add to
+23.25 squares, which the table above gives as 23.3. The resistances are
+calculated on a grid of 0.1 mm; on a grid of 0.05 mm the two totals read
+about 2 % higher, 19.9 and 23.8 squares. A via counts 1.7 squares per layer
+step, which errs high. The method and its limits are in the guide of
+[`tools/board`](../../tools/board/README.md).
+
+The links from the terminal block to the pin header J3 are tracks of
+1.0 mm: a DUT on the header sees about 21 mΩ more than one on the terminal
+block (calculated: 10.2 mΩ in VOUT and 11.2 mΩ in VIN).
+
+### Converters, Rails and Reference
+
+These blocks have no detail picture; they are in the left half of the copper
+picture. All figures are calculated from the drawn copper, against the
+limits of section 10.5 of the specification where it gives one.
+
+- Pre-regulator: both switch nodes are pours without a via. The feedback
+  line is 16.4 mm (limit 20 mm), and the copper from the output capacitors
+  to the bead is 7.1 mΩ (limit 15 mΩ).
+- Boost converter: its output reaches the filter resistor of the +12 V
+  regulator as one track of 28.8 mm (25 mm or more is asked).
+- 5 V rail: from the bulk capacitor to the input capacitors of the
+  pre-regulator 2.7 mΩ and 3.0 mΩ, to the input capacitor of the boost
+  converter 3.6 mΩ. The review worked to targets of 10 mΩ and 25 mΩ; the
+  specification gives no figure for the rail.
+- Reference: ten branches that share no track beyond the star copper at
+  the output pin.
+
+What these blocks do not keep is in the list of open items below.
+
+### Deviations Recorded as Decisions
+
+The drawn board differs in seven points from what section 10 of the
+specification asked before the review. The owner accepted all seven on
+2026-10-10. They are decisions D-87 to D-93 of the
+[decision log](../../docs/specification.md#15-decision-log), which now ends
+at D-93, and section 10 of the specification describes the board as drawn.
+
+| Decision | What it records |
+| --- | --- |
+| D-87 | The rule file states every spacing: the exemption near pins on the top layer only, 0.5 mm of the measured node on the bottom layer too, VIN 1.0 mm on the outer layers and 0.5 mm on the inner layers, fills and pours 1.0 mm from the measured node, the guard 0.2 mm beside it |
+| D-88 | The high-side sense line of the 0.1 Ω shunt keeps two vias and 1.9 mm on the second inner layer |
+| D-89 | Kelvin routing: the pair of range 3 side by side, the pair of range 2 and the pair to the amplifier equal in length within 1 mm, the taps of ranges 0 and 1 through one via each |
+| D-90 | The guard is one piece of copper, open on the top layer at the three exits of the measured node and joined on the other layers, with guard pours on the bottom layer |
+| D-91 | The supply, address and enable pins of the multiplexer and their parts stand inside the guard; no ground pour inside it |
+| D-92 | The 1 A path is judged by its resistance, 30 squares or less in either mode; two pieces run on the bottom layer |
+| D-93 | The island of output copper under the linear regulator: 291 mm² on the bottom, 22 vias, 102 mm² on top; its temperature rise at full dissipation is an open check of section 16, read on the first board |
+
+The [hardware README](../README.md) describes each point on the board.
+
+### Still Open on the Board
+
+Not done in the review, because each needs parts moved or another
+footprint:
+
+- The loops of the converter capacitors close on the top layer over more
+  than the 5 mm of section 10.5: 8.2 mm to 17.1 mm at the five capacitors
+  of the pre-regulator, whose ground pads face away from the converter
+  (each has a ground via 0.15 mm to 0.20 mm from its pad), and 6.8 mm and
+  10.3 mm at the boost converter. At the charge pump the ground sides of
+  two capacitors are 3.4 mm and 4.4 mm from the pin (limit 2 mm).
+- The inductor of the pre-regulator is 4.5 mm from its second pair of
+  switch pins (limit 3 mm).
+- The temperature sensor U39 is 5.1 mm pad to pad from the linear regulator
+  (limit 5 mm).
+- The suppressor of VOUT, D21, has 93 mm² of cathode copper (1 cm² is
+  asked) and stands 8.6 mm from the VOUT pole.
+- The clamps Q10 and Q11 have 21 mm² and 28 mm² of supply copper within
+  5 mm of their drains (1 cm² is asked).
+- The drain pad of the ampere-pair transistor on the VIN side lies in no
+  top pour: the current enters through four vias in the pad.
+- The ground plane has 787 mm² of openings in all (593 mm² on the
+  autorouted board); a via pitch of 1.5 mm in the groups would keep webs of
+  plane.
+- The branches of the reference should leave the output pad itself; the
+  star copper there is still common to several branches, 2.2 mΩ between the
+  branch of the ADC and the pedestal divider.
+- The 5 V pour is in three pieces, and the three 3.3 V regulators hang on
+  two single vias.
+- The +12 V regulator is 22 mm, courtyard to courtyard, from the diode and
+  the capacitor of the boost converter; 25 mm is asked and is kept from
+  center to center only.
+- Vias stand in or at pads that get solder paste: 4 holes and 14 rings,
+  and via holes in the drain pads of two path transistors.
+
+Not touched by the review, as on the autorouted board:
+
+- 32 of the 40 signal test points have no probe ground within 5 mm
+  (section 10.7).
+- The net names of the test points and the function of the two jumpers are
+  not on the silkscreen (section 10.2), 123 reference texts are hidden, and
+  there is no frame for a hand-written serial number.
+- The three acquisition lines enter the can at three places on two layers
+  instead of one opening.
+- 21 nets cross the wall of the can below the ground plane.
+- The two resistor pairs of the set-point path do not stand side by side
+  (section 10.1).
+
+What comes next for the board, in order: a person opens the board in KiCad
+and reviews it; the open items that need parts moved are a placement change
+with a local redraw; then the silkscreen and test point items; the
+temperature rise of the linear regulator (D-93) is read on the first board.
+The [hardware README](../README.md) has the whole plan of the hardware.
 
 ## Making the Pictures Again
 
@@ -643,19 +922,35 @@ Run from [`../kicad/`](../kicad/) after a change, with KiCad 10:
 kicad-cli sch export pdf --output ../doc/schematic.pdf power-profiler-carrier.kicad_sch
 kicad-cli pcb render --output ../doc/images/board-3d.jpg --width 1800 --height 1170 --rotate "-42,0,-25" --perspective --zoom 0.92 --quality high --background opaque power-profiler-carrier.kicad_pcb
 kicad-cli pcb render --output ../doc/images/board-top.jpg --width 1800 --height 1420 --zoom 1.22 --quality high --background opaque power-profiler-carrier.kicad_pcb
-kicad-cli pcb export svg --output board-placement.svg --layers F.SilkS,F.Fab,Edge.Cuts,Dwgs.User,F.CrtYd --page-size-mode 2 --exclude-drawing-sheet power-profiler-carrier.kicad_pcb
-kicad-cli pcb export svg --output board-copper.svg --layers F.Cu,In2.Cu,B.Cu,Edge.Cuts --page-size-mode 2 --exclude-drawing-sheet power-profiler-carrier.kicad_pcb
+kicad-cli pcb export svg --output board-placement.svg --layers F.SilkS,F.Fab,Edge.Cuts,Dwgs.User,F.CrtYd --page-size-mode 2 --exclude-drawing-sheet --mode-single power-profiler-carrier.kicad_pcb
+kicad-cli pcb export svg --output board-top.svg --layers F.Cu,Edge.Cuts --page-size-mode 2 --exclude-drawing-sheet --mode-single power-profiler-carrier.kicad_pcb
+kicad-cli pcb export svg --output board-front-end.svg --layers F.Cu,F.Mask,Edge.Cuts --page-size-mode 2 --exclude-drawing-sheet --mode-single power-profiler-carrier.kicad_pcb
 ```
 
 The page images are the pages of the PDF at 160 dpi, for example from
 `pdftoppm -r 160 -png`, named after their sheets. The placement drawing is
-the exported SVG converted to PNG and cropped to the board, and so is the
-copper drawing. The bill of materials, [`bom.csv`](bom.csv), is exported
-with the command given in the [hardware README](../README.md). The
-pictures here were plotted with KiCad set to English: on the root page the
-label "File:" of every sheet follows the language of KiCad.
+the exported SVG converted to PNG and cropped to the board. The bill of
+materials, [`bom.csv`](bom.csv), is exported with the command given in the
+[hardware README](../README.md). The pictures here were plotted with KiCad
+set to English: on the root page the label "File:" of every sheet follows
+the language of KiCad.
 
-The picture of the open connections is the copper drawing made pale, with
-one link for each unconnected item of the design rules report. It is made
-again whenever the report changes, and it goes away when the last
-connection is closed.
+The three copper pictures are made from such plots, converted to PNG:
+
+- `board-copper.png` is four plots, one for each of `F.Cu`, `In1.Cu`,
+  `In2.Cu` and `B.Cu`, each with `Edge.Cuts`: the command of
+  `board-top.svg` with the other layer names. Each is cut to the outline of
+  the board, and the four are set two by two, each under its caption.
+- `board-front-end.png` is the plot of `F.Cu`, `F.Mask` and `Edge.Cuts`,
+  cut to x 136 mm to 178 mm and y 86.5 mm to 126 mm in the coordinates of
+  the board editor.
+- `board-1a-path.png` is the plot of `F.Cu` and `Edge.Cuts`, cut to x 98 mm
+  to 199.5 mm and y 86 mm to 149 mm.
+
+The figures of the [Board](#board) part do not come from these commands.
+The resistance of the 1 A path, the lengths of the pairs, the surface
+leakage and the count of nets without a via are calculated from a dump of
+the board file by the package in
+[`tools/board`](../../tools/board/README.md), which says how to install it,
+make the dump and run it. After a change of the board they have to be
+calculated again before the text is changed.

@@ -31,19 +31,32 @@ schematic, the simulations or the bench measurements.
   calculation, a simulation or an estimate, and says which. The files of
   the simulations are not in
   [`../hardware/simulation/`](../hardware/simulation/) yet: until they are
-  filed, a figure marked "simulated" can be read but not repeated.
+  filed, a figure marked "simulated" can be read but not repeated. The
+  figures of the board that are marked "calculated from the drawn copper"
+  are produced by the scripts in [`../tools/board/`](../tools/board/)
+  (section 16).
 - The schematic in [`../hardware/kicad/`](../hardware/kicad/) is draft A2. Every
   sheet is drawn, 14 below the root sheet (D-83), so the design can be reviewed
   as a whole. It passes the electrical rules check, and an independent review of
   its netlist against the datasheets found no defect that blocks the draft; that
   review closes no check of section 16. Its parts are the candidates of this
   document, no check of section 16 is closed (D-37), and nothing has been built
-  or measured. The board of the draft is placed by a generator and routed
-  automatically (D-86, section 10): 956 of its 984 connections are drawn
-  and 28 are open, 25 of which break a function, so the board does not
-  work until they are closed.
-  [`../hardware/README.md`](../hardware/README.md) lists them one by one.
-  It is a review draft, not a design to fabricate.
+  or measured.
+- The board of the draft was placed by a generator and routed automatically
+  (D-86), which left 28 of its 984 connections open. Its layout was reviewed
+  on 2026-10-10, with scripts and checked by independent calculation: every
+  connection is closed, the design rules check reports nothing, and the
+  copper that an autorouter does not draw is drawn. Two figures, both
+  calculated from the drawn copper and not measured: the copper of the 1 A
+  path has 19.5 squares (10.4 mΩ at 40 °C) in source mode and 23.3 squares
+  (12.3 mΩ) in ampere mode, against the limit of 30 squares, and the surface
+  leakage into the measured node is 5.1 nA on a clean board, against the
+  10 nA of the budget. Seven points in which the drawn board departs from
+  section 10 are recorded as decisions (D-87 to D-93). No person has looked
+  at the board in the KiCad editor yet, and some open items need parts
+  moved: section 10.8 gives the state, and
+  [`../hardware/README.md`](../hardware/README.md) the detail. It is a
+  review draft, not a design to fabricate.
 - Names that look alike: R0 to R3 are the four current ranges and D0 to D7
   the logic inputs, as on the PPK2. The parts of the drawings are numbered
   as KiCad numbers them (D-45), so the drawings also hold resistors R1 to
@@ -2590,10 +2603,14 @@ the protocol; the definition file decides it.
 These are the guidelines for the carrier board of draft A2. The generator
 of the project places the parts, and the board is routed automatically
 with FreeRouting (D-86). A board made this way is a draft: section 10.8
-names what has to be drawn and reviewed by hand before fabrication. No
-figure in this section is a measurement; each is marked as a datasheet
-value, a calculation, a simulation or an estimate, and the results of a
-routing run are in [`../hardware/README.md`](../hardware/README.md).
+names what has to be drawn and reviewed before fabrication. That review
+was done on 2026-10-10 with scripts; section 10.8 gives the state of the
+board after it, the seven points in which the drawn board departs from
+these guidelines, each recorded as a decision (D-87 to D-93), and what is
+still open. No figure in this section is a
+measurement; each is marked as a datasheet value, a calculation, a
+simulation or an estimate, and the description of the board is in
+[`../hardware/README.md`](../hardware/README.md).
 
 ### 10.1 Board and Floor Plan
 
@@ -2710,24 +2727,69 @@ voltage of the measured node: it is a harmless neighbor.
   residue. The free top copper inside the ring is a pour on the guard
   net; no ground pour and no foreign net inside the ring. TP40 is its
   test point, outside the can.
-- The guard is on the top layer only. The ground plane under it is not
+- That closed ring is the aim. On draft A2 the guard is one piece of
+  copper that is open on the top layer at the three places where the
+  measured node leaves the can: the ladder output, the supply node and
+  the pair of R110. A guard track runs on both sides of each exit, and of
+  that pair outside the can as far as the shunt, and the solder mask is
+  closed over the guard at the wall crossings and between pads, because
+  bare guard beside a soldered land of the can would bridge to ground at
+  assembly (D-90).
+- The supply, address and enable pins of the multiplexer U24 and the
+  parts at those pins stand inside the guard on draft A2: they are pins
+  of the package that the guard encloses. No ground pour lies inside it
+  (D-91).
+- The aim is a guard on the top layer only. On draft A2 its arcs are
+  joined through vias with tracks on the bottom layer and on the second
+  inner layer, and guard pours on the bottom layer surround the via pads
+  of the measured node (D-90). The ground plane under the guard is not
   cut: the leakage through 0.2 mm of laminate to the plane is tens of
   picoamperes (estimate with an assumed volume resistivity of
   10¹³ Ω·cm).
-- Surface leakage into the measured node is 1.3 nA to 2.9 nA (estimate
-  for a clean board with 10¹¹ Ω per square), against the 10 nA of the
-  leakage budget (section 4.3). About four fifths of it sit between
-  neighboring pads of one package, at U24, U25, Q15 and Q16,
-  where no guard fits: cleaning decides, and flux residue or moisture can
-  raise the figure a hundredfold. The board is washed after reflow and
-  after every rework near the can, and the cover goes on afterward.
+- Surface leakage into the measured node is 5.1 nA on the drawn board,
+  against the 10 nA of the leakage budget (section 4.3): 4.46 nA on the
+  top layer, of which 0.73 nA inside the shield can and 3.73 nA outside,
+  and 0.67 nA on the bottom layer, none of it under the can. The figure is
+  calculated from the drawn copper, not measured, for a clean board with
+  10¹¹ Ω per square, with 5 V from the node to ground and logic, 7 V to
+  the +12 V rail and to gate nodes and 9 V to the −4 V rail; solder mask,
+  cleanliness and humidity are not modeled. An estimate made before the
+  board was drawn gave 1.3 nA to 2.9 nA. What feeds the figure: the gate
+  of the output pair 1.35 nA, ground 1.32 nA, the copper of the VIN
+  terminal 0.98 nA, the gate of the range 3 transistor Q14 0.62 nA, +12 V
+  at pin 14 of the multiplexer U24 0.47 nA and −4 V at pin 2 of the guard
+  buffer U25 0.26 nA. Almost all of it is the pitch of pads, where no
+  guard fits: gate beside source in the transistor package, the poles of
+  the two DUT connectors, neighboring pins of U24 and of U25. There
+  cleaning decides, and flux residue or moisture can raise the figure a
+  hundredfold. The board is washed after reflow and after every rework
+  near the can, and the cover goes on afterward.
 - Outside the can the ground fill of an outer layer keeps 1.0 mm from the
   pours of the measured node; its neighbors are the pour of the supply
   node and bare laminate under solder mask.
-- No via on a sense net or on a guarded net. Gate lines reach a transistor
-  from the side of its gate pin and do not run along the measured node;
-  the gate node of the output switch behind its 2.2 MΩ resistor keeps
-  2 mm from VOUT copper except at the gate pins.
+- Spacings of the measured node, as the rule file of the board
+  (`power-profiler-carrier.kicad_dru`) states them (D-87): its tracks
+  keep 0.5 mm from foreign nets on the top layer and on the bottom layer,
+  there also the ladder output; gate nodes keep 0.5 mm from other nets on
+  both outer layers; copper fills of other nets keep 1.0 mm from the
+  measured node on the outer layers, and its pours keep 1.0 mm from
+  ground and rail copper, pads included; the guard may run 0.2 mm beside
+  it. At the pins of a part the pad pitch decides, so on the top layer
+  these spacings do not apply to a track that touches the courtyard of a
+  footprint; on the bottom layer, which carries no part, they apply
+  everywhere. None of them applies on an inner layer, which has no
+  surface: there the spacing would only open the ground plane. Every
+  spacing is a rule of that file, because a custom rule that matches
+  replaces the clearance of a zone and of a net class.
+- No via on a sense net or on a guarded net: that is the aim, and 10 of
+  the 11 such nets of draft A2 keep it. The high-side sense line of the
+  range 3 shunt R110 keeps two vias and 1.9 mm on the second inner layer
+  at the shunt, because the pin order of U24 and the pad order of the
+  four-terminal shunt make the two lines of that pair cross once; its two
+  via pads on the bottom layer stand in a guard pour (D-88). Gate lines
+  reach a transistor from the side of its gate pin and do not run along
+  the measured node; the gate node of the output switch behind its 2.2 MΩ
+  resistor keeps 2 mm from VOUT copper except at the gate pins.
 - Kelvin routing as a tightly coupled pair from each shunt to the
   multiplexer U24 and from there to the amplifier U27: tracks of
   0.2 mm with a gap of 0.2 mm, on one layer, equal in length within 1 mm,
@@ -2737,6 +2799,12 @@ voltage of the measured node: it is a harmless neighbor.
   pads, the tap leaving the pad as its own track. The ladder clamps
   Q10 and Q11 and the idle resistor R90 connect to the force
   copper, never to a sense track.
+- That coupled pair is the aim, and the pin order of U24 limits it on
+  draft A2 (D-89): the pair of R110 runs side by side at 0.2 mm; the pair
+  of R107 and the pair from U24 to U27 are equal in length within 1 mm
+  and run side by side only where the pins allow; the taps of R101 and
+  R104 leave their pads as tracks of their own and run through one via
+  each on the second inner layer, where no surface adds leakage.
 - Shield can: a two-piece can, frame SH1 of 44.0 mm × 30.5 mm soldered
   on ground and cover MP3 pressed on by hand, 3.2 mm high when
   assembled (datasheet; D-85). It covers the shunts of ranges 0 to 2 with
@@ -2766,16 +2834,30 @@ voltage of the measured node: it is a harmless neighbor.
   either mode, which is 15.9 mΩ at 40 °C with 35 µm copper (calculated)
   and leaves 4 mΩ of the 20 mΩ that the budget of R-06 gives to copper
   and contacts (D-64).
+- The path is judged by that resistance, not by the width of a piece
+  (D-92). On draft A2 the pours are 4 mm to 8 mm wide where the parts
+  leave room and narrower at pins, test points and connector poles, and
+  the path has 19.5 squares in source mode and 23.3 squares in ampere
+  mode (calculated from the drawn copper).
 - Three pieces may be doubled on the bottom layer through groups of four
   or more vias, because their ends are through-hole pads or wide pours:
   the band of the supply node, the neck to the VOUT pole and the copper
-  from the VIN pole to the fuse F1. No thermal relief on a pad of
-  the path.
+  from the VIN pole to the fuse F1. On draft A2 two pieces run on the
+  bottom layer alone, through groups of vias, because parts stand on the
+  top layer between their pads: from U18 to the source pair and from F1
+  to the ampere pair (D-92). No thermal relief on a pad of the path.
 - The path drop of R-06 is taken at the poles of J4; the pin header
   J3 is fed from the same pours and adds its own contacts.
 - VIN copper ahead of the ampere pair may carry −20 V to +20 V (D-60):
-  it stays outside the shield can and keeps 1.0 mm from every other net.
-  F1 and the suppressor D14 stand at the terminal block.
+  it stays outside the shield can and keeps 1.0 mm from every other net
+  on the outer layers and 0.5 mm on the inner layers, where no surface
+  joins the two and a wider spacing only opens the ground plane (D-87).
+  Copper fills of other nets keep the same distances from it, with one
+  exception on the outer layers: the pours of the 1 A path are left to
+  the spacing of copper that is not a pad, so that the common source of
+  the ampere pair is not pulled off its own pins beside the drain (D-87).
+  At the pins of a part the pad pitch decides, as in section 10.3. F1 and
+  the suppressor D14 stand at the terminal block.
 - The suppressor D21 stands between the rear pads of the VOUT pole and the
   neighboring ground pole of J4, 4.3 mm from pad edge to pad edge and 6 mm
   between pad centers, the least that the courtyard of the terminal block allows
@@ -2823,7 +2905,12 @@ these parts.
   island of output copper of at least 15 mm × 15 mm on the top layer and
   the same on the bottom layer, joined by vias in and around the pad that
   pass the inner layers without a connection; the datasheet gives 65 K/W
-  for 225 mm² of top copper.
+  for 225 mm² of top copper. On draft A2 the island is 291 mm² on the
+  bottom layer, joined by 22 vias to 102 mm² on the top layer, because
+  parts stand around U18 on the top layer (D-93; calculated from the
+  drawn copper). The datasheet figure does not describe that copper: the
+  temperature rise of U18 at its full dissipation is an open check of
+  section 16.
 - The heat of the linear regulator and of the range 3 shunt is kept from
   range 0 and from the reference by distance (section 10.1) and by the
   wall of the can; no slot is cut into a plane.
@@ -2886,7 +2973,7 @@ the track widths and clearances that the net classes of the board file give it
 layout; the connections that a run leaves open are among its figures. It is
 not a reviewed layout, and it is not to be fabricated as it is. An autorouter
 connects pads. It does not do the following, and a layout review does each of
-them by hand before fabrication:
+them before fabrication:
 
 | An autorouter does not | What the review draws or checks | Section |
 | --- | --- | --- |
@@ -2905,6 +2992,170 @@ read on the board, the squares of the 1 A path are counted from the
 plotted copper, and a 1:1 print is compared with the module on its
 sockets, J2, J4, the frame of the can and one of the 1 A
 transistors.
+
+#### State of the Board on 2026-10-10
+
+The autorouted board had 956 of its 984 connections drawn and 28 open, 25
+of which broke a function. The review named above was done on 2026-10-10.
+It was done with scripts on the KiCad board file, block by block: each
+block was drawn against the rules of this section and then checked by an
+independent check that calculated every rule again. A final review of the
+whole board by rule group followed, with 75 findings, each checked by a
+second reviewer; then a repair round for the leakage paths into the
+measured node that this review found; then a last calculation of every
+finding. The schematic and the bill of materials did not change. No part
+was added or removed; 35 of the 425 footprints moved or turned, 33 of
+them by 2.75 mm or less.
+
+Every figure below is calculated from the drawn copper. Nothing is built,
+nothing is measured, every part is a candidate, and no person has yet
+opened the board in the KiCad editor and looked at it as before an order.
+The figures are produced by the scripts in
+[`../tools/board/`](../tools/board/) (section 16).
+
+| Rule | Section | The drawn board (calculated from the drawn copper) |
+| --- | --- | --- |
+| Checks | 10.8 | 984 of 984 connections drawn. Design rules check with schematic parity: 0 violations, 0 unconnected pads, 0 footprint errors, 0 differences between board and schematic, against the rule file of D-87. Electrical rules check: 0 errors, 0 warnings |
+| 1 A path, source mode | 10.4 | 19.5 squares, 10.4 mΩ at 40 °C, from the output of U18 to the VOUT pole; limit 30 squares. The autorouted board had 397 squares |
+| 1 A path, ampere mode | 10.4 | 23.3 squares, 12.3 mΩ at 40 °C, from the VIN pole to the VOUT pole; limit 30 squares. The autorouted board had 217 squares |
+| What the path figures count | 10.4 | Copper only: transistors, shunt, fuse and contacts are not in them. The path is pours on the top layer; the supply band of 38 mm is doubled on the bottom layer through groups of four to eight vias of 0.8 mm with a 0.4 mm hole |
+| Surface leakage into the measured node | 10.3 | 5.1 nA against the budget of 10 nA: top layer 4.46 nA, bottom layer 0.67 nA; clean board with 10¹¹ Ω per square. About 20 nA before the repair round |
+| Sense and guarded nets | 10.3 | 10 of 11 on the top layer without a via. The high-side sense line of R110 keeps two vias and 1.9 mm on the second inner layer |
+| Kelvin pair of range 3, R110 to U24 | 10.3 | 46.3 mm and 45.4 mm, side by side at 0.2 mm over 83 % of the run |
+| Kelvin pair of range 2, R107 to U24 | 10.3 | 28.4 mm and 27.8 mm, equal in length but not side by side |
+| Pair from U24 to the amplifier U27 | 10.3 | 17.0 mm and 17.9 mm, side by side over about 4 mm only |
+| Taps of ranges 0 and 1, R101 and R104 | 10.3 | Each leaves its pad as its own track, then runs through a via and 12 mm and 10 mm on the second inner layer, not as a pair |
+| Guard | 10.3 | One piece of copper: three arcs on the top layer, cut at the three exits of the measured node, joined through 11 vias on the other layers; four guard pours on the bottom layer. In the can 109 mm of the track are 0.5 mm wide, 24 mm are 0.25 mm and 7 mm are 0.15 mm. Solder mask open over 160 of 190 mm (84 %). Guard pour of 227 mm² inside the ring; 29 pads of 10 foreign nets and 18 vias inside the ring |
+| Measured node off the top layer | 10.3 | The ladder output has no track on the bottom layer and 41 mm on the second inner layer, with ground fill 0.15 mm beside it in the laminate; its six via pads on the bottom stand in guard pours |
+| Outside the can | 10.3 | No ground copper within 1.0 mm of a pour of the measured node. Gate node of the output switch 2.0 mm or more from VOUT copper except at the two gate pins. TP38 on the VOUT pour, 3.03 mm from the nearest pad. A ground via within 1.5 mm of each of the 32 lands of the can |
+| Pre-regulator U16 | 10.5 | Both switch nodes are pours without a via; six vias in the power ground pad; feedback line 16.4 mm (limit 20 mm); copper from the output capacitors to FB1 13.4 squares, 7.1 mΩ (limit 15 mΩ). Not kept: capacitor loops of 8.2 mm to 17.1 mm on the top layer (limit 5 mm); L2 4.5 mm from its second pair of switch pins (limit 3 mm) |
+| Boost converter U10 | 10.5 | Not kept: loop of 6.8 mm through the 10 µF capacitor and 10.3 mm through the 100 nF capacitor (limit 5 mm). Output track to the +12 V regulator 28.8 mm (25 mm or more asked) |
+| Charge pump U11 | 10.5 | Flying capacitor and supply sides 0.9 mm to 1.3 mm from their pins (limit 2 mm). Not kept: ground sides of two capacitors at 3.4 mm and 4.4 mm |
+| +12 V regulator U13 | 10.5 | Output sense pin routed to the pad of the output capacitor; +12 V guard along 75 % of the contour of the SET copper, open at the pins |
+| Reference U12 | 10.5 | Ten branches. The star copper at the output pin, 5.7 mm, is still common to several: 2.2 mΩ between the branch of the ADC and the pedestal divider |
+| 5 V rail | 10.1 | A pour on the second inner layer, 1623 mm² in three pieces: 2.7 mΩ and 3.0 mΩ from the bulk capacitor to the input capacitors of the pre-regulator, 3.6 mΩ to the input capacitor of the boost converter |
+| Ground | 10.1 | Plane on the first inner layer in one piece, 14205 mm², no track on the layer; ground fills on the second inner layer and on the bottom layer, stitched to the plane with 41 added vias |
+| Island of U18 | 10.6 | 291 mm² on the bottom layer, 102 mm² on the top layer, joined by 22 vias |
+| Thermal reliefs | 10.6 | On the through-hole ground pads in the plane and in the fills; the pads of the 1 A path are joined solid |
+| Mounting holes | 10.1 | No track on an outer layer within 4.0 mm of the center of a hole |
+
+Seven points in which the drawn board departs from the aims of
+sections 10.3, 10.4 and 10.6. The project owner accepted each on
+2026-10-10 on the recommendation of the layout review; they are the
+decisions D-87 to D-93 of section 15, and the text of those sections
+names them:
+
+1. Rule file of the board (sections 10.3 and 10.4), D-87. It was
+   rewritten. The exemption of the larger spacings near pins applies on
+   the top layer only. The 0.5 mm of the measured node apply on the
+   bottom layer too, and there also to the ladder output. Gate nodes keep
+   0.5 mm on both outer layers. Copper fills keep 1.0 mm from the
+   measured node on the outer layers only. The pours of the measured node
+   keep 1.0 mm from ground and rail copper, pads included. The VIN input
+   keeps 1.0 mm on the outer layers and 0.5 mm on the inner layers. The
+   guard may run 0.2 mm beside the measured node.
+2. Via on a sense net (section 10.3: none is the aim), D-88. The
+   high-side sense line of the 0.1 Ω shunt R110 has two: with the pin
+   order of the multiplexer and the pad order of the four-terminal shunt
+   the two lines of that pair cross once, and no rotation of a part
+   changes that. Its two via pads on the bottom layer stand in a guard
+   pour.
+3. Kelvin pairs (section 10.3: the aim is every pair tightly coupled, on
+   one layer, without a via), D-89. The taps of ranges 0 and 1 run
+   through vias on the second inner layer, the pair of range 2 is not
+   side by side, and the pair to the amplifier is side by side over a
+   quarter of its length.
+4. Guard ring (section 10.3: the aim is a closed track on the top layer
+   only), D-90. It is open at the three exits of the measured node, its
+   arcs are joined on the other layers, guard pours exist on the bottom
+   layer, and the solder mask is closed over it at the wall crossings and
+   between pads.
+5. Foreign nets inside the ring (section 10.3: none is the aim), D-91.
+   The supply, address and enable pins of the multiplexer and their parts
+   are inside.
+6. Width and layer of the pours (section 10.4: pours of 4 mm to 8 mm on
+   the top layer), D-92. The path is judged by its resistance, and the
+   sums are under 30 squares. Pieces are narrower: 1.2 mm on top at the
+   source pair, where the bottom band is 4.9 mm, and 2.0 mm to 2.9 mm at
+   the poles of the terminal block and at test points. Two pieces run on
+   the bottom layer because parts stand in the way on top: regulator
+   output to the source pair, and fuse to the ampere pair.
+7. Island of the linear regulator (section 10.6: 15 mm × 15 mm of output
+   copper on the top layer and on the bottom layer), D-93. The bottom
+   layer has it, with 291 mm²; the top layer has 102 mm². The temperature
+   rise of U18 on that copper is an open check of section 16.
+
+Open items that need parts moved or another footprint. The review did not
+do them:
+
+- Loops of the capacitors of the pre-regulator, of the boost converter
+  and of the charge pump (figures in the table): the capacitors have to
+  be turned or placed again.
+- L2 is 4.5 mm from its switch pins (limit 3 mm).
+- The temperature sensor U39 is 5.1 mm from pad to pad and 7.7 mm from
+  center to center from U18 (limit 5 mm).
+- The suppressor D21 has 93 mm² of cathode copper (1 cm² asked) and
+  stands 8.6 mm from the VOUT pole.
+- The clamps Q10 and Q11 have 21 mm² and 28 mm² of supply copper within
+  5 mm of their drains (1 cm² asked); the strip to one clamp is 0.6 mm
+  wide.
+- The drain pad of the transistor of the ampere pair on the VIN side
+  lies in no top pour: four vias in the pad carry the current.
+- Openings of the ground plane where the clearances of via groups merge,
+  up to 4.7 mm × 2.3 mm under the island of U18; a via pitch of 1.5 mm
+  would keep webs of plane. With 694 vias the plane has 787 mm² of
+  openings in all (593 mm² with the 499 vias of the autorouted board).
+- Reference: the branches should leave the output pad itself; two parts
+  stand in the way.
+- U13 is 22 mm from D6 and C27, courtyard to courtyard; the 25 mm of
+  section 10.1 are kept from center to center only.
+- Vias in or at pads that get solder paste: 4 holes and 14 rings; via
+  holes in the drain pads of two transistors of the path.
+- 19 pads were entered by a track wider than the pad; the tracks were
+  necked down in the last step (41 track ends).
+
+A smaller finding of the final review is open beside these: the pour of
+the 5 V rail is in three pieces, and the three 3.3 V regulators hang on
+two single vias.
+
+Left as on the autorouted board:
+
+- 32 of the 40 signal test points have no probe ground within 5 mm
+  (section 10.7).
+- The net names of the test points and the function of the two jumpers
+  are not on the silkscreen (section 10.2); 123 reference texts are
+  hidden; there is no frame for the serial number (section 10.7).
+- The three acquisition lines enter the can at three places on two
+  layers, not through one opening (section 10.1).
+- 21 nets cross the wall of the can below the ground plane
+  (section 10.3); the second inner layer carries 2.84 m of tracks, so
+  its ground fill is in 80 pieces.
+- The two resistor pairs of the set-point path do not stand side by side
+  (section 10.1).
+
+One text of the silkscreen changed after the review: the title at the
+bottom edge carries the name of the project and keeps the mark of the
+draft, `Open Power Profiler - Carrier Board   rev A2 draft`.
+
+The exit check above, condition by condition:
+
+- Met: the electrical rules check and the design rules check with
+  schematic parity report nothing, and no connection is open.
+- Not met: the distances of section 10.1 and the squares of the 1 A path
+  are calculated by scripts from the board file; no person has read the
+  distances on the board or counted the squares from plotted copper. Of
+  the distances, the calculation shows three that the board does not
+  keep as written: U13 to D6 and C27, the resistor pairs of the
+  set-point path, and the single opening for the acquisition lines.
+- Not met: the 1:1 print has not been compared with the parts.
+
+What stands before fabrication, in this order: a person opens the board
+in KiCad and reviews it; the open items that are to be closed are a
+change of placement with a local redraw; the silkscreen and test point
+items follow. The seven points above are decided (D-87 to D-93) and stand
+in the way of nothing. The component checks
+of section 16, none of which is closed, and the risk prototypes of
+phase 1 stand before an order as before (section 13).
 
 ## 11. Verification Plan
 
@@ -3007,7 +3258,10 @@ protocol/     Protocol definition, generator and shared test vectors
 docs/         This specification, component checks, test reports, and the
               pages for the protocol reference and the calibration
               procedure (both not written)
-tools/        Calibration and production-test scripts (not started)
+tools/        board/: the package that calculates the board figures from
+              the board file (squares of a pour, a path on one layer,
+              pair lengths, surface leakage), tested without hardware;
+              calibration and production-test scripts (not started)
 ```
 
 ## 13. Development Phases & Exit Criteria
@@ -3060,7 +3314,10 @@ tools/        Calibration and production-test scripts (not started)
    the linear regulator, calculated).
 5. Carrier board, revision A, with the Pico 2 plugged in. Entry: the open
    checks of section 16 that precede fabrication are closed, and the
-   layout is reviewed (D-86). Exit: first power-up done in the order
+   layout is reviewed (D-86), which includes the review by a person; the
+   deviations that section 10.8 lists are decided (D-87 to D-93). Exit:
+   first power-up done in
+   the order
    below; full verification plan executed, issues listed.
 6. Calibration, protocol freeze and host software. Exit: R-05 and R-15
    demonstrated end to end.
@@ -3099,11 +3356,17 @@ marked for it are done.
 
 The schematic of the carrier board exists as draft A2, drawn ahead of
 these phases (D-37), with a board whose parts are placed by a script and
-whose tracks come from an autorouter (D-86), which left 28 of the 984
-connections open. The draft is the hypothesis that the phases test: the
-checks of section 16 and the results of phases 1 to 4 change it, and the
-open connections are closed and the layout is reviewed before revision A
-is fabricated in phase 5.
+whose tracks came from an autorouter (D-86), which left 28 of the 984
+connections open. On 2026-10-10 the layout was reviewed with scripts and
+checked by independent calculation: every connection is closed, and the
+pours of the 1 A path, the guard, the sense pairs and the ground fills
+are drawn (section 10.8). Its figures are calculated from the drawn
+copper; nothing is built or measured. The draft is the hypothesis that
+the phases test: the checks of section 16 and the results of phases 1 to
+4 change it. The seven deviations of section 10.8 are decided (D-87 to
+D-93). Before revision A is fabricated in phase 5, a person reviews the
+board in KiCad, and the open items of that section that need parts moved
+are closed or accepted.
 
 ## 14. Risk Register
 
@@ -3150,7 +3413,7 @@ is fabricated in phase 5.
 | A firmware rule that guards hardware is missing or late (the PIO programs are not written) | Part overstressed in a fault | One list of the rules in section 6.6 (D-81), each with a test; series resistors and pull resistors as the second barrier; watchdog; two rules have no part behind them: the clock lines of the ADC and the return of energy to the 5 V rail |
 | Leakage of the ESD arrays of the logic port between 2.5 V and 5.5 V has no datasheet limit | Reading of a sleeping DUT carries tens of nanoamperes per high line | Measured at 1.8 V to 5.5 V before the first release; accepted at or below 0.5 µA at 5.0 V; an alternate fits the same pads |
 | Draft schematic taken as a finished design | Boards built with unchecked parts | Draft marked A2 on every sheet; section 16 lists the open checks; fabrication only in phase 5 |
-| Autorouted board fabricated without a layout review (D-86) | Noise, leakage and burden outside their budgets: R-06 is missed if copper and contacts pass about 44 mΩ | Layout rules of section 10; review of the routed board before fabrication; resistance of the 1 A path as a check of section 16 |
+| Board fabricated on the review of 2026-10-10 alone (D-86): done with scripts, its figures calculated from the drawn copper, not yet read by a person in KiCad; seven deviations from section 10 accepted as decisions (D-87 to D-93), one of them with a thermal check open (D-93); converter loops longer than their limits | Noise, leakage and burden outside their budgets: R-06 is missed if copper and contacts pass about 44 mΩ (copper alone 10.4 mΩ and 12.3 mΩ, calculated); the leakage of 5.1 nA (calculated) holds for a clean board only | Layout rules of section 10; state, deviations and open items in section 10.8; review by a person before fabrication; resistance of the 1 A path and temperature rise of U18 as checks of section 16; ripple of the converters measured on the prototypes of phase 1 |
 | Noise and ground bounce through the board sockets | Jitter on the convert-start signal | Acquisition signals next to a ground pin, series resistors, low drive strength, measurement in phase 1 |
 | Firmware and host disagree on the protocol | Corrupt or misread data | One definition file, generated constants, shared test vectors, stale-file check in continuous integration |
 | Firmware port to the new controller takes longer than planned | Phase 1 starts late | The hardware-independent code and its tests carry over; only adapters and build change |
@@ -3268,6 +3531,13 @@ shown by calculation or simulation and stays a bench item of section 16:
 | D-84 | Positions without parts: a voltage detector (803 type, 3.08 V) at the enable pin of the boost converter, and a damper of 0.33 Ω with 10 µF on the input from the controller module. Three more test points: the reference of the set-point DAC, the enable of the pre-regulator and the DUT-side supply of the translator | The boost converter has no under-voltage lock-out and no soft start, and the limiter of that input gives 0.67 A to 0.85 A (calculated), less than the converter asks for while its output charges; the multiplexer inputs come within 25 mV to 85 mV of their 6 V rating when the data cable is plugged again (simulated). Both are bench items, and the positions cost nothing |
 | D-85 | Board outline of 150 mm × 100 mm with four M3 holes (replaces D-46). Board-level parts: a two-piece shield can of 44.0 mm × 30.5 mm over the front end, three fiducials, five square probe grounds. Project footprints for the lever terminal block, with pads of 1.9 mm × 2.3 mm, and for the controller module, without the antenna keep-out of the library footprint | The parts of draft A2, the shield can and the pours of the 1 A path load several blocks to 44 % or more of their area on 130 mm × 100 mm (calculated); the library pads of the terminal block leave an annular ring of 0.15 mm; the keep-out opens the ground plane between the acquisition pins and the SPI pins, and no function uses the radio of a Pico 2 W |
 | D-86 | The generator of the project places the parts, and the board is routed automatically with FreeRouting. A board made this way is a draft that needs a layout review before fabrication (section 10). Replaces the placement of D-46 | Requested by the project owner on 2026-10-09, to have a complete board file early; an autorouter connects pads and knows nothing of pours, guard rings, sense pairs or converter loops |
+| D-87 | The rule file of the board states every spacing that the layout needs: the exemption of the larger spacings near pins applies on the top layer only; the 0.5 mm of the measured node apply on the bottom layer too, there also to the ladder output; gate nodes keep 0.5 mm on both outer layers; the VIN input keeps 1.0 mm on the outer layers and 0.5 mm on the inner layers; copper fills keep 1.0 mm from the measured node on the outer layers and from the VIN input (0.5 mm on the inner layers); the pours of the measured node keep 1.0 mm from ground and rail copper, pads included; the guard may run 0.2 mm beside the measured node | A custom rule that matches replaces the clearance of a zone and of a net class, and the exemption near pins had also freed copper that lies under a part on another layer: the check did not see 32 places where the measured node or the VIN input stood too close to other copper (final review of the layout, calculated from the drawn copper). A spacing against leakage along a surface has no purpose on an inner layer, where it only opens the ground plane. Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
+| D-88 | The high-side sense line of the range 3 shunt R110 keeps two vias and 1.9 mm on the second inner layer at the shunt; its two via pads on the bottom layer stand in a guard pour. It is the one sense net with a via | With the pin order of the multiplexer U24 and the pad order of the four-terminal shunt the two lines of that pair have to cross once, and no rotation of a part changes that; with the guard pour the calculated surface leakage at the two pads is 0.00 nA, against 1.3 nA to 1.5 nA in the ground fill. Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
+| D-89 | Kelvin routing of draft A2: the pair of R110 runs side by side at 0.2 mm; the pair of R107 and the pair from U24 to the amplifier U27 are equal in length within 1 mm and run side by side only where the pins allow; the taps of R101 and R104 leave their pads as tracks of their own and run through one via each on the second inner layer | The pin order of U24 nests the pairs under its package, so only the innermost pair can run side by side, and the two pins of a pair are on opposite sides of U24 and of U27; an inner layer has no surface, so a tap there adds no surface leakage (0.00 nA on the bottom layer under the can, calculated). Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
+| D-90 | The guard is one piece of copper that is open on the top layer at the three places where the measured node leaves the shield can (ladder output, supply node, the pair of R110), with a guard track on both sides of each exit and of that pair outside the can as far as the shunt; its arcs are joined through vias with tracks on the bottom layer and on the second inner layer, and guard pours on the bottom layer surround the via pads of the measured node. The solder mask is closed over the guard at the wall crossings and between pads | A ring that the measured node has to leave cannot close on one layer; bare guard beside a soldered land of the can would bridge to ground at assembly. Calculated surface leakage inside the can: 0.73 nA on the top layer, 0.00 nA on the bottom layer. Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
+| D-91 | The supply, address and enable pins of the multiplexer U24 and the parts at those pins stand inside the guard; no ground pour lies inside it | They are pins of the package that the guard encloses; moving their parts outside would lead their nets across the guard on the top layer. Their share of the calculated leakage is 0.47 nA (+12 V at pin 14 of U24). Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
+| D-92 | The 1 A path is judged by its resistance, 30 squares or less in either mode. Its pours are 4 mm to 8 mm wide where the parts leave room and narrower at pins, test points and connector poles, and two pieces run on the bottom layer through groups of vias: from the linear regulator U18 to the source pair and from the fuse F1 to the ampere pair | The drawn path has 19.5 squares in source mode and 23.3 squares in ampere mode (calculated from the drawn copper); parts stand on the top layer between those pads, and clearing them is a change of placement. Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
+| D-93 | The island of output copper under the linear regulator U18 is 291 mm² on the bottom layer, joined by 22 vias to 102 mm² on the top layer, in place of 15 mm × 15 mm on both layers | Parts stand around U18 on the top layer. The datasheet figure of 65 K/W is for 225 mm² of top copper, so the temperature rise of U18 at its full dissipation is an open check of section 16, to be read on the first board. Accepted by the project owner on 2026-10-10 on the recommendation of the layout review |
 
 ## 16. Open Checks Before Freezing the Schematic
 
@@ -3315,7 +3585,13 @@ Parts and blocks:
   points, margin 2 mV at 5.0 V; measurement on several warm units open),
   minimum load (3.7 mA to 6.9 mA through R69, calculated), output noise
   with that load, operation from the control pin alone, thermal
-  resistance of the package on the planned copper.
+  resistance of the package on the planned copper. Temperature rise at
+  its full dissipation (1.02 W at the limits, 1.5 W to 2.0 W in a
+  sustained short circuit, calculated) on the island of draft A2,
+  291 mm² on the bottom layer joined by 22 vias to 102 mm² on the top
+  layer (D-93): the datasheet figure of 65 K/W is for 225 mm² of top
+  copper and does not describe that island, so the rise is read on the
+  first board.
 - Pre-regulator (TPS63020, U16): stability with the difference amplifier
   U19 in its feedback path over 1.2 V to 5.5 V and the charge it returns
   to the 5 V rail (both from a behavioral model only; phase 1 prototype),
@@ -3446,7 +3722,9 @@ Parts and blocks:
 - Path resistance: switches, shunt, fuse and connectors against the 200 mV
   limit of R-06 in both modes; resistance of samples of F1, whose
   datasheet states no tolerance; copper and contacts of the 1 A path at
-  or below 20 mΩ.
+  or below 20 mΩ. The copper alone is 10.4 mΩ in source mode and 12.3 mΩ
+  in ampere mode at 40 °C (calculated from the drawn copper,
+  section 10.8); the contacts and the measurement stay open.
 - Supply node of the ladder: TP33 below 0.3 V with the instrument idle
   and 5 V on VIN and on VOUT; TP33 against TP16 while the USB cable
   is pulled with the source on at 5 V (the node follows the rail down
@@ -3500,7 +3778,22 @@ Before the board is ordered. These items need no carrier board:
   on-resistance of the MUX509 at +12 V / −4 V.
 - Review of the routed board (D-86) against the rules of section 10, with
   the resistance of the 1 A path and of the copper from the pre-regulator
-  to FB1 (15 mΩ or less).
+  to FB1 (15 mΩ or less). Done on 2026-10-10 with scripts and checked by
+  independent calculation: 19.5 squares in source mode and 23.3 squares
+  in ampere mode against 30, and 7.1 mΩ to FB1 (calculated from the
+  drawn copper, section 10.8). Open: a person opens the board in the
+  KiCad editor and reviews it, and the rest of the exit check of
+  section 10.8.
+- The open items of section 10.8 that need parts moved or another
+  footprint: which of them are closed before the order, by a change of
+  placement with a local redraw.
+- Files that have to be in the repository so that a figure can be
+  repeated: the simulation files in
+  [`../hardware/simulation/`](../hardware/simulation/), which are not
+  filed yet. The figures calculated from the board (resistance of a pour
+  in squares, path on one layer, surface leakage into the measured node,
+  lengths of the pairs) are produced by the scripts in
+  [`../tools/board/`](../tools/board/).
 - Stock of the parts that had none on 2026-10-09 (L2, 10 µF and 22 µF
   25 V X5R), and the order of the parts with long lead times.
 
@@ -3621,6 +3914,8 @@ repository. They are the baseline behind requirement R-17.
 - Host: the protocol layer does no I/O. Transports implement one interface,
   and the device client depends on that interface, never on a concrete
   transport. A simulator implements the instrument side of the protocol.
+- Board figures (`tools/board`): the calculations are pure; the dump of
+  the KiCad board file and the command line are adapters.
 - The wire protocol has one definition (section 7.5). No protocol number is
   typed by hand in C or in Python.
 
@@ -3667,6 +3962,11 @@ the release commit. A failing gate blocks the merge.
 | Format and lint | clang-format | ruff |
 | Protocol | Generated files up to date | Generated files up to date |
 | Documentation | markdownlint | markdownlint |
+
+The package under [`../tools/board/`](../tools/board/), which calculates
+the board figures, is held to the gates of the host column: its tests, the
+coverage floor of 90 % of lines and branches, mypy in strict mode and ruff.
+Its workflow, Tools, is started by hand like the others (D-22).
 
 The coverage figures are floors, not targets. A change does not lower the
 coverage of the code it touches.
