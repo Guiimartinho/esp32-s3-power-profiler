@@ -1,0 +1,46 @@
+* LT3042: ripple rejection and noise
+.include "../../models/analog_rails.lib"
+Vin in 0 DC 5.3 AC 1
+Ven en 0 3
+* 3.3 V of output, 2 V across the part, 200 mA, 4.7 uF at the output and at SET
+X1 in en pg 0 in set 0 out out LT3042
+Rset set 0 33.2k
+Cset set 0 4.7u
+Cout out 0 4.7u
+Rload out 0 16.5
+.nodeset v(en)=3
+.nodeset v(in)=5.3
+.nodeset v(out)=3.31978241
+.nodeset v(pg)=0
+.nodeset v(set)=3.31977504
+.nodeset v(x1.c1)=3.31978241
+.nodeset v(x1.c2)=3.31977504
+.nodeset v(x1.enr)=1.155
+.nodeset v(x1.eon)=1
+.nodeset v(x1.er)=1.08840517e-07
+.nodeset v(x1.fs)=0.999999947
+.nodeset v(x1.fsd)=0.999999947
+.nodeset v(x1.ia)=3.54043519
+.nodeset v(x1.il)=0.3
+.nodeset v(x1.io)=0.20127087
+.nodeset v(x1.na)=0
+.nodeset v(x1.ni)=0
+.nodeset v(x1.on)=1
+.nodeset v(x1.ond)=1
+.nodeset v(x1.pgok)=1
+.nodeset v(x1.pgr)=0.2965
+.nodeset v(x1.ps1)=0.00062752
+.nodeset v(x1.ps2)=7.47047619e-06
+.nodeset v(x1.ref)=3.31978251
+.nodeset v(x1.uok)=1
+.nodeset v(x1.uvr)=1.7425
+.nodeset v(x1.x)=0.201267659
+.nodeset v(x1.xen.x)=1
+.nodeset v(x1.xpg.x)=1
+.nodeset v(x1.xuv.x)=1
+.control
+op
+noise v(out) Vin dec 30 1 10meg
+ac dec 30 1 10meg
+.endc
+.end

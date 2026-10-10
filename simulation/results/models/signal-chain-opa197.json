@@ -1,0 +1,291 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "signal-chain-opa197",
+ "title": "OPA197 model against its datasheet",
+ "covers": "the model of the pedestal buffer U26 (and of U17 and U25)",
+ "summary": "The model is put in the test circuits of its datasheet, on +/-18 V. An open-loop run gives the gain, the gain-bandwidth product, the phase margin and the noise; a current into the output gives the open-loop output impedance. Followers driven beyond the rails give the output swing with each load of the table, others the supply current, the short-circuit current and the input capacitances. Steps of a follower give the slew rate, the settling time and the overshoot with a capacitive load. The datasheet has a table of isolation resistors for capacitive loads as well; the bench of the output stage for its guard buffer compares the model with it.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "gain",
+   "label": "Open-loop gain at 0.1 Hz into 10 kohm",
+   "value": 133.7573,
+   "unit": "dB",
+   "expected": 134.0,
+   "low": 120.0,
+   "high": 144.0,
+   "source": "TI SBOS737C: typical value and least value",
+   "verdict": "pass"
+  },
+  {
+   "key": "bandwidth",
+   "label": "Gain-bandwidth product, from the gain at a hundredth of it",
+   "value": 10601630.0,
+   "unit": "Hz",
+   "expected": 10000000.0,
+   "low": 8500000.0,
+   "high": 11500000.0,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover",
+   "label": "Frequency at which the open-loop gain falls through 1",
+   "value": 8370246.0,
+   "unit": "Hz",
+   "expected": 10000000.0,
+   "low": 8000000.0,
+   "high": 12000000.0,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin",
+   "label": "Phase margin of a follower with 15 pF",
+   "value": 56.81738,
+   "unit": "deg",
+   "expected": 50.0,
+   "low": 40.0,
+   "high": 60.0,
+   "source": "TI SBOS737C: read from the open-loop curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_100",
+   "label": "Voltage noise at 100 Hz",
+   "value": 1.071108e-08,
+   "unit": "V/√Hz",
+   "expected": 1.05e-08,
+   "low": 9.24e-09,
+   "high": 1.176e-08,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_1000",
+   "label": "Voltage noise at 1000 Hz",
+   "value": 5.827556e-09,
+   "unit": "V/√Hz",
+   "expected": 5.5e-09,
+   "low": 4.84e-09,
+   "high": 6.16e-09,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_frequency",
+   "label": "Noise from 0.1 Hz to 10 Hz, peak to peak",
+   "value": 1.308279e-06,
+   "unit": "V",
+   "expected": 1.3e-06,
+   "low": 9.75e-07,
+   "high": 1.625e-06,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_impedance",
+   "label": "Open-loop output impedance at 1 MHz",
+   "value": 364.8696,
+   "unit": "ohm",
+   "expected": 375.0,
+   "low": 337.5,
+   "high": 412.5,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_high_0",
+   "label": "Output without load: distance from the positive supply",
+   "value": 0.004988001,
+   "unit": "V",
+   "expected": 0.005,
+   "low": null,
+   "high": 0.025,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_low_0",
+   "label": "Output without load: distance from the negative supply",
+   "value": 0.004988,
+   "unit": "V",
+   "expected": 0.005,
+   "low": null,
+   "high": 0.025,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_high_1",
+   "label": "Output into 10 kohm: distance from the positive supply",
+   "value": 0.09091526,
+   "unit": "V",
+   "expected": 0.095,
+   "low": null,
+   "high": 0.125,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_low_1",
+   "label": "Output into 10 kohm: distance from the negative supply",
+   "value": 0.09091526,
+   "unit": "V",
+   "expected": 0.095,
+   "low": null,
+   "high": 0.125,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_high_2",
+   "label": "Output into 2 kohm: distance from the positive supply",
+   "value": 0.4265719,
+   "unit": "V",
+   "expected": 0.43,
+   "low": null,
+   "high": 0.5,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_low_2",
+   "label": "Output into 2 kohm: distance from the negative supply",
+   "value": 0.4265719,
+   "unit": "V",
+   "expected": 0.43,
+   "low": null,
+   "high": 0.5,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Supply current without load",
+   "value": 0.001,
+   "unit": "A",
+   "expected": 0.001,
+   "low": 0.0009,
+   "high": 0.0013,
+   "source": "TI SBOS737C: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_circuit",
+   "label": "Current into a short circuit at the output",
+   "value": 0.06504262,
+   "unit": "A",
+   "expected": 0.065,
+   "low": 0.0585,
+   "high": 0.0715,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "without_supply",
+   "label": "Output of a follower on 1 V of supply with 0.5 V at its input",
+   "value": 0.01000869,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.02,
+   "source": "the model: no output below 1.5 V of supply (assumption)",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_common",
+   "label": "Input capacitance from each input",
+   "value": 6.4e-12,
+   "unit": "F",
+   "expected": 6.4e-12,
+   "low": 6.08e-12,
+   "high": 6.72e-12,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_between",
+   "label": "Input capacitance between the inputs",
+   "value": 1.6e-12,
+   "unit": "F",
+   "expected": 1.6e-12,
+   "low": 1.52e-12,
+   "high": 1.68e-12,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "slew_rate",
+   "label": "Slew rate, step of 10 V",
+   "value": 19.24569,
+   "unit": "V/us",
+   "expected": 20.0,
+   "low": 18.0,
+   "high": 22.0,
+   "source": "TI SBOS737C",
+   "verdict": "pass"
+  },
+  {
+   "key": "settling",
+   "label": "Step of 10 V: within 0.01 % after",
+   "value": 6.562491e-07,
+   "unit": "s",
+   "expected": 1.4e-06,
+   "low": null,
+   "high": 2.8e-06,
+   "source": "TI SBOS737C: typical value; twice that is the fit asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_100p",
+   "label": "Follower with 100 pF: overshoot of a 100 mV step",
+   "value": 19.22044,
+   "unit": "%",
+   "expected": 15.0,
+   "low": null,
+   "high": null,
+   "source": "TI SBOS737C: read from the overshoot curve",
+   "verdict": "info"
+  },
+  {
+   "key": "overshoot_1000p",
+   "label": "Follower with 1000 pF: overshoot of a 100 mV step",
+   "value": 46.79381,
+   "unit": "%",
+   "expected": 40.0,
+   "low": null,
+   "high": null,
+   "source": "TI SBOS737C: read from the overshoot curve",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "open-loop",
+   "OPA197 model: open-loop gain and phase",
+   "signal-chain-opa197.open-loop.png"
+  ],
+  [
+   "step",
+   "OPA197 model: follower steps",
+   "signal-chain-opa197.step.png"
+  ]
+ ],
+ "notes": [
+  "The limits of the dynamic figures are the fit this project asks of a model: 15 % on the gain-bandwidth product, 20 % on the crossover, 10 degrees on the phase margin, 12 % on a noise density, 25 % on the noise from 0.1 Hz to 10 Hz. They are not datasheet limits.",
+  "The model is a typical part at 25 C without offset; the offset and the bias current are parameters.",
+  "The overshoot with a capacitive load carries no limit: the open-loop output impedance of the model is a resistance, with a capacitor across it for the OPA197, and the real parts differ from that above 1 MHz."
+ ],
+ "models": [],
+ "decks": [
+  "signal-chain-opa197.open-loop.cir",
+  "signal-chain-opa197.static.cir"
+ ],
+ "format": 1
+}

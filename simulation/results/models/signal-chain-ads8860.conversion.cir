@@ -1,0 +1,11 @@
+* ADS8860 input: one conversion with 1 V behind 1 kohm
+.include "../../models/signal_chain.lib"
+Vref ref 0 5
+Vs src 0 1
+Rs src ainp 1000
+X1 ref ainp 0 0 cnv SIGNAL_CHAIN_ADS8860
+Vcnv cnv 0 PULSE(0 3.3 2e-06 5n 5n 1u 1)
+.control
+tran 0.5n 5u 0 1n
+.endc
+.end

@@ -1,0 +1,204 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-lt3042",
+ "title": "LT3042 model against its datasheet",
+ "covers": "the model of the +12V_A regulator U13",
+ "summary": "The model is put in the test circuits of the datasheet table. Start-up with 4.7 uF at the SET pin, with and without the fast start-up; the thresholds of the enable pin; the dropout at 50 mA and 200 mA; the current limit at 12 V and 20 V across the part; the ripple rejection at four frequencies and the output noise, both with 4.7 uF at the output and at the SET pin and 200 mA of load.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "start_fast",
+   "label": "Start to 90 % of 5 V with fast start-up, 4.7 uF at SET",
+   "value": 0.01082723,
+   "unit": "s",
+   "expected": 0.01,
+   "low": 0.008,
+   "high": 0.012,
+   "source": "datasheet rev. C page 4: 10 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_slow",
+   "label": "Start to 90 % of 5 V without fast start-up, 4.7 uF at SET",
+   "value": 0.5442964,
+   "unit": "s",
+   "expected": 0.55,
+   "low": 0.495,
+   "high": 0.605,
+   "source": "datasheet rev. C page 4: 550 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_on",
+   "label": "Enable pin at which the output comes",
+   "value": 1.240523,
+   "unit": "V",
+   "expected": 1.24,
+   "low": 1.2028,
+   "high": 1.2772,
+   "source": "datasheet rev. C page 4: 1.24 V rising",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_off",
+   "label": "Enable pin at which the output goes",
+   "value": 1.054552,
+   "unit": "V",
+   "expected": 1.07,
+   "low": 1.0165,
+   "high": 1.1235,
+   "source": "datasheet rev. C page 4: 170 mV of hysteresis",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_50",
+   "label": "Dropout at 50 mA",
+   "value": 0.264659,
+   "unit": "V",
+   "expected": 0.22,
+   "low": null,
+   "high": 0.3,
+   "source": "datasheet rev. C page 3: 220 mV typical, 300 mV at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_200",
+   "label": "Dropout at 200 mA",
+   "value": 0.3099824,
+   "unit": "V",
+   "expected": 0.35,
+   "low": 0.28,
+   "high": 0.42,
+   "source": "datasheet rev. C page 3: 350 mV typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "limit_12",
+   "label": "Current limit with 12 V across the part",
+   "value": 0.300088,
+   "unit": "A",
+   "expected": 0.3,
+   "low": 0.285,
+   "high": 0.315,
+   "source": "datasheet rev. C page 4: 300 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "limit_20",
+   "label": "Current limit with 20 V across the part",
+   "value": 0.180088,
+   "unit": "A",
+   "expected": 0.18,
+   "low": 0.171,
+   "high": 0.189,
+   "source": "datasheet rev. C page 4: 180 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_120",
+   "label": "Ripple rejection at 120 Hz",
+   "value": 116.7747,
+   "unit": "dB",
+   "expected": 117.0,
+   "low": 113.0,
+   "high": 121.0,
+   "source": "datasheet rev. C page 4 (fit of the model: 4 dB)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_10000",
+   "label": "Ripple rejection at 10000 Hz",
+   "value": 91.19247,
+   "unit": "dB",
+   "expected": 91.0,
+   "low": 87.0,
+   "high": 95.0,
+   "source": "datasheet rev. C page 4 (fit of the model: 4 dB)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_100000",
+   "label": "Ripple rejection at 100000 Hz",
+   "value": 79.21353,
+   "unit": "dB",
+   "expected": 78.0,
+   "low": 74.0,
+   "high": 82.0,
+   "source": "datasheet rev. C page 4 (fit of the model: 4 dB)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_1e06",
+   "label": "Ripple rejection at 1e+06 Hz",
+   "value": 81.50019,
+   "unit": "dB",
+   "expected": 79.0,
+   "low": 75.0,
+   "high": 83.0,
+   "source": "datasheet rev. C page 4 (fit of the model: 4 dB)",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_10k",
+   "label": "Output noise density at 10 kHz",
+   "value": 2.048485e-09,
+   "unit": "V/√Hz",
+   "expected": 2e-09,
+   "low": 1.7e-09,
+   "high": 2.3e-09,
+   "source": "datasheet rev. C page 3: 2 nV/rtHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_10",
+   "label": "Output noise density at 10 Hz, 4.7 uF at SET",
+   "value": 7.232918e-08,
+   "unit": "V/√Hz",
+   "expected": 6e-08,
+   "low": 4e-08,
+   "high": 9e-08,
+   "source": "datasheet rev. C page 3: 60 nV/rtHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_rms",
+   "label": "Output noise from 10 Hz to 100 kHz, 4.7 uF at SET",
+   "value": 6.821486e-07,
+   "unit": "V",
+   "expected": 8e-07,
+   "low": 6e-07,
+   "high": 1e-06,
+   "source": "datasheet rev. C page 3: 0.8 uV RMS",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "LT3042: start to 5 V with 4.7 uF at SET",
+   "analog-rails-lt3042.start.png"
+  ],
+  [
+   "rejection",
+   "LT3042: ripple rejection and output noise, 200 mA",
+   "analog-rails-lt3042.rejection.png"
+  ]
+ ],
+ "notes": [
+  "The limits are the fit this project asks of the model, not datasheet limits, except where the datasheet gives a maximum.",
+  "Above the bandwidth of its output stage the model rejects more than the 56 dB that the datasheet gives at 10 MHz; that point is not checked.",
+  "The loop of the regulator is one pole with an integral part: the model says nothing about stability with a given capacitor."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-lt3042.limits.cir",
+  "analog-rails-lt3042.small-signal.cir",
+  "analog-rails-lt3042.start.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,34 @@
+* OPA197: static figures
+.include "../../models/opamps.lib"
+Vp vp 0 18
+Vn vn 0 -18
+Vmid mid 0 0
+Vhigh high 0 19
+Vlow low 0 -19
+Xhigh0 high o_high0 vp vn o_high0 OPA197
+Xlow0 low o_low0 vp vn o_low0 OPA197
+Xhigh1 high o_high1 vp vn o_high1 OPA197
+Rhigh1 o_high1 mid 10000
+Xlow1 low o_low1 vp vn o_low1 OPA197
+Rlow1 o_low1 mid 10000
+Xhigh2 high o_high2 vp vn o_high2 OPA197
+Rhigh2 o_high2 mid 2000
+Xlow2 low o_low2 vp vn o_low2 OPA197
+Rlow2 o_low2 mid 2000
+* supply current of a follower without load, on supplies of its own
+Vpq vpq 0 18
+Vnq vnq 0 -18
+Xq mid o_q vpq vnq o_q OPA197
+* a follower asked for 1 V above the middle, its output held at the middle
+Vask ask mid 1
+Xs ask o_s vp vn o_s OPA197
+Vshort o_s mid 0
+* a follower on 1 V of supply: below the supply range
+Vpd vpd 0 1
+Vin_d in_d 0 0.5
+Xd in_d o_d vpd 0 o_d OPA197
+Rd o_d 0 10k
+.control
+op
+.endc
+.end

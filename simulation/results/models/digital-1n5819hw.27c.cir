@@ -1,0 +1,24 @@
+* 1N5819HW: forward voltage, reverse current and capacitance at 27 C
+.include "../../models/digital.lib"
+* forward: a current is forced through the diode
+If 0 f 1m
+Xf f 0 DIGITAL_1N5819HW
+* reverse: the typical part and the part at the maximum of the datasheet
+Vr r 0 4
+Xt 0 r DIGITAL_1N5819HW
+Vq q 0 4
+Xl 0 q DIGITAL_1N5819HW rleak=87000
+* capacitance at 4 V
+Vc c 0 DC 4 AC 1
+Xc 0 c DIGITAL_1N5819HW
+.options temp=27
+.control
+foreach level 0.0001 0.0001257 0.0001581 0.0001988 0.00025 0.0003144 0.0003953 0.0004971 0.0006251 0.000786 0.0009884 0.001243 0.001563 0.001965 0.002471 0.003107 0.003907 0.004913 0.006178 0.007769 0.009769 0.01228 0.01545 0.01942 0.02442 0.03071 0.03862 0.04856 0.06106 0.07678 0.09655 0.1214 0.1527 0.192 0.2414 0.3035 0.3817 0.4799 0.6035 0.7589 0.9543 1.2 1.509 1.897 2.386 3
+  alter If dc = $level
+  op
+end
+dc Vr 0.2 6 0.2
+dc Vq 0.2 6 0.2
+ac lin 1 1e6 1e6
+.endc
+.end

@@ -1,0 +1,16 @@
+* Limiter: start, 3300 pF at the dVdt pin
+.include "../../models/power_input.lib"
+XU4 in out en ovcsel ilm dvdt flt 0 PWRIN_TPS259621
+Rflt flt 0 1e9
+Rdv dvdt 0 1e12
+Vin in 0 PWL(0 0 10u 5)
+Ven en 0 PWL(0 0 0.0002 0 0.000201 3.3)
+Rsel ovcsel 0 400k
+Rilm ilm 0 453
+Rout out 0 100
+Cout out 0 1u
+Cdv dvdt 0 3.3e-09
+.control
+tran 2e-07 0.0012 0 2e-07 uic
+.endc
+.end

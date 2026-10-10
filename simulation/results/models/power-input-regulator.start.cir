@@ -1,0 +1,11 @@
+* Regulator: start and discharge
+.include "../../models/power_input.lib"
+XU8 in 0 en out PWRIN_LP5907
+Cout out 0 1u
+Vin in 0 PWL(0 0 10u 4.3)
+Ven en 0 PWL(0 0 1m 0 1.0002m 1.2 3m 1.2 3.0002m 0)
+Rload out 0 3.3k
+.control
+tran 2e-07 0.0045 0 2e-07 uic
+.endc
+.end

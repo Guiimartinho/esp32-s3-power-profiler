@@ -1,0 +1,206 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "input-clamp",
+ "title": "The comparator inputs with 3V3_A off and the amplifier output at 10 V",
+ "covers": "section 4.5 (comparator inputs, limiter), decision D-76, section 16 (comparators)",
+ "summary": "The supply of the comparators is at 0 V and the amplifier output rises to 12 V. The amplifier runs from +12 V and can hold its output high while 3V3_A is off: after a failed part, or with the negative rail missing. The divider R136 and R137 and the diode pair D23 then have to keep the comparator inputs within 1.0 V of their supply. The run takes the comparator sheet alone with a source in the place of the amplifier output, ramps that source from 0 V to 12 V, and reads the node of the comparator inputs and the currents in R136 and in the diode at 10 V, at 10.4 V, which is the highest output of the amplifier, and at 12 V. It is repeated with the diode at the forward voltage that its datasheet gives as the maximum, and with 3V3_A present.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "node_10v_highest",
+   "label": "Node above 3V3_A, amplifier at 10 V, diode at its datasheet maximum",
+   "value": 0.9330971,
+   "unit": "V",
+   "expected": 0.95,
+   "low": null,
+   "high": 0.95,
+   "source": "section 4.5: the node cannot pass 3V3_A + 0.95 V at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_swing_highest",
+   "label": "The same with the amplifier at its highest output, 10.4 V",
+   "value": 0.9358806,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "section 4.5: rating of the comparator inputs, 1.0 V beyond the supply",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_rail_highest",
+   "label": "The same with the amplifier output at its 12 V rail",
+   "value": 0.9456778,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "section 4.5: rating of the comparator inputs, 1.0 V beyond the supply",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_10v_typical",
+   "label": "Node above 3V3_A, amplifier at 10 V, typical diode",
+   "value": 0.8362272,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_10v_lowest",
+   "label": "Node above 3V3_A, amplifier at 10 V, diode with a low forward voltage",
+   "value": 0.7389756,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "diode_10v",
+   "label": "Current in the clamp diode, amplifier at 10 V, typical diode",
+   "value": 0.002208212,
+   "unit": "A",
+   "expected": 0.0023,
+   "low": null,
+   "high": 0.00285,
+   "source": "section 4.5: limited to 2.3 mA to 2.8 mA, calculated; 2.8 mA to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_swing",
+   "label": "The same with the amplifier at its highest output, 10.4 V",
+   "value": 0.002337608,
+   "unit": "A",
+   "expected": 0.0023,
+   "low": null,
+   "high": 0.00285,
+   "source": "section 4.5: limited to 2.3 mA to 2.8 mA, calculated; 2.8 mA to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_swing_lowest",
+   "label": "The same with a diode of low forward voltage",
+   "value": 0.002467344,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.00285,
+   "source": "section 4.5: limited to 2.3 mA to 2.8 mA, calculated; 2.8 mA to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_rail",
+   "label": "Typical diode, amplifier output at its 12 V rail, which it cannot reach",
+   "value": 0.002856779,
+   "unit": "A",
+   "expected": 0.0028,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "divider_swing",
+   "label": "Current in R136, amplifier at 10.4 V, typical diode",
+   "value": 0.003176458,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "power_r136",
+   "label": "Power in R136 with the amplifier output at its 12 V rail",
+   "value": 0.04131677,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "limit of this bench: 0.1 W, the usual rating of a 0603 resistor (assumption)",
+   "verdict": "pass"
+  },
+  {
+   "key": "present_node",
+   "label": "3V3_A present, amplifier at 10.4 V: node of the comparator inputs",
+   "value": 2.593508,
+   "unit": "V",
+   "expected": 2.593516,
+   "low": null,
+   "high": 3.3,
+   "source": "section 4.5: the divider keeps the inputs inside the supply",
+   "verdict": "pass"
+  },
+  {
+   "key": "present_diode",
+   "label": "3V3_A present, amplifier at 12 V: current in the clamp diode",
+   "value": 5.209517e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "limit of this bench: no clamp current while the rail is present",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "transfer",
+   "Comparator inputs against the amplifier output, 3V3_A off and present",
+   "input-clamp.transfer.png"
+  ]
+ ],
+ "notes": [
+  "The amplifier is not in this circuit: a source stands for its output, so the run says nothing about how that output gets high. The rail is held at 0 V by a source; a rail that is merely unpowered is lifted by the clamp current through whatever loads it, and the node rises with it by the same amount.",
+  "The diode model is fitted to the maximum forward voltage of its datasheet at 25 C (0.9 V at 1 mA, 1.0 V at 10 mA). The typical and the low curve are assumptions: the datasheet gives a maximum only. Near 0 C the forward voltage is about 50 mV higher, which uses up the margin to the rating that these figures show.",
+  "The comparator model draws no input current and has no input protection of its own. The real part has protection structures at its inputs that take a share of the current once the node stands a diode drop above its rail; how the current divides between them and D23 is not in this run.",
+  "The current in the diode is the current of R136 less what R137 takes. It grows with the amplifier output and with a lower forward voltage: the 2.3 mA and 2.8 mA of the specification are met at 10.4 V and just passed, by 0.06 mA, with the output at the 12 V rail itself.",
+  "With 3V3_A present the node follows the divider and stays below the rail up to an amplifier output of 13.2 V, more than its supply."
+ ],
+ "models": [
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199_LO",
+   "written here"
+  ],
+  [
+   "U31",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "input-clamp.off-highest.cir",
+  "input-clamp.off-lowest.cir",
+  "input-clamp.off-typical.cir",
+  "input-clamp.present.cir"
+ ],
+ "format": 1
+}

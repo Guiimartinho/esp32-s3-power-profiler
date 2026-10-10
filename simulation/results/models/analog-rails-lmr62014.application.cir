@@ -1,0 +1,19 @@
+* LMR62014: the basic application of the datasheet, 50 mA
+.include "../../models/analog_rails.lib"
+* SNVS735B page 2: R1 117 kohm, R2 13.3 kohm, CF 220 pF, L 10 uH, C2 4.7 uF
+Vin vin 0 PWL(0 0 0.2m 5)
+Cin vin 0 2.2u
+Ren vin en 51k
+XL vin sw L_74438357100
+X1 sw 0 fb en vin LMR62014
+D1 sw out B0530W
+R1 out fb 117k
+R2 fb 0 13.3k
+Cf out fb 220p
+Cout out 0 4.7u
+Rload out 0 240
+.control
+save out sw vin @l.xl.l1[i]
+tran 5n 8m 0 20n
+.endc
+.end

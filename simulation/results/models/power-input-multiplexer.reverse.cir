@@ -1,0 +1,16 @@
+* Multiplexer: on-resistance and reverse blocking
+.include "../../models/power_input.lib"
+XU5 in1 in2 out pr1 in1 st 0 PWRIN_TPS2116
+Vin in1 0 PWL(0 0 10u 5)
+Vi in1 in1s 0
+Rpr in1 pr1 1
+Rin2 in2 0 1k
+Rst st in1 10k
+Cout out 0 1u
+Iload out 0 PWL(0 0 4m 0 4.1m 0.2 5m 0.2 5.1m 0)
+Vpush ps 0 PWL(0 0 10u 4.9 6m 4.9 7m 5.2 8m 5.2 9m 4.9)
+Rpush ps out 0.05
+.control
+tran 1e-06 0.01 0 1e-06 uic
+.endc
+.end

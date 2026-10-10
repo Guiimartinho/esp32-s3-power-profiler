@@ -1,0 +1,11 @@
+* SN74LV165A: output levels with 6 mA at 3.0 V
+.include "../../models/digital.lib"
+Vcc vcc 0 3.0
+X1 0 0 0 0 0 hi qn 0 q 0 0 0 0 0 0 vcc DIGITAL_LV165A
+Vhi hi 0 3.0
+Ih q 0 6m
+Il 0 qn 6m
+.control
+tran 1n 200n
+.endc
+.end

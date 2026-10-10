@@ -1,0 +1,577 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "landing",
+ "title": "Load steps with a capacitor at the load: the range reached and the time to a true reading",
+ "covers": "sections 4.3 and 4.4 (step up, blanking, jump), requirement R-07",
+ "summary": "The load steps from 1 uA to 150 uA, 5 mA and 80 mA beside a capacitor. A capacitor at the load supplies a step at first, and the ladder sees the voltage by which that capacitor has sagged, not the load current times a shunt. The sequencer therefore acts on the sag. The runs take 100 nF, 1 uF, 10 uF and 100 uF and read which ranges the sequencer passes, where it stays, and how long it takes until the current that the amplifier output stands for is the load current within 1 %. No request to step down is made: what firmware does afterwards is not in these runs.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "final_150ua_100nf",
+   "label": "150 uA with 100 nF: range at the end",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_150ua_100nf",
+   "label": "150 uA with 100 nF: ranges passed, as digits in their order",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_150ua_100nf",
+   "label": "150 uA with 100 nF: reading within 1 % of the load after",
+   "value": 0.0002429962,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_150ua_1uf",
+   "label": "150 uA with 1 uF: range at the end",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_150ua_1uf",
+   "label": "150 uA with 1 uF: ranges passed, as digits in their order",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_150ua_1uf",
+   "label": "150 uA with 1 uF: reading within 1 % of the load after",
+   "value": 0.001294635,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_150ua_10uf",
+   "label": "150 uA with 10 uF: range at the end",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_150ua_10uf",
+   "label": "150 uA with 10 uF: ranges passed, as digits in their order",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_150ua_10uf",
+   "label": "150 uA with 10 uF: reading within 1 % of the load after",
+   "value": 0.01181065,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_150ua_100uf",
+   "label": "150 uA with 100 uF: range at the end",
+   "value": 2.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_150ua_100uf",
+   "label": "150 uA with 100 uF: ranges passed, as digits in their order",
+   "value": 12.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_150ua_100uf",
+   "label": "150 uA with 100 uF: reading within 1 % of the load after",
+   "value": 0.09416493,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_5ma_100nf",
+   "label": "5 mA with 100 nF: range at the end",
+   "value": 2.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_5ma_100nf",
+   "label": "5 mA with 100 nF: ranges passed, as digits in their order",
+   "value": 12.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_5ma_100nf",
+   "label": "5 mA with 100 nF: reading within 1 % of the load after",
+   "value": 9.555046e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_5ma_1uf",
+   "label": "5 mA with 1 uF: range at the end",
+   "value": 2.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_5ma_1uf",
+   "label": "5 mA with 1 uF: ranges passed, as digits in their order",
+   "value": 12.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_5ma_1uf",
+   "label": "5 mA with 1 uF: reading within 1 % of the load after",
+   "value": 3.243075e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_5ma_10uf",
+   "label": "5 mA with 10 uF: range at the end",
+   "value": 2.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_5ma_10uf",
+   "label": "5 mA with 10 uF: ranges passed, as digits in their order",
+   "value": 12.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_5ma_10uf",
+   "label": "5 mA with 10 uF: reading within 1 % of the load after",
+   "value": 0.0002664775,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_5ma_100uf",
+   "label": "5 mA with 100 uF: range at the end",
+   "value": 2.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_5ma_100uf",
+   "label": "5 mA with 100 uF: ranges passed, as digits in their order",
+   "value": 12.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_5ma_100uf",
+   "label": "5 mA with 100 uF: reading within 1 % of the load after",
+   "value": 0.002607332,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_80ma_100nf",
+   "label": "80 mA with 100 nF: range at the end",
+   "value": 3.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_80ma_100nf",
+   "label": "80 mA with 100 nF: ranges passed, as digits in their order",
+   "value": 13.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_80ma_100nf",
+   "label": "80 mA with 100 nF: reading within 1 % of the load after",
+   "value": 1.775252e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_80ma_1uf",
+   "label": "80 mA with 1 uF: range at the end",
+   "value": 3.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_80ma_1uf",
+   "label": "80 mA with 1 uF: ranges passed, as digits in their order",
+   "value": 13.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_80ma_1uf",
+   "label": "80 mA with 1 uF: reading within 1 % of the load after",
+   "value": 3.847211e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_80ma_10uf",
+   "label": "80 mA with 10 uF: range at the end",
+   "value": 3.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_80ma_10uf",
+   "label": "80 mA with 10 uF: ranges passed, as digits in their order",
+   "value": 123.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_80ma_10uf",
+   "label": "80 mA with 10 uF: reading within 1 % of the load after",
+   "value": 2.736256e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_80ma_100uf",
+   "label": "80 mA with 100 uF: range at the end",
+   "value": 2.0,
+   "unit": "",
+   "expected": 2.0,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_80ma_100uf",
+   "label": "80 mA with 100 uF: ranges passed, as digits in their order",
+   "value": 12.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reads_80ma_100uf",
+   "label": "80 mA with 100 uF: reading within 1 % of the load after",
+   "value": 0.0003672417,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "above_proper",
+   "label": "Runs that end above the range of their current, of 12",
+   "value": 4.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "final_reading",
+   "label": "Largest distance of the reading from the load at the end of a run",
+   "value": 0.0461454,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "limit of this bench: every run is long enough to settle",
+   "verdict": "pass"
+  },
+  {
+   "key": "shortest_step",
+   "label": "Shortest time between two steps in the runs without a jump",
+   "value": 2.968097e-06,
+   "unit": "s",
+   "expected": 3e-06,
+   "low": 3e-06,
+   "high": null,
+   "source": "rule F-17: 1 us of overlap and 2 us of blanking between two steps",
+   "verdict": "fail"
+  }
+ ],
+ "graphs": [
+  [
+   "ranges",
+   "The selected range after a load step, by capacitor",
+   "landing.ranges.png"
+  ],
+  [
+   "readings",
+   "The reading over the load current after a load step, by capacitor (cut at 3)",
+   "landing.readings.png"
+  ],
+  [
+   "climb",
+   "1 uA to 80 mA beside 10 uF: three steps up, one blanking time apart",
+   "landing.climb.png"
+  ]
+ ],
+ "notes": [
+  "The range of a current is the lowest one whose full scale lies above it: range 1 for 150 uA, range 2 for 5 mA and for 80 mA. The specification promises no range after a step; the figures carry that range as the expected value and no limit.",
+  "A step up comes when the capacitor has sagged by 91 mV, whatever the current. The new shunt then sees those 91 mV as well and recharges the capacitor with them; while its voltage stays above the threshold after the blanking time, the sequencer takes the next step. With enough capacitance it so passes the range of the current.",
+  "Until the capacitor is back at its voltage the shunt carries the load and the recharge. The reading is the current into the node, which is what a shunt can measure; in range 0 with 100 uF that takes a tenth of a second.",
+  "Firmware would step down again 100 samples after the current fell below the level of the range (60 mA, 1.8 mA, 60 uA). A current between the step-down level of a range and the step-up level of the one below stays where the step left it: 80 mA in range 3 reads with a resolution of 19 uA and an offset allowance of 1 mA, where range 2 gives 1.9 uA and 0.1 mA.",
+  "The model of the sequencer takes the next step 2.96 us after the one before, 1.2 % short of the 3 us that its parameters ask for: its delay element switches a little before its time has passed. That is a property of the model and says nothing about a program.",
+  "The amplifier and the comparators have no noise here, and the comparator hysteresis is the 2 mV of the model. A real comparator that rests within its hysteresis of the threshold after a step may or may not ask for the next one.",
+  "The load is a current sink beside the capacitor (5 mohm in series); the source holds 5 V behind 20 mohm.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "landing.80ma-10uf.cir"
+ ],
+ "format": 1
+}

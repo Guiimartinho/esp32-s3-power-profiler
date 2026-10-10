@@ -1,0 +1,42 @@
+* TPD4E1U06: one line driven, the others at rest
+.include "../../models/digital.lib"
+* three parts with the breakdown at its lower limit, in the middle, at its upper limit
+Ip 0 p 1m
+Xp p p2 p3 p4 0 DIGITAL_TPD4E1U06 vbr=7.5
+Rp2 p2 0 1k
+Vp3 p3s 0 3.3
+Rp3 p3s p3 1k
+Rp4 p4 0 1e9
+Il 0 l 1m
+Xl l l2 l3 l4 0 DIGITAL_TPD4E1U06 vbr=6.5
+Rl2 l2 0 1k
+Rl3 l3 0 1k
+Rl4 l4 0 1k
+Ih 0 h 1m
+Xh h h2 h3 h4 0 DIGITAL_TPD4E1U06 vbr=8.5
+Rh2 h2 0 1k
+Rh3 h3 0 1k
+Rh4 h4 0 1k
+* current out of a line
+In n 0 1m
+Xn n n2 n3 n4 0 DIGITAL_TPD4E1U06
+Rn2 n2 0 1k
+Rn3 n3 0 1k
+Rn4 n4 0 1k
+* capacitance of a line at 2.5 V
+Vc c 0 DC 2.5 AC 1
+Xc c c2 c3 c4 0 DIGITAL_TPD4E1U06
+Rc2 c2 0 1k
+Rc3 c3 0 1k
+Rc4 c4 0 1k
+.control
+foreach level 1e-06 1.778e-06 3.162e-06 5.623e-06 1e-05 1.778e-05 3.162e-05 5.623e-05 0.0001 0.0001778 0.0003162 0.0005623 0.001 0.001778 0.003162 0.005623 0.01 0.01778 0.03162 0.05623 0.1 0.1778 0.3162 0.5623 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+  alter Ip dc = $level
+  alter Il dc = $level
+  alter Ih dc = $level
+  alter In dc = $level
+  op
+end
+ac lin 1 1e6 1e6
+.endc
+.end

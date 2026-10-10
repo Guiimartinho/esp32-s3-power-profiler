@@ -1,0 +1,175 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "sampling-kick",
+ "title": "The converter input: settling of the sampling kick through R130 and C90",
+ "covers": "section 4.5 (network at the converter input), section 4.6 (100 kSPS, option of 500 kSPS)",
+ "summary": "The converter samples a steady voltage and the driver refills its capacitor. The circuit holds the driver U29 with its filter and its rail, the 22 ohm and 10 nF at the converter input, and the model of that input: a switch of 96 ohm and a capacitor of 55 pF, opened by the convert-start line for the longest conversion of the datasheet, 710 ns. The capacitor comes back empty from every conversion, which is the bounding case: the datasheet does not state what it holds. The voltage on it at the next sampling instant is compared with the voltage that the input has without any sampling. The run is made at 100 kSPS and at 500 kSPS, at three levels of the input.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "error_100k_0p05v",
+   "label": "100 kSPS, pedestal: sample against the settled input",
+   "value": 1.876607e-05,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "ADS8860 datasheet, page 32: the input must settle to 16 bits within the acquisition time",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_100k_1p25v",
+   "label": "100 kSPS, half scale: sample against the settled input",
+   "value": 0.0006609473,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "ADS8860 datasheet, page 32: the input must settle to 16 bits within the acquisition time",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_100k_2p45v",
+   "label": "100 kSPS, near full scale: sample against the settled input",
+   "value": 0.002202712,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "ADS8860 datasheet, page 32: the input must settle to 16 bits within the acquisition time",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_100k_2p45v",
+   "label": "100 kSPS, near full scale: the input pin dips by",
+   "value": 0.01232566,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_100k_2p45v",
+   "label": "100 kSPS, near full scale: pin back within half a code after",
+   "value": 1.424067e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 9.29e-06,
+   "source": "the acquisition time at 100 kSPS with the longest conversion, calculated here",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_500k_0p05v",
+   "label": "500 kSPS, pedestal: sample against the settled input",
+   "value": -0.01936382,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "ADS8860 datasheet, page 32: the input must settle to 16 bits within the acquisition time",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_500k_1p25v",
+   "label": "500 kSPS, half scale: sample against the settled input",
+   "value": -0.4841253,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "ADS8860 datasheet, page 32: the input must settle to 16 bits within the acquisition time",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_500k_2p45v",
+   "label": "500 kSPS, near full scale: sample against the settled input",
+   "value": -0.949068,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "ADS8860 datasheet, page 32: the input must settle to 16 bits within the acquisition time",
+   "verdict": "fail"
+  },
+  {
+   "key": "dip_500k_2p45v",
+   "label": "500 kSPS, near full scale: the input pin dips by",
+   "value": 0.01231717,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_500k_2p45v",
+   "label": "500 kSPS, near full scale: pin back within half a code after",
+   "value": "nan",
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1.29e-06,
+   "source": "the acquisition time at 500 kSPS with the longest conversion, calculated here",
+   "verdict": "fail"
+  },
+  {
+   "key": "error_500k_keeps",
+   "label": "500 kSPS, near full scale, capacitor keeps nine tenths of its charge: sample against the settled input",
+   "value": -0.08715504,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "kick",
+   "500 kSPS, 2.45 V at the input: two conversions",
+   "sampling-kick.kick.png"
+  ]
+ ],
+ "notes": [
+  "The sampling capacitor is empty at the start of every acquisition. A real converter keeps part of its charge and kicks less; the last figure shows the size of that effect with nine tenths kept.",
+  "The conversion takes 710 ns, the longest of the datasheet; a shorter one leaves more time to settle.",
+  "An error that is the same at every sample is a gain error, which the calibration removes; it matters as an error that depends on the sample before, which this bench does not separate.",
+  "The driver model has the open-loop output impedance and the bandwidth of its datasheet; the amplifier output is an ideal source, the reference and the rails are ideal. The clock and data lines of the converter are not in the circuit."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U30",
+   "SIGNAL_CHAIN_ADS8860",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "sampling-kick.500k-2p45v.cir"
+ ],
+ "format": 1
+}

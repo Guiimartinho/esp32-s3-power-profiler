@@ -1,0 +1,29 @@
+* Boost output, averaged model, reference 1.23 V, 5 V rail at 5 V
+.include "../../models/analog_rails.lib"
+.include "../../models/power_input.lib"
+DD6 sw p13v5 B0530W
+XC11 p5v 0 PWRIN_WCAP_47U c=47u esr=0.44
+C13 p5v 0 1e-07
+C14 p5v 0 1e-06
+C15 p5v 0 1e-06
+XC18 p5v 0 RAILS_MLCC c=4.7u v0=8
+C23 p13v5 fb_boost 2.2e-10
+C25 p13v5 0 1e-07
+XC27 p13v5 0 RAILS_MLCC c=10u v0=20.4
+XC29 ldo_in 0 RAILS_MLCC c=10u v0=20.4
+XC39 p5v 0 RAILS_MLCC c=10u v0=4.97
+XC40 p5v 0 RAILS_MLCC c=10u v0=4.97
+R29 p5v en_boost 51000
+R32 p13v5 fb_boost 133000
+R33 fb_boost 0 13300
+R37 p13v5 ldo_in 0.47
+XU10 sw 0 fb_boost en_boost p5v LMR62014_AVG vref=1.23
+Vp5 p5v 0 PWL(0 0 1m 5)
+* the load steps from the light one to the heavy one at 30 ms
+Bload ldo_in 0 I = (time < 30m ? 0.01 : 0.04)*tanh(max(v(ldo_in), 0)/2)
+.options method=gear
+.control
+save p5v p13v5 ldo_in i(Vp5)
+tran 20u 0.06 0 20u
+.endc
+.end

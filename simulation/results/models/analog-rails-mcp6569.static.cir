@@ -1,0 +1,26 @@
+* MCP6569: trip points and low level
+.include "../../models/analog_rails.lib"
+* trip points: a triangle of +-10 mV around 1 V in 20 ms
+Vdd vdd 0 PWL(0 0 0.1m 3.3)
+Vtri tri 0 PWL(0 0.99 10m 1.01 20m 0.99)
+Vref ref 0 1.0
+Xa tri ref oa vdd 0 MCP6569_OD
+Rpa vdd oa 20k
+Xb tri ref ob vdd 0 MCP6569_OD vos=5m vhy=1m
+Rpb vdd ob 20k
+* low level at 1.8 V with 3 mA
+Vd0 vd0 0 PWL(0 0 0.1m 1.8)
+Vl0 lo0 0 PWL(0 0 0.1m 0.4)
+Vh0 hi0 0 PWL(0 0 0.1m 0.6)
+Xl0 lo0 hi0 ol0 vd0 0 MCP6569_OD
+Il0 0 ol0 PWL(0 0 0.2m 0 0.3m 0.003)
+* low level at 5.5 V with 25 mA
+Vd1 vd1 0 PWL(0 0 0.1m 5.5)
+Vl1 lo1 0 PWL(0 0 0.1m 0.4)
+Vh1 hi1 0 PWL(0 0 0.1m 0.6)
+Xl1 lo1 hi1 ol1 vd1 0 MCP6569_OD
+Il1 0 ol1 PWL(0 0 0.2m 0 0.3m 0.025)
+.control
+tran 2u 20m 0 5u
+.endc
+.end

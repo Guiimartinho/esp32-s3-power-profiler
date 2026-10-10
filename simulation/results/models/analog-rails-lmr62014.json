@@ -1,0 +1,207 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-lmr62014",
+ "title": "LMR62014 models against the datasheet",
+ "covers": "the two models of the boost converter U10: cycle by cycle and averaged",
+ "summary": "The converter models at their current limit and in the datasheet application. With the feedback pin at ground the converter asks for all the current it can; the output is held at 12 V by a source. The highest inductor current is then the switch current limit at the duty cycle that the supply and 12 V give, and it is compared with the curve of the datasheet at 5 V and at 3.3 V. The current into the 12 V source is compared between the cycle-by-cycle and the averaged model. A third circuit is the basic application of the datasheet, from 5 V to 12 V.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "frequency_5v",
+   "label": "Switching frequency at 5 V",
+   "value": 1599651.0,
+   "unit": "Hz",
+   "expected": 1600000.0,
+   "low": 1568000.0,
+   "high": 1632000.0,
+   "source": "SNVS735B page 4: 1.6 MHz typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "closed_5v",
+   "label": "Share of the periods in which the switch closes at 5 V",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": 0.99,
+   "high": 1.01,
+   "source": "a converter at its current limit closes its switch in every period (check of the model)",
+   "verdict": "pass"
+  },
+  {
+   "key": "duty_5v",
+   "label": "Duty cycle at 5 V and 12 V of output",
+   "value": 0.6153309,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limit_5v",
+   "label": "Highest inductor current at 5 V",
+   "value": 2.128819,
+   "unit": "A",
+   "expected": 2.165032,
+   "low": 2.05678,
+   "high": 2.273283,
+   "source": "SNVS735B page 13, figure 21, at the duty cycle of the run",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_5v",
+   "label": "Current into the output at 5 V, cycle-by-cycle model",
+   "value": 0.7019708,
+   "unit": "A",
+   "expected": 0.57,
+   "low": 0.456,
+   "high": 0.684,
+   "source": "SNVS735B page 14, figure 22: bench data of a typical part at 12 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "averaged_5v",
+   "label": "Current into the output at 5 V, averaged model",
+   "value": 0.7221647,
+   "unit": "A",
+   "expected": 0.7019708,
+   "low": 0.6317738,
+   "high": 0.7721679,
+   "source": "the cycle-by-cycle model in the same circuit",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_in_5v",
+   "label": "Current from the supply at 5 V, averaged model",
+   "value": 2.017865,
+   "unit": "A",
+   "expected": 2.044812,
+   "low": 1.84033,
+   "high": 2.249293,
+   "source": "the cycle-by-cycle model in the same circuit",
+   "verdict": "pass"
+  },
+  {
+   "key": "frequency_3p3v",
+   "label": "Switching frequency at 3.3 V",
+   "value": 1598867.0,
+   "unit": "Hz",
+   "expected": 1600000.0,
+   "low": 1568000.0,
+   "high": 1632000.0,
+   "source": "SNVS735B page 4: 1.6 MHz typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "closed_3p3v",
+   "label": "Share of the periods in which the switch closes at 3.3 V",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": 0.99,
+   "high": 1.01,
+   "source": "a converter at its current limit closes its switch in every period (check of the model)",
+   "verdict": "pass"
+  },
+  {
+   "key": "duty_3p3v",
+   "label": "Duty cycle at 3.3 V and 12 V of output",
+   "value": 0.7190103,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limit_3p3v",
+   "label": "Highest inductor current at 3.3 V",
+   "value": 1.161082,
+   "unit": "A",
+   "expected": 1.204675,
+   "low": 1.144441,
+   "high": 1.264908,
+   "source": "SNVS735B page 13, figure 21, at the duty cycle of the run",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_3p3v",
+   "label": "Current into the output at 3.3 V, cycle-by-cycle model",
+   "value": 0.2451354,
+   "unit": "A",
+   "expected": 0.16,
+   "low": 0.128,
+   "high": 0.192,
+   "source": "SNVS735B page 14, figure 22: bench data of a typical part at 12 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "averaged_3p3v",
+   "label": "Current into the output at 3.3 V, averaged model",
+   "value": 0.2537367,
+   "unit": "A",
+   "expected": 0.2451354,
+   "low": 0.2206218,
+   "high": 0.2696489,
+   "source": "the cycle-by-cycle model in the same circuit",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_in_3p3v",
+   "label": "Current from the supply at 3.3 V, averaged model",
+   "value": 1.068848,
+   "unit": "A",
+   "expected": 1.093763,
+   "low": 0.9843865,
+   "high": 1.203139,
+   "source": "the cycle-by-cycle model in the same circuit",
+   "verdict": "pass"
+  },
+  {
+   "key": "application",
+   "label": "Output of the basic application, 50 mA",
+   "value": 12.04894,
+   "unit": "V",
+   "expected": 12.0503,
+   "low": 11.9298,
+   "high": 12.1708,
+   "source": "SNVS735B page 11, equation 2",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "limit",
+   "LMR62014 model at its current limit: the last 4 us",
+   "analog-rails-lmr62014.limit.png"
+  ],
+  [
+   "application",
+   "LMR62014 model in the basic application of the datasheet",
+   "analog-rails-lmr62014.application.png"
+  ]
+ ],
+ "notes": [
+  "The current limit of the model is the curve of the datasheet by construction; the bench checks that the cycle-by-cycle circuit reproduces it at the duty cycle it runs at. The curve is typical; the datasheet gives 1.8 A at least at 25 C and 1.4 A at least over temperature.",
+  "The datasheet does not agree with itself: with the current limit of its figure 21 its own equation 10 gives more load current than the bench data of its figure 22 and than the row of its table for the output under load, by a fifth at 5 V and by half at 3.3 V. The model follows figure 21, so at a low supply it takes and delivers more than those bench data; that figure fails here and is left failed.",
+  "The error amplifier and its compensation are assumptions. The models show no soft start and no lock-out because the datasheet names none; they work from 2.0 V of supply, which is an assumption as well.",
+  "The averaged model is checked against the cycle-by-cycle model, not against the datasheet: it is that model without its cycles."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-lmr62014.application.cir",
+  "analog-rails-lmr62014.limit-3p3v.cir",
+  "analog-rails-lmr62014.limit-5v.cir",
+  "analog-rails-lmr62014.limit-averaged-3p3v.cir",
+  "analog-rails-lmr62014.limit-averaged-5v.cir"
+ ],
+ "format": 1
+}

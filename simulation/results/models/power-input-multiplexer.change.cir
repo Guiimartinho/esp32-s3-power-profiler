@@ -1,0 +1,15 @@
+* Multiplexer: change of input
+.include "../../models/power_input.lib"
+XU5 in1 in2 out pr1 in1 st 0 PWRIN_TPS2116
+Vin1 in1 0 PWL(0 0 10u 5)
+Vin2 s2 0 PWL(0 0 10u 5)
+Vi2 s2 in2 0
+Vpr pr1 0 PWL(0 0 5m 0.8 15m 1.2 25m 0.8 30m 0.8 30.001m 5 31m 5 31.001m 0)
+Rst st vp 3.3k
+Vp vp 0 PWL(0 0 10u 3.4)
+Rout out 0 10
+Cout out 0 10u
+.control
+tran 5e-07 0.0315 0 5e-07 uic
+.endc
+.end

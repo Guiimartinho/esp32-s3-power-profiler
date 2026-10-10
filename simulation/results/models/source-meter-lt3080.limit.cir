@@ -1,0 +1,12 @@
+* LT3080: current limit
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080
+* 5 V on both supply pins, SET at 0 V, the output held at -0.1 V
+Vin in 0 5
+Vctl vctl 0 5
+Vset set 0 0
+Vout out 0 -0.1
+.control
+op
+.endc
+.end

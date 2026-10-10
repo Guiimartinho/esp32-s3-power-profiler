@@ -1,0 +1,119 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-mlcc",
+ "title": "Ceramic capacitor with its loss under bias against the cited curves",
+ "covers": "the model of C18 to C22 and C27 to C31 in the runs of the analog rails",
+ "summary": "A constant current charges each capacitor model and the slope gives its capacitance. The capacitance at a voltage is the current divided by the slope of the voltage there. It is compared with the share that the model file cites for each part number. A second circuit charges the 4.7 uF part with the 2 mA of the fast start-up of the +12V_A regulator, which is where the 18 ms of the specification come from.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "c0_5",
+   "label": "CL21B475KAFNNNE, 4.7 uF 0805: share of the capacitance left at 5 V",
+   "value": 0.7191055,
+   "unit": "",
+   "expected": 0.715,
+   "low": 0.6578,
+   "high": 0.7722,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "c0_10",
+   "label": "CL21B475KAFNNNE, 4.7 uF 0805: share of the capacitance left at 10 V",
+   "value": 0.390248,
+   "unit": "",
+   "expected": 0.393,
+   "low": 0.36156,
+   "high": 0.42444,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "c0_12",
+   "label": "CL21B475KAFNNNE, 4.7 uF 0805: share of the capacitance left at 12 V",
+   "value": 0.3076963,
+   "unit": "",
+   "expected": 0.327,
+   "low": 0.30084,
+   "high": 0.35316,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "c1_5",
+   "label": "CL32B106KAJNNNE, 10 uF 1210: share of the capacitance left at 5 V",
+   "value": 0.943336,
+   "unit": "",
+   "expected": 0.947,
+   "low": 0.87124,
+   "high": 1.02276,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "c1_13p5",
+   "label": "CL32B106KAJNNNE, 10 uF 1210: share of the capacitance left at 13.5 V",
+   "value": 0.6954523,
+   "unit": "",
+   "expected": 0.695,
+   "low": 0.6394,
+   "high": 0.7506,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "c2_5",
+   "label": "CL31B226KPHNNNE, 22 uF 1206: share of the capacitance left at 5 V",
+   "value": 0.6859808,
+   "unit": "",
+   "expected": 0.686,
+   "low": 0.63112,
+   "high": 0.74088,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "c2_10",
+   "label": "CL31B226KPHNNNE, 22 uF 1206: share of the capacitance left at 10 V",
+   "value": 0.3532236,
+   "unit": "",
+   "expected": 0.372,
+   "low": 0.34224,
+   "high": 0.40176,
+   "source": "bias curve of the part as the model file cites it",
+   "verdict": "pass"
+  },
+  {
+   "key": "set_11v",
+   "label": "4.7 uF part charged with 2 mA: time to 11 V",
+   "value": 0.01771027,
+   "unit": "s",
+   "expected": 0.018,
+   "low": 0.0171,
+   "high": 0.0189,
+   "source": "rule F-3 of the specification: +12V_A at 11 V after 18 ms",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "bias",
+   "Capacitance left under bias",
+   "analog-rails-mlcc.bias.png"
+  ]
+ ],
+ "notes": [
+  "The model is one law, capacitance = nominal / (1 + (V / v0)^2), with v0 fitted per part number. The points it is compared with were read from the part pages of the manufacturer by the power input block; they were not read again here.",
+  "Temperature, aging and the amplitude of the ripple are not in the model."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-mlcc.charge.cir"
+ ],
+ "format": 1
+}

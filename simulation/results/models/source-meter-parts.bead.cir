@@ -1,0 +1,10 @@
+* BLM31SN500: impedance
+.include "../../models/source_meter.lib"
+XFB1 a b BLM31SN500
+* 1 A through the part, the far end grounded
+Vb b 0 0
+Itest 0 a dc 0 ac 1
+.control
+ac dec 40 100 300meg
+.endc
+.end

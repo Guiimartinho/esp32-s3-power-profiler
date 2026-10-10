@@ -1,0 +1,17 @@
+* Comparator: thresholds on a slow triangle
+.include "../../models/logic.lib"
+XU32 inp inn out vdd 0 MCP656X
+Vdd vdd 0 3.3
+Vinn inn 0 0.5
+Vinp inp 0 PWL(0 0.48 2e-05 0.48 0.00202 0.52 0.00402 0.48)
+Rload out 0 1meg
+* the run starts at rest
+.ic v(xu32.h)=0
+.options method=gear
+.options trtol=1
+.options itl4=100
+.options abstol=1e-9
+.control
+tran 5e-07 0.00404
+.endc
+.end

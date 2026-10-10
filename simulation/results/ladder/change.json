@@ -1,0 +1,166 @@
+{
+ "block": "ladder",
+ "block_title": "Shunt Ladder",
+ "bench": "change",
+ "title": "A range change at the ladder: make-before-break of the range switches",
+ "covers": "section 4.3 (make-before-break, gate drive), rule F-17",
+ "summary": "The ladder carries 2 mA in range 1 and is stepped to range 2 and back. The model of the sequencer is told to step up and, later, to step down again. The run shows the lines of the controller, the gates behind the drivers, the currents of the three branches and the voltage that the multiplexer passes to the amplifier. The comparators and the amplifier are not in this circuit: the steps are commanded. The load has 1 uF beside it, so after a step the shunt carries the current that brings that capacitor to its new voltage: the reading follows the load with the time constant of shunt and capacitor.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "overlap_up",
+   "label": "Step up: both gates commanded on together for",
+   "value": 9.937462e-07,
+   "unit": "s",
+   "expected": 1e-06,
+   "low": 8e-07,
+   "high": 1.2e-06,
+   "source": "rule F-17, about 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "overlap_down",
+   "label": "Step down: both gates commanded on together for",
+   "value": 9.937462e-07,
+   "unit": "s",
+   "expected": 1e-06,
+   "low": 8e-07,
+   "high": 1.2e-06,
+   "source": "rule F-17, about 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "new_branch_conducts",
+   "label": "Step up: new branch at 90 % of its current after the command",
+   "value": 2.819662e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-07,
+   "source": "section 4.4: a branch conducts well inside 0.55 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "sense_r2",
+   "label": "Sense voltage in range 2 at 2 mA",
+   "value": 0.001998313,
+   "unit": "V",
+   "expected": 0.001998,
+   "low": 0.00198801,
+   "high": 0.00200799,
+   "source": "section 4.3",
+   "verdict": "pass"
+  },
+  {
+   "key": "sense_r1",
+   "label": "Sense voltage back in range 1 at 2 mA",
+   "value": 0.06366733,
+   "unit": "V",
+   "expected": 0.0639,
+   "low": 0.0635805,
+   "high": 0.0642195,
+   "source": "section 4.3",
+   "verdict": "pass"
+  },
+  {
+   "key": "settles_up",
+   "label": "Step up: sense voltage within 0.1 mV of its final value after",
+   "value": 6.996459e-06,
+   "unit": "s",
+   "expected": 6.116219e-06,
+   "low": 4.281353e-06,
+   "high": 7.951084e-06,
+   "source": "1 ohm with 1 uF: 6.4 time constants of 1 us, calculated here",
+   "verdict": "pass"
+  },
+  {
+   "key": "settles_down",
+   "label": "Step down: sense voltage within 1 % of its final value after",
+   "value": 0.0001507606,
+   "unit": "s",
+   "expected": 0.0001471352,
+   "low": 0.0001029946,
+   "high": 0.0001912757,
+   "source": "31.95 ohm with 1 uF: 4.6 time constants of 32 us, calculated here",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_during_change",
+   "label": "Largest burden from the step up to the end of the run",
+   "value": 0.06372302,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0693,
+   "source": "the burden of range 1 at this current, never more",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "waveforms",
+   "Range 1 to range 2 and back at 2 mA, 1 uF at the load",
+   "change.waveforms.png"
+  ],
+  [
+   "settling",
+   "The whole run: the reading follows the load with shunt times capacitor",
+   "change.settling.png"
+  ]
+ ],
+ "notes": [
+  "The sequencer is the model of rules F-16 to F-18, with a reaction time of 100 ns; no program of the controller exists yet.",
+  "The drivers and the multiplexer are behavioral models with typical delays (30 ns and 92 ns); the comparators and the amplifier are not in this run.",
+  "With a capacitor at the load the shunt current is not the load current until that capacitor has reached its new voltage. In range 0 the same 1 uF gives a time constant of 1 ms."
+ ],
+ "models": [
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "change.up-down.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,18 @@
+* Ceramic capacitors: capacitance against voltage
+.include "../../models/power_input.lib"
+XC2 n_c2 0 PWRIN_MLCC c=4.7e-06 v0=8
+XC9 n_c9 0 PWRIN_MLCC c=2.2e-05 v0=7.39
+XC27 n_c27 0 PWRIN_MLCC c=1e-05 v0=20.4
+XC39 n_c39 0 PWRIN_MLCC c=1e-05 v0=4.97
+IC2 0 n_c2 PWL(0 0 1u 0.001)
+RC2x n_c2 0 1e9
+IC9 0 n_c9 PWL(0 0 1u 0.001)
+RC9x n_c9 0 1e9
+IC39 0 n_c39 PWL(0 0 1u 0.001)
+RC39x n_c39 0 1e9
+IC27 0 n_c27 PWL(0 0 1u 0.001)
+RC27x n_c27 0 1e9
+.control
+tran 2e-05 0.3 0 2e-05 uic
+.endc
+.end

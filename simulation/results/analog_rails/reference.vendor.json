@@ -1,0 +1,288 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "reference",
+ "title": "Reference line: level under load, impedance with the capacitors as drawn, noise",
+ "covers": "section 4.6 (reference, capacitors on the reference line), decisions D-53 and D-75",
+ "summary": "The reference runs from 3.3 V with every capacitor and divider of its line. The circuit is the reference with its supply filter R31 and C20, its noise capacitor C24, the capacitor C26 behind R35, the capacitor C89 of the converter behind R131, C113, the diode D7 and the dividers of the line that the netlist holds. An operating point gives the level and the head room; a current of 1 A injected at the pin of the reference gives the impedance of the line; a noise analysis gives the noise at that pin. A transient shows the start and what the conversions of the converter do at 100 kSPS.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "level",
+   "label": "VREF with the loads of its line",
+   "value": 2.50121,
+   "unit": "V",
+   "expected": 2.5,
+   "low": 2.4975,
+   "high": 2.5025,
+   "source": "section 4.6: 2.5 V; initial accuracy of the part 0.1 % (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_error",
+   "label": "VREF: change that the load of the line makes",
+   "value": 0.00120972,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "supply_pin",
+   "label": "Supply pin of the reference behind R31, 3V3_A at 3.3 V",
+   "value": 3.28433,
+   "unit": "V",
+   "expected": null,
+   "low": 2.7,
+   "high": null,
+   "source": "datasheet of the reference: supply of 2.7 V at least",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Current the reference takes from 3V3_A",
+   "value": 0.001614409,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "z_dc",
+   "label": "Impedance of the line at 1 Hz",
+   "value": 0.04737421,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "z_peak",
+   "label": "Largest impedance of the line",
+   "value": 0.659657,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "f_peak",
+   "label": "Frequency of the largest impedance",
+   "value": 10592.54,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "z_peak_stiff",
+   "label": "Largest impedance, output stage of the model without its change with load",
+   "value": 16.00112,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "f_peak_stiff",
+   "label": "Frequency of that peak",
+   "value": 1778.279,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "z_peak_r35_short",
+   "label": "Largest impedance with R35 at 0 ohm",
+   "value": 0.8495054,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "z_peak_r35_most",
+   "label": "Largest impedance with R35 at 1.5 ohm",
+   "value": 0.6371953,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "z_100k",
+   "label": "Impedance of the line at 100 kHz, the sample rate",
+   "value": 0.1751747,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_floor",
+   "label": "Noise density of VREF at 100 Hz",
+   "value": 1.798416e-07,
+   "unit": "V/√Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_peak",
+   "label": "Noise density of VREF at its peak over the density at 100 Hz",
+   "value": 1.475748,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_peak_stiff",
+   "label": "The same ratio, output stage without its change with load",
+   "value": 5.523517,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_10_100k",
+   "label": "Noise of VREF from 10 Hz to 100 kHz",
+   "value": 2.812289e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_10_100k_stiff",
+   "label": "Noise of VREF from 10 Hz to 100 kHz, output stage without its change with load",
+   "value": 4.71107e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_01_10",
+   "label": "White noise of VREF from 0.1 Hz to 10 Hz (the 1/f noise is not in the model)",
+   "value": 1.196424e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "start_0p1",
+   "label": "VREF within 0.1 % after 3V3_A is applied",
+   "value": 0.05618501,
+   "unit": "s",
+   "expected": 0.08,
+   "low": 0.064,
+   "high": 0.096,
+   "source": "section 3, step 7 and rule F-3: about 80 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "pin_ripple",
+   "label": "REF pin of the converter: peak to peak at 100 kSPS",
+   "value": 1.339665e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 3.8e-05,
+   "source": "one step of the converter at 2.5 V: 38 uV (limit of this bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pin_mean",
+   "label": "REF pin of the converter: mean while converting against the level before",
+   "value": -9.648392e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "line_ripple",
+   "label": "VREF at the reference: peak to peak at 100 kSPS",
+   "value": 1.033708e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The output impedance of the reference model is a fit to two figures of the datasheet and not a datasheet curve: an inductance of 253 uH without load that falls as the load rises. With the 0.9 mA that the line draws it is about 33 uH, and the capacitors of the line resonate with it. The second set of figures holds the inductance at 253 uH whatever the load: the cautious case.",
+  "A peak of the noise density above the level at 100 Hz is the gain peaking that the datasheet of the reference warns of when the capacitor has too little series resistance. C89 with its 0.22 ohm is the larger capacitor of the line, so R35 in front of C26 changes little.",
+  "The line carries 0.63 mA into the divider of the set-point converter, the dividers of the monitors and 0.15 mA for the dividers that are not in this circuit. C89 is linear at 22 uF here; the specification expects about 14 uF under bias, which moves the peak up in frequency by about a quarter.",
+  "The noise is white only: the 0.1 Hz to 10 Hz noise of the part (3 uV peak to peak per volt, datasheet) is not in the model."
+ ],
+ "models": [
+  [
+   "C20",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "D7",
+   "DI_B0530W",
+   "vendor"
+  ],
+  [
+   "U12",
+   "REF5025",
+   "vendor"
+  ],
+  [
+   "U12",
+   "REF5025AID",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

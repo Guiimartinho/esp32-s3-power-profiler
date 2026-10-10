@@ -1,0 +1,11 @@
+* BC847B: transition frequency
+.include "../../models/path_switching.lib"
+QQ7 c b e PATH_BC847B
+* collector held at 5 V; the base takes its bias and the test current
+Ve e 0 0
+Vc c 0 5
+Ib 0 b dc 3.74981e-05 ac 1
+.control
+ac lin 1 1e+08 1e+08
+.endc
+.end

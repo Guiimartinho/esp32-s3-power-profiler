@@ -1,0 +1,454 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "ramp",
+ "title": "A slow ramp from 1 uA to 1 A and back: one range at a time, no bounce",
+ "covers": "section 4.4 (step up, blanking, step down), rule F-17, requirement R-07",
+ "summary": "The load current rises from 1 uA to 1 A in 60 ms and falls again. The ramp takes 10 ms for every decade, slow against every delay of the loop. On the way up the step-up comparator moves the sequencer; on the way down the bench plays firmware and asks for one step down 1 ms after the current has fallen below the level of the range (60 mA, 1.8 mA, 60 uA), which is the 100 samples of the rule. The run counts the range changes, reads the current at which each step up comes and the shortest time between two changes, and compares the reading that the amplifier output stands for with the load in the middle of every range. It is made without a capacitor at the terminals and with 1 uF.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "changes_none",
+   "label": "Range changes on the whole ramp, no capacitor",
+   "value": 6.0,
+   "unit": "",
+   "expected": 6.0,
+   "low": 6.0,
+   "high": 6.0,
+   "source": "section 4.4: three steps up, three steps down, none back",
+   "verdict": "pass"
+  },
+  {
+   "key": "order_none",
+   "label": "Ranges in the order 1, 2, 3, 2, 1, 0, no capacitor (1 when so)",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": 1.0,
+   "high": 1.0,
+   "source": "section 4.4: a slow rise climbs range by range",
+   "verdict": "pass"
+  },
+  {
+   "key": "shortest_none",
+   "label": "Shortest time between two range changes, no capacitor",
+   "value": 0.01477121,
+   "unit": "s",
+   "expected": null,
+   "low": 3e-06,
+   "high": null,
+   "source": "rule F-17: 1 us of overlap and 2 us of blanking",
+   "verdict": "pass"
+  },
+  {
+   "key": "jump_none",
+   "label": "Longest time the jump comparator is high, no capacitor",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.4: a slow rise does not reach the jump threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "leaves_r0_none",
+   "label": "Current through the ladder when range 0 is left, no capacitor",
+   "value": 9.122762e-05,
+   "unit": "A",
+   "expected": 9.095e-05,
+   "low": 8.75e-05,
+   "high": 9.44e-05,
+   "source": "section 4.3, switch up above: 91 uA, 2.85 mA, 91 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "leaves_r1_none",
+   "label": "Current through the ladder when range 1 is left, no capacitor",
+   "value": 0.002853813,
+   "unit": "A",
+   "expected": 0.002846635,
+   "low": 0.002738654,
+   "high": 0.002954617,
+   "source": "section 4.3, switch up above: 91 uA, 2.85 mA, 91 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "leaves_r2_none",
+   "label": "Current through the ladder when range 2 is left, no capacitor",
+   "value": 0.09125711,
+   "unit": "A",
+   "expected": 0.09104104,
+   "low": 0.08758759,
+   "high": 0.09449449,
+   "source": "section 4.3, switch up above: 91 uA, 2.85 mA, 91 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_r0_none",
+   "label": "Load current at that instant, no capacitor",
+   "value": 9.340178e-05,
+   "unit": "A",
+   "expected": 9.095e-05,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "load_r1_none",
+   "label": "Load current at that instant, no capacitor",
+   "value": 0.002855348,
+   "unit": "A",
+   "expected": 0.002846635,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "load_r2_none",
+   "label": "Load current at that instant, no capacitor",
+   "value": 0.09122709,
+   "unit": "A",
+   "expected": 0.09104104,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "changes_1uf",
+   "label": "Range changes on the whole ramp, 1 uF",
+   "value": 6.0,
+   "unit": "",
+   "expected": 6.0,
+   "low": 6.0,
+   "high": 6.0,
+   "source": "section 4.4: three steps up, three steps down, none back",
+   "verdict": "pass"
+  },
+  {
+   "key": "order_1uf",
+   "label": "Ranges in the order 1, 2, 3, 2, 1, 0, 1 uF (1 when so)",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": 1.0,
+   "high": 1.0,
+   "source": "section 4.4: a slow rise climbs range by range",
+   "verdict": "pass"
+  },
+  {
+   "key": "shortest_1uf",
+   "label": "Shortest time between two range changes, 1 uF",
+   "value": 0.0140044,
+   "unit": "s",
+   "expected": null,
+   "low": 3e-06,
+   "high": null,
+   "source": "rule F-17: 1 us of overlap and 2 us of blanking",
+   "verdict": "pass"
+  },
+  {
+   "key": "jump_1uf",
+   "label": "Longest time the jump comparator is high, 1 uF",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.4: a slow rise does not reach the jump threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "leaves_r0_1uf",
+   "label": "Current through the ladder when range 0 is left, 1 uF",
+   "value": 9.122822e-05,
+   "unit": "A",
+   "expected": 9.095e-05,
+   "low": 8.75e-05,
+   "high": 9.44e-05,
+   "source": "section 4.3, switch up above: 91 uA, 2.85 mA, 91 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "leaves_r1_1uf",
+   "label": "Current through the ladder when range 1 is left, 1 uF",
+   "value": 0.002853823,
+   "unit": "A",
+   "expected": 0.002846635,
+   "low": 0.002738654,
+   "high": 0.002954617,
+   "source": "section 4.3, switch up above: 91 uA, 2.85 mA, 91 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "leaves_r2_1uf",
+   "label": "Current through the ladder when range 2 is left, 1 uF",
+   "value": 0.09125679,
+   "unit": "A",
+   "expected": 0.09104104,
+   "low": 0.08758759,
+   "high": 0.09449449,
+   "source": "section 4.3, switch up above: 91 uA, 2.85 mA, 91 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_r0_1uf",
+   "label": "Load current at that instant, 1 uF",
+   "value": 0.0001143942,
+   "unit": "A",
+   "expected": 9.095e-05,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "load_r1_1uf",
+   "label": "Load current at that instant, 1 uF",
+   "value": 0.002876366,
+   "unit": "A",
+   "expected": 0.002846635,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "load_r2_1uf",
+   "label": "Load current at that instant, 1 uF",
+   "value": 0.09124888,
+   "unit": "A",
+   "expected": 0.09104104,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r0_none",
+   "label": "Reading against the load at 0.03 mA on the way up, no capacitor",
+   "value": -2.40668,
+   "unit": "%",
+   "expected": null,
+   "low": -5.0,
+   "high": 5.0,
+   "source": "limit of this bench: the ramp is slow enough for the node after the shunts alone",
+   "verdict": "pass"
+  },
+  {
+   "key": "reading_r0_1uf",
+   "label": "Reading against the load at 0.03 mA on the way up, 1 uF",
+   "value": -20.30688,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r1_none",
+   "label": "Reading against the load at 1 mA on the way up, no capacitor",
+   "value": -0.09715135,
+   "unit": "%",
+   "expected": null,
+   "low": -5.0,
+   "high": 5.0,
+   "source": "limit of this bench: the ramp is slow enough for the node after the shunts alone",
+   "verdict": "pass"
+  },
+  {
+   "key": "reading_r1_1uf",
+   "label": "Reading against the load at 1 mA on the way up, 1 uF",
+   "value": -0.8129743,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r2_none",
+   "label": "Reading against the load at 30 mA on the way up, no capacitor",
+   "value": 0.003137843,
+   "unit": "%",
+   "expected": null,
+   "low": -5.0,
+   "high": 5.0,
+   "source": "limit of this bench: the ramp is slow enough for the node after the shunts alone",
+   "verdict": "pass"
+  },
+  {
+   "key": "reading_r2_1uf",
+   "label": "Reading against the load at 30 mA on the way up, 1 uF",
+   "value": -0.02169007,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r3_none",
+   "label": "Reading against the load at 300 mA on the way up, no capacitor",
+   "value": -0.00273313,
+   "unit": "%",
+   "expected": null,
+   "low": -5.0,
+   "high": 5.0,
+   "source": "limit of this bench: the ramp is slow enough for the node after the shunts alone",
+   "verdict": "pass"
+  },
+  {
+   "key": "reading_r3_1uf",
+   "label": "Reading against the load at 300 mA on the way up, 1 uF",
+   "value": -0.005892672,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "staircase",
+   "1 uA to 1 A and back, no capacitor at the terminals",
+   "ramp.staircase.png"
+  ],
+  [
+   "staircase-1uf",
+   "The same ramp with 1 uF at the terminals",
+   "ramp.staircase-1uf.png"
+  ],
+  [
+   "step",
+   "The step from range 1 to range 2 at 2.85 mA, no capacitor at the terminals",
+   "ramp.step.png"
+  ]
+ ],
+ "notes": [
+  "The sequencer is the model of rules F-16 to F-18. It steps down on a request only; the requests are placed by this bench where firmware would issue them and are not the work of a program.",
+  "With 1 uF at the terminals the shunt of range 0 and that capacitor have a time constant of 1.1 ms: on a ramp of 10 ms per decade the current through the ladder lags the load by about a quarter, and range 0 is left at a load current that much above 91 uA. The figures without a limit show it. The instrument measures the current into the node; the capacitor supplies the rest.",
+  "The reading is the amplifier output minus the pedestal, divided by the gain and the shunt of the selected range. Without a capacitor it trails the ramp by the time constant of the shunt with the 100 nF after the shunts, 2.3 % in range 0 at this rate.",
+  "The source holds 5 V behind 20 mohm. The amplifier and the comparators have no noise in these runs: a real ramp that rests at a threshold for long would see the comparator output chatter inside its hysteresis, which the blanking bounds to one step.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "ramp.no-capacitor.cir",
+  "ramp.with-1uf.cir"
+ ],
+ "format": 1
+}

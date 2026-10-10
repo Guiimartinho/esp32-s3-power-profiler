@@ -1,0 +1,204 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-rp2350",
+ "title": "Controller module: pad and supply models against the datasheets",
+ "covers": "the pad model that the benches write for the controller, and the model of U1",
+ "summary": "A pad drives 4 mA, rests on its pull-down and is released onto a resistor. The pad model is set to the limits of the 4 mA drive setting. A pad of stepping A2 has the current of erratum E9: its voltage is stepped to show that current, and three such pads are driven high and released onto 4.7 kohm, 8.2 kohm and 47 kohm. The supply side of the module is fed once at VBUS and once at VSYS.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "high",
+   "label": "Pad high with 4 mA at the 4 mA setting",
+   "value": 2.62,
+   "unit": "V",
+   "expected": 2.62,
+   "low": 2.61,
+   "high": 2.63,
+   "source": "RP2350 datasheet, table 1683 (page 1336): 2.62 V at the least; the model sits at the limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "low",
+   "label": "Pad low with 4 mA at the 4 mA setting",
+   "value": 0.5,
+   "unit": "V",
+   "expected": 0.5,
+   "low": 0.49,
+   "high": 0.51,
+   "source": "RP2350 datasheet, table 1683 (page 1336): 0.5 V at the most; the model sits at the limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "pull_down",
+   "label": "Current of the strongest pull-down at 3.3 V",
+   "value": 9.166667e-05,
+   "unit": "A",
+   "expected": 9.166667e-05,
+   "low": 8.983333e-05,
+   "high": 9.35e-05,
+   "source": "RP2350 datasheet, table 1683 (page 1336): 36 kohm at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "standard_diode",
+   "label": "Standard pad above the 3.3 V of the module with 1 mA into it",
+   "value": 0.6103823,
+   "unit": "V",
+   "expected": 0.6,
+   "low": 0.57,
+   "high": 0.63,
+   "source": "Pico 2 datasheet, section 5.2: a diode to the 3.3 V rail; 0.6 V is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "e9_peak",
+   "label": "Stepping A2: largest current out of a released pad",
+   "value": 0.000115,
+   "unit": "A",
+   "expected": 0.000115,
+   "low": 0.00010925,
+   "high": 0.00012075,
+   "source": "RP2350 datasheet, erratum E9 (pages 1358 and 1359): about 120 uA; 115 uA in figure 157",
+   "verdict": "pass"
+  },
+  {
+   "key": "e9_starts",
+   "label": "Stepping A2: pad voltage at which that current starts",
+   "value": 1.22,
+   "unit": "V",
+   "expected": null,
+   "low": 1.15,
+   "high": 1.3,
+   "source": "RP2350 datasheet, erratum E9 (pages 1358 and 1359), figure 157 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "e9_ends",
+   "label": "Stepping A2: pad voltage above which that current has gone",
+   "value": 2.36,
+   "unit": "V",
+   "expected": null,
+   "low": 2.2,
+   "high": 2.45,
+   "source": "RP2350 datasheet, erratum E9 (pages 1358 and 1359), figure 157 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_4k7",
+   "label": "Stepping A2: pad released from high onto 4.7 kohm ends at",
+   "value": 1.551e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "RP2350 datasheet, erratum E9 (pages 1358 and 1359): 8.2 kohm or less overcomes the current",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_8k2",
+   "label": "Stepping A2: pad released from high onto 8.2 kohm ends at",
+   "value": 2.706e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "RP2350 datasheet, erratum E9 (pages 1358 and 1359): 8.2 kohm or less overcomes the current",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_47k",
+   "label": "Stepping A2: pad released from high onto 47 kohm ends at",
+   "value": 2.129376,
+   "unit": "V",
+   "expected": null,
+   "low": 2.0,
+   "high": 2.4,
+   "source": "RP2350 datasheet, erratum E9 (pages 1358 and 1359): a weak pull-down leaves the pad at about 2.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "module_vsys",
+   "label": "Module fed with 5 V at VBUS: voltage at VSYS",
+   "value": 4.572606,
+   "unit": "V",
+   "expected": null,
+   "low": 4.4,
+   "high": 4.7,
+   "source": "Pico 2 datasheet, figure 7 (page 15): VBUS less the drop of the Schottky diode",
+   "verdict": "pass"
+  },
+  {
+   "key": "sense_divider",
+   "label": "Module fed at VBUS: level of the VBUS sense pin",
+   "value": 3.205128,
+   "unit": "V",
+   "expected": 3.205128,
+   "low": 3.173077,
+   "high": 3.237179,
+   "source": "Pico 2 datasheet, figure 7 (page 15): 5.6 kohm and 10 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "vbus_fed_at_vsys",
+   "label": "Module fed with 5 V at VSYS: voltage at its VBUS pin",
+   "value": 5.311799e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "Nexperia PMEG6010ELR of 1 January 2023, page 4: 5 nA typical at 5 V, into 15.6 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_0a1",
+   "label": "Diode of the module: forward voltage at 0.1 A",
+   "value": 0.4745364,
+   "unit": "V",
+   "expected": 0.475,
+   "low": 0.45125,
+   "high": 0.49875,
+   "source": "Nexperia PMEG6010ELR of 1 January 2023, page 4, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_1a",
+   "label": "Diode of the module: forward voltage at 1 A",
+   "value": 0.6045703,
+   "unit": "V",
+   "expected": 0.605,
+   "low": 0.57475,
+   "high": 0.63525,
+   "source": "Nexperia PMEG6010ELR of 1 January 2023, page 4, typical",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "release",
+   "Pad of stepping A2, driven high and released at 1 us onto a pull-down",
+   "digital-rp2350.release.png"
+  ],
+  [
+   "erratum",
+   "Current out of a released pad of stepping A2 with its input enabled",
+   "digital-rp2350.erratum.png"
+  ]
+ ],
+ "notes": [
+  "The datasheet gives limits for the output levels and no typical value: the pad model takes the limits of the 4 mA setting, 170 ohm high and 125 ohm low, and the benches also run a strong pad of 30 ohm, which is an assumption.",
+  "The current of erratum E9 is the static curve of figure 157 for a typical part; a real pad shows it only with its input enabled, and stepping A3 does not have it.",
+  "The capacitance of a pad, 5 pF with its pin and the socket, is an assumption; the load of the module, 0.1 W, is one as well."
+ ],
+ "models": [],
+ "decks": [
+  "digital-rp2350.release.cir",
+  "digital-rp2350.static.cir",
+  "digital-rp2350.supply.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,498 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "sequence",
+ "title": "Start and stop of the source in the order of rules F-28 and F-29, set-point steps",
+ "covers": "section 4.2 (start and stop, clamps, bleeder, set-point filter), rules F-28 to F-31",
+ "summary": "The source runs through the start and the stop that firmware has to follow. After the rails stand, the DAC takes the code of 0.80 V; 200 ms later SMU_ON rises; 5 ms later the DAC takes the code of 5.00 V; after 80 ms and a wait the source is stopped: SMU_ON falls and the DAC goes to zero. The paths to the device are open throughout. The run shows the regulator alone on its control supply, the start of the pre-regulator on its charged capacitors, the rise of the output behind the set-point filter, and what the IN pin and the 5 V rail see at the stop. Two more runs step the set-point from 5.00 V to 0.80 V at once, without a device and with 100 uF at the device in range 3. A last run takes the filter of the set-point out, so that the output is released and falls with its minimum load alone.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "idle_output",
+   "label": "Idle, DAC at zero and SMU_ON low: regulator output",
+   "value": 0.01727845,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "alone_output",
+   "label": "Regulator on its control supply alone, code of 0.80 V: output",
+   "value": 0.799415,
+   "unit": "V",
+   "expected": 0.7995508,
+   "low": 0.7895508,
+   "high": 0.8095508,
+   "source": "section 4.2: with the pre-regulator off the regulator follows the set-point; 10 mV is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "alone_in_pin",
+   "label": "In that state: output above the IN pin",
+   "value": -0.006419223,
+   "unit": "V",
+   "expected": 0.165,
+   "low": null,
+   "high": 0.3,
+   "source": "section 4.2: D11 holds the IN pin 0.15 V to 0.18 V below the output; LT3080 Rev. E, page 2: not more than 0.3 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "alone_precharge",
+   "label": "In that state: pre-regulator output before SMU_ON rises",
+   "value": 0.805833,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.436371,
+   "source": "rule F-28: the converter is never enabled on capacitors charged above its target, 1.437 V at 0.80 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "alone_control_current",
+   "label": "In that state: current of the VCONTROL pin",
+   "value": 0.004518908,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.03,
+   "source": "section 4.2: the regulator supplies only the milliamperes of its control path; LT3080 Rev. E, page 4: 30 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_pin",
+   "label": "Enable pin of the pre-regulator with SMU_ON high",
+   "value": 3.157557,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: threshold of 1.2 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_returned",
+   "label": "Most power returned to the 5 V rail in the 5 ms after SMU_ON rises",
+   "value": 0.06896828,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2 and section 16: less than the instrument takes from the rail in source mode without load, for which 0.25 W is the condition",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_returned_charge",
+   "label": "Charge returned to the 5 V rail in the 5 ms after SMU_ON rises",
+   "value": 2.607484e-07,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "enable_inrush",
+   "label": "Highest current of the 5 V rail in the 5 ms after SMU_ON rises",
+   "value": 0.4851396,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "enable_disturbance",
+   "label": "Movement of the regulator output in the 5 ms after SMU_ON rises",
+   "value": 0.006661182,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "enable_pre",
+   "label": "Pre-regulator output 5 ms after SMU_ON rises",
+   "value": 1.436207,
+   "unit": "V",
+   "expected": 1.436371,
+   "low": 1.2,
+   "high": null,
+   "source": "rule F-28: the pre-regulator is never asked for less than 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rise_slope",
+   "label": "Fastest rise of the output after the code of 5.00 V",
+   "value": 416.8518,
+   "unit": "V/s",
+   "expected": 520.0,
+   "low": null,
+   "high": 600.0,
+   "source": "section 4.2: the set-point moves at 0.52 V/ms at most after a full-scale step; 0.6 V/ms is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "rise_lag",
+   "label": "Largest lag of the output behind the SET drive during that rise",
+   "value": 0.04231194,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rise_headroom",
+   "label": "Lowest voltage of the IN pin above the output during that rise",
+   "value": 0.3826546,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ready_error",
+   "label": "Output below its final value 80 ms after the code of 5.00 V",
+   "value": 0.001097689,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "rule F-28, step 7: within 100 mV of the set-point",
+   "verdict": "pass"
+  },
+  {
+   "key": "stop_in_pin",
+   "label": "Stop: lowest voltage of the IN pin relative to the output",
+   "value": -0.005956486,
+   "unit": "V",
+   "expected": -0.165,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2: not more than 0.3 V below the output; section 4.2: 0.15 V to 0.18 V with D11",
+   "verdict": "pass"
+  },
+  {
+   "key": "stop_returned",
+   "label": "Stop: lowest current of the 5 V rail after SMU_ON falls",
+   "value": 4.999999e-09,
+   "unit": "A",
+   "expected": null,
+   "low": -0.001,
+   "high": null,
+   "source": "section 4.2: a disabled converter returns nothing; 1 mA is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "fall_slope",
+   "label": "Fastest fall of the output after the DAC goes to zero",
+   "value": 468.789,
+   "unit": "V/s",
+   "expected": 520.0,
+   "low": null,
+   "high": 600.0,
+   "source": "section 4.2: the set-point moves at 0.52 V/ms at most after a full-scale step; 0.6 V/ms is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "bleeder",
+   "label": "Pre-regulator output 0.2 s after SMU_ON fell",
+   "value": 0.04133468,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "section 4.2: the bleeder empties the capacitors in about 0.2 s; 0.3 V is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "whole_in_pin",
+   "label": "Whole run: lowest voltage of the IN pin relative to the output",
+   "value": -0.007132342,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_headroom_open",
+   "label": "Step from 5.00 V to 0.80 V, no device: lowest voltage of the IN pin above the output",
+   "value": 0.4538949,
+   "unit": "V",
+   "expected": 0.44,
+   "low": -0.3,
+   "high": null,
+   "source": "section 4.2: at least 0.44 V on a full-scale step down (simulated); the limit is the rating of the IN pin",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_returned_open",
+   "label": "Step from 5.00 V to 0.80 V, no device: most power returned to the 5 V rail",
+   "value": -0.02133606,
+   "unit": "W",
+   "expected": 0.06,
+   "low": null,
+   "high": 0.27,
+   "source": "section 4.2: at most 0.27 W (calculated bound), 0.06 W simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_less_open",
+   "label": "Step from 5.00 V to 0.80 V, no device: largest fall of the power taken from the 5 V rail below its value before the step",
+   "value": 0.1411551,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_slope_open",
+   "label": "Step from 5.00 V to 0.80 V, no device: fastest fall of the output",
+   "value": 364.3449,
+   "unit": "V/s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_settled_open",
+   "label": "Step from 5.00 V to 0.80 V, no device: output within 10 mV of 0.80 V after",
+   "value": 0.05796983,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_headroom_100uf",
+   "label": "Step from 5.00 V to 0.80 V, 100 uF at the device, range 3: lowest voltage of the IN pin above the output",
+   "value": 0.4530819,
+   "unit": "V",
+   "expected": 0.44,
+   "low": -0.3,
+   "high": null,
+   "source": "section 4.2: at least 0.44 V on a full-scale step down (simulated); the limit is the rating of the IN pin",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_returned_100uf",
+   "label": "Step from 5.00 V to 0.80 V, 100 uF at the device, range 3: most power returned to the 5 V rail",
+   "value": -0.08244757,
+   "unit": "W",
+   "expected": 0.06,
+   "low": null,
+   "high": 0.27,
+   "source": "section 4.2: at most 0.27 W (calculated bound), 0.06 W simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_less_100uf",
+   "label": "Step from 5.00 V to 0.80 V, 100 uF at the device, range 3: largest fall of the power taken from the 5 V rail below its value before the step",
+   "value": 0.08003899,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_slope_100uf",
+   "label": "Step from 5.00 V to 0.80 V, 100 uF at the device, range 3: fastest fall of the output",
+   "value": 64.75459,
+   "unit": "V/s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_settled_100uf",
+   "label": "Step from 5.00 V to 0.80 V, 100 uF at the device, range 3: output within 10 mV of 0.80 V after",
+   "value": 0.08996401,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "released_slope",
+   "label": "Set-point taken away at once at 5.00 V, source pair open: fastest fall of the output",
+   "value": 699.5285,
+   "unit": "V/s",
+   "expected": 750.0,
+   "low": 700.0,
+   "high": 800.0,
+   "source": "section 4.2: a released output falls with 0.7 V/ms to 0.8 V/ms at 5 V (calculated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "released_returned",
+   "label": "Released output: most power returned to the 5 V rail",
+   "value": 0.04003133,
+   "unit": "W",
+   "expected": 0.16,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2: 0.12 W to 0.20 W for about 5 ms (simulated); the limit is the 0.25 W that the instrument has to take from the rail (section 16)",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_less",
+   "label": "Released output: largest fall of the power taken from the 5 V rail below its value before",
+   "value": 0.2022877,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "released_time",
+   "label": "Released output: time for which the 5 V rail gives at least 10 mW less than at rest after the step",
+   "value": 0.01036,
+   "unit": "s",
+   "expected": 0.005,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: for about 5 ms (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "released_headroom",
+   "label": "Released output: lowest voltage of the IN pin above the output",
+   "value": 0.452333,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "unfiltered_rise",
+   "label": "Set-point given at once, source pair open: slope of the output between 2 V and 4 V",
+   "value": 1234.893,
+   "unit": "V/s",
+   "expected": null,
+   "low": 520.0,
+   "high": null,
+   "source": "section 4.2: the set-point moves at 0.52 V/ms at most; the source has to rise at least that fast for its output to follow (limit of this bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "unfiltered_peak",
+   "label": "Set-point given at once, source pair open: highest output above its final value",
+   "value": 0.03559968,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The paths to the device stay open in the start and stop run: steps 6 to 8 of rule F-28, the source pair, the check of the monitor and the output pair, belong to other blocks. Nothing hangs on the regulator output there but the parts of the sheet. In the two set-point steps the source pair is closed: the capacitors of the supply node hang on the output through the resistor that stands for it.",
+  "The rails and the reference are ideal sources, so no rail moves when the converter starts or returns current: the current of the 5 V rail is what the source asks of it, not what the rail does with it.",
+  "The power returned to the 5 V rail is the current of that rail, so it is what is left after the losses of the converter model: about 0.09 W, fitted to one efficiency curve at 3.6 V and taken to hold at 5 V. At 5.00 V without a device the source takes 0.16 W, of which 0.07 W go to the bleeder and to the minimum load. A converter without losses would return more; the fall of the power below its value before the step is an upper bound for that, to be held against the 0.06 W and the 0.12 W to 0.20 W of section 4.2.",
+  "The run with the set-point taken away at once is not a state of the schematic: C41 is reduced to a thousandth, 10 us in place of 10 ms. The output then falls with its minimum load and with 3 mA more, which the clamp between OUT and SET of the regulator carries into R60: 0.70 V/ms over the first 0.2 ms, in which the output is already at 4.8 V. The figure stands 0.06 % below the 0.7 V/ms to 0.8 V/ms of the specification and fails on that digit; the calculation of the specification is confirmed.",
+  "With the filter in place the set-point of a full-scale step down falls with 0.42 V/ms at first. The minimum load alone takes the output down with 0.36 V/ms while the source pair is closed, so the output lags its set-point by up to 84 mV for the first 8 ms, and by 0.7 V for tens of milliseconds with 100 uF at the device: the regulator cannot take current, and the clamp between OUT and SET conducts.",
+  "Given at once, a set-point of 5.00 V is followed with 1.2 V/ms: the regulator rises in dropout as fast as the pre-regulator follows its own output through the diode of D13. That is 2.4 times the slope that the filter lets through, so the output follows the filtered set-point, 42 mV behind at the most.",
+  "How the IN pin is fed while the pre-regulator is off depends on the reverse gain of the pass transistor of the regulator model, which is an assumption: with it the pin is charged from the control supply through the transistor, and D11 carries little.",
+  "The converter is the averaged model. What the real part does when it is enabled on a charged output is not in its datasheet; the model starts its duty cycle from zero behind a time constant of 0.21 ms, and it may take up to 0.7 A back from its output in forced PWM (TI SLVA726).",
+  "The DAC is a behavioral model whose code changes in a step; the frames of the serial interface and the ramp of firmware (1 V/ms by default) are not simulated."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

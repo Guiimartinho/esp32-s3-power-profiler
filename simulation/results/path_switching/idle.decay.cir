@@ -1,0 +1,132 @@
+* Supply node after the last path switch has opened
+.include "../../models/path_switching.lib"
+.include "../../models/mosfets.lib"
+.include "../../models/diodes.lib"
+.include "../../models/logic.lib"
+.include "../../models/mux509.lib"
+XF1 vin_raw vin_p PATH_FUSE_0466004
+MQ2 amp_in gate_src 0 PATH_BSS138
+MQ3 amp_in vin_ov 0 PATH_BSS138
+MQ4 ldo_out g_src s_src CSD17577Q3A
+MQ5 vin_p g_amp s_amp CSD17577Q3A
+QQ6 g_src b_src s_src PATH_BC847B
+QQ7 g_amp b_amp s_amp PATH_BC847B
+MQ8 supply g_src s_src CSD17577Q3A
+MQ9 supply g_amp s_amp CSD17577Q3A
+C56 p12v_a 0 1e-06
+C57 p12v_a 0 1e-07
+C58 det 0 1e-09
+C59 p3v3_a 0 1e-07
+C60 g_src ramp_src 1e-07
+C61 g_amp ramp_amp 1e-07
+C62 supply 0 1e-06
+C63 damper 0 4.7e-06
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C69 0 m4v_a 1e-07
+C71 vout_s 0 1e-07
+XD14 vin_p 0 PATH_SMAJ20CA
+DD15_1 0 det BAV199
+DD15_2 det p3v3_a BAV199
+DD16_1 g_src off_src BAV199
+DD16_2 off_src p12v_a BAV199
+DD17_1 g_amp off_amp BAV199
+DD17_2 off_amp p12v_a BAV199
+DD18_1 s_src b_src BAV199
+DD18_2 b_src b_src BAV199
+DD19_1 s_amp b_amp BAV199
+DD19_2 b_amp b_amp BAV199
+MQ10 supply n_q10_g vout_s IRLML0030_CLAMP
+MQ11 supply n_q11_g vout_s IRLML0030_CLAMP
+MQ12 supply g_r1 sense_r1 IRLML0030
+MQ13 supply g_r2 sense_r2 IRLML0030
+MQ14 supply g_r3 sense_r3 CSD17577Q3A
+R70 gate_src 0 1000
+R71 gate_amp 0 4700
+R72 gate_amp amp_in 1000
+R73 vin_p det 115000
+R74 det 0 100000
+R75 gate_src src_in 1000
+R76 det vin_ov 3.3e+06
+R77 drv_src off_src 22
+R78 drv_src g_src 100000
+R79 drv_amp off_amp 22
+R80 drv_amp g_amp 100000
+R81 ramp_src 0 6800
+R82 ramp_amp 0 6800
+R83 g_src s_src 2.2e+06
+R84 g_amp s_amp 2.2e+06
+R85 b_src 0 100000
+R86 b_amp 0 100000
+R87 supply damper 0.47
+R88 gate_r3 0 1000
+R89 gate_r1 0 1000
+R90 supply 0 100000
+R91 mux_a1 0 5100
+R92 supply n_q10_g 22
+R93 gate_out 0 1000
+R94 gate_r2 0 1000
+R95 mux_a0 0 5100
+R96 gate_r3 n_u22_in_b 1000
+R97 gate_r1 n_u23_in_b 1000
+R98 gate_out n_u22_in_a 1000
+R99 gate_r2 n_u23_in_a 1000
+XU20_1 src_in drv_src p12v_a 0 TC4427CH
+XU20_2 amp_in drv_amp p12v_a 0 TC4427CH
+XU21 det vref vin_ov p3v3_a 0 MCP656X
+XU22_1 n_u22_in_a drv_out p12v_a 0 TC4427CH
+XU22_2 n_u22_in_b n_u22_out_b p12v_a 0 TC4427CH
+XU23_1 n_u23_in_a n_u23_out_a p12v_a 0 TC4427CH
+XU23_2 n_u23_in_b n_u23_out_b p12v_a 0 TC4427CH
+XU24 n_u24_a0 n_u24_en m4v_a supply sense_r1 n_u24_s3a n_u24_s4a inp inn n_u24_s4b n_u24_s3b vout_s vout_s p12v_a 0 n_u24_a1 MUX509
+C104 vin_mon 0 1e-07
+R100 supply n_q11_g 22
+R101 supply vout_s 1000
+R102 n_u23_out_b g_r1 47
+R103 g_r1 0 100000
+R104 sense_r1 vout_s 33
+R105 n_u23_out_a g_r2 47
+R106 g_r2 0 100000
+R107 sense_r2 vout_s 1
+RR107_SA sense_r2 n_u24_s3a 0.001
+RR107_SB vout_s n_u24_s3b 0.001
+R108 n_u22_out_b g_r3 10
+R109 g_r3 0 100000
+R110 sense_r3 vout_s 0.1
+RR110_SA sense_r3 n_u24_s4a 0.001
+RR110_SB vout_s n_u24_s4b 0.001
+R111 mux_a1 n_u24_a1 1000
+R112 mux_a0 n_u24_a0 1000
+R113 p12v_a n_u24_en 10000
+R141 vin_p vin_mon 430000
+R150 vin_mon 0 10000
+* ideal rails
+Vp12 p12v_a 0 12
+Vm4 m4v_a 0 -4
+Vp3v3a p3v3_a 0 3.3
+Vref vref 0 2.5
+* controller lines held for range 3
+Vgate_r1 gate_r1 0 0
+Vgate_r2 gate_r2 0 0
+Vgate_r3 gate_r3 0 3.3
+Vmux_a0 mux_a0 0 3.3
+Vmux_a1 mux_a1 0 3.3
+Vgate_out gate_out 0 0
+* stand-in for the source meter: a source behind a small resistance
+Vldo ldo_src 0 5
+Rldo ldo_src ldo_out 0.02
+* VIN terminal open
+Ropen vin_raw 0 1e12
+* mode requests: pins of the controller behind their output resistance
+Vsrc pin_src 0 PWL(0 3.3 0.01 3.3 0.01000001 0)
+Rpad_src pin_src gate_src 33
+Vamp pin_amp 0 PWL(0 0)
+Rpad_amp pin_amp gate_amp 33
+.control
+save supply vout_s g_src s_src ldo_out
+tran 0.5m 1.61 0 1m
+.endc
+.end

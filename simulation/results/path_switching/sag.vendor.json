@@ -1,0 +1,227 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "sag",
+ "title": "Ampere mode: the supply node after a load step of 500 mA behind supply leads",
+ "covers": "section 4.3 (supply node, D-63)",
+ "summary": "The ampere pair is closed on 5 V behind supply leads and the load steps to 500 mA. The step has an edge of 100 ns and is drawn from the node after the shunts, with range 3 selected. Until the current of the leads has risen, the capacitor of the supply node and its damped branch deliver the load. The run is repeated for 0.5 uH to 3 uH of leads, with the two capacitors at 40 % of their value, and without the damped branch.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "sag_1uh_0p5a",
+   "label": "Deepest sag of the supply node: 1 uH, 0.5 A",
+   "value": 0.2097381,
+   "unit": "V",
+   "expected": null,
+   "low": 0.17,
+   "high": 0.21,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "settled",
+   "label": "Drop of the supply node once the leads carry the load: 1 uH, 0.5 A",
+   "value": 0.03243337,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "sag_0p5uh_0p5a",
+   "label": "Deepest sag of the supply node: 0.5 uH, 0.5 A",
+   "value": 0.1706522,
+   "unit": "V",
+   "expected": null,
+   "low": 0.17,
+   "high": 0.21,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_0p75uh_0p5a",
+   "label": "Deepest sag of the supply node: 0.75 uH, 0.5 A",
+   "value": 0.1922244,
+   "unit": "V",
+   "expected": null,
+   "low": 0.17,
+   "high": 0.21,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_3uh_0p5a",
+   "label": "Deepest sag of the supply node: 3 uH, 0.5 A",
+   "value": 0.3244934,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "sag_1uh_0p5a_derated",
+   "label": "Deepest sag of the supply node: 1 uH, 0.5 A, capacitors at 40 %",
+   "value": 0.2912015,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "sag_1uh_0p5a_no_damper",
+   "label": "Deepest sag of the supply node: 1 uH, 0.5 A, without the damper",
+   "value": 0.4826284,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The load is a current sink that steps within 100 ns, drawn from the node after the shunts with range 3 held: no capacitor at the device under test softens the step, and the range logic is not in the circuit.",
+  "The external supply is a voltage source behind its leads, 40 mohm per uH; the sag is measured from the level before the step, so it includes the drop of leads, fuse and pair, about 30 mV.",
+  "An X7R capacitor keeps less than its nominal value under bias; the run with both capacitors at 40 % shows the direction, the share itself is an assumption."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

@@ -1,0 +1,544 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "short",
+ "title": "Short circuit at the output: current limit, pre-regulator, dissipation of U18",
+ "covers": "section 4.2 (short circuit, sense path of the tracking), rule F-15, decision D-55",
+ "summary": "The source stands at rest without load and its output is shorted for 30 ms. The short circuit of 10 mohm closes at the regulator output, ahead of every switch, or at the terminal behind the path of range 3. Nothing opens a switch in these runs: the over-current trip belongs to another block, and the question here is what the regulator and the pre-regulator do while the short lasts and after it opens. The runs give the limited current, the voltage that the pre-regulator falls to, the dissipation of the regulator at the start and at rest, and what the 5 V rail sees.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "current_output_5v",
+   "label": "5.0 V, short at the regulator output: current of the IN pin in the short circuit",
+   "value": 1.319726,
+   "unit": "A",
+   "expected": 1.4,
+   "low": 1.1,
+   "high": 1.6,
+   "source": "LT3080 Rev. E, page 4: 1.4 A typical, 1.1 A at the least; the upper limit is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_output_5v",
+   "label": "5.0 V, short at the regulator output: pre-regulator output in the short circuit",
+   "value": 0.8489254,
+   "unit": "V",
+   "expected": 0.84,
+   "low": 0.7,
+   "high": 1.0,
+   "source": "section 4.2: the pre-regulator follows down to about 0.8 V, 0.84 V simulated; the band is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_output_5v",
+   "label": "5.0 V, short at the regulator output: dissipation of the regulator in the lasting short circuit",
+   "value": 1.352451,
+   "unit": "W",
+   "expected": 1.75,
+   "low": null,
+   "high": 2.0,
+   "source": "section 4.2 and rule F-15: 1.5 W to 2.0 W, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_watts_output_5v",
+   "label": "5.0 V, short at the regulator output: highest dissipation of the regulator",
+   "value": 7.525217,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "energy_output_5v",
+   "label": "5.0 V, short at the regulator output: energy in the regulator in the first 5 ms",
+   "value": 0.01019011,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "follow_output_5v",
+   "label": "5.0 V, short at the regulator output: pre-regulator output below 1.2 V after",
+   "value": 0.001388495,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "returned_output_5v",
+   "label": "5.0 V, short at the regulator output: most power returned to the 5 V rail",
+   "value": 0.09455381,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2 and section 16: less than the instrument takes from the rail, for which 0.25 W is the condition",
+   "verdict": "pass"
+  },
+  {
+   "key": "in_pin_output_5v",
+   "label": "5.0 V, short at the regulator output: lowest voltage of the IN pin relative to the output",
+   "value": -0.03357889,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_output_5v",
+   "label": "5.0 V, short at the regulator output: output above its value before the short, after the release",
+   "value": 0.049762,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "recovery_output_5v",
+   "label": "5.0 V, short at the regulator output: output back within 0.1 V after the release in",
+   "value": 0.003507409,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "current_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: current of the IN pin in the short circuit",
+   "value": 1.317377,
+   "unit": "A",
+   "expected": 1.4,
+   "low": 1.1,
+   "high": 1.6,
+   "source": "LT3080 Rev. E, page 4: 1.4 A typical, 1.1 A at the least; the upper limit is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: pre-regulator output in the short circuit",
+   "value": 0.866187,
+   "unit": "V",
+   "expected": 0.84,
+   "low": 0.7,
+   "high": 1.0,
+   "source": "section 4.2: the pre-regulator follows down to about 0.8 V, 0.84 V simulated; the band is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: dissipation of the regulator in the lasting short circuit",
+   "value": 1.113039,
+   "unit": "W",
+   "expected": 1.75,
+   "low": null,
+   "high": 2.0,
+   "source": "section 4.2 and rule F-15: 1.5 W to 2.0 W, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_watts_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: highest dissipation of the regulator",
+   "value": 7.254867,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "energy_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: energy in the regulator in the first 5 ms",
+   "value": 0.009443153,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "follow_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: pre-regulator output below 1.2 V after",
+   "value": 0.001646467,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "returned_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: most power returned to the 5 V rail",
+   "value": 0.0911488,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2 and section 16: less than the instrument takes from the rail, for which 0.25 W is the condition",
+   "verdict": "pass"
+  },
+  {
+   "key": "in_pin_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: lowest voltage of the IN pin relative to the output",
+   "value": -0.03302529,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: output above its value before the short, after the release",
+   "value": 0.04728686,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "recovery_terminal_5v",
+   "label": "5.0 V, short at the terminal in range 3: output back within 0.1 V after the release in",
+   "value": 0.003496155,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "current_output_0v8",
+   "label": "0.8 V, short at the regulator output: current of the IN pin in the short circuit",
+   "value": 1.319726,
+   "unit": "A",
+   "expected": 1.4,
+   "low": 1.1,
+   "high": 1.6,
+   "source": "LT3080 Rev. E, page 4: 1.4 A typical, 1.1 A at the least; the upper limit is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_output_0v8",
+   "label": "0.8 V, short at the regulator output: pre-regulator output in the short circuit",
+   "value": 0.8489253,
+   "unit": "V",
+   "expected": 0.84,
+   "low": 0.7,
+   "high": 1.0,
+   "source": "section 4.2: the pre-regulator follows down to about 0.8 V, 0.84 V simulated; the band is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_output_0v8",
+   "label": "0.8 V, short at the regulator output: dissipation of the regulator in the lasting short circuit",
+   "value": 1.352506,
+   "unit": "W",
+   "expected": 1.75,
+   "low": null,
+   "high": 2.0,
+   "source": "section 4.2 and rule F-15: 1.5 W to 2.0 W, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_watts_output_0v8",
+   "label": "0.8 V, short at the regulator output: highest dissipation of the regulator",
+   "value": 2.072482,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "energy_output_0v8",
+   "label": "0.8 V, short at the regulator output: energy in the regulator in the first 5 ms",
+   "value": 0.007035282,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "follow_output_0v8",
+   "label": "0.8 V, short at the regulator output: pre-regulator output below 1.2 V after",
+   "value": 0.0002308293,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "returned_output_0v8",
+   "label": "0.8 V, short at the regulator output: most power returned to the 5 V rail",
+   "value": 0.08774964,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2 and section 16: less than the instrument takes from the rail, for which 0.25 W is the condition",
+   "verdict": "pass"
+  },
+  {
+   "key": "in_pin_output_0v8",
+   "label": "0.8 V, short at the regulator output: lowest voltage of the IN pin relative to the output",
+   "value": 0.2038047,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_output_0v8",
+   "label": "0.8 V, short at the regulator output: output above its value before the short, after the release",
+   "value": 0.001399292,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "recovery_output_0v8",
+   "label": "0.8 V, short at the regulator output: output back within 0.1 V after the release in",
+   "value": 2.110346e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "current_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: current of the IN pin in the short circuit",
+   "value": 1.049524,
+   "unit": "A",
+   "expected": 1.1,
+   "low": 1.0,
+   "high": 1.2,
+   "source": "LT3080 Rev. E, page 4: 1.4 A typical, 1.1 A at the least; the upper limit is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: pre-regulator output in the short circuit",
+   "value": 0.8798328,
+   "unit": "V",
+   "expected": 0.84,
+   "low": 0.7,
+   "high": 1.0,
+   "source": "section 4.2: the pre-regulator follows down to about 0.8 V, 0.84 V simulated; the band is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: dissipation of the regulator in the lasting short circuit",
+   "value": 1.129209,
+   "unit": "W",
+   "expected": 1.75,
+   "low": null,
+   "high": 2.0,
+   "source": "section 4.2 and rule F-15: 1.5 W to 2.0 W, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_watts_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: highest dissipation of the regulator",
+   "value": 6.04632,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "energy_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: energy in the regulator in the first 5 ms",
+   "value": 0.008310342,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "follow_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: pre-regulator output below 1.2 V after",
+   "value": 0.001387732,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "returned_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: most power returned to the 5 V rail",
+   "value": 0.05328779,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2 and section 16: less than the instrument takes from the rail, for which 0.25 W is the condition",
+   "verdict": "pass"
+  },
+  {
+   "key": "in_pin_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: lowest voltage of the IN pin relative to the output",
+   "value": -0.02359455,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: output above its value before the short, after the release",
+   "value": 0.04250233,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "recovery_output_5v_least",
+   "label": "5.0 V, short at the regulator output, least current limit: output back within 0.1 V after the release in",
+   "value": 0.003656605,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "output-5v",
+   "Short circuit: 5.0 V, short at the regulator output",
+   "short.output-5v.png"
+  ],
+  [
+   "terminal-5v",
+   "Short circuit: 5.0 V, short at the terminal in range 3",
+   "short.terminal-5v.png"
+  ],
+  [
+   "output-0v8",
+   "Short circuit: 0.8 V, short at the regulator output",
+   "short.output-0v8.png"
+  ]
+ ],
+ "notes": [
+  "The regulator model has the typical current limit of 1.4 A, flat up to the 6 V that this circuit can put across it, and no thermal limit: a real part in a lasting short circuit heats until its own limit acts, which the datasheet allows for an indefinite time. The datasheet gives no highest value of the current limit.",
+  "What the converter does when it is asked for less than a duty cycle of 20 % is not in its datasheet. The model holds 20 % while its current is below its limit, which puts about 1 V behind its switch resistance: the voltage that the pre-regulator rests at in the short circuit, and with it the dissipation of the regulator, follow from that assumption.",
+  "The dissipation at the start is the full head room times the limited current until the regulator has emptied the capacitors of the pre-regulator through the short circuit; the energy of the first 5 ms states it.",
+  "The rails are ideal sources. The over-current trip, the range logic and the output switch are not in these runs."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "short.output-5v.cir"
+ ],
+ "format": 1
+}

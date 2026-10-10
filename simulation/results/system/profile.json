@@ -1,0 +1,230 @@
+{
+ "block": "system",
+ "block_title": "Whole Measuring Path",
+ "bench": "profile",
+ "title": "A load profile with automatic ranging: sleep, wake, burst, sleep",
+ "covers": "sections 4.3 to 4.5, rules F-16, F-17 and F-35, requirement R-07, section 9 (flagged samples)",
+ "summary": "The whole measuring path follows a load that sleeps, wakes and transmits. Ladder, multiplexer, amplifier chain and comparators are the circuit as drawn; the sequencer is the model of the rules, and the requests to step down are written in at the instants the firmware rule gives. The load draws 3 uA, wakes to 8 mA, takes 180 mA for 0.6 ms and sleeps again, with 1 uF beside it. The converter input is sampled at 100 kSPS and turned into a current with the nominal calibration, with the samples after a range change flagged as the specification says. The reading is compared with the load current and with the current that really flowed through the shunts, which differ while the capacitor at the load changes its voltage.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "charge_against_shunt",
+   "label": "Charge read over the profile against the charge through the shunts",
+   "value": 0.3386127,
+   "unit": "%",
+   "expected": null,
+   "low": -1.0,
+   "high": 1.0,
+   "source": "limit of this bench: the reading follows the shunt current within 1 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_against_load",
+   "label": "Charge read over the profile against the charge the load drew",
+   "value": 0.3387474,
+   "unit": "%",
+   "expected": null,
+   "low": -1.0,
+   "high": 1.0,
+   "source": "limit of this bench: 1 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "worst_valid_sample",
+   "label": "Largest deviation of a valid sample from the shunt current, of its range",
+   "value": 57.68336,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "median_valid_sample",
+   "label": "Median deviation of the valid samples from the shunt current",
+   "value": 0.03133103,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "limit of this bench: 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_range",
+   "label": "Range in which the run starts, at 3 uA",
+   "value": 0.0,
+   "unit": "",
+   "expected": 0.0,
+   "low": 0.0,
+   "high": 0.0,
+   "source": "the run has to start at rest in range 0",
+   "verdict": "pass"
+  },
+  {
+   "key": "range_changes",
+   "label": "Range changes over the profile",
+   "value": 5.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "flagged_share",
+   "label": "Samples flagged invalid",
+   "value": 2.916667,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wake_ladder_peak",
+   "label": "Highest ladder voltage at the wake edge",
+   "value": 0.1062576,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.151,
+   "source": "section 4.4: below the jump level of 151 mV, so the steps are single",
+   "verdict": "pass"
+  },
+  {
+   "key": "lowest_output",
+   "label": "Lowest voltage at the load during wake and burst (set to 5 V)",
+   "value": 4.891197,
+   "unit": "V",
+   "expected": null,
+   "low": 4.5,
+   "high": null,
+   "source": "requirement R-07: a drop of 0.5 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "sleep_reading",
+   "label": "Reading at the end, back in sleep at 3 uA",
+   "value": 2.994566e-06,
+   "unit": "A",
+   "expected": 3e-06,
+   "low": 2.9e-06,
+   "high": 3.1e-06,
+   "source": "the load current of the profile",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "profile",
+   "Sleep, wake, burst, sleep: load, shunt current and reading",
+   "profile.profile.png"
+  ],
+  [
+   "wake",
+   "The wake edge, 3 uA to 8 mA in 20 us with 1 uF at the load: two steps up",
+   "profile.wake.png"
+  ]
+ ],
+ "notes": [
+  "The sequencer is the model of rules F-16 to F-18 with a reaction time of 100 ns. The requests to step down are written into the deck at the instants the firmware rule gives for this profile: 1 ms after the load fell below the level of range 3 and 1 ms after each step. The latency of the sample blocks, up to 2.56 ms per step, is not in it.",
+  "The source in front of the ladder is an ideal 5 V source with 50 mohm, an assumption; the output switch is not in this circuit.",
+  "The reading follows the current through the shunts. That current is the load current plus what charges the capacitor at the load, so after a step down the reading approaches the load current with the time constant of shunt and capacitor: 1.1 ms in range 0 with 1 uF.",
+  "At the wake edge the capacitor at the load supplies the current first, so the ladder voltage rises slowly enough for the step-up comparator: range 0 to range 1 at 91 mV, range 2 after the blanking time, and the jump level is not reached. At the burst, in range 2, the jump takes the path to range 3.",
+  "The converter is ideal arithmetic; amplifier offsets and noise are zero."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "profile.sleep-wake.cir"
+ ],
+ "format": 1
+}

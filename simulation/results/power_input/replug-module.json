@@ -1,0 +1,694 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "replug-module",
+ "title": "The cable of the module is plugged again: what reaches input 2 of the multiplexer",
+ "covers": "section 4.1 (a contact that opens and closes again), section 14 (inputs of the multiplexer near their rating), section 16 (data cable plugged again, TP4 below 6.0 V), decision D-84",
+ "summary": "The cable of the module is pulled and plugged again with its limiter still on. The limiter of the module input has 100 nF at its input and 1 uF at its output, which is input 2 of the multiplexer. While USB-C supplies the rail, input 2 carries no load: with the cable pulled, the two capacitors empty through the enable divider and the dividers of the module within milliseconds, and the limiter stays on down to 2.76 V at its input. A contact that closes in that time puts the port voltage on the cable with the limiter conducting: the cable rings with the two capacitors, and the diode of the module to its VSYS capacitor is what bounds the peak. In the last runs the cable of the module is alone and its contact bounces while the multiplexer charges the rail, which empties the capacitors within microseconds.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "input2_short_20us",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 20 us",
+   "value": 5.514061,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_500us",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 500 us",
+   "value": 5.771991,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_1ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 1 ms",
+   "value": 5.85127,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_1p5ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 1.5 ms",
+   "value": 5.906453,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_2ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 2 ms",
+   "value": 5.941152,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_2p3ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 2.3 ms",
+   "value": 5.888235,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_2p6ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 2.6 ms",
+   "value": 5.778841,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_3ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 3 ms",
+   "value": 5.50471,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_short_5ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 5 ms",
+   "value": 5.504684,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_slow_2ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH, limiter reacts in 15 us: highest level of input 2 after a gap of 2 ms",
+   "value": 5.956113,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_slow_2p3ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH, limiter reacts in 15 us: highest level of input 2 after a gap of 2.3 ms",
+   "value": 5.980489,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_slow_2p6ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH, limiter reacts in 15 us: highest level of input 2 after a gap of 2.6 ms",
+   "value": 6.00157,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "input2_long_2ms",
+   "label": "5.5 V, cable of 0.15 ohm and 1.5 uH: highest level of input 2 after a gap of 2 ms",
+   "value": 5.891221,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_long_2p3ms",
+   "label": "5.5 V, cable of 0.15 ohm and 1.5 uH: highest level of input 2 after a gap of 2.3 ms",
+   "value": 5.663845,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_long_2p6ms",
+   "label": "5.5 V, cable of 0.15 ohm and 1.5 uH: highest level of input 2 after a gap of 2.6 ms",
+   "value": 5.609672,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_usb_2ms",
+   "label": "5.25 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 2 ms",
+   "value": 5.688701,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_usb_2p3ms",
+   "label": "5.25 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 2.3 ms",
+   "value": 5.691145,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_usb_2p6ms",
+   "label": "5.25 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 2.6 ms",
+   "value": 5.613466,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_typical_2ms",
+   "label": "5.0 V, cable of 0.25 ohm and 0.8 uH: highest level of input 2 after a gap of 2 ms",
+   "value": 5.359373,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_typical_2p3ms",
+   "label": "5.0 V, cable of 0.25 ohm and 0.8 uH: highest level of input 2 after a gap of 2.3 ms",
+   "value": 5.32947,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_typical_2p6ms",
+   "label": "5.0 V, cable of 0.25 ohm and 0.8 uH: highest level of input 2 after a gap of 2.6 ms",
+   "value": 5.012337,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_damped_2ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH, damper fitted: highest level of input 2 after a gap of 2 ms",
+   "value": 5.501549,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_damped_2p3ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH, damper fitted: highest level of input 2 after a gap of 2.3 ms",
+   "value": 5.501739,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_damped_2p6ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH, damper fitted: highest level of input 2 after a gap of 2.6 ms",
+   "value": 5.501894,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_single_4us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 4 us",
+   "value": 5.589531,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_single_7us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 7 us",
+   "value": 5.663601,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_single_10us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 10 us",
+   "value": 5.727738,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_single_14us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 after a gap of 14 us",
+   "value": 5.799652,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "before_short_20us",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 20 us",
+   "value": 5.477729,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_500us",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 500 us",
+   "value": 4.919156,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_1ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 1 ms",
+   "value": 4.388648,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_1p5ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 1.5 ms",
+   "value": 3.90571,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_2ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 2 ms",
+   "value": 3.466081,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_2p3ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 2.3 ms",
+   "value": 3.22146,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_2p6ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 2.6 ms",
+   "value": 2.990249,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_3ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 3 ms",
+   "value": 2.592765,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_short_5ms",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 5 ms",
+   "value": 1.734379,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_single_4us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 4 us",
+   "value": 5.070753,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_single_7us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 7 us",
+   "value": 4.459488,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_single_10us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 10 us",
+   "value": 3.857682,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_single_14us",
+   "label": "Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH: input of the limiter when the contact closes after 14 us",
+   "value": 3.074349,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "input2_highest",
+   "label": "Highest level of input 2 with a limiter of typical reaction time, USB-C supplies",
+   "value": 5.941152,
+   "unit": "V",
+   "expected": 5.945,
+   "low": null,
+   "high": 6.0,
+   "source": "section 4.1: within 25 mV to 85 mV of the 6 V rating in the worst corners (simulated before); TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_slow",
+   "label": "Highest level of input 2 with a limiter that reacts in 15 us, USB-C supplies",
+   "value": 6.00157,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V; the 15 us are an assumption",
+   "verdict": "fail"
+  },
+  {
+   "key": "input2_damped",
+   "label": "Highest level of input 2 with the damper fitted (limiter that reacts in 15 us)",
+   "value": 5.501894,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "decision D-84: a damper of 0.33 ohm with 10 uF on the input from the controller module; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input2_single",
+   "label": "Highest level of input 2 with the cable of the module alone, bouncing while the multiplexer charges the rail",
+   "value": 5.799652,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "section 16: data cable plugged again, TP4 below 6.0 V; TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "limiter_input_highest",
+   "label": "Highest voltage at the input of the limiter in the run with the highest input 2",
+   "value": 6.010874,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: input of the limiter rated 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "vsys_highest",
+   "label": "Highest level of VSYS of the module in all runs",
+   "value": 5.343105,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.5,
+   "source": "Pico 2 datasheet, section 4.5: VSYS from 1.8 V to 5.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable_highest",
+   "label": "Largest current of the cable in the run with the highest input 2",
+   "value": 3.816864,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "first_plug",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest level of input 2 at the first plug, with this input empty",
+   "value": 5.504622,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "first_plug_input",
+   "label": "5.5 V, cable of 0.08 ohm and 0.3 uH: highest voltage at the input of the limiter at the first plug",
+   "value": 5.545154,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: input of the limiter rated 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_moves",
+   "label": "Largest change of the 5 V rail while the cable of the module is plugged again and USB-C supplies",
+   "value": 0.003400605,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "rule F-35: a step of the rail of more than 0.3 V marks samples",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "close",
+   "The contact closes: 5.5 V, cable of 0.08 ohm and 0.3 uH, limiter reacts in 15 us, USB-C supplies",
+   "replug-module.close.png"
+  ],
+  [
+   "damped",
+   "The same with the damper fitted: 5.5 V, cable of 0.08 ohm and 0.3 uH, damper fitted",
+   "replug-module.damped.png"
+  ],
+  [
+   "single",
+   "The contact closes: Module cable alone, 5.5 V, cable of 0.08 ohm and 0.3 uH",
+   "replug-module.single.png"
+  ],
+  [
+   "gap",
+   "First plug at 3.5 ms, contact open from 4.5 ms to 7.5 ms: 5.5 V, cable of 0.08 ohm and 0.3 uH",
+   "replug-module.gap.png"
+  ]
+ ],
+ "notes": [
+  "The port is an ideal source behind its cable, and the contact a conductance that opens within 1 us and closes within 50 ns: assumptions, as are the cables. The USB-C source has the same voltage as the port.",
+  "The module is the model of the digital block: the diode of the module from VBUS to VSYS (475 mV at 0.1 A, 605 mV at 1 A), 47 uF at their nominal value on VSYS, 5.6 kohm and 10 kohm from VBUS to ground, and a load of 0.1 W. The peak at input 2 rests on that diode and on the level of VSYS, which the carrier holds through its own diode from the rail.",
+  "The limiter is ohmic when the contact closes. Its clamp and its reaction to a short circuit need 5 us (typical; the datasheet states no limit), which is about as long as the first peak of the ring takes: after the longest gaps the typical reaction cuts the peak, a slower one does not. A limiter that clamps from 5.54 V or 5.69 V instead of 5.83 V gives the same peak within 20 mV.",
+  "The 100 nF and the 1 uF on this input are in 0603 and stay at their nominal value: no bias curve of theirs was read. Less capacitance gives a faster ring.",
+  "The position for a damper on this input (R14, 0.33 ohm, and C5, 10 uF; decision D-84) is without parts, as the schematic has it, except in the runs that say otherwise. There the capacitor has half its value, an assumption for what a 10 uF 25 V part in 0805 keeps at 5 V; the position names no part number.",
+  "While USB-C supplies, the supervisor holds the carrier off during these runs (its delay is 0.3 s), so the rail carries no load; input 2 does not depend on it."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "replug-module.damped-2p6ms.cir",
+  "replug-module.short-2ms.cir",
+  "replug-module.slow-2p6ms.cir"
+ ],
+ "format": 1
+}

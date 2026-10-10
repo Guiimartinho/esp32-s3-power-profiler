@@ -1,0 +1,30 @@
+* Reference line: operating point, impedance and noise
+.include "../../models/analog_rails.lib"
+DD7 vref p3v3_a B0530W
+XC20 ref_in 0 RAILS_MLCC c=4.7u v0=8
+C24 ref_nr 0 1e-06
+C26 ref_c26 0 1e-05
+C89 ref_c89 0 2.2e-05
+R31 p3v3_a ref_in 10
+R35 vref ref_c26 1
+R49 vref sense_vref 36500
+R50 sense_vref 0 100000
+R55 vref dac_ref 2000
+R56 dac_ref 0 2000
+XU12 ref_in 0 ref_nr vref REF5025AID
+C113 vref 0 1e-07
+R131 vref ref_c89 0.22
+R148 vref mon_m4 100000
+R153 mon_m4 m4v_a 200000
+* 3V3_A and -4V_A as sources; the loads of the line that are not in this
+* circuit as one current sink
+V3a p3v3_a 0 DC 3.3 AC 0
+Vm4 m4v_a 0 -4
+Iload vref 0 0.00015
+Iac 0 vref DC 0 AC 1
+.control
+op
+noise v(vref) V3a dec 40 0.1 1meg
+ac dec 40 0.1 1meg
+.endc
+.end

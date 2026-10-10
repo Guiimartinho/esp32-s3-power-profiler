@@ -1,0 +1,168 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "power-input-diodes",
+ "title": "1N5819HW, SMAJ10A, TPD4E1U06 and LED models against their datasheets",
+ "covers": "the models of D3 and D4, of the suppressor D2, of the protection array U2 and of the LED D5",
+ "summary": "Each diode of the schematic is put, alone, on forced currents and voltages. The Schottky diode across a limiter: forward voltage from 1 mA to 3 A and reverse current at 4 V and 10 V. The suppressor: breakdown at 1 mA, clamping voltage at 23.5 A, current at its stand-off voltage and forward voltage. One channel of the protection array: breakdown and clamping voltages. The LED: forward voltage at 20 mA and its current behind 1 kohm on 3.3 V.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "suppressor_breakdown",
+   "label": "SMAJ10A: breakdown voltage at 1 mA",
+   "value": 11.70009,
+   "unit": "V",
+   "expected": 11.7,
+   "low": 11.1,
+   "high": 12.3,
+   "source": "Vishay 88390, page 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_clamp",
+   "label": "SMAJ10A: clamping voltage at 23.5 A",
+   "value": 16.66024,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 17.0,
+   "source": "Vishay 88390, page 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_forward",
+   "label": "SMAJ10A: forward voltage at 25 A",
+   "value": 2.562211,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 3.5,
+   "source": "Vishay 88390, page 2, note 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_leak",
+   "label": "SMAJ10A: current at the stand-off voltage of 10 V",
+   "value": 9.671681e-07,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.01e-06,
+   "source": "Vishay 88390, page 2: 1 uA at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "array_breakdown",
+   "label": "TPD4E1U06: breakdown voltage at 1 mA",
+   "value": 7.500118,
+   "unit": "V",
+   "expected": 7.5,
+   "low": 6.5,
+   "high": 8.5,
+   "source": "TI SLVSBQ9D, page 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "array_clamp_1a",
+   "label": "TPD4E1U06: clamping voltage at 1 A",
+   "value": 10.27619,
+   "unit": "V",
+   "expected": 11.0,
+   "low": 9.9,
+   "high": 12.1,
+   "source": "TI SLVSBQ9D, page 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "array_clamp_3a",
+   "label": "TPD4E1U06: clamping voltage at 3 A",
+   "value": 15.5046,
+   "unit": "V",
+   "expected": 15.0,
+   "low": 13.5,
+   "high": 16.5,
+   "source": "TI SLVSBQ9D, page 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "array_forward",
+   "label": "TPD4E1U06: voltage below ground at 1 A",
+   "value": 1.433786,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "led_20ma",
+   "label": "LED: forward voltage at 20 mA",
+   "value": 1.995292,
+   "unit": "V",
+   "expected": 2.0,
+   "low": null,
+   "high": 2.4,
+   "source": "Wurth 150060VS75000, page 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "led_volts",
+   "label": "LED: forward voltage behind 1 kohm on 3.3 V",
+   "value": 1.87378,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "led_amps",
+   "label": "LED: current behind 1 kohm on 3.3 V",
+   "value": 0.00142622,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The fit this project asks of a model is 15 % on a typical value; where the datasheet states limits, the limits are the ones of the datasheet.",
+  "The typical forward curve of the Schottky diode is read from figure 1 of its datasheet. Its reverse current doubles every 9 K (figure 2); the model stands at 25 C.",
+  "The suppressor and the protection array are static models: their capacitance is in the models and is not tested here.",
+  "In the vendor tier the Schottky diode is the model of its manufacturer; the other parts of this bench have none. That file holds a line of plain text, the wrapped end of a comment, on which the simulator stops, so its two decks do not run.",
+  "Decks that did not run with this model, so their figures are missing: schottky-forward: power-input-diodes.schottky-forward: the run failed: Error on line 18 or its substitute:; Simulation interrupted due to error!; schottky-reverse: power-input-diodes.schottky-reverse: the run failed: Error on line 18 or its substitute:; Simulation interrupted due to error!"
+ ],
+ "models": [
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "DI_1N5819HW",
+   "vendor"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

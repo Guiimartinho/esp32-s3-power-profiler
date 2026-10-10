@@ -1,0 +1,52 @@
+* AD8421: static figures
+.include "../../models/ad8421.lib"
+Vp vp 0 15
+Vn vn 0 -15
+* A: offsets at their limits at G = 100
+Va inn_A 0 0
+Vda inp_A inn_A 0
+Vra ref_A 0 0
+XA inn_A rga_A rgb_A inp_A vn ref_A out_A vp AD8421 vosi=-60u voso=350u
+Rl_A out_A 0 2k
+Rg_A rga_A rgb_A 100
+* B: bias current 1 nA, offset current 0.5 nA, read in the input sources
+Vbn inn_B 0 0
+Vbp inp_B 0 0
+Vrb ref_B 0 0
+XB inn_B rga_B rgb_B inp_B vn ref_B out_B vp AD8421 ib=1n ios=0.5n
+Rl_B out_B 0 2k
+* C: reference pin at 0 V and, in the second point, at 1 V; own supplies
+Vpc vpc 0 15
+Vnc vnc 0 -15
+Vcn inn_C 0 0
+Vcp inp_C 0 0
+Vrc ref_C 0 0
+XC inn_C rga_C rgb_C inp_C vnc ref_C out_C vpc AD8421
+Rl_C out_C 0 2k
+* D: G = 100 with one input at 6 V, the other at 0 V (figure 18)
+Vdn inn_D 0 0
+Vdp inp_D 0 6
+Vrd ref_D 0 0
+XD inn_D rga_D rgb_D inp_D vn ref_D out_D vp AD8421
+Rl_D out_D 0 2k
+Rg_D rga_D rgb_D 100
+* E: the same with 1 V
+Ven inn_E 0 0
+Vep inp_E 0 1
+Vre ref_E 0 0
+XE inn_E rga_E rgb_E inp_E vn ref_E out_E vp AD8421
+Rl_E out_E 0 2k
+Rg_E rga_E rgb_E 100
+* F: output held at 0 V while it is asked for 5 V
+Vfn inn_F 0 0
+Vfp inp_F 0 0.5
+Vrf ref_F 0 0
+XF inn_F rga_F rgb_F inp_F vn ref_F out_F vp AD8421
+Rg_F rga_F rgb_F 1100
+Vshort out_F 0 0
+.control
+op
+alter Vrc dc = 1
+op
+.endc
+.end

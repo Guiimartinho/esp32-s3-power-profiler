@@ -1,0 +1,10 @@
+* BSS138: threshold
+.include "../../models/path_switching.lib"
+MQ2 d g 0 PATH_BSS138
+* gate tied to drain, drain current forced
+Vgd g d 0
+Id 0 d 250u
+.control
+op
+.endc
+.end

@@ -1,0 +1,143 @@
+* Power-up of the rails, supervisor delay 0.3 s
+.include "../../models/power_input.lib"
+.include "../../models/analog_rails.lib"
+DD5 led 0 PWRIN_LED_GREEN
+DD6 sw p13v5 B0530W
+DD7 vref p3v3_a B0530W
+DD8 m4v_a 0 B0530W
+DD9 0 p12v_a B0530W
+R4 pwr_good gp28 1000
+XU6 ok5v 0 nc_u6_mr_pad3 sup_ct sup_sense p5v PWRIN_TPS3808G01 tdhi=0.3
+XU7 p5v 0 ok5v p3v3_c PWRIN_LP5907
+XU8 p5v 0 ok5v p3v3_a PWRIN_LP5907
+XC11 p5v 0 PWRIN_WCAP_47U c=47u esr=0.44
+C12 sup_sense 0 1e-09
+C13 p5v 0 1e-07
+C14 p5v 0 1e-06
+C15 p5v 0 1e-06
+C16 p3v3_c 0 1e-06
+C17 p3v3_a 0 1e-06
+XC18 p5v 0 RAILS_MLCC c=4.7u v0=8
+C19 cfly_p cfly_n 1e-06
+XC20 ref_in 0 RAILS_MLCC c=4.7u v0=8
+XC21 pump_in 0 RAILS_MLCC c=22u v0=7.39
+XC22 0 cpout RAILS_MLCC c=4.7u v0=8
+C23 p13v5 fb_boost 2.2e-10
+C24 ref_nr 0 1e-06
+C25 p13v5 0 1e-07
+C26 ref_c26 0 1e-05
+XC27 p13v5 0 RAILS_MLCC c=10u v0=20.4
+XC28 0 m4v_a RAILS_MLCC c=4.7u v0=8
+XC29 ldo_in 0 RAILS_MLCC c=10u v0=20.4
+XC30 set12 0 RAILS_MLCC c=4.7u v0=8
+XC31 p12v_a 0 RAILS_MLCC c=10u v0=20.4
+C32 th_high 0 1e-09
+C33 th_low 0 1e-09
+C34 sense_m4 0 1e-09
+C35 p3v3_c 0 1e-07
+C36 p3v3_a 0 1e-07
+XC39 p5v 0 RAILS_MLCC c=10u v0=4.97
+XC40 p5v 0 RAILS_MLCC c=10u v0=4.97
+C44 p12v_a 0 1e-07
+C48 0 m4v_a 1e-07
+C51 p3v3_a 0 1e-07
+C56 p12v_a 0 1e-06
+C57 p12v_a 0 1e-07
+C59 p3v3_a 0 1e-07
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C69 0 m4v_a 1e-07
+C70 p12v_a 0 1e-07
+C72 0 m4v_a 1e-07
+C79 p12v_a 0 1e-07
+C80 p12v_a 0 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C83 p12v_a 0 1e-06
+C84 0 m4v_a 1e-07
+C86 p3v3_a 0 1e-07
+C89 ref_c89 0 2.2e-05
+C91 p3v3_a 0 1e-06
+C92 p3v3_c 0 1e-06
+C96 p3v3_a 0 1e-07
+C97 p3v3_a 0 1e-07
+C98 p3v3_c 0 1e-07
+C99 p3v3_c 0 1e-07
+R21 p5v sup_sense 86600
+R22 sup_sense 0 10000
+R23 p5v 0 10000
+R24 p5v sup_ct 100000
+R25 p5v ok5v 10000
+R26 p3v3_c led 1000
+R27 ok5v en_pump 100000
+R28 en_pump 0 150000
+R29 p5v en_boost 51000
+R30 p5v pump_in 2.2
+R31 p3v3_a ref_in 10
+R32 p13v5 fb_boost 133000
+R33 fb_boost 0 13300
+R34 fb_pump m4v_a 226000
+R35 vref ref_c26 1
+R36 0 fb_pump 100000
+R37 p13v5 ldo_in 0.47
+R38 set12 0 120000
+R39 p12v_a pgfb 442000
+R40 pgfb 0 12400
+R41 p3v3_c th_high 10000
+R42 p3v3_a sense_3v3a 100000
+R43 th_high th_low 40200
+R44 th_low 0 49900
+R45 p12v_a sense_p12 249000
+R46 sense_p12 0 49900
+R47 p3v3_c sense_m4 49900
+R48 sense_m4 m4v_a 127000
+R49 vref sense_vref 36500
+R50 sense_vref 0 100000
+R51 p3v3_c pwr_good 1500
+R52 pwr_good 0 6800
+R55 vref dac_ref 2000
+R56 dac_ref 0 2000
+R69 ldo_out m4v_a 1300
+XU10 sw 0 fb_boost en_boost p5v LMR62014_AVG
+XU11 pump_in 0 cpout m4v_a fb_pump en_pump cfly_n cfly_p LM27761_AVG
+XU12 ref_in 0 ref_nr vref REF5025AID
+XU13 ldo_in ok5v nc_u13_pg_pad4 0 pgfb set12 0 p12v_a p12v_a LT3042
+XU14_1 sense_p12 th_low pwr_good p3v3_c 0 MCP6569_OD
+XU14_2 th_low sense_m4 pwr_good p3v3_c 0 MCP6569_OD
+XU14_3 sense_3v3a th_high pwr_good p3v3_c 0 MCP6569_OD
+XU14_4 sense_vref th_low pwr_good p3v3_c 0 MCP6569_OD
+C101 p3v3_c 0 1e-07
+C102 p3v3_a 0 1e-07
+C111 p3v3_a 0 1e-07
+C112 p3v3_a 0 1e-06
+C113 vref 0 1e-07
+R131 vref ref_c89 0.22
+R148 vref mon_m4 100000
+R153 mon_m4 m4v_a 200000
+* the source of the 5 V rail: no path back, as behind the multiplexer
+Vsrc src 0 PWL(0 0 0.001 0 0.0027 5)
+Bsrc src p5v I = min(max(v(src,p5v)/0.2, 0), 2)
+* loads of the rails: supply currents of the parts they feed, fading out
+* below a few volts
+Bamp p12v_a m4v_a I = 0.00506*tanh(max(v(p12v_a,m4v_a), 0)/3)
+Bdrv p12v_a 0 I = 0.0015*tanh(max(v(p12v_a), 0)/2)
+B3va p3v3_a 0 I = 0.01*tanh(max(v(p3v3_a), 0)/1.5)
+B3vc p3v3_c 0 I = 0.0005*tanh(max(v(p3v3_c), 0)/1.5)
+Bctl p13v5 0 I = 0.001*tanh(max(v(p13v5), 0)/2)
+Bmod p5v 0 I = 0.025*tanh(max(v(p5v), 0)/2)
+Bref vref 0 I = 0.00015*tanh(max(v(vref), 0))
+* the output of the source regulator rests at 0 V while the source is off
+Vldo ldo_out 0 0
+* pin of the controller and input of the shift register on PWR_GOOD
+Cgp28 gp28 0 5p
+Cu34 pwr_good 0 3p
+.options method=gear
+.options reltol=1e-4
+.control
+save p5v p13v5 p12v_a m4v_a p3v3_a p3v3_c vref ok5v pwr_good gp28 set12 pgfb ldo_in cpout ref_in ref_nr src i(Vsrc)
+tran 20u 1.5527 0 5e-05
+.endc
+.end

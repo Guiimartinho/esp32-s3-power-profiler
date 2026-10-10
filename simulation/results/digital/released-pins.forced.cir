@@ -1,0 +1,131 @@
+* Lines of the controller with the pads released and 120 uA out of each pad
+.include "../../models/digital.lib"
+.include "../../models/logic.lib"
+R1 vin_ov gp11 4700
+R3 dac_cs_mid c_dac_cs 1500
+R4 pwr_good gp28 1000
+R51 v3c pwr_good 1500
+R52 pwr_good 0 6800
+R70 gate_src 0 1000
+R71 gate_amp 0 4700
+R72 gate_amp n_u20_in_b 1000
+R75 gate_src n_u20_in_a 1000
+R88 gate_r3 0 1000
+R89 gate_r1 0 1000
+R91 mux_a1 0 5100
+R93 gate_out 0 1000
+R94 gate_r2 0 1000
+R95 mux_a0 0 5100
+R96 gate_r3 n_u22_in_a 1000
+R97 gate_r1 n_u23_in_a 1000
+R98 gate_out n_u22_in_b 1000
+R99 gate_r2 n_u23_in_b 1000
+RRN1_1 gp12 c_miso 2200
+RRN1_2 gp13 c_mon_cs 2200
+RRN1_3 gp14 c_sck 2200
+RRN1_4 gp15 c_mosi 2200
+RRN2_1 c_miso 0 4700
+RRN2_2 gp13 v3a 4700
+RRN2_3 gp14 0 4700
+RRN2_4 gp15 0 4700
+RRN3_1 gp19 0 4700
+RRN3_2 gp20 0 4700
+RRN3_3 gp21 0 4700
+RRN3_4 gp22 v3a 4700
+RRN4_1 gp19 adc_sck 47
+RRN4_2 gp20 adc_cnv 47
+RRN4_3 gp21 side_load 47
+RRN4_4 gp22 dac_cs_mid 47
+RRN5_1 u30_sclk adc_sck 220
+RRN5_2 u30_dout gp16 220
+RRN5_3 u30_cnv adc_cnv 220
+XU21 detector_in vref vin_ov v3a 0 MCP656X
+R111 mux_a1 n_u24_a1 1000
+R112 mux_a0 n_u24_a0 1000
+R138 q34 gp17 33
+* the 3.3 V rail of the module, an ideal source
+Viovdd iovdd 0 3.3
+* rails of the carrier as ideal sources; the detector rests low
+Vanalog v3a 0 3.3
+Vlogic v3c 0 3.3
+Vref vref 0 2.5
+Vdet detector_in 0 0
+Xpdo gp16 pdo_ctl pdo_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpdo_ctl pdo_ctl 0 0
+Vpdo_oe pdo_oe 0 0
+Xpsd gp17 psd_ctl psd_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpsd_ctl psd_ctl 0 0
+Vpsd_oe psd_oe 0 0
+* pads released; a source stands for the current of erratum E9
+Xp0 gate_r1 p0_ctl p0_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp0_ctl p0_ctl 0 0
+Vp0_oe p0_oe 0 0
+Ip0 0 gate_r1 0.00012
+Xp1 gate_r2 p1_ctl p1_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp1_ctl p1_ctl 0 0
+Vp1_oe p1_oe 0 0
+Ip1 0 gate_r2 0.00012
+Xp2 gate_r3 p2_ctl p2_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp2_ctl p2_ctl 0 0
+Vp2_oe p2_oe 0 0
+Ip2 0 gate_r3 0.00012
+Xp3 gate_out p3_ctl p3_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp3_ctl p3_ctl 0 0
+Vp3_oe p3_oe 0 0
+Ip3 0 gate_out 0.00012
+Xp4 gate_src p4_ctl p4_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp4_ctl p4_ctl 0 0
+Vp4_oe p4_oe 0 0
+Ip4 0 gate_src 0.00012
+Xp5 gate_amp p5_ctl p5_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp5_ctl p5_ctl 0 0
+Vp5_oe p5_oe 0 0
+Ip5 0 gate_amp 0.00012
+Xp6 mux_a0 p6_ctl p6_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp6_ctl p6_ctl 0 0
+Vp6_oe p6_oe 0 0
+Ip6 0 mux_a0 0.00012
+Xp7 mux_a1 p7_ctl p7_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp7_ctl p7_ctl 0 0
+Vp7_oe p7_oe 0 0
+Ip7 0 mux_a1 0.00012
+Xp8 gp19 p8_ctl p8_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp8_ctl p8_ctl 0 0
+Vp8_oe p8_oe 0 0
+Ip8 0 gp19 0.00012
+Xp9 gp20 p9_ctl p9_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp9_ctl p9_ctl 0 0
+Vp9_oe p9_oe 0 0
+Ip9 0 gp20 0.00012
+Xp10 gp21 p10_ctl p10_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp10_ctl p10_ctl 0 0
+Vp10_oe p10_oe 0 0
+Ip10 0 gp21 0.00012
+Xp11 gp14 p11_ctl p11_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp11_ctl p11_ctl 0 0
+Vp11_oe p11_oe 0 0
+Ip11 0 gp14 0.00012
+Xp12 gp15 p12_ctl p12_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vp12_ctl p12_ctl 0 0
+Vp12_oe p12_oe 0 0
+Ip12 0 gp15 0.00012
+Xpmiso gp12 pmiso_ctl pmiso_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpmiso_ctl pmiso_ctl 0 0
+Vpmiso_oe pmiso_oe 0 0
+Ipmiso 0 gp12 0.00012
+Xpsel gp13 psel_ctl psel_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpsel_ctl psel_ctl 0 0
+Vpsel_oe psel_oe 0 0
+Xpdac gp22 pdac_ctl pdac_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpdac_ctl pdac_ctl 0 0
+Vpdac_oe pdac_oe 0 0
+Xpgood gp28 pgood_ctl pgood_oe iovdd 0 DIGITAL_RP2350_PAD_STD roh=170 rol=125 cpad=5e-12 e9=0
+Vpgood_ctl pgood_ctl 0 0
+Vpgood_oe pgood_oe 0 0
+Xpov gp11 pov_ctl pov_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpov_ctl pov_ctl 0 0
+Vpov_oe pov_oe 0 0
+.control
+tran 10n 5u
+.endc
+.end

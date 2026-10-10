@@ -1,0 +1,10 @@
+* 0466004.NR: forced current
+.include "../../models/path_switching.lib"
+XF1 a b PATH_FUSE_0466004
+* current forced through the fuse
+Vb b 0 0
+Itest 0 a 0.4
+.control
+dc Itest 0 4 0.1
+.endc
+.end

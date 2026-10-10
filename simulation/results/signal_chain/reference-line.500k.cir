@@ -1,0 +1,29 @@
+* Reference line: conversions at 500 kSPS
+.include "../../models/analog_rails.lib"
+.include "../../models/signal_chain.lib"
+C20 n_u12_vin 0 4.7e-06
+C24 n_u12_trim_nr 0 1e-06
+C26 n_c26_pad1 0 1e-05
+C89 ref_cap 0 2.2e-05
+R31 p3v3_a n_u12_vin 10
+R35 vref n_c26_pad1 1
+XU12 n_u12_vin 0 n_u12_trim_nr vref REF5025AID
+XU30 vref adc_in 0 0 cnv SIGNAL_CHAIN_ADS8860
+C113 vref 0 1e-07
+R131 vref ref_cap 0.22
+* the supply of the reference; the converter input rests at half scale
+Vp3v3a p3v3_a 0 3.3
+Vin adc_in 0 1.25
+* before the first conversion the line carries the mean reference current of
+* the converter, so that the run starts as if it had been converting for long
+Imean vref 0 PWL(0 5.325e-05 5e-06 5.325e-05 5.001e-06 0)
+* convert-start line at the pin of the converter
+Vcnv cnv 0 PULSE(0 3.3 5e-06 5n 5n 1e-06 2e-06 40)
+.options reltol=1e-5
+.options vntol=1e-8
+.options abstol=1e-13
+.control
+save vref ref_cap cnv xu30.q @r131[i]
+tran 2n 8.5e-05 0 10n
+.endc
+.end

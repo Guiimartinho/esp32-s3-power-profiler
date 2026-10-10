@@ -1,0 +1,19 @@
+* 1N5819HW: forward voltage
+.include "../../models/source_meter.lib"
+DD11 a k SOURCE_METER_1N5819HW
+* cathode grounded, forward current forced
+Vk k 0 0
+If 0 a 1m
+.control
+alter If dc = 0.0001
+op
+alter If dc = 0.001
+op
+alter If dc = 0.01
+op
+alter If dc = 0.1
+op
+alter If dc = 1
+op
+.endc
+.end

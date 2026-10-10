@@ -1,0 +1,167 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "module-supply",
+ "title": "The 5 V of the controller module against the 5 V rail: which way current flows",
+ "covers": "section 4.11 (D-42, D-47), section 5",
+ "summary": "The supply pins of the module meet the 5 V rail through JP1 and D1. The module is its Schottky diode from VBUS to VSYS, its VBUS sense divider and a load of 0.1 W. Four cases: the USB-C input alone (the rail stands, no cable at the module), the cable of the module alone with the rail fed through the jumper, the same with the jumper cut, and both cables. In the second case the rail voltage is stepped around the voltage of the cable, to show how the two diodes share the current of the module.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "usbc_vsys",
+   "label": "USB-C alone: voltage at the VSYS pin of the module",
+   "value": 4.765913,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.11: the module is supplied through the diode D1; Pico 2 datasheet: 1.8 V to 5.5 V at VSYS",
+   "verdict": "pass"
+  },
+  {
+   "key": "usbc_vbus",
+   "label": "USB-C alone: voltage at the VBUS pin of the module",
+   "value": 1.730692e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 4.11: the carrier does not feed the VBUS pin",
+   "verdict": "pass"
+  },
+  {
+   "key": "usbc_sense",
+   "label": "USB-C alone: level at the VBUS sense pin of the module, GP24",
+   "value": 1.109418e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.8,
+   "source": "section 4.11: expected to read low (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable_rail_share",
+   "label": "Cable alone, rail 0.1 V below the cable: current that D1 gives the module",
+   "value": 0.02070325,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.11: with the data cable alone the module is supplied from its own connector",
+   "verdict": "info"
+  },
+  {
+   "key": "cable_own_share",
+   "label": "Cable alone, rail 0.1 V below the cable: current through the diode of the module",
+   "value": 0.0007268631,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.11: with the data cable alone the module is supplied from its own connector",
+   "verdict": "info"
+  },
+  {
+   "key": "cable_backfeed",
+   "label": "Cable alone, rail at 4.0 V: current from the module back into the rail",
+   "value": 4.567088e-06,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.11: neither input feeds the other one back; 50 uA is the largest reverse current of D1 (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "cut_rail_typical",
+   "label": "Jumper cut, module powered, typical reverse current of D1: level of the 5 V rail",
+   "value": 0.08483293,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.11: 0.5 V or below with the largest reverse current of 50 uA at 25 C (calculated)",
+   "verdict": "info"
+  },
+  {
+   "key": "cut_rail_largest",
+   "label": "Jumper cut, module powered, largest reverse current of D1: level of the 5 V rail",
+   "value": 0.5068102,
+   "unit": "V",
+   "expected": 0.5,
+   "low": null,
+   "high": 0.5,
+   "source": "section 4.11: 0.5 V or below with the largest reverse current of 50 uA at 25 C (calculated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "both_cable_least",
+   "label": "Both cables: smallest current through the diode of the module, cable 4.4 V to 5.5 V",
+   "value": -3.957751e-08,
+   "unit": "A",
+   "expected": null,
+   "low": -1e-06,
+   "high": null,
+   "source": "section 4.11: neither input feeds the other one back",
+   "verdict": "pass"
+  },
+  {
+   "key": "both_rail_least",
+   "label": "Both cables: smallest current through D1, cable 4.4 V to 5.5 V",
+   "value": -3.782962e-06,
+   "unit": "A",
+   "expected": null,
+   "low": -5e-05,
+   "high": null,
+   "source": "section 4.11: neither input feeds the other one back; 50 uA is the largest reverse current of D1 (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "both_handover",
+   "label": "Both cables: cable voltage above which the module takes more from its own diode",
+   "value": 5.194359,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the two diodes hand the module over where their drops match",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "share",
+   "Cable of the module at 5 V: who supplies the module as the rail voltage moves",
+   "module-supply.share.png"
+  ]
+ ],
+ "notes": [
+  "The module is a model of its supply side from the figure of its datasheet: a Schottky diode PMEG6010ELR from VBUS to VSYS, 5.6 kohm and 10 kohm from VBUS to ground with the sense pin between them, and a load of 0.1 W behind VSYS (assumption).",
+  "The limiter U3 and the multiplexer U5 between the jumper and the rail are parts of the power input and are not in this circuit: the rail is an ideal source. The multiplexer blocks current from the rail back to the node of the jumper (datasheet), which this bench takes as given.",
+  "With the cable of the module alone and the jumper closed, the diode D1 of the carrier has the lower drop: most of the current of the module then flows through the limiter and the multiplexer of the carrier and back through D1, not through the diode of the module. Nothing flows backward in any case; the module keeps its own path if the rail falls.",
+  "The reverse current of D1 is a model fitted to the typical and to the largest value of its datasheet at 25 C. At 100 C the datasheet states 1 mA typical: with the jumper cut the rail then rises until other loads of the rail take that current; they are not in this circuit."
+ ],
+ "models": [
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "module-supply.cable-alone.cir",
+  "module-supply.jumper-cut-largest.cir",
+  "module-supply.usbc-alone.cir"
+ ],
+ "format": 1
+}

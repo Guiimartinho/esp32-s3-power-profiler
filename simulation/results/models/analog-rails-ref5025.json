@@ -1,0 +1,203 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-ref5025",
+ "title": "REF5025 model against its datasheet",
+ "covers": "the model of the reference U12",
+ "summary": "The model is put in the conditions of the datasheet table and figures. Level, load and line regulation, dropout and supply current as an operating point; the noise from 10 Hz to 1 kHz with 1 uF at the output, with and without a capacitor at the noise pin; the start with 1 uF and with 10 uF at the output and with 1 uF at the noise pin; a load step between -1 mA and +1 mA.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "level",
+   "label": "Output without load",
+   "value": 2.500012,
+   "unit": "V",
+   "expected": 2.5,
+   "low": 2.4975,
+   "high": 2.5025,
+   "source": "SBOS410O page 7: 2.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_source",
+   "label": "Load regulation, sourcing 10 mA",
+   "value": 18.12825,
+   "unit": "ppm/mA",
+   "expected": 20.0,
+   "low": 15.0,
+   "high": 25.0,
+   "source": "SBOS410O page 7: 20 ppm/mA typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_sink",
+   "label": "Load regulation, sinking 10 mA",
+   "value": 18.12842,
+   "unit": "ppm/mA",
+   "expected": 20.0,
+   "low": 15.0,
+   "high": 25.0,
+   "source": "SBOS410O page 7: 20 ppm/mA typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "line",
+   "label": "Line regulation, 5 V to 18 V",
+   "value": 1.0,
+   "unit": "ppm/V",
+   "expected": 1.0,
+   "low": 0.75,
+   "high": 1.25,
+   "source": "SBOS410O page 7: 1 ppm/V typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout",
+   "label": "Output with 10 mA and 0.45 V of head room: fall below 2.5 V",
+   "value": 0.1000127,
+   "unit": "V",
+   "expected": null,
+   "low": 0.05,
+   "high": 0.15,
+   "source": "SBOS410O page 11, figure 6-6: 0.55 V of dropout at 10 mA, so 0.1 V are missing here",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Supply current without load",
+   "value": 0.00080025,
+   "unit": "A",
+   "expected": 0.0008,
+   "low": 0.00072,
+   "high": 0.00088,
+   "source": "SBOS410O page 8: 0.8 mA typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_1k",
+   "label": "Noise from 10 Hz to 1 kHz, no capacitor at the noise pin",
+   "value": 2.259844e-06,
+   "unit": "V",
+   "expected": 2.25e-06,
+   "low": 2.025e-06,
+   "high": 2.475e-06,
+   "source": "SBOS410O page 7: 0.9 uV RMS per volt",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_ratio",
+   "label": "The same with 1 uF at the noise pin, as a share",
+   "value": 0.5245393,
+   "unit": "",
+   "expected": 0.5,
+   "low": 0.4,
+   "high": 0.6,
+   "source": "SBOS410O page 26: the capacitor halves the noise",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_peak",
+   "label": "Peak of the noise density over the density at 1 kHz, 1 uF at the output",
+   "value": 2.309852,
+   "unit": "",
+   "expected": 2.1,
+   "low": 1.6,
+   "high": 2.7,
+   "source": "SBOS410O page 13, figure 6-14: about 58 over 27 nV/V/rtHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_peak_at",
+   "label": "Frequency of that peak",
+   "value": 9440.609,
+   "unit": "Hz",
+   "expected": 10000.0,
+   "low": 7000.0,
+   "high": 14000.0,
+   "source": "SBOS410O page 13, figure 6-14: about 10 kHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_1u",
+   "label": "Start with 1 uF: from 10 % to 90 %",
+   "value": 9.090961e-05,
+   "unit": "s",
+   "expected": 0.000108,
+   "low": 7.56e-05,
+   "high": 0.0001404,
+   "source": "SBOS410O page 13, figure 6-15: 2.5 V in about 135 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_10u",
+   "label": "Start with 10 uF: from 10 % to 90 %",
+   "value": 0.0009090961,
+   "unit": "s",
+   "expected": 0.00096,
+   "low": 0.000672,
+   "high": 0.001248,
+   "source": "SBOS410O page 13, figure 6-16: 2.5 V in about 1.2 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "settle_1u",
+   "label": "Start with 1 uF: within 0.1 % after the supply",
+   "value": 0.0001577388,
+   "unit": "s",
+   "expected": 0.0002,
+   "low": null,
+   "high": 0.0004,
+   "source": "SBOS410O page 8: 200 us typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_nr",
+   "label": "Start with 1 uF at the noise pin: within 0.1 % after the supply",
+   "value": 0.07488119,
+   "unit": "s",
+   "expected": 0.075,
+   "low": 0.055,
+   "high": 0.11,
+   "source": "SBOS410O pages 23 and 26: 11 kohm with 1 uF, a corner of 10 Hz to 20 Hz",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_step",
+   "label": "Step from -1 mA to +1 mA with 1 uF: largest deviation",
+   "value": 0.01119268,
+   "unit": "V",
+   "expected": 0.008,
+   "low": 0.004,
+   "high": 0.016,
+   "source": "SBOS410O page 13, figure 6-17: about 8 mV (read from the figure)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "REF5025: start after the supply is applied",
+   "analog-rails-ref5025.start.png"
+  ],
+  [
+   "noise",
+   "REF5025: noise density with 1 uF at the output",
+   "analog-rails-ref5025.noise.png"
+  ]
+ ],
+ "notes": [
+  "The limits are the fit this project asks of the model. The figures read from graphs of the datasheet (start, load step, noise peak) carry the reading error of those graphs.",
+  "The output impedance of the model is fitted to the noise peak and to the load step; the datasheet has no curve of it for this grade.",
+  "The noise below 10 Hz (3 uV peak to peak per volt in the datasheet) is not in the model."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-ref5025.static.cir",
+  "analog-rails-ref5025.transient.cir"
+ ],
+ "format": 1
+}

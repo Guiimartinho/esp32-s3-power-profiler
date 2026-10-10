@@ -1,0 +1,157 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-1n5819hw",
+ "title": "1N5819HW model against its datasheet",
+ "covers": "the model of the diode D1 from the 5 V rail to the module",
+ "summary": "A current is forced through the diode and a reverse voltage is stepped across it. The forward voltage is compared with the maxima of the datasheet table and with its typical curve. The reverse current is read from the typical variant and from the variant whose leakage resistor is set to the maximum of the datasheet, at 4 V and at 6 V, and from the typical variant at 100 C.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "forward_1ma",
+   "label": "Forward voltage at 1 mA",
+   "value": 0.1501287,
+   "unit": "V",
+   "expected": 0.15,
+   "low": 0.135,
+   "high": 0.165,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 3, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_100ma",
+   "label": "Forward voltage at 100 mA",
+   "value": 0.282047,
+   "unit": "V",
+   "expected": 0.29,
+   "low": 0.261,
+   "high": 0.319,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 3, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_1000ma",
+   "label": "Forward voltage at 1000 mA",
+   "value": 0.4078729,
+   "unit": "V",
+   "expected": 0.4,
+   "low": 0.36,
+   "high": 0.44,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 3, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_limit_100ma",
+   "label": "Forward voltage at 100 mA against the maximum",
+   "value": 0.282047,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.32,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_limit_1000ma",
+   "label": "Forward voltage at 1000 mA against the maximum",
+   "value": 0.4078729,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.45,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_typical_4v",
+   "label": "Typical variant: reverse current at 4 V",
+   "value": 8.000002e-06,
+   "unit": "A",
+   "expected": 1e-05,
+   "low": 5e-06,
+   "high": 1.5e-05,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, typical; within 50 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_leaky_4v",
+   "label": "Variant at the maximum: reverse current at 4 V",
+   "value": 4.997701e-05,
+   "unit": "A",
+   "expected": 5e-05,
+   "low": 4.5e-05,
+   "high": 5.5e-05,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_typical_6v",
+   "label": "Typical variant: reverse current at 6 V",
+   "value": 1.000001e-05,
+   "unit": "A",
+   "expected": 1.5e-05,
+   "low": 7.5e-06,
+   "high": 2.25e-05,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, typical; within 50 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_leaky_6v",
+   "label": "Variant at the maximum: reverse current at 6 V",
+   "value": 7.296552e-05,
+   "unit": "A",
+   "expected": 7.5e-05,
+   "low": 6.75e-05,
+   "high": 8.25e-05,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "capacitance_4v",
+   "label": "Capacitance at 4 V and 1 MHz",
+   "value": 4.999164e-11,
+   "unit": "F",
+   "expected": 5e-11,
+   "low": 4.25e-11,
+   "high": 5.75e-11,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_100c",
+   "label": "Typical variant: reverse current at 4 V and 100 C",
+   "value": 0.0008764626,
+   "unit": "A",
+   "expected": 0.001,
+   "low": 0.0005,
+   "high": 0.002,
+   "source": "Diodes Incorporated DS30217 rev. 22-2, page 2: 1 mA typical, 2 mA at the most",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "forward",
+   "1N5819HW: forward voltage of the model at 27 C",
+   "digital-1n5819hw.forward.png"
+  ],
+  [
+   "reverse",
+   "1N5819HW: reverse current of the model",
+   "digital-1n5819hw.reverse.png"
+  ]
+ ],
+ "notes": [
+  "The forward limits are the maxima of the datasheet; the typical curve is read from a graph and the model has to lie within 10 % of it.",
+  "The reverse current is a saturation current of 4 uA plus a resistor: 1 Mohm for the typical part, 87 kohm for a part at the maximum of 50 uA at 4 V. Its rise with temperature comes from the saturation current alone."
+ ],
+ "models": [],
+ "decks": [
+  "digital-1n5819hw.27c.cir"
+ ],
+ "format": 1
+}

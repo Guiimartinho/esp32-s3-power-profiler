@@ -1,0 +1,419 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "withstand",
+ "title": "The VIN terminal from -20 V to +20 V with the ampere pair open",
+ "covers": "requirement R-09, section 4.9 (VIN, D-60; hold-off below ground, D-61), sections 11 and 16",
+ "summary": "The VIN terminal is taken slowly to +20 V and to -20 V with the ampere pair open. Three states of the instrument are run: idle with its rails present, without any supply, and with source mode running at the highest output the set-point path can command. The run shows the current that the terminal takes, where it flows, and the voltages across the two transistors of the pair. The sweep moves at 0.5 V/ms and rests 10 ms at each end, where the values are read.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "plus_idle",
+   "label": "Current into the terminal at +20 V, instrument idle",
+   "value": 0.0001846209,
+   "unit": "A",
+   "expected": 0.00019,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.9: less than 1 mA; 0.19 mA at +20 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "minus_idle",
+   "label": "Current out of the terminal at -20 V, instrument idle",
+   "value": 0.0005966197,
+   "unit": "A",
+   "expected": 0.00064,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.9: less than 1 mA; 0.64 mA at -20 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_idle",
+   "label": "Gate-source voltage of the ampere pair at -20 V, instrument idle",
+   "value": 0.0125424,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "section 4.9: the hold-off transistor joins gate and common source (limit of this bench: well below the lowest threshold of 1.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_low_idle",
+   "label": "Detector input at -20 V, instrument idle",
+   "value": -0.7195929,
+   "unit": "V",
+   "expected": null,
+   "low": -1.0,
+   "high": null,
+   "source": "section 16: input pin above -1.0 V with -20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_high_idle",
+   "label": "Detector input above its supply at +20 V, instrument idle",
+   "value": 0.6984585,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "rating of the comparator input, supply plus 1.0 V (Microchip DS20002139E, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_side_idle",
+   "label": "Voltage across the transistor on the supply side at +20 V, instrument idle",
+   "value": 19.95736,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_side_idle",
+   "label": "Voltage across the transistor on the ladder side at -20 V, instrument idle",
+   "value": 19.5232,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_idle",
+   "label": "Largest change of the supply node over the sweep, instrument idle",
+   "value": 0.0009837924,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 11: TP33 unchanged",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_high",
+   "label": "Detector output at +20 V, instrument idle",
+   "value": 3.300021,
+   "unit": "V",
+   "expected": null,
+   "low": 3.0,
+   "high": null,
+   "source": "section 16: TP30 steady high with +20 V on VIN and power on",
+   "verdict": "pass"
+  },
+  {
+   "key": "open_5v",
+   "label": "Current into the terminal at 5 V with the pair open, instrument idle",
+   "value": 3.558684e-05,
+   "unit": "A",
+   "expected": 3.5e-05,
+   "low": 3.3e-05,
+   "high": 3.7e-05,
+   "source": "section 4.9: 35 uA from a 5 V supply, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "hold_off_current",
+   "label": "Collector current of the hold-off transistor at -20 V, instrument idle",
+   "value": 0.0001950972,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plus_off",
+   "label": "Current into the terminal at +20 V, instrument without supply",
+   "value": 0.0002131328,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.9: less than 1 mA; 0.19 mA at +20 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "minus_off",
+   "label": "Current out of the terminal at -20 V, instrument without supply",
+   "value": 0.0005966201,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.9: less than 1 mA; 0.64 mA at -20 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_off",
+   "label": "Gate-source voltage of the ampere pair at -20 V, instrument without supply",
+   "value": 0.0125424,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "section 4.9: the hold-off transistor joins gate and common source (limit of this bench: well below the lowest threshold of 1.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_low_off",
+   "label": "Detector input at -20 V, instrument without supply",
+   "value": -0.7195929,
+   "unit": "V",
+   "expected": null,
+   "low": -1.0,
+   "high": null,
+   "source": "section 16: input pin above -1.0 V with -20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_high_off",
+   "label": "Detector input above its supply at +20 V, instrument without supply",
+   "value": 0.7195929,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "rating of the comparator input, supply plus 1.0 V (Microchip DS20002139E, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_side_off",
+   "label": "Voltage across the transistor on the supply side at +20 V, instrument without supply",
+   "value": 19.95736,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_side_off",
+   "label": "Voltage across the transistor on the ladder side at -20 V, instrument without supply",
+   "value": 19.5232,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_off",
+   "label": "Largest change of the supply node over the sweep, instrument without supply",
+   "value": 0.0009837935,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 11: TP33 unchanged",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_5v",
+   "label": "Current into the terminal at 5 V, instrument without supply",
+   "value": 4.974797e-05,
+   "unit": "A",
+   "expected": 4.9e-05,
+   "low": 4.4e-05,
+   "high": 5.4e-05,
+   "source": "section 4.9: about 49 uA, the clamp of the detector conducts into the dead 3V3_A, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "plus_source",
+   "label": "Current into the terminal at +20 V, source mode running at 5.26 V",
+   "value": 0.0001846209,
+   "unit": "A",
+   "expected": 0.00019,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.9: less than 1 mA; 0.19 mA at +20 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "minus_source",
+   "label": "Current out of the terminal at -20 V, source mode running at 5.26 V",
+   "value": 0.0005966198,
+   "unit": "A",
+   "expected": 0.00064,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.9: less than 1 mA; 0.64 mA at -20 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_source",
+   "label": "Gate-source voltage of the ampere pair at -20 V, source mode running at 5.26 V",
+   "value": 0.0125424,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "section 4.9: the hold-off transistor joins gate and common source (limit of this bench: well below the lowest threshold of 1.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_low_source",
+   "label": "Detector input at -20 V, source mode running at 5.26 V",
+   "value": -0.7195929,
+   "unit": "V",
+   "expected": null,
+   "low": -1.0,
+   "high": null,
+   "source": "section 16: input pin above -1.0 V with -20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_high_source",
+   "label": "Detector input above its supply at +20 V, source mode running at 5.26 V",
+   "value": 0.6984585,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "rating of the comparator input, supply plus 1.0 V (Microchip DS20002139E, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_side_source",
+   "label": "Voltage across the transistor on the supply side at +20 V, source mode running at 5.26 V",
+   "value": 19.9556,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_side_source",
+   "label": "Voltage across the transistor on the ladder side at -20 V, source mode running at 5.26 V",
+   "value": 24.78417,
+   "unit": "V",
+   "expected": 25.3,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: 25.3 V with source mode at its ceiling, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_source",
+   "label": "Largest change of the supply node over the sweep, source mode running at 5.26 V",
+   "value": 1.034423e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 11: TP33 unchanged",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "What takes the current at +20 V: the divider of the detector with its clamp D15 into 3V3_A (0.14 mA) and the divider of the VIN monitor (0.05 mA). At -20 V the hold-off transistor adds its base current through R86 and the current of R80 from the driver output, about 0.2 mA each.",
+  "No rail has a load in these runs: a dead rail is a source of 0 V, which stands for the loads that hold it there. A live 3V3_A takes the clamp current of 0.1 mA without rising, which a real regulator does only while its loads take more than that.",
+  "The models say nothing about leakage: the currents here are those of the resistors. The transistor models have no breakdown; the voltages across them are compared with the 30 V rating.",
+  "The suppressor D14 does not conduct at 20 V in the model (breakdown at 23.35 V, 22.2 V at the least by its datasheet)."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

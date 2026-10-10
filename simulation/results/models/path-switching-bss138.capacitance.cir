@@ -1,0 +1,13 @@
+* BSS138: capacitances
+.include "../../models/path_switching.lib"
+MQ2 d g 0 PATH_BSS138
+* 10 V on the drain, gate at 0 V; one terminal carries the test voltage
+Vd d 0 dc 10 ac 0
+Vg g 0 dc 0 ac 1
+.control
+ac lin 1 1e+06 1e+06
+alter Vg ac = 0
+alter Vd ac = 1
+ac lin 1 1e+06 1e+06
+.endc
+.end

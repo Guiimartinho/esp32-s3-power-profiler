@@ -1,0 +1,146 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "negative-rail",
+ "title": "-4V_A: its level and the 5 V rail it needs",
+ "covers": "section 3 (charge pump, -3.91 V to -4.05 V), decisions D-26, D-49 and D-51",
+ "summary": "The charge pump runs from a 5 V rail that falls from 5.5 V to 3.6 V in 0.19 s. The rail feeds the pump through R30 with C21, as drawn. The pump is its averaged model: an inverter with the output resistance of the datasheet that keeps its output 2.7 % short of its supply at light load, and a regulator behind it. The load is the supply current of the amplifiers and the minimum load of the source regulator, once with that regulator at 0 V and once at 5 V. The run is repeated with the feedback reference and the 0.1 % divider at their limits, and once with a divider of 1 % parts, which is what the 0.1 % parts replaced.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "level_typ",
+   "label": "-4V_A, typical parts",
+   "value": -3.9772,
+   "unit": "V",
+   "expected": -3.977,
+   "low": -3.996885,
+   "high": -3.957115,
+   "source": "datasheet equation of the pump with R34 and R36",
+   "verdict": "pass"
+  },
+  {
+   "key": "level_high",
+   "label": "-4V_A, reference and divider at the limits that make it most negative",
+   "value": -4.041481,
+   "unit": "V",
+   "expected": null,
+   "low": -4.05,
+   "high": -3.91,
+   "source": "section 3: -3.91 V to -4.05 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "level_low",
+   "label": "-4V_A, reference and divider at the limits that make it least negative",
+   "value": -3.913092,
+   "unit": "V",
+   "expected": null,
+   "low": -4.05,
+   "high": -3.91,
+   "source": "section 3: -3.91 V to -4.05 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_typ",
+   "label": "5 V rail at which -4V_A has lost 1 %, typical parts, source off",
+   "value": 4.05927,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 4.25,
+   "source": "decision D-49: 4.25 V is what the charge pump needs",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_busy",
+   "label": "5 V rail at which -4V_A has lost 1 %, typical parts, source at 5 V",
+   "value": 4.071257,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 4.25,
+   "source": "decision D-49: 4.25 V is what the charge pump needs",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_high",
+   "label": "5 V rail at which -4V_A has lost 1 %, most negative output, source at 5 V",
+   "value": 4.13675,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 4.25,
+   "source": "decisions D-49 and D-51: the 0.1 % divider keeps the need at 4.25 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_coarse",
+   "label": "The same with resistors of 1 % in the divider, as before decision D-51",
+   "value": 4.18875,
+   "unit": "V",
+   "expected": 4.26,
+   "low": 4.1748,
+   "high": 4.3452,
+   "source": "section 15, decision D-51: with 1 % resistors the corner needs 4.26 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Current the pump takes from the 5 V rail at 5.5 V, source off",
+   "value": 0.008325786,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "sweep",
+   "-4V_A while the 5 V rail falls from 5.5 V to 3.6 V",
+   "negative-rail.sweep.png"
+  ]
+ ],
+ "notes": [
+  "The pump is the averaged model. Its light-load level, 2.7 % short of the supply, is read from two figures of the datasheet (7-3 and 7-4) and is the figure that decides where the rail lets go; the datasheet does not state it in words or in its table.",
+  "The load on -4V_A is 5.1 mA of the amplifiers and the minimum load R69 of the source regulator: 3.1 mA with that regulator at 0 V and 6.9 mA at 5 V.",
+  "R30 is taken 1 % high. The capacitors lose capacitance under bias; no figure here depends on it."
+ ],
+ "models": [
+  [
+   "C21",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C22",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C28",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "D8",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "U11",
+   "LM27761_AVG",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "negative-rail.typical.cir"
+ ],
+ "format": 1
+}

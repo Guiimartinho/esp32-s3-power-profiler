@@ -1,0 +1,343 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "supply-leads",
+ "title": "Ampere mode behind supply leads: sag of the supply node, ringing and the trip",
+ "covers": "sections 4.3 (supply node, decision D-63), 4.4 (ampere mode with long leads) and 4.9",
+ "summary": "The supply node is fed from an external supply through leads with inductance. In ampere mode the current of a load step has to come through the leads of the supply of the user. First the step of requirement R-07, 1 uA to 500 mA with 1 uF at the load, behind 0.5 uH and 1 uH of lead: the run reads how far the supply node sags while the 1 uF and the damped 4.7 uF on it carry the step. Then a step to 1.0 A beside 10 uF to 100 uF behind 1 uH and 3 uH: leads and load capacitor ring, and the run reads how long the current in the 0.1 ohm branch stays above the over-current level, with the trip made inactive, and whether the trip acts when it is active. That is done for thin and for heavy leads, and again with 100 uF at the VIN terminals, as the user documentation asks. The last runs lower the step to find where the trip begins to act.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "sag_0u5_nominal",
+   "label": "Sag of the supply node, 500 mA step, 0.5 uH and 0.13 ohm of lead, nominal delays",
+   "value": 0.1724654,
+   "unit": "V",
+   "expected": 0.17,
+   "low": null,
+   "high": 0.215,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated; to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_0u5_worst",
+   "label": "The same with the worst delays",
+   "value": 0.1847507,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.215,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated; to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_1u_nominal",
+   "label": "Sag of the supply node, 500 mA step, 1 uH and 0.05 ohm of lead, nominal delays",
+   "value": 0.2009702,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.215,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated; to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_1u_worst",
+   "label": "The same with the worst delays",
+   "value": 0.2066551,
+   "unit": "V",
+   "expected": 0.21,
+   "low": null,
+   "high": 0.215,
+   "source": "section 4.3: 0.17 V to 0.21 V behind 0.5 uH to 1 uH, simulated; to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_drop",
+   "label": "Drop from the supply node to the terminal in these four runs, largest",
+   "value": 0.3574018,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07: the leads do not enter the drop",
+   "verdict": "pass"
+  },
+  {
+   "key": "thin_longest",
+   "label": "Thin leads, no capacitor at VIN, trip inactive: longest time above 1.15 A",
+   "value": 1.397794e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "thin_longest_lead",
+   "label": "Supply lead of that run",
+   "value": 3e-06,
+   "unit": "H",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "thin_longest_cap",
+   "label": "Load capacitor of that run",
+   "value": 2.2e-05,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "thin_trips",
+   "label": "Thin leads, no capacitor at VIN: runs of 8 that trip",
+   "value": 2.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "thin_terminal_longest",
+   "label": "Thin leads, 100 uF at VIN, trip inactive: longest time above 1.15 A",
+   "value": 5.419864e-08,
+   "unit": "s",
+   "expected": 2.1e-06,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 4.4: 2.1 us with 100 uF at the VIN terminals; rule F-18: 10 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "thin_terminal_trips",
+   "label": "Thin leads, 100 uF at VIN: runs of 8 that trip",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 11: no trip on a step to 1.0 A with 100 uF at the VIN terminals",
+   "verdict": "pass"
+  },
+  {
+   "key": "heavy_longest",
+   "label": "Heavy leads, no capacitor at VIN, trip inactive: longest time above 1.15 A",
+   "value": 2.942808e-05,
+   "unit": "s",
+   "expected": 2.9e-05,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 12 us to 29 us with 1 uH to 3 uH and 10 uF to 100 uF, simulated",
+   "verdict": "info"
+  },
+  {
+   "key": "heavy_longest_lead",
+   "label": "Supply lead of that run",
+   "value": 3e-06,
+   "unit": "H",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "heavy_longest_cap",
+   "label": "Load capacitor of that run",
+   "value": 0.0001,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "heavy_trips",
+   "label": "Heavy leads, no capacitor at VIN: runs of 8 that trip",
+   "value": 5.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "heavy_terminal_longest",
+   "label": "Heavy leads, 100 uF at VIN, trip inactive: longest time above 1.15 A",
+   "value": 3.274719e-05,
+   "unit": "s",
+   "expected": 2.1e-06,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 4.4: 2.1 us with 100 uF at the VIN terminals; rule F-18: 10 us",
+   "verdict": "fail"
+  },
+  {
+   "key": "heavy_terminal_trips",
+   "label": "Heavy leads, 100 uF at VIN: runs of 8 that trip",
+   "value": 2.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 11: no trip on a step to 1.0 A with 100 uF at the VIN terminals",
+   "verdict": "fail"
+  },
+  {
+   "key": "smallest_tripping_step",
+   "label": "Heavy leads of 3 uH, no capacitor at VIN: smallest step that trips, 0.7 A to 1.0 A",
+   "value": 0.9,
+   "unit": "A",
+   "expected": 0.7,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: the trip can act on load steps above about 0.7 A",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "sag",
+   "1 uA to 500 mA with 1 uF at the load, 5 V behind supply leads",
+   "supply-leads.sag.png"
+  ],
+  [
+   "ring",
+   "1 uA to 1.0 A with 100 uF at the load behind 3 uH of supply lead, trip inactive",
+   "supply-leads.ring.png"
+  ]
+ ],
+ "notes": [
+  "Ampere mode is not drawn into this circuit: the fuse, the closed ampere switch and the copper to the supply node are one resistance of 35 mohm, and the external supply holds 5 V behind its leads. The 1 uF and the damped 4.7 uF on the supply node are the parts of the schematic.",
+  "Lead resistance for the sag: 0.13 ohm with 0.5 uH and 0.05 ohm with 1 uH, the pairs of the earlier simulations of the design. For the ringing two kinds of lead: thin, 50 mohm for every microhenry, and heavy, 10 mohm. The specification names inductances only; its 12 us to 29 us are found again with the heavy leads.",
+  "The leads and the capacitors ring together, and the current that recharges the load capacitor passes the shunt. A capacitor at the VIN terminals takes a share of that current in proportion to its size against the load capacitor. With thin leads the ringing is damped and 100 uF at the terminals is enough; with heavy leads and 47 uF or more at the load it is not: the branch stays above the level for tens of microseconds and the trip acts.",
+  "The time above 1.15 A is read with the qualification time of the trip set out of reach, so that the ringing can be seen whole; the trip count comes from the same runs with the 12 us of rule F-18.",
+  "What happens to the supply node when the trip opens the output on a short circuit in ampere mode is not in this bench. The node is then bounded by the ampere switch acting as a source follower and by the suppressor of the VIN terminal, which are parts of the path switching sheet.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "supply-leads.heavy-3uh-100uf-terminal-free-1000ma.cir",
+  "supply-leads.sag-0u5-nominal.cir",
+  "supply-leads.sag-0u5-worst.cir",
+  "supply-leads.sag-1u-nominal.cir",
+  "supply-leads.sag-1u-worst.cir"
+ ],
+ "format": 1
+}

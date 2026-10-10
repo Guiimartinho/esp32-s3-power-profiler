@@ -1,0 +1,16 @@
+* Set-point filter during a hold-off of the supervisor
+.include "../../models/source_meter.lib"
+C38 dac_ref 0 1e-07
+C41 dac_filt 0 9.58238e-07
+R54 dac_out dac_filt 10000
+R55 vref dac_ref 2000
+R56 dac_ref 0 2000
+XU15 p3v3_a dac_ref dac_out 0 MCP4921 code=3893 code1=-1 t1=0.06
+* the DAC and its filter; the input of the buffer takes no current that counts
+Vp3v3a p3v3_a 0 3.3
+Vref vref 0 2.5
+Rin dac_filt 0 1e12
+.control
+tran 0.1m 0.56 0 1m
+.endc
+.end

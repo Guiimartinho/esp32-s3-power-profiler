@@ -1,0 +1,12 @@
+* MCP6569: step of 100 mV with 20 kohm and 25 pF
+.include "../../models/analog_rails.lib"
+Vdd vdd 0 PWL(0 0 1u 3.3)
+Vin inn 0 PWL(0 1.55 20u 1.55 20.001u 1.75 60u 1.75 60.001u 1.55)
+Vref ref 0 1.65
+X1 ref inn out vdd 0 MCP6569_OD
+Rp vdd out 20k
+Cl out 0 25p
+.control
+tran 1n 80u 0 20n
+.endc
+.end

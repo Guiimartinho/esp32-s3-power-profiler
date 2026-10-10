@@ -1,0 +1,18 @@
+* RP2350 pad of stepping A2: released onto 4.7 kohm, 8.2 kohm and 47 kohm
+.include "../../models/digital.lib"
+Viovdd iovdd 0 3.3
+Vhi hi 0 1
+Voe oe 0 PWL(0 1 1u 1 1.001u 0)
+Xa pa hi oe iovdd 0 DIGITAL_RP2350_PAD e9=1
+Ra pa 0 4700
+Ca pa 0 10p
+Xb pb hi oe iovdd 0 DIGITAL_RP2350_PAD e9=1
+Rb pb 0 8200
+Cb pb 0 10p
+Xc pc hi oe iovdd 0 DIGITAL_RP2350_PAD e9=1
+Rc pc 0 47000
+Cc pc 0 10p
+.control
+tran 2n 12u
+.endc
+.end

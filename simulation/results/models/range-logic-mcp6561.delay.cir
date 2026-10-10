@@ -1,0 +1,17 @@
+* Comparator: delay at three overdrives
+.include "../../models/logic.lib"
+XU32 inp inn out vdd 0 MCP656X
+Vdd vdd 0 3.3
+Vinn inn 0 0.5
+Vinp inp 0 PWL(0 0.4 2e-06 0.4 2.001e-06 0.505 4e-06 0.505 4.001e-06 0.4 6e-06 0.4 6.001e-06 0.52 8e-06 0.52 8.001e-06 0.4 1e-05 0.4 1.0001e-05 0.6 1.2e-05 0.6 1.2001e-05 0.4)
+Rload out 0 1meg
+* the run starts at rest
+.ic v(xu32.h)=0
+.options method=gear
+.options trtol=1
+.options itl4=100
+.options abstol=1e-9
+.control
+tran 1n 1.4e-05
+.endc
+.end

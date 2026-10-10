@@ -1,0 +1,15 @@
+* ADS8860 input: acquiring
+.include "../../models/signal_chain.lib"
+Vref ref 0 5
+Vs ainp 0 dc 1 ac 1
+X1 ref ainp 0 0 cnv SIGNAL_CHAIN_ADS8860
+Vcnv cnv 0 0
+* a second converter with its input 0.3 V above its reference
+Vref2 ref2 0 5
+Vover over 0 5.3
+X2 ref2 over 0 0 cnv SIGNAL_CHAIN_ADS8860
+.control
+op
+ac lin 1 10k 10k
+.endc
+.end

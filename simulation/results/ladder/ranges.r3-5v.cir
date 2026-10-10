@@ -1,0 +1,78 @@
+* Shunt ladder at rest, range 3, supply node at 5 V
+.include "../../models/mosfets.lib"
+.include "../../models/logic.lib"
+.include "../../models/mux509.lib"
+C62 supply 0 1e-06
+C63 n_c63_pad1 0 4.7e-06
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C69 0 m4v_a 1e-07
+C71 vout_s 0 1e-07
+MQ10 supply n_q10_g vout_s IRLML0030_CLAMP
+MQ11 supply n_q11_g vout_s IRLML0030_CLAMP
+MQ12 supply g_r1 sense_r1 IRLML0030
+MQ13 supply g_r2 sense_r2 IRLML0030
+MQ14 supply g_r3 sense_r3 CSD17577Q3A
+R87 supply n_c63_pad1 0.47
+R88 gate_r3 0 1000
+R89 gate_r1 0 1000
+R90 supply 0 100000
+R91 mux_a1 0 5100
+R92 supply n_q10_g 22
+R93 gate_out 0 1000
+R94 gate_r2 0 1000
+R95 mux_a0 0 5100
+R96 gate_r3 n_u22_in_b 1000
+R97 gate_r1 n_u23_in_b 1000
+R98 gate_out n_u22_in_a 1000
+R99 gate_r2 n_u23_in_a 1000
+XU22_1 n_u22_in_a drv_out p12v_a 0 TC4427CH
+XU22_2 n_u22_in_b n_u22_out_b p12v_a 0 TC4427CH
+XU23_1 n_u23_in_a n_u23_out_a p12v_a 0 TC4427CH
+XU23_2 n_u23_in_b n_u23_out_b p12v_a 0 TC4427CH
+XU24 n_u24_a0 n_u24_en m4v_a supply sense_r1 n_u24_s3a n_u24_s4a inp inn n_u24_s4b n_u24_s3b vout_s vout_s p12v_a 0 n_u24_a1 MUX509
+R100 supply n_q11_g 22
+R101 supply vout_s 1000
+R102 n_u23_out_b g_r1 47
+R103 g_r1 0 100000
+R104 sense_r1 vout_s 33
+R105 n_u23_out_a g_r2 47
+R106 g_r2 0 100000
+R107 sense_r2 vout_s 1
+RR107_SA sense_r2 n_u24_s3a 0.001
+RR107_SB vout_s n_u24_s3b 0.001
+R108 n_u22_out_b g_r3 10
+R109 g_r3 0 100000
+R110 sense_r3 vout_s 0.1
+RR110_SA sense_r3 n_u24_s4a 0.001
+RR110_SB vout_s n_u24_s4b 0.001
+R111 mux_a1 n_u24_a1 1000
+R112 mux_a0 n_u24_a0 1000
+R113 p12v_a n_u24_en 10000
+* ideal rails
+Vp12 p12v_a 0 12
+Vm4 m4v_a 0 -4
+Vp3v3a p3v3_a 0 3.3
+* controller lines held for range 3
+Vgate_r1 gate_r1 0 0
+Vgate_r2 gate_r2 0 0
+Vgate_r3 gate_r3 0 3.3
+Vmux_a0 mux_a0 0 3.3
+Vmux_a1 mux_a1 0 3.3
+Vgate_out gate_out 0 0
+* the source meter as an ideal source on the supply node; the load
+* as a current sink on the node after the shunts
+Vsupply supply 0 5
+Iload vout_s 0 1u
+.options gmin=1e-15
+.options abstol=1e-15
+.control
+foreach level 1e-07 1.25808e-07 1.58275e-07 1.99122e-07 2.50511e-07 3.15162e-07 3.96498e-07 4.98824e-07 6.27559e-07 7.89516e-07 9.93271e-07 1.24961e-06 1.5721e-06 1.97783e-06 2.48826e-06 3.13041e-06 3.9383e-06 4.95468e-06 6.23336e-06 7.84204e-06 9.86587e-06 1.2412e-05 1.56153e-05 1.96452e-05 2.47151e-05 3.10935e-05 3.9118e-05 4.92134e-05 6.19141e-05 7.78927e-05 9.79949e-05 0.000123285 0.000155102 0.00019513 0.000245488 0.000308843 0.000388547 0.000488822 0.000614975 0.000773685 0.000973355 0.00122455 0.00154058 0.00193817 0.00243836 0.00306764 0.00385933 0.00485533 0.00610837 0.00768479 0.00966805 0.0121631 0.0153022 0.0192513 0.0242195 0.03047 0.0383336 0.0482266 0.0606727 0.0763308 0.0960299 0.120813 0.151992 0.191217 0.240566 0.30265 0.380757 0.479021 0.602644 0.758172 0.953838 1.2
+  alter Iload dc = $level
+  op
+end
+.endc
+.end

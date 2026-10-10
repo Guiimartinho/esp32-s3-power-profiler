@@ -1,0 +1,14 @@
+* LMR62014: current limit at 3.3 V of supply, output held at 12 V
+.include "../../models/analog_rails.lib"
+Vin vin 0 PWL(0 0 20u 3.3)
+Ren vin en 51k
+XL vin sw L_74438357100
+X1 sw 0 fb en vin LMR62014
+Rfb fb 0 1k
+D1 sw o B0530W
+Vclamp o 0 12
+.control
+save sw vin i(Vclamp) i(Vin) @l.xl.l1[i]
+tran 5n 0.6m 0 5n
+.endc
+.end

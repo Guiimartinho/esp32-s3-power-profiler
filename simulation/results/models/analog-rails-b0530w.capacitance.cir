@@ -1,0 +1,13 @@
+* B0530W: capacitance
+.include "../../models/analog_rails.lib"
+* capacitance: a ramp of 1 V/us on top of a reverse voltage; the current is C dV/dt
+Vc0 k0 0 PWL(0 0 1u 0 1.02u 0.02)
+Dcap0 0 k0 B0530W
+Vc1 k1 0 PWL(0 5 1u 5 1.02u 5.02)
+Dcap1 0 k1 B0530W
+Vc2 k2 0 PWL(0 20 1u 20 1.02u 20.02)
+Dcap2 0 k2 B0530W
+.control
+tran 0.1n 1.03u 0 0.2n
+.endc
+.end

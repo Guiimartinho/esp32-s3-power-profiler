@@ -1,0 +1,389 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "limiter",
+ "title": "The limiter in front of the converter driver during an over-range",
+ "covers": "section 4.5 (limiter D-73, driver rail), section 4.6 (converter input), section 16",
+ "summary": "The shunt voltage leaves the range and stays there. Range 0 is held. The voltage across the shunt rises from 50 mV to 0.6 V within 1 us and stays, so that the amplifier goes to its positive limit and the limiter works: R125 feeds the diode pair D22, whose upper diode ends on the driver rail. The run goes on until everything rests. It is repeated with the forward voltage variants of the diodes, with 3 V across the shunt, with the +12 V rail and the parts at the corner that lifts the driver rail, and with a reverse current, which takes the amplifier output below ground and the lower diode into conduction.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "converter_nominal",
+   "label": "0.6 V at the shunt: converter input above the reference, at rest",
+   "value": 0.2017666,
+   "unit": "V",
+   "expected": 0.2,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.5: VREF + 0.25 V at the most, VREF + 0.20 V simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_nominal",
+   "label": "0.6 V at the shunt: current through R125 into the limiter",
+   "value": 0.001812537,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_diode_high",
+   "label": "diodes at 0.9 V: converter input above the reference, at rest",
+   "value": 0.2015132,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.5: VREF + 0.25 V at the most, VREF + 0.20 V simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_diode_high",
+   "label": "diodes at 0.9 V: current through R125 into the limiter",
+   "value": 0.001787154,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_diode_low",
+   "label": "diodes at 0.7 V: converter input above the reference, at rest",
+   "value": 0.2020199,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.5: VREF + 0.25 V at the most, VREF + 0.20 V simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_diode_low",
+   "label": "diodes at 0.7 V: current through R125 into the limiter",
+   "value": 0.001837918,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_ladder_3v",
+   "label": "3 V at the shunt: converter input above the reference, at rest",
+   "value": 0.2017666,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.5: VREF + 0.25 V at the most, VREF + 0.20 V simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_ladder_3v",
+   "label": "3 V at the shunt: current through R125 into the limiter",
+   "value": 0.001812541,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_rail_high",
+   "label": "+12 V rail at 12.6 V, amplifier 1.2 V below it: converter input above the reference, at rest",
+   "value": 0.2036044,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.5: VREF + 0.25 V at the most, VREF + 0.20 V simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_rail_high",
+   "label": "+12 V rail at 12.6 V, amplifier 1.2 V below it: current through R125 into the limiter",
+   "value": 0.001996666,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_corner",
+   "label": "rail and resistors at the corner that lifts the driver rail: converter input above the reference, at rest",
+   "value": 0.204507,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.5: VREF + 0.25 V at the most, VREF + 0.20 V simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_corner",
+   "label": "rail and resistors at the corner that lifts the driver rail: current through R125 into the limiter",
+   "value": 0.002042201,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amp_reverse",
+   "label": "-0.3 V at the shunt (reverse current): amplifier output",
+   "value": -2.899982,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limiter_reverse",
+   "label": "-0.3 V at the shunt (reverse current): limiter node",
+   "value": -0.7735056,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_reverse",
+   "label": "-0.3 V at the shunt (reverse current): converter input",
+   "value": 0.001922567,
+   "unit": "V",
+   "expected": null,
+   "low": -0.1,
+   "high": null,
+   "source": "ADS8860 datasheet, page 6: input range from -0.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_reverse",
+   "label": "-0.3 V at the shunt (reverse current): current through R125",
+   "value": -0.0005452504,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amplifier",
+   "label": "Amplifier output during the over-range",
+   "value": 10.59993,
+   "unit": "V",
+   "expected": 10.0,
+   "low": null,
+   "high": null,
+   "source": "section 4.5: the amplifier output can reach 10 V",
+   "verdict": "info"
+  },
+  {
+   "key": "limiter_node",
+   "label": "Limiter node during the over-range",
+   "value": 3.531039,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "driver_input_beyond",
+   "label": "Limiter node above the supply of the driver during the over-range",
+   "value": 0.8272811,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "driver_input_current",
+   "label": "Current into the driver input through R128 if its protection diode holds it 0.5 V above the supply",
+   "value": 8.391822e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "OPA365 datasheet, page 5: inputs that pass 0.5 V beyond a supply are to be limited to 10 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_before",
+   "label": "Driver rail at the test point before the over-range",
+   "value": 2.685667,
+   "unit": "V",
+   "expected": 2.68,
+   "low": 2.66,
+   "high": 2.7,
+   "source": "section 4.5: about 2.68 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_during",
+   "label": "Driver rail at the test point during the over-range",
+   "value": 2.703758,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "into_rail",
+   "label": "Current that the upper diode puts into the driver rail",
+   "value": 0.001812523,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.0023,
+   "source": "section 4.5: R125 limits the current into the driver rail to 2.3 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "buffer_current",
+   "label": "Current of the rail buffer through R129 during the over-range (out of the buffer)",
+   "value": 0.002351177,
+   "unit": "A",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "this bench: the buffer keeps sourcing, the rail stays regulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "into_reference",
+   "label": "Change of the current that the reference delivers, over-range against before",
+   "value": 2.606978e-11,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.5: no current flows into the reference (limit of this bench: 1 uA)",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_diode",
+   "label": "Current through the protection diode of the converter input into its REF pin",
+   "value": 2.461689e-11,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "highest",
+   "label": "Highest converter input above the reference, any case and any instant",
+   "value": 0.204507,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "ADS8860 datasheet, page 5: VREF + 0.3 V is the absolute maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "outside_operating_range",
+   "label": "Converter input above the end of its operating range, VREF + 0.1 V, at rest",
+   "value": 0.1017666,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "waveforms",
+   "Over-range: 0.6 V across the shunt from 20 us on",
+   "limiter.waveforms.png"
+  ]
+ ],
+ "notes": [
+  "The amplifier model goes to 1.4 V below its positive supply, the reading of a typical curve of its datasheet at 2 kohm; the table guarantees 1.6 V. With +12 V that is 10.6 V, more than the 10 V of section 4.5, so the clamp current here is the larger one.",
+  "The driver model rests 2 mV below its supply when it is not loaded (assumption). The converter input in an over-range therefore is the driver rail itself, and the rail rises by what the clamp current takes off the 10 ohm of R129.",
+  "The supply current of the two OPA365 follows the typical curve of the datasheet: 4.2 mA at 2.7 V. The corner case takes 4.0 mA at 5 V for the driver, an assumption: the datasheet states no least value.",
+  "The protection diodes of the converter input are an assumed junction; the current into the REF pin at 0.2 V of forward voltage is not a figure to rely on.",
+  "During an over-range the limiter node stands a diode drop above the driver rail, which is the supply of the driver, and with a reverse current a diode drop below ground. The input of the driver behind R128 is then held by its own protection diode, which the amplifier model does not have; the current through R128 is calculated for a diode that holds the input 0.5 V beyond the supply.",
+  "The reference, the rails and their impedance are ideal. Leakage of the diode pair is not modelled."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199_LO",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U30",
+   "SIGNAL_CHAIN_ADS8860",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "limiter.nominal.cir"
+ ],
+ "format": 1
+}

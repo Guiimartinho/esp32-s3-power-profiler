@@ -1,0 +1,25 @@
+* SN74LVC8T245: B to A with 3.3 V on the B side
+.include "../../models/digital.lib"
+* A side at 3.3 V; load of the datasheet, 15 pF and 2 kohm, at output 1
+Vcca vcca 0 3.3
+Vccb vccb 0 3.3
+X1 vcca 0 a1 a2 a3 a4 a5 a6 a7 a8 0 0 0 b8 b7 b6 b5 b4 b3 b2 b1 0 vccb vccb DIGITAL_LVC8T245 cpd=2e-12
+* input 1: a fast edge from 50 ohm, then a slow ramp
+V1 g1 0 PWL(0 0 1e-07 0 1.01e-07 3.3 300n 3.3 301n 0 1e-06 0 1.1e-05 3.3)
+R1 g1 b1 50
+Cl a1 0 15p
+Rl a1 0 2k
+* input 2: a square wave, for the charge that an edge costs the supply
+V2 b2 0 PULSE(0 3.3 10n 1n 1n 4.9e-08 1e-07)
+* input 3: an edge behind 330 ohm, for the capacitance of the pin
+V3 g3 0 PWL(0 0 1e-07 0 1.001e-07 3.3)
+R3 g3 b3 330
+Rb4 b4 0 1k
+Rb5 b5 0 1k
+Rb6 b6 0 1k
+Rb7 b7 0 1k
+Rb8 b8 0 1k
+.control
+tran 0.05n 11.2u 0 0.5n
+.endc
+.end

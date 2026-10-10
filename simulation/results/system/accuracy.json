@@ -1,0 +1,306 @@
+{
+ "block": "system",
+ "block_title": "Whole Measuring Path",
+ "bench": "accuracy",
+ "title": "From the load current to the code, every range held",
+ "covers": "sections 4.3, 4.5 and 8 (gain, pedestal, resolution, full scale), requirement R-12",
+ "summary": "Ladder, multiplexer and amplifier chain run as one circuit, from the netlist. Each range is held and the load current is stepped from zero to 120 % of the full scale as a staircase. At the end of each step the voltage at the converter input becomes a 16-bit code. The host reading is that code with the nominal calibration of the specification. The figures say what one code is worth in each range, where zero and full scale lie, and how far the path is from a straight line, which is what remains on a board after its calibration at two points.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "zero_code",
+   "label": "Code at zero current (the pedestal)",
+   "value": 1313.0,
+   "unit": "codes",
+   "expected": 1313.0,
+   "low": 1308.0,
+   "high": 1318.0,
+   "source": "section 4.5: about 1313 codes, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "pedestal",
+   "label": "Converter input at zero current",
+   "value": 0.05007965,
+   "unit": "V",
+   "expected": 0.05008,
+   "low": 0.0498296,
+   "high": 0.0503304,
+   "source": "section 4.5: pedestal of 50 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r0",
+   "label": "R0: current of one code",
+   "value": 1.914148e-09,
+   "unit": "A",
+   "expected": 1.914048e-09,
+   "low": 1.91022e-09,
+   "high": 1.917876e-09,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "full_scale_r0",
+   "label": "R0: shunt voltage at which the converter reads full scale",
+   "value": 0.1229327,
+   "unit": "V",
+   "expected": 0.1229,
+   "low": 0.1222855,
+   "high": 0.1235145,
+   "source": "section 4.3: 122.9 mV, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "nominal_error_r0",
+   "label": "R0: reading with the nominal calibration at 100 µA",
+   "value": -0.004734241,
+   "unit": "%",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "limit of this bench: nominal values agree within 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "residual_r0",
+   "label": "R0: largest deviation from a straight line, zero to full scale",
+   "value": 0.02904784,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "limit of this bench: one code",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r1",
+   "label": "R1: current of one code",
+   "value": 5.991992e-08,
+   "unit": "A",
+   "expected": 5.99076e-08,
+   "low": 5.978778e-08,
+   "high": 6.002741e-08,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "full_scale_r1",
+   "label": "R1: shunt voltage at which the converter reads full scale",
+   "value": 0.1229516,
+   "unit": "V",
+   "expected": 0.1229,
+   "low": 0.1222855,
+   "high": 0.1235145,
+   "source": "section 4.3: 122.9 mV, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "nominal_error_r1",
+   "label": "R1: reading with the nominal calibration at 3 mA",
+   "value": -0.02022835,
+   "unit": "%",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "limit of this bench: nominal values agree within 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "residual_r1",
+   "label": "R1: largest deviation from a straight line, zero to full scale",
+   "value": 0.0866002,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "limit of this bench: one code",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r2",
+   "label": "R2: current of one code",
+   "value": 1.916103e-06,
+   "unit": "A",
+   "expected": 1.915964e-06,
+   "low": 1.912132e-06,
+   "high": 1.919796e-06,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "full_scale_r2",
+   "label": "R2: shunt voltage at which the converter reads full scale",
+   "value": 0.1229353,
+   "unit": "V",
+   "expected": 0.1229,
+   "low": 0.1222855,
+   "high": 0.1235145,
+   "source": "section 4.3: 122.9 mV, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "nominal_error_r2",
+   "label": "R2: reading with the nominal calibration at 100 mA",
+   "value": -0.008444245,
+   "unit": "%",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "limit of this bench: nominal values agree within 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "residual_r2",
+   "label": "R2: largest deviation from a straight line, zero to full scale",
+   "value": 0.02215277,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "limit of this bench: one code",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r3",
+   "label": "R3: current of one code",
+   "value": 1.914343e-05,
+   "unit": "A",
+   "expected": 1.914048e-05,
+   "low": 1.91022e-05,
+   "high": 1.917876e-05,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "full_scale_r3",
+   "label": "R3: shunt voltage at which the converter reads full scale",
+   "value": 0.1229453,
+   "unit": "V",
+   "expected": 0.1229,
+   "low": 0.1222855,
+   "high": 0.1235145,
+   "source": "section 4.3: 122.9 mV, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "nominal_error_r3",
+   "label": "R3: reading with the nominal calibration at 1 A",
+   "value": -0.0151044,
+   "unit": "%",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "limit of this bench: nominal values agree within 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "residual_r3",
+   "label": "R3: largest deviation from a straight line, zero to full scale",
+   "value": 0.0221591,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "limit of this bench: one code",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "transfer",
+   "Load current to code and to the reading, every range held",
+   "accuracy.transfer.png"
+  ]
+ ],
+ "notes": [
+  "The converter is ideal arithmetic on the voltage at its input: no noise, no nonlinearity of its own, no sampling kick.",
+  "Offset, bias current and noise of the amplifiers are zero in these runs, so the error at small currents is the size of one code and the rounding to it; a real board adds its offsets, which the zero calibration removes (section 8).",
+  "The levels are a staircase in time, because a fresh operating point of this circuit does not always converge in the simulator; each level is held for 150 us (1.5 ms in range 0) and read over its last 20 us.",
+  "Range 0 is slow by itself: its 1 kohm shunt and the 100 nF capacitor C71 on the node after the shunts make a time constant of 100 us, before any capacitance of the load is counted.",
+  "The comparators are left out of this circuit; their divider loads the amplifier output as drawn."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "accuracy.r0.cir",
+  "accuracy.r1.cir",
+  "accuracy.r2.cir",
+  "accuracy.r3.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,15 @@
+* AD8421 at G = 10: response and noise
+.include "../../models/ad8421.lib"
+Vp vp 0 15
+Vn vn 0 -15
+Vcm inn_X1 0 0
+Vd inp_X1 inn_X1 dc 0 ac 1
+Vref ref_X1 0 0
+X1 inn_X1 rga_X1 rgb_X1 inp_X1 vn ref_X1 out_X1 vp AD8421
+Rl_X1 out_X1 0 2k
+Rg_X1 rga_X1 rgb_X1 1100
+.control
+ac dec 60 10 200meg
+noise v(out_X1) Vd dec 30 0.1 100k
+.endc
+.end

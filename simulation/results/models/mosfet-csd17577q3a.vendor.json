@@ -1,0 +1,95 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "mosfet-csd17577q3a",
+ "title": "CSD17577Q3A model against its datasheet",
+ "covers": "the model of Q4, Q5, Q8, Q9, Q14, Q15 and Q16",
+ "summary": "The model is put in the test circuits of a datasheet. A forced drain current with the gate held gives the on-resistance, the gate tied to the drain the threshold, and a constant current into the gate with a clamped current as load the gate charge. The element is one part of the schematic of this type, so the model map decides the model.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "on_4p5v",
+   "label": "On-resistance at 4.5 V on the gate and 16 A",
+   "value": 0.00605301,
+   "unit": "ohm",
+   "expected": 0.0053,
+   "low": 0.00477,
+   "high": 0.00583,
+   "source": "TI SLPS515A page 1, typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "on_10v",
+   "label": "On-resistance at 10 V on the gate and 16 A",
+   "value": 0.005210446,
+   "unit": "ohm",
+   "expected": 0.004,
+   "low": 0.0036,
+   "high": 0.0044,
+   "source": "TI SLPS515A page 1, typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "threshold",
+   "label": "Gate threshold at 250 uA",
+   "value": 1.39426,
+   "unit": "V",
+   "expected": 1.4,
+   "low": 1.0,
+   "high": 2.0,
+   "source": "TI SLPS515A page 1, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_4v5",
+   "label": "Gate charge to 4.5 V",
+   "value": 9.289378e-09,
+   "unit": "C",
+   "expected": 1.2e-08,
+   "low": 9e-09,
+   "high": 1.5e-08,
+   "source": "TI SLPS515A page 1, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "plateau",
+   "label": "Gate voltage while the drain falls",
+   "value": 2.731865,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charge_plateau",
+   "label": "Gate charge while the drain falls from 90 % to 10 %",
+   "value": 1.410428e-09,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The limits here are the fit this project asks of a model: 10 % on the on-resistance, 25 % on the gate charge. They are not datasheet limits.",
+  "The model is a typical part at 25 C. It says nothing about leakage."
+ ],
+ "models": [
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

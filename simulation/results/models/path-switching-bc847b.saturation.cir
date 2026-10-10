@@ -1,0 +1,121 @@
+* BC847B: saturation
+.include "../../models/path_switching.lib"
+QQ7 c b e PATH_BC847B
+* both currents are forced: the collector settles at its saturation voltage
+Ve e 0 0
+Ic 0 c 10m
+Ib 0 b 0.5m
+.control
+alter Ic dc = 0.01
+alter Ib dc = 0.0005
+op
+alter Ic dc = 0.1
+alter Ib dc = 0.005
+op
+alter Ic dc = 0.0002
+alter Ib dc = 0.0002
+op
+alter Ic dc = 0.000100055
+alter Ib dc = 5.00276e-06
+op
+alter Ic dc = 0.000125969
+alter Ib dc = 6.29845e-06
+op
+alter Ic dc = 0.000158594
+alter Ib dc = 7.92971e-06
+op
+alter Ic dc = 0.000199669
+alter Ib dc = 9.98347e-06
+op
+alter Ic dc = 0.000251383
+alter Ib dc = 1.25691e-05
+op
+alter Ic dc = 0.000316489
+alter Ib dc = 1.58245e-05
+op
+alter Ic dc = 0.000398459
+alter Ib dc = 1.99229e-05
+op
+alter Ic dc = 0.000501657
+alter Ib dc = 2.50829e-05
+op
+alter Ic dc = 0.000631584
+alter Ib dc = 3.15792e-05
+op
+alter Ic dc = 0.000795161
+alter Ib dc = 3.97581e-05
+op
+alter Ic dc = 0.0010011
+alter Ib dc = 5.00552e-05
+op
+alter Ic dc = 0.00126038
+alter Ib dc = 6.30192e-05
+op
+alter Ic dc = 0.00158682
+alter Ib dc = 7.93409e-05
+op
+alter Ic dc = 0.0019978
+alter Ib dc = 9.98898e-05
+op
+alter Ic dc = 0.00251521
+alter Ib dc = 0.000125761
+op
+alter Ic dc = 0.00316664
+alter Ib dc = 0.000158332
+op
+alter Ic dc = 0.00398678
+alter Ib dc = 0.000199339
+op
+alter Ic dc = 0.00501934
+alter Ib dc = 0.000250967
+op
+alter Ic dc = 0.00631933
+alter Ib dc = 0.000315966
+op
+alter Ic dc = 0.007956
+alter Ib dc = 0.0003978
+op
+alter Ic dc = 0.0100166
+alter Ib dc = 0.000500828
+op
+alter Ic dc = 0.0126108
+alter Ib dc = 0.00063054
+op
+alter Ic dc = 0.0158769
+alter Ib dc = 0.000793846
+op
+alter Ic dc = 0.019989
+alter Ib dc = 0.000999449
+op
+alter Ic dc = 0.025166
+alter Ib dc = 0.0012583
+op
+alter Ic dc = 0.0316839
+alter Ib dc = 0.00158419
+op
+alter Ic dc = 0.0398898
+alter Ib dc = 0.00199449
+op
+alter Ic dc = 0.0502211
+alter Ib dc = 0.00251106
+op
+alter Ic dc = 0.0632281
+alter Ib dc = 0.00316141
+op
+alter Ic dc = 0.0796039
+alter Ib dc = 0.00398019
+op
+alter Ic dc = 0.100221
+alter Ib dc = 0.00501104
+op
+alter Ic dc = 0.126178
+alter Ib dc = 0.00630888
+op
+alter Ic dc = 0.158857
+alter Ib dc = 0.00794284
+op
+alter Ic dc = 0.2
+alter Ib dc = 0.01
+op
+.endc
+.end

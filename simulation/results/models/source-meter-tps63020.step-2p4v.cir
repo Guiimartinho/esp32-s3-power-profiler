@@ -1,0 +1,20 @@
+* TPS63020: start and load step from 2.4 V
+.include "../../models/source_meter.lib"
+XL2 l1 l2 XFL4020_152
+C37 vina 0 1e-07
+XU16 vin vina en vina fb vout l1 l2 pg 0 0 TPS63020_AVG
+* application circuit of the datasheet: divider of 1 Mohm, output capacitors,
+* the enable pin raised after the input stands
+Vin vin 0 PWL(0 0 5u 2.4)
+Ven en 0 PWL(0 0 2e-05 0 2.1e-05 2.4)
+R1 vout fb 1meg
+R2 fb 0 180000
+Cout vout out_c 4e-05
+Resr out_c 0 2m
+Rload vout 0 6.6
+Iload vout 0 PULSE(0 1 0.001 1u 1u 0.0003 1)
+.control
+save vout fb l.xl2.l1#branch vin#branch
+tran 0.2u 0.0016 0 0.2u uic
+.endc
+.end

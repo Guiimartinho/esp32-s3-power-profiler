@@ -1,0 +1,17 @@
+* LM27761 (averaged): lock-out against the supply
+.include "../../models/analog_rails.lib"
+* the supply falls from 5 V to 2.2 V and returns, 10 mA of load
+Vin vin 0 PWL(0 0 50u 5 2m 5 30m 2.2 58m 5)
+Ven en 0 PWL(0 0 100u 0 101u 3)
+X1 vin 0 cpo out fb en cn cp LM27761_AVG
+Cfly cp cn 1u
+Ccp cpo 0 4.7u
+Cout out 0 2.2u
+R1 fb out 237k
+R2 fb 0 500k
+Rload out 0 180
+.control
+save out cpo vin
+tran 10u 60m 0 10u
+.endc
+.end

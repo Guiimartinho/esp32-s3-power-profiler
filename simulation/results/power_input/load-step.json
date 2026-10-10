@@ -1,0 +1,390 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "load-step",
+ "title": "A load step of 1 A on the 5 V rail: the dip and its recovery with the capacitors as drawn",
+ "covers": "section 3 (capacitance of the 5 V rail), section 4.1 (thresholds of the rail), rule F-35",
+ "summary": "The idle carrier runs from USB-C and takes 1 A more from the rail within a microsecond. The step stands for the source meter when its output steps to full current. The rail holds 47 uF of aluminum capacitor with its series resistance and about 15 uF of ceramic capacitance under bias; the supply comes through the multiplexer, the limiter with its damper, and the cable. The run is repeated with half the series resistance, with a cable of four times the inductance, and with an edge of 50 us.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "low_typical",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 1 us: lowest level of the rail",
+   "value": 4.676919,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_typical",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 1 us: dip below the level before the step",
+   "value": 0.282339,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "under_typical",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 1 us: dip below the level the rail settles at",
+   "value": 9.212903e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "settled_typical",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 1 us: rail within 20 mV of its new level after",
+   "value": 0.0001119115,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "v3a_typical",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 1 us: largest excursion of 3V3_A",
+   "value": 0.0007732584,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.066,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_low_esr",
+   "label": "ESR 0.22 ohm, cable 0.5 uH, edge 1 us: lowest level of the rail",
+   "value": 4.676919,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_low_esr",
+   "label": "ESR 0.22 ohm, cable 0.5 uH, edge 1 us: dip below the level before the step",
+   "value": 0.2823391,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "under_low_esr",
+   "label": "ESR 0.22 ohm, cable 0.5 uH, edge 1 us: dip below the level the rail settles at",
+   "value": 9.308346e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "settled_low_esr",
+   "label": "ESR 0.22 ohm, cable 0.5 uH, edge 1 us: rail within 20 mV of its new level after",
+   "value": 0.0001032045,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "v3a_low_esr",
+   "label": "ESR 0.22 ohm, cable 0.5 uH, edge 1 us: largest excursion of 3V3_A",
+   "value": 0.0007585519,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.066,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_long_cable",
+   "label": "ESR 0.44 ohm, cable 2 uH, edge 1 us: lowest level of the rail",
+   "value": 4.676919,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_long_cable",
+   "label": "ESR 0.44 ohm, cable 2 uH, edge 1 us: dip below the level before the step",
+   "value": 0.2823392,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "under_long_cable",
+   "label": "ESR 0.44 ohm, cable 2 uH, edge 1 us: dip below the level the rail settles at",
+   "value": 9.52625e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "settled_long_cable",
+   "label": "ESR 0.44 ohm, cable 2 uH, edge 1 us: rail within 20 mV of its new level after",
+   "value": 9.712913e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "v3a_long_cable",
+   "label": "ESR 0.44 ohm, cable 2 uH, edge 1 us: largest excursion of 3V3_A",
+   "value": 0.0007838152,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.066,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_slow_edge",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 50 us: lowest level of the rail",
+   "value": 4.676919,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_slow_edge",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 50 us: dip below the level before the step",
+   "value": 0.2817013,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "under_slow_edge",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 50 us: dip below the level the rail settles at",
+   "value": 9.33522e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "settled_slow_edge",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 50 us: rail within 20 mV of its new level after",
+   "value": 0.0001135203,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "v3a_slow_edge",
+   "label": "ESR 0.44 ohm, cable 0.5 uH, edge 50 us: largest excursion of 3V3_A",
+   "value": 0.0007250867,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.066,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "level_before",
+   "label": "Rail before the step (0.12 A at idle)",
+   "value": 4.959258,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "level_after",
+   "label": "Rail after the step (1.12 A)",
+   "value": 4.676929,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_height",
+   "label": "Fall of the rail from before the step to its new level",
+   "value": 0.2823298,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "rule F-35: a step of more than 0.3 V marks samples as not valid",
+   "verdict": "pass"
+  },
+  {
+   "key": "ok_low",
+   "label": "Lowest level of 5V_OK",
+   "value": 4.412184,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "the carrier keeps running; 1.2 V is the enable level of the regulators",
+   "verdict": "pass"
+  },
+  {
+   "key": "receptacle_low",
+   "label": "Lowest voltage at the receptacle",
+   "value": 4.821211,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "step",
+   "1 A more on the 5 V rail of the idle carrier, supplied through USB-C",
+   "load-step.step.png"
+  ]
+ ],
+ "notes": [
+  "The source is 5.0 V behind 0.15 ohm of cable: an assumption. The new level of the rail is the old one less the step times the cable and the path, about 0.28 V per ampere; without the cable it is 0.13 V per ampere.",
+  "The first part of the dip is the step in the series resistance of the aluminum capacitor, which carries most of it until the ceramic capacitors and the supply take over. The ceramic capacitors have the capacitance they keep at 5 V.",
+  "The step is a current sink. The source meter is a converter and takes constant power, which draws a little more current as the rail falls.",
+  "The regulators of the 3.3 V rails follow their datasheet in supply rejection up to 100 kHz; their response to load steps of their own is not modelled.",
+  "The supervisor has its release delay shortened to 1 ms."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "load-step.typical.cir"
+ ],
+ "format": 1
+}

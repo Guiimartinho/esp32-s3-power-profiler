@@ -1,0 +1,32 @@
+* Guard buffer, a step of 100 mV
+.include "../../models/opamps.lib"
+C70 p12v_a 0 1e-07
+C71 vout_s 0 1e-07
+C72 0 m4v_a 1e-07
+C73 guard 0 1e-07
+RJP2 vccb_src vccb 0.001
+XU25 buf_in buf_out p12v_a m4v_a buf_out OPA197
+C100 vccb 0 1e-07
+C103 mon_ch0 0 1e-07
+R101 supply vout_s 1000
+R114 vout_s buf_in 10000
+R118 buf_out vccb_src 1000
+R119 buf_out guard 47
+R140 guard mon_ch0 120000
+R149 mon_ch0 0 100000
+* ideal rails; the translator takes its supply current from the buffer
+Vp12 p12v_a 0 12
+Vm4 m4v_a 0 -4
+Itranslator vccb 0 8e-06
+* the guard ring: capacitance to the ground plane, to the measured node
+* and to the input of the buffer (assumptions)
+Cring_ground guard 0 1e-10
+Cring_node guard vout_s 1e-11
+Cring_entry guard buf_in 2e-12
+Vnode vout_s 0 PWL(0 4.9 0.0001 4.9 0.0001001 5.0)
+Rsupply supply 0 1Meg
+.control
+save vout_s buf_in buf_out guard vccb mon_ch0
+tran 20n 0.00025 0 20n
+.endc
+.end

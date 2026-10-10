@@ -1,0 +1,213 @@
+{
+ "block": "output_stage",
+ "block_title": "Output Stage",
+ "bench": "on-resistance",
+ "title": "The closed output pair at 1 A: burden behind the shunts, over the output range",
+ "covers": "requirement R-06 and D-64 (drop of the path), section 4.2 (output switch)",
+ "summary": "The output is on in range 3 and the terminal takes 1 A; the output voltage is stepped. The gates of the pair rest at +12 V_A and the two sources at the output voltage, so the gate drive falls as the output rises: 11.2 V at 0.8 V and 7 V at 5 V. The drop from the node after the shunts to the terminal is burden that the shunt does not measure. Each point is the end of a run that starts from zero and settles. The sweep is repeated with +12 V_A at its lower limit and, with the models written here, with both transistors at the upper limit of the on-resistance.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "pair_0p8v",
+   "label": "Typical parts, 0.8 V: drop of the pair at 1 A and 25 C",
+   "value": 0.01033188,
+   "unit": "V",
+   "expected": 0.008727273,
+   "low": null,
+   "high": 0.0096,
+   "source": "requirement R-06: 144 mV typical from the regulator at 50 C, of which two of five transistors, taken to 25 C; limit set here, 10 % above",
+   "verdict": "fail"
+  },
+  {
+   "key": "drive_0p8v",
+   "label": "Typical parts, 0.8 V: gate-source voltage of the pair",
+   "value": 11.31855,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "path_0p8v",
+   "label": "Typical parts, 0.8 V: drop from the supply node to the terminal",
+   "value": 0.1142508,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pair_3p3v",
+   "label": "Typical parts, 3.3 V: drop of the pair at 1 A and 25 C",
+   "value": 0.01052517,
+   "unit": "V",
+   "expected": 0.008727273,
+   "low": null,
+   "high": 0.0096,
+   "source": "requirement R-06: 144 mV typical from the regulator at 50 C, of which two of five transistors, taken to 25 C; limit set here, 10 % above",
+   "verdict": "fail"
+  },
+  {
+   "key": "drive_3p3v",
+   "label": "Typical parts, 3.3 V: gate-source voltage of the pair",
+   "value": 8.818727,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "path_3p3v",
+   "label": "Typical parts, 3.3 V: drop from the supply node to the terminal",
+   "value": 0.1146196,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pair_5v",
+   "label": "Typical parts, 5 V: drop of the pair at 1 A and 25 C",
+   "value": 0.01077844,
+   "unit": "V",
+   "expected": 0.008727273,
+   "low": null,
+   "high": 0.0096,
+   "source": "requirement R-06: 144 mV typical from the regulator at 50 C, of which two of five transistors, taken to 25 C; limit set here, 10 % above",
+   "verdict": "fail"
+  },
+  {
+   "key": "drive_5v",
+   "label": "Typical parts, 5 V: gate-source voltage of the pair",
+   "value": 7.118989,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "path_5v",
+   "label": "Typical parts, 5 V: drop from the supply node to the terminal",
+   "value": 0.1150986,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pair_rail_5v",
+   "label": "+12 V_A at 11.4 V, 5 V: drop of the pair at 1 A and 25 C",
+   "value": 0.01092011,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pair_ceiling",
+   "label": "+12 V_A at 11.4 V, 5.5 V: drop of the pair at 1 A and 25 C",
+   "value": 0.01107601,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The transistor model has no temperature: every value is at 25 C. The specification counts the path at 50 C, where the datasheet shows 1.1 times the resistance (figure 8); the limits here are taken to 25 C with that factor, and the figure at the bounds is taken to 50 C with it.",
+  "The specification states the drop of the whole path, not of one transistor. The share of the pair is derived here: the total less the shunt and the copper, over five transistors, times two.",
+  "An ideal source behind 10 mohm stands for the source meter and its closed mode pair; the drop from the supply node to the terminal therefore leaves out the mode pair, the copper and the contacts.",
+  "The values are the end of a run that starts from zero and has settled; the gate node is tied to +12 V_A while the circuit comes up.",
+  "In the vendor tier the pair drops 10.3 mV to 10.8 mV. The model of the manufacturer has 5.2 mohm at 10 V on the gate, where the datasheet of the same part gives 4.0 mohm typical and 4.8 mohm at most: it is not a typical part by its own datasheet."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U25",
+   "OPAx197",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

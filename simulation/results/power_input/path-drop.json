@@ -1,0 +1,271 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "path-drop",
+ "title": "The drop from each connector to the 5 V rail at the loads of the specification",
+ "covers": "section 2 (R-14), section 4.1 (path from either connector to the rail, power budget)",
+ "summary": "A supply stands at one connector without a cable and the rail carries a static load. The run brings the carrier up, lets the supervisor release it and then asks for the load of the case; the levels are read when the rail has settled. Five cases: typical parts with the load that 5 V at 1 A at the output needs, the two cases with 4.5 V at the receptacle and the largest on-resistances that the specification calculates, the dissipation at the largest budget, and the module input at its budget.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "path_ohms_typ",
+   "label": "USB-C, typical parts: resistance from the receptacle to the rail",
+   "value": 0.1259176,
+   "unit": "ohm",
+   "expected": 0.126,
+   "low": null,
+   "high": 0.17,
+   "source": "section 4.1: 0.126 ohm typical and 0.170 ohm at most (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_typ",
+   "label": "USB-C 5.0 V, typical parts, 6.7 W on the rail: drop to the rail",
+   "value": 0.1776301,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_typ",
+   "label": "The same: current from the supply",
+   "value": 1.410685,
+   "unit": "A",
+   "expected": 1.34,
+   "low": null,
+   "high": null,
+   "source": "section 4.1: 6.7 W at 5.0 V on the rail is 1.34 A (calculated); here the 5.0 V stand at the receptacle",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_typ",
+   "label": "The same: level of the rail",
+   "value": 4.820959,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_0a6",
+   "label": "USB-C 4.5 V, largest resistance, 4.2 W on the rail: level of the rail",
+   "value": 4.332473,
+   "unit": "V",
+   "expected": 4.34,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: 4.34 V on the rail (calculated); firmware limit 4.25 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "path_ohms_most",
+   "label": "Largest resistance: resistance from the receptacle to the rail",
+   "value": 0.170149,
+   "unit": "ohm",
+   "expected": 0.17,
+   "low": null,
+   "high": 0.1717,
+   "source": "section 4.1: 0.170 ohm at most (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_1a",
+   "label": "USB-C 4.53 V, largest resistance, 7.0 W on the rail: level of the rail",
+   "value": 4.246553,
+   "unit": "V",
+   "expected": 4.25,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: 5 V at 1 A needs about 4.53 V at the connector (calculated); highest supervisor threshold 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_low_1a",
+   "label": "The same: current from the supply",
+   "value": 1.655528,
+   "unit": "A",
+   "expected": 1.65,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_hot",
+   "label": "Largest budget: current from the supply",
+   "value": 1.725938,
+   "unit": "A",
+   "expected": 1.7,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limiter_watts",
+   "label": "Largest budget, largest resistance: dissipation of the limiter",
+   "value": 0.3432946,
+   "unit": "W",
+   "expected": 0.33,
+   "low": null,
+   "high": 0.3465,
+   "source": "section 4.1: 0.33 W at 1.7 A (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "mux_watts",
+   "label": "Largest budget, largest resistance: dissipation of the multiplexer",
+   "value": 0.1637357,
+   "unit": "W",
+   "expected": 0.16,
+   "low": null,
+   "high": 0.168,
+   "source": "section 4.1: 0.16 W at 1.7 A (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "path_ohms_module",
+   "label": "Module input, typical parts: resistance from pin 40 to the rail",
+   "value": 0.1267628,
+   "unit": "ohm",
+   "expected": 0.126,
+   "low": null,
+   "high": 0.17,
+   "source": "section 4.1: 0.126 ohm typical and 0.170 ohm at most (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_module",
+   "label": "Module input at its budget: current into the carrier",
+   "value": 0.4745032,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_module",
+   "label": "Module input 5.0 V at its budget of 0.45 A: level of the rail",
+   "value": 4.939376,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: firmware limit of the rail, 4.25 V (F-14)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "levels",
+   "The rail under the load that 5 V at 1 A at the output needs",
+   "path-drop.levels.png"
+  ]
+ ],
+ "notes": [
+  "The supply stands at the pads of the connector: no cable, no contact resistance and no copper, as in the calculation of section 4.1. A cable of 0.15 ohm takes another 0.2 V at 1.34 A.",
+  "The loads are constant power on the rail, as the converters behind it are; the idle carrier of 0.6 W is an assumption and part of each load.",
+  "The specification states no limit for the drop itself. Its budget is the level of the rail, 4.25 V, and the resistance of the path.",
+  "With 5.0 V at the receptacle the rail stands 0.18 V lower, and the 6.7 W of the first case take 1.41 A with the 0.1 W of the module, which runs from the rail when its own cable is not plugged. That is 11 mA more than the 1.4 A that firmware allows on a 1.5 A source; the 1.34 A of the specification belong to 5.0 V on the rail, which asks for about 5.17 V at the receptacle.",
+  "The largest resistance is the datasheet limit up to 85 C; the typical one is at 25 C. Nothing here has a temperature.",
+  "The supervisor has its release delay shortened to 1 ms."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "path-drop.low-1a.cir",
+  "path-drop.typ-1a.cir"
+ ],
+ "format": 1
+}

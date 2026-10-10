@@ -1,0 +1,138 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "power-input-supervisor",
+ "title": "TPS3808G01 model against its datasheet",
+ "covers": "the model of the supervisor U6",
+ "summary": "The supervisor of the schematic is put, alone, into the test circuit of its datasheet. A slow rise and fall of the SENSE pin gives the two thresholds and the release delay, with the CT pin tied to the supply and open. Steps of 5 % to 50 % below the threshold give the reaction time, and a current of 1 mA into the output its low level.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "delay_tied",
+   "label": "Release delay with CT tied to the supply",
+   "value": 0.300216,
+   "unit": "s",
+   "expected": 0.3,
+   "low": 0.285,
+   "high": 0.315,
+   "source": "TI SBVS050N page 7: 180 ms to 420 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "threshold_fall",
+   "label": "SENSE voltage at which the output falls",
+   "value": 0.40508,
+   "unit": "V",
+   "expected": 0.405,
+   "low": 0.3969,
+   "high": 0.4131,
+   "source": "TI SBVS050N page 6: 0.405 V, 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_open",
+   "label": "Release delay with CT open",
+   "value": 0.01997015,
+   "unit": "s",
+   "expected": 0.02,
+   "low": 0.018,
+   "high": 0.022,
+   "source": "TI SBVS050N page 7: 12 ms to 28 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "threshold_rise",
+   "label": "SENSE voltage at which the delay starts (output high 20 ms later, CT open)",
+   "value": 0.4110302,
+   "unit": "V",
+   "expected": 0.411075,
+   "low": 0.405,
+   "high": 0.41715,
+   "source": "TI SBVS050N page 6: hysteresis 1.5 % typical, 3 % at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "react_5",
+   "label": "Output low after a step from 5 % above to 5 % below",
+   "value": 1.973079e-05,
+   "unit": "s",
+   "expected": 2e-05,
+   "low": 1.5e-05,
+   "high": 2.5e-05,
+   "source": "TI SBVS050N page 7: 20 us typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "react_10",
+   "label": "Output low after a step to 10 % below",
+   "value": 1.19539e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "react_20",
+   "label": "Output low after a step to 20 % below",
+   "value": 6.957013e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "react_50",
+   "label": "Output low after a step to 50 % below",
+   "value": 3.556507e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "output_low",
+   "label": "Output voltage at 1 mA with a supply of 3.3 V",
+   "value": 0.1031968,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.4,
+   "source": "TI SBVS050N page 6",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "slow",
+   "SENSE rises and falls slowly; CT tied to the supply",
+   "power-input-supervisor.slow.png"
+  ]
+ ],
+ "notes": [
+  "The limits of the delay figures are the fit this project asks of the model around the typical value; the limits of the thresholds are the ones of the datasheet.",
+  "Figure 6-5 of the datasheet shows about 8 us for a step of 10 %, 4 us for 20 % and 2 us for 50 %; the model, a single filter in front of the comparator, is slower than that for the larger steps.",
+  "A capacitor at the CT pin is not modelled."
+ ],
+ "models": [
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "power-input-supervisor.step-5.cir",
+  "power-input-supervisor.tied.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,364 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "head-room",
+ "title": "Head room of the amplifier near full scale with the output voltage near 0 V",
+ "covers": "section 4.5 (head room to the -4 V rail), section 4.10 (limits of the budget), section 4.4 (trip and jump level), section 16",
+ "summary": "The shunt voltage is swept with the node after the shunts at 0 V to 0.8 V. Range 3 is held. With the output voltage near 0 V the inputs of the amplifier sit near ground, and its first stage needs room below them that grows with the signal: one of its two outputs moves down by half the amplified signal. The model takes that room as a parameter. It is run with the two readings that the specification names: the one of the range tool of the manufacturer, which figure 13 of the datasheet supports, and the one of figure 14. For each the sweep gives where the amplifier leaves its straight line, and at which shunt voltage its output reaches the over-current level and the jump level of the comparators. One more sweep takes the reading of figure 14 with 0.2 V less room, a case of this bench: it shows where the over-current level is reached once the linear range ends below it, which section 4.10 estimates as 1.26 A.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "linear_tool_0v",
+   "label": "Output voltage 0 V, range tool of the manufacturer and figure 13: the amplifier is linear up to",
+   "value": 0.214,
+   "unit": "V",
+   "expected": 0.21,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: the two readings end at 130 mV and at 210 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_tool_0v",
+   "label": "Output voltage 0 V, range tool of the manufacturer and figure 13: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "jump_tool_0v",
+   "label": "Output voltage 0 V, range tool of the manufacturer and figure 13: jump level reached at",
+   "value": 0.1512132,
+   "unit": "V",
+   "expected": 0.151,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "linear_tool_0p05v",
+   "label": "Output voltage 0.05 V, range tool of the manufacturer and figure 13: the amplifier is linear up to",
+   "value": 0.219,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: the two readings end at 130 mV and at 210 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_tool_0p05v",
+   "label": "Output voltage 0.05 V, range tool of the manufacturer and figure 13: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "jump_tool_0p05v",
+   "label": "Output voltage 0.05 V, range tool of the manufacturer and figure 13: jump level reached at",
+   "value": 0.1512132,
+   "unit": "V",
+   "expected": 0.151,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "linear_tool_0p2v",
+   "label": "Output voltage 0.2 V, range tool of the manufacturer and figure 13: the amplifier is linear up to",
+   "value": 0.235,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1551,
+   "high": null,
+   "source": "section 4.5: trip and jump level are specified from 0.2 V on",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_tool_0p2v",
+   "label": "Output voltage 0.2 V, range tool of the manufacturer and figure 13: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "jump_tool_0p2v",
+   "label": "Output voltage 0.2 V, range tool of the manufacturer and figure 13: jump level reached at",
+   "value": 0.1512132,
+   "unit": "V",
+   "expected": 0.151,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "linear_tool_0p8v",
+   "label": "Output voltage 0.8 V, range tool of the manufacturer and figure 13: the amplifier is linear up to",
+   "value": 0.299,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1551,
+   "high": null,
+   "source": "section 4.5: trip and jump level are specified from 0.2 V on",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_tool_0p8v",
+   "label": "Output voltage 0.8 V, range tool of the manufacturer and figure 13: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "jump_tool_0p8v",
+   "label": "Output voltage 0.8 V, range tool of the manufacturer and figure 13: jump level reached at",
+   "value": 0.1512132,
+   "unit": "V",
+   "expected": 0.151,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "linear_fig14_0v",
+   "label": "Output voltage 0 V, figure 14 of the datasheet: the amplifier is linear up to",
+   "value": 0.13,
+   "unit": "V",
+   "expected": 0.13,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: the two readings end at 130 mV and at 210 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_fig14_0v",
+   "label": "Output voltage 0 V, figure 14 of the datasheet: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "jump_fig14_0v",
+   "label": "Output voltage 0 V, figure 14 of the datasheet: jump level reached at",
+   "value": 0.3623873,
+   "unit": "V",
+   "expected": 0.151,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "linear_fig14_0p05v",
+   "label": "Output voltage 0.05 V, figure 14 of the datasheet: the amplifier is linear up to",
+   "value": 0.135,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: the two readings end at 130 mV and at 210 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_fig14_0p05v",
+   "label": "Output voltage 0.05 V, figure 14 of the datasheet: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "jump_fig14_0p05v",
+   "label": "Output voltage 0.05 V, figure 14 of the datasheet: jump level reached at",
+   "value": 0.3123873,
+   "unit": "V",
+   "expected": 0.151,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "info"
+  },
+  {
+   "key": "linear_fig14_0p2v",
+   "label": "Output voltage 0.2 V, figure 14 of the datasheet: the amplifier is linear up to",
+   "value": 0.151,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1551,
+   "high": null,
+   "source": "section 4.5: trip and jump level are specified from 0.2 V on",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_fig14_0p2v",
+   "label": "Output voltage 0.2 V, figure 14 of the datasheet: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "jump_fig14_0p2v",
+   "label": "Output voltage 0.2 V, figure 14 of the datasheet: jump level reached at",
+   "value": 0.1623873,
+   "unit": "V",
+   "expected": 0.151,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "fail"
+  },
+  {
+   "key": "linear_fig14_0p8v",
+   "label": "Output voltage 0.8 V, figure 14 of the datasheet: the amplifier is linear up to",
+   "value": 0.214,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1551,
+   "high": null,
+   "source": "section 4.5: trip and jump level are specified from 0.2 V on",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_fig14_0p8v",
+   "label": "Output voltage 0.8 V, figure 14 of the datasheet: over-current level reached at",
+   "value": 0.114995,
+   "unit": "V",
+   "expected": 0.115,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "section 4.4: 115 mV, 111.4 mV to 118.7 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "jump_fig14_0p8v",
+   "label": "Output voltage 0.8 V, figure 14 of the datasheet: jump level reached at",
+   "value": 0.1512132,
+   "unit": "V",
+   "expected": 0.151,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "section 4.4: 151 mV, 147.2 mV to 155.1 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_beyond",
+   "label": "Gain of the amplifier beyond the limit (output voltage 0 V, figure 14)",
+   "value": 1.90444,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "linear_worse_0v",
+   "label": "Output voltage 0 V, figure 14 with 0.2 V less room: the amplifier is linear up to",
+   "value": 0.108,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_worse_0v",
+   "label": "Output voltage 0 V, figure 14 with 0.2 V less room: over-current level reached at",
+   "value": 0.1833782,
+   "unit": "V",
+   "expected": 0.126,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: the trip could then act at up to about 1.26 A (estimate)",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "transfer",
+   "Amplifier output against the shunt voltage with the output voltage near 0 V",
+   "head-room.transfer.png"
+  ]
+ ],
+ "notes": [
+  "The limit is a parameter of the amplifier model, not a result: the simulation shows what each reading of the datasheet does to the chain, and cannot say which reading is right. That stays a measurement on the first board (section 16).",
+  "Beyond the limit the model stops one half of its first stage. The gain then falls to about 2, not to half: the level of a comparator is reached only far above its shunt voltage, or not at all inside the sweep (no value). A level does not move little by little: it stays where it is while the linear range ends above it, and moves far once the range ends below it. With 0.2 V less room than figure 14 the over-current level of 115 mV is reached at about 180 mV, which is 1.8 A in range 3 where section 4.10 estimates 1.26 A. How a real part behaves beyond its limit is not in its datasheet.",
+  "The reading of figure 14 is a line with a slope of 0.41 V of common mode per volt of output; the model has 0.5, which follows from its structure. The parameter is matched at the converter full scale. At the jump level the line of the figure leaves 6 mV more at the shunt than the model (calculated): 156 mV in place of 150 mV at an output voltage of 0.2 V. Against a jump level of up to 155.1 mV neither leaves a margin.",
+  "With a short circuit at the terminals the node after the shunts stands some tens of millivolts above ground in range 3, the drop of the output switch and of the contacts: between the first two rows of each reading.",
+  "The comparators are not in this circuit: the levels are their thresholds times the division of 4.01, nominal values.",
+  "The -4 V rail is at its nominal value. The specification allows -3.91 V to -4.05 V; each 0.1 V of it moves the limit by 11 mV at the shunt.",
+  "The model is a part at 25 C. The datasheet moves the lower end of the input range up by 0.2 V at -40 C and down by 0.2 V at 85 C (page 4), about 3 mV for each kelvin: 8 mV less at the shunt at 0 C than at 25 C (calculated)."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "head-room.fig14-0v.cir"
+ ],
+ "format": 1
+}

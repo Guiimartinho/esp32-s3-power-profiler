@@ -1,0 +1,17 @@
+* OPA197: open loop
+.include "../../models/opamps.lib"
+Vp vp 0 18
+Vn vn 0 -18
+Vmid mid 0 0
+Vin in mid dc 0 ac 1
+X1 in fb vp vn out OPA197
+Lfb out fb 1meg
+Cfb fb mid 1k
+Itest mid out dc 0 ac 0
+Rl out mid 10k
+Cl out mid 1.5e-11
+.control
+ac dec 60 0.1 500meg
+noise v(out) Vin dec 30 0.1 1meg
+.endc
+.end

@@ -1,0 +1,269 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "translator-supply",
+ "title": "Supply of the user side of the translator: clamp levels, drop at rest, sag",
+ "covers": "section 4.8 (D-72), requirement R-10",
+ "summary": "The translator supply is taken from the buffer output through R118 and D24. First the buffer output is stepped from -4 V to +12 V, the two rails it can stand at, and the voltage at the supply pin of the translator is read: at 27 C and at 0 C, with the clamp at its typical and at its largest forward voltage, with 470 ohm in place of the 1 kohm, and with the 5 V rail at the upper end of its clamp. The same sweep gives the drop at rest between the output voltage and the pin. Then eight logic lines are driven in step at 1 MHz and at 10 MHz and the sag of the pin is read.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "low_27c",
+   "label": "Buffer at -4 V, 27 C: supply pin of the translator",
+   "value": -0.3179248,
+   "unit": "V",
+   "expected": -0.4,
+   "low": -0.405,
+   "high": null,
+   "source": "section 4.8: not below -0.40 V (simulated at 0 C and at 27 C)",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_0c",
+   "label": "Buffer at -4 V, 0 C: supply pin of the translator",
+   "value": -0.3559372,
+   "unit": "V",
+   "expected": -0.4,
+   "low": -0.405,
+   "high": null,
+   "source": "section 4.8: not below -0.40 V (simulated at 0 C and at 27 C)",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_0c_maximum",
+   "label": "Buffer at -4 V, 0 C, clamp at its largest forward voltage: supply pin",
+   "value": -0.3959927,
+   "unit": "V",
+   "expected": null,
+   "low": -0.5,
+   "high": null,
+   "source": "section 4.8: inside the -0.5 V of the part (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_470r",
+   "label": "Buffer at -4 V, 0 C, 470 ohm in place of R118, typical clamp: supply pin",
+   "value": -0.3784621,
+   "unit": "V",
+   "expected": -0.44,
+   "low": null,
+   "high": null,
+   "source": "section 4.8: 470 ohm gives -0.44 V at 0 C (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "low_470r_maximum",
+   "label": "Buffer at -4 V, 0 C, 470 ohm, clamp at its largest forward voltage: supply pin",
+   "value": -0.4212937,
+   "unit": "V",
+   "expected": -0.44,
+   "low": -0.46,
+   "high": -0.42,
+   "source": "section 4.8: 470 ohm gives -0.44 V at 0 C (simulated); within 20 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "high_27c",
+   "label": "Buffer at +12 V, 5 V rail at 5.00 V: supply pin above the rail",
+   "value": 0.3368629,
+   "unit": "V",
+   "expected": 0.4,
+   "low": null,
+   "high": 0.405,
+   "source": "section 4.8: not above the 5 V rail plus 0.4 V (simulated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "high_0c",
+   "label": "Buffer at +12 V, 0 C, 5 V rail at 5.00 V: supply pin above the rail",
+   "value": 0.3736108,
+   "unit": "V",
+   "expected": 0.4,
+   "low": null,
+   "high": 0.405,
+   "source": "section 4.8: not above the 5 V rail plus 0.4 V (simulated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "high_rail_clamp",
+   "label": "Buffer at +12 V, 5 V rail at 5.61 V: supply pin",
+   "value": 5.943662,
+   "unit": "V",
+   "expected": 6.0,
+   "low": null,
+   "high": 6.05,
+   "source": "section 4.8: 6.0 V at the most (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "high_0c_maximum",
+   "label": "Buffer at +12 V, 0 C, clamp at its largest forward voltage, rail at 5.61 V",
+   "value": 6.026075,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.5,
+   "source": "section 4.8: inside the 6.5 V of the part (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_low",
+   "label": "Buffer at -4 V: current that R118 carries into the clamp",
+   "value": 0.003682075,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "onsemi BAT54SLT1/D, page 1: 200 mA forward current",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_current_high",
+   "label": "Buffer at +12 V: current that R118 carries into the 5 V rail",
+   "value": 0.006663137,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "onsemi BAT54SLT1/D, page 1: 200 mA forward current",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_1p67v",
+   "label": "Output at 1.67 V, lines at rest, leakiest clamp: drop to the pin",
+   "value": 0.007999998,
+   "unit": "V",
+   "expected": 0.01,
+   "low": null,
+   "high": 0.0105,
+   "source": "section 4.8 and requirement R-10: up to 10 mV (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_3p3v",
+   "label": "Output at 3.3 V, lines at rest, leakiest clamp: drop to the pin",
+   "value": 0.008000016,
+   "unit": "V",
+   "expected": 0.01,
+   "low": null,
+   "high": 0.0105,
+   "source": "section 4.8 and requirement R-10: up to 10 mV (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_5v",
+   "label": "Output at 5 V, lines at rest, leakiest clamp: drop to the pin",
+   "value": 0.009391089,
+   "unit": "V",
+   "expected": 0.01,
+   "low": null,
+   "high": 0.0105,
+   "source": "section 4.8 and requirement R-10: up to 10 mV (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "valid_from",
+   "label": "Supply pin with the output at 1.67 V",
+   "value": 1.662,
+   "unit": "V",
+   "expected": null,
+   "low": 1.65,
+   "high": null,
+   "source": "requirement R-10: 1.65 V at the translator for an output of 1.67 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_1v8_1mhz",
+   "label": "Eight lines at 1 MHz from 1.8 V: sag of the supply pin",
+   "value": 0.02820767,
+   "unit": "V",
+   "expected": 0.03,
+   "low": 0.021,
+   "high": 0.039,
+   "source": "section 4.8: about this value (calculated); limits of 30 % here",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_5v_1mhz",
+   "label": "Eight lines at 1 MHz from 5 V: sag of the supply pin",
+   "value": 0.1168761,
+   "unit": "V",
+   "expected": 0.12,
+   "low": 0.084,
+   "high": 0.156,
+   "source": "section 4.8: about this value (calculated); limits of 30 % here",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_1v8_10mhz",
+   "label": "Eight lines at 10 MHz from 1.8 V: sag of the supply pin",
+   "value": 0.2472307,
+   "unit": "V",
+   "expected": 0.3,
+   "low": 0.21,
+   "high": 0.39,
+   "source": "section 4.8: about this value (calculated); limits of 30 % here",
+   "verdict": "pass"
+  },
+  {
+   "key": "sag_5v_10mhz",
+   "label": "Eight lines at 10 MHz from 5 V: sag of the supply pin",
+   "value": 0.9654396,
+   "unit": "V",
+   "expected": 1.2,
+   "low": 0.84,
+   "high": 1.56,
+   "source": "section 4.8: about this value (calculated); limits of 30 % here",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "clamp",
+   "Supply pin of the translator against the output of the guard buffer",
+   "translator-supply.clamp.png"
+  ],
+  [
+   "sag",
+   "Supply pin below the output voltage while eight lines switch (C100 at 5 nF)",
+   "translator-supply.sag.png"
+  ]
+ ],
+ "notes": [
+  "The guard buffer is an ideal source at the level asked: its own output resistance and its current limit are not in this circuit, so the clamp currents are upper values. The 5 V rail is an ideal source that takes the clamp current.",
+  "The supply current of the translator at rest is the 8 uA maximum of its datasheet. The charge that an input edge costs is its typical power-dissipation capacitance, 2 pF at 1.8 V and 3 pF at 5 V; the datasheet gives no maximum.",
+  "In the sag runs C100 is at a twentieth of its value, so that the supply settles within 40 us; the mean sag does not depend on it, the ripple does. At 10 MHz from 5 V the supply settles about 1 V lower and the charge per edge falls with it, which the arithmetic of the specification leaves out.",
+  "The figures of the specification were simulated with a clamp fitted to the largest forward voltage; the typical clamp of this bench holds the pin 40 mV to 80 mV closer to ground and to the rail."
+ ],
+ "models": [
+  [
+   "D24",
+   "DIGITAL_BAT54S",
+   "written here"
+  ],
+  [
+   "D24",
+   "DIGITAL_BAT54S_HI",
+   "written here"
+  ],
+  [
+   "D24",
+   "DIGITAL_BAT54S_LEAKY",
+   "written here"
+  ],
+  [
+   "U38",
+   "DIGITAL_LVC8T245",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "translator-supply.sag-5v-1mhz.cir",
+  "translator-supply.typical-27c.cir"
+ ],
+ "format": 1
+}

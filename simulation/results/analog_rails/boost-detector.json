@@ -1,0 +1,315 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "boost-detector",
+ "title": "Boost converter with the voltage detector of decision D-84 fitted at U9",
+ "covers": "section 4.1 (the detector is the remedy if the converter does not start cleanly), requirement R-14, decision D-84, the risk register",
+ "summary": "A detector of 3.08 V holds the converter off until the 5 V rail has stood for a while. The position U9 is empty on the board. Here it carries an 803-type detector: its output holds the enable pin of the converter low until the rail has been above 3.08 V for the time-out of the part, and pulls it low again 20 us after the rail has fallen below. The converter then starts on a rail that already stands at 5 V, with +13V5 at 4.6 V. The first attempt is taken cycle by cycle on the three limits of the input of the controller module, on the corner that is kindest to the source, and on the USB-C input. Two runs of 1.1 s with the averaged model and the real time-out of 0.24 s then show what follows a failed attempt, with 1 mA and with 0.1 mA drawn from +13V5 in between.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "rail_low_0p67a",
+   "label": "First attempt, source limited to 0.67 A: lowest 5 V rail",
+   "value": 2.927899,
+   "unit": "V",
+   "expected": null,
+   "low": 3.13,
+   "high": null,
+   "source": "datasheet of the detector: it stops the converter at 3.04 V to 3.13 V; a rail that stays above 3.13 V is a start in one go",
+   "verdict": "fail"
+  },
+  {
+   "key": "reached_0p67a",
+   "label": "First attempt, source limited to 0.67 A: +13V5 when the detector stops the converter",
+   "value": 10.21046,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "lasted_0p67a",
+   "label": "First attempt, source limited to 0.67 A: time from the enable to the stop",
+   "value": 0.0001775427,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_0p76a",
+   "label": "First attempt, source limited to 0.76 A: lowest 5 V rail",
+   "value": 2.97569,
+   "unit": "V",
+   "expected": null,
+   "low": 3.13,
+   "high": null,
+   "source": "datasheet of the detector: it stops the converter at 3.04 V to 3.13 V; a rail that stays above 3.13 V is a start in one go",
+   "verdict": "fail"
+  },
+  {
+   "key": "reached_0p76a",
+   "label": "First attempt, source limited to 0.76 A: +13V5 when the detector stops the converter",
+   "value": 10.72796,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "lasted_0p76a",
+   "label": "First attempt, source limited to 0.76 A: time from the enable to the stop",
+   "value": 0.0002035337,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_0p85a",
+   "label": "First attempt, source limited to 0.85 A: lowest 5 V rail",
+   "value": 3.03035,
+   "unit": "V",
+   "expected": null,
+   "low": 3.13,
+   "high": null,
+   "source": "datasheet of the detector: it stops the converter at 3.04 V to 3.13 V; a rail that stays above 3.13 V is a start in one go",
+   "verdict": "fail"
+  },
+  {
+   "key": "reached_0p85a",
+   "label": "First attempt, source limited to 0.85 A: +13V5 when the detector stops the converter",
+   "value": 11.48487,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "lasted_0p85a",
+   "label": "First attempt, source limited to 0.85 A: time from the enable to the stop",
+   "value": 0.0002489802,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_mild",
+   "label": "First attempt, 0.85 A, gentle amplifier and least current limit: lowest 5 V rail",
+   "value": 3.620358,
+   "unit": "V",
+   "expected": null,
+   "low": 3.13,
+   "high": null,
+   "source": "datasheet of the detector: it stops the converter at 3.04 V to 3.13 V; a rail that stays above 3.13 V is a start in one go",
+   "verdict": "pass"
+  },
+  {
+   "key": "reached_mild",
+   "label": "First attempt, 0.85 A, gentle amplifier and least current limit: +13V5 at the end of the run",
+   "value": 13.97969,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_usbc",
+   "label": "First attempt, source limited to 2.0 A: lowest 5 V rail",
+   "value": 4.586236,
+   "unit": "V",
+   "expected": null,
+   "low": 3.13,
+   "high": null,
+   "source": "datasheet of the detector: it stops the converter at 3.04 V to 3.13 V; a rail that stays above 3.13 V is a start in one go",
+   "verdict": "pass"
+  },
+  {
+   "key": "reached_usbc",
+   "label": "First attempt, source limited to 2.0 A: +13V5 at the end of the run",
+   "value": 13.66072,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "model_agreement",
+   "label": "First attempt, 0.76 A: lowest 5 V rail, averaged model",
+   "value": 3.005782,
+   "unit": "V",
+   "expected": 2.97569,
+   "low": 2.826905,
+   "high": 3.124474,
+   "source": "the cycle-by-cycle model in the same circuit (check of the averaged model)",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_attempts",
+   "label": "0.76 A, a detector with a time-out of 3 ms: attempts until +13V5 is charged",
+   "value": 2.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_done",
+   "label": "0.76 A, a detector with a time-out of 3 ms: +13V5 above 13.0 V after the first enable",
+   "value": 0.003378949,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "starts_1ma",
+   "label": "0.76 A, 1 mA on +13V5: number of starts of the converter in 1.1 s",
+   "value": 4.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "decision D-84: the detector is the remedy for a start that hangs or repeats",
+   "verdict": "fail"
+  },
+  {
+   "key": "charged_1ma",
+   "label": "0.76 A, 1 mA on +13V5: +13V5 above 13.0 V after the source starts",
+   "value": "nan",
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.46,
+   "source": "section 3, step 8: PWR_GOOD at the latest 0.46 s after power",
+   "verdict": "fail"
+  },
+  {
+   "key": "kept_1ma",
+   "label": "0.76 A, 1 mA on +13V5: +13V5 just before the second start",
+   "value": 4.817004,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "starts_0p1ma",
+   "label": "0.76 A, 0.1 mA on +13V5: number of starts of the converter in 1.1 s",
+   "value": 2.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "decision D-84: the detector is the remedy for a start that hangs or repeats",
+   "verdict": "fail"
+  },
+  {
+   "key": "charged_0p1ma",
+   "label": "0.76 A, 0.1 mA on +13V5: +13V5 above 13.0 V after the source starts",
+   "value": 0.4856076,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.46,
+   "source": "section 3, step 8: PWR_GOOD at the latest 0.46 s after power",
+   "verdict": "fail"
+  },
+  {
+   "key": "kept_0p1ma",
+   "label": "0.76 A, 0.1 mA on +13V5: +13V5 just before the second start",
+   "value": 8.86657,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "attempt",
+   "Detector at U9: the first attempt of the converter on a rail at 5 V",
+   "boost-detector.attempt.png"
+  ],
+  [
+   "repeat",
+   "Detector at U9 with its time-out of 0.24 s, 0.76 A source, averaged model",
+   "boost-detector.repeat.png"
+  ]
+ ],
+ "notes": [
+  "The detector carries the figures of the APX803S-31: 3.08 V, 20 us to answer, 0.24 s of time-out. The schematic names the position \"803 type, 3.08 V\" without a part number.",
+  "The source is a voltage behind 0.2 ohm with a flat current limit and no path back; a limiter that folds back or switches off while it limits makes the attempt harder, not easier.",
+  "With the detector the converter starts on a rail at 5 V. There it takes more than twice what the input of the controller module gives, the capacitors of the rail make up the difference, and the rail reaches the detector before +13V5 is charged. The detector then stops the converter for 0.24 s. Whether a later attempt ends depends on what +13V5 keeps in between: with 1 mA drawn from it nothing is left and every attempt is the first one again.",
+  "The cycle-by-cycle runs wait 3 ms where the part waits 0.24 s, and they go on to the second attempt of such a detector: in 3 ms +13V5 keeps its charge and the second attempt ends. A detector with a short time-out, or anything else that keeps +13V5 from emptying between two attempts, charges the rail in two steps; the part of the schematic does not.",
+  "The load on +13V5 while the detector waits is an assumption: 1 mA for the control pin of the source regulator, whose datasheet gives it only under load, beside the 0.09 mA of the feedback divider, which is in the netlist.",
+  "The converter model takes its current limit from the typical curve of the datasheet and holds the full current until the output is within 1 V. The case \"gentle amplifier and least current limit\" takes both the other way and is the kindest corner for the source that the datasheet allows.",
+  "The ceramic capacitors are linear in every run: those of +13V5 take the value that needs the energy of the real charge from 4.6 V to 13.5 V, those of the 5 V rail the value they have at 5 V, which is less than they have while the rail is lower."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014_AVG",
+   "written here"
+  ],
+  [
+   "U9",
+   "RAILS_803",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "boost-detector.first-0p76.cir",
+  "boost-detector.long-1ma.cir"
+ ],
+ "format": 1
+}

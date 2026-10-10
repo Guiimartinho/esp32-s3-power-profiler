@@ -1,0 +1,326 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "logic-abuse",
+ "title": "A logic input at +12 V, at -12 V and under a contact discharge of 8 kV",
+ "covers": "section 4.8 (D-50), section 4.9 (protection of the terminals)",
+ "summary": "Line D0 of the logic port meets voltages outside its range. A source behind 0.1 ohm, 100 ohm and 1 kohm is stepped from -12 V to +12 V at the connector, and the bench reads the voltage that the array leaves, the current it takes and the voltage at the translator pin behind 330 ohm. Then a contact discharge of 8 kV of either polarity is applied as the current of IEC 61000-4-2, once with a translator pin that takes no current above its rating and once with a pin that clamps at 6.5 V, as the estimate of the specification assumes.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "plus_array_amps_stiff",
+   "label": "+12 V behind 0.1 ohm: current in the array",
+   "value": 4.069027,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SLVSBQ9D rates the array for surges of 8/20 us only: 3 A, 45 W",
+   "verdict": "info"
+  },
+  {
+   "key": "plus_pin_stiff",
+   "label": "+12 V behind 0.1 ohm: voltage at the translator pin",
+   "value": 11.58496,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.5,
+   "source": "TI SCES584D, page 6: 6.5 V at the most; the specification states no withstand voltage for the port",
+   "verdict": "fail"
+  },
+  {
+   "key": "minus_array_amps_stiff",
+   "label": "-12 V behind 0.1 ohm: current in the array",
+   "value": 15.73821,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SLVSBQ9D rates the array for surges of 8/20 us only: 3 A, 45 W",
+   "verdict": "info"
+  },
+  {
+   "key": "minus_pin_amps_stiff",
+   "label": "-12 V behind 0.1 ohm: current in the ground clamp of the translator pin",
+   "value": 0.02864425,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "TI SCES584D, page 6: 50 mA in the clamp of an input below ground",
+   "verdict": "pass"
+  },
+  {
+   "key": "plus_array_amps_100r",
+   "label": "+12 V behind 100 ohm: current in the array",
+   "value": 0.04266415,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SLVSBQ9D rates the array for surges of 8/20 us only: 3 A, 45 W",
+   "verdict": "info"
+  },
+  {
+   "key": "plus_pin_100r",
+   "label": "+12 V behind 100 ohm: voltage at the translator pin",
+   "value": 7.728158,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.5,
+   "source": "TI SCES584D, page 6: 6.5 V at the most; the specification states no withstand voltage for the port",
+   "verdict": "fail"
+  },
+  {
+   "key": "minus_array_amps_100r",
+   "label": "-12 V behind 100 ohm: current in the array",
+   "value": 0.110622,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SLVSBQ9D rates the array for surges of 8/20 us only: 3 A, 45 W",
+   "verdict": "info"
+  },
+  {
+   "key": "minus_pin_amps_100r",
+   "label": "-12 V behind 100 ohm: current in the ground clamp of the translator pin",
+   "value": 0.0009930681,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "TI SCES584D, page 6: 50 mA in the clamp of an input below ground",
+   "verdict": "pass"
+  },
+  {
+   "key": "plus_array_amps_1k",
+   "label": "+12 V behind 1 kohm: current in the array",
+   "value": 0.004418308,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SLVSBQ9D rates the array for surges of 8/20 us only: 3 A, 45 W",
+   "verdict": "info"
+  },
+  {
+   "key": "plus_pin_1k",
+   "label": "+12 V behind 1 kohm: voltage at the translator pin",
+   "value": 7.576372,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.5,
+   "source": "TI SCES584D, page 6: 6.5 V at the most; the specification states no withstand voltage for the port",
+   "verdict": "fail"
+  },
+  {
+   "key": "minus_array_amps_1k",
+   "label": "-12 V behind 1 kohm: current in the array",
+   "value": 0.01118231,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SLVSBQ9D rates the array for surges of 8/20 us only: 3 A, 45 W",
+   "verdict": "info"
+  },
+  {
+   "key": "minus_pin_amps_1k",
+   "label": "-12 V behind 1 kohm: current in the ground clamp of the translator pin",
+   "value": 0.0006698041,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "TI SCES584D, page 6: 50 mA in the clamp of an input below ground",
+   "verdict": "pass"
+  },
+  {
+   "key": "plus_pin_low",
+   "label": "+12 V behind 1 kohm, array breakdown at its lower limit: translator pin",
+   "value": 6.588458,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.5,
+   "source": "TI SCES584D, page 6: 6.5 V at the most",
+   "verdict": "fail"
+  },
+  {
+   "key": "plus_pin_high",
+   "label": "+12 V behind 1 kohm, array breakdown at its upper limit: translator pin",
+   "value": 8.561643,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.5,
+   "source": "TI SCES584D, page 6: 6.5 V at the most",
+   "verdict": "fail"
+  },
+  {
+   "key": "pin_at_rating_from",
+   "label": "Source voltage from which the translator pin can stand above 6.5 V",
+   "value": 6.518394,
+   "unit": "V",
+   "expected": null,
+   "low": 5.5,
+   "high": null,
+   "source": "TI SLVSBQ9D, page 4: a line of the array works up to 5.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_array_30ns",
+   "label": "+8 kV: voltage at the array 30 ns after the start",
+   "value": 22.42303,
+   "unit": "V",
+   "expected": 23.5,
+   "low": null,
+   "high": null,
+   "source": "section 4.8, estimate behind the 50 mA: 7.5 V and 1 ohm at 16 A",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_pin_amps_peak",
+   "label": "+8 kV, pin clamps at 6.5 V: largest current through 330 ohm into the pin",
+   "value": 0.08296541,
+   "unit": "A",
+   "expected": 0.095,
+   "low": 0.045,
+   "high": 0.105,
+   "source": "section 4.8: about 50 mA to 95 mA (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_pin_amps_30ns",
+   "label": "+8 kV, pin clamps at 6.5 V: current into the pin 30 ns after the start",
+   "value": 0.04653758,
+   "unit": "A",
+   "expected": 0.05,
+   "low": 0.045,
+   "high": 0.105,
+   "source": "section 4.8: about 50 mA to 95 mA (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_pin_amps_rating",
+   "label": "+8 kV, pin clamps at 6.5 V: largest current into the pin against its own rating",
+   "value": 0.08296541,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 2.666667,
+   "source": "TI SCES584D, page 6: 4 kV human body model, 2.7 A through 1.5 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_pin_charge",
+   "label": "+8 kV, pin clamps at 6.5 V: charge into the pin in 150 ns",
+   "value": 3.598083e-09,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": 4e-07,
+   "source": "TI SCES584D, page 6: 4 kV human body model, 100 pF at 4 kV",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_open_pin_peak",
+   "label": "+8 kV, pin takes no current: highest voltage at the translator pin",
+   "value": 23.93774,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "what the pin would have to stand without a clamp of its own",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_open_pin_time",
+   "label": "+8 kV, pin takes no current: time the pin stands above 6.5 V",
+   "value": 1.439293e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "what the pin would have to stand without a clamp of its own",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_neighbor",
+   "label": "+8 kV at D0: highest level at the open neighbor line D1",
+   "value": 2.941282,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the lines of an array share one clamp",
+   "verdict": "info"
+  },
+  {
+   "key": "minus_strike_pin_amps",
+   "label": "-8 kV: largest current in the ground clamp of the translator pin",
+   "value": 0.05350973,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 2.666667,
+   "source": "TI SCES584D, page 6: 4 kV human body model, 2.7 A through 1.5 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "minus_strike_pin_volts",
+   "label": "-8 kV: lowest voltage at the translator pin",
+   "value": -1.236715,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "TI SCES584D, page 6: below -0.5 V the current counts, 50 mA steady",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "steady",
+   "Line D0 with a source behind 1 kohm: what the array leaves",
+   "logic-abuse.steady.png"
+  ],
+  [
+   "discharge",
+   "Contact discharge of +8 kV at D0, translator pin with a clamp at 6.5 V",
+   "logic-abuse.discharge.png"
+  ]
+ ],
+ "notes": [
+  "The specification states no withstand voltage for the logic port; the limits here are the ratings of the parts. A line that stands at +12 V leaves 7.5 V to 8.5 V and more at the translator pin, above its 6.5 V rating, whatever the source resistance: the array starts to conduct only above the rating of the pin, and the 330 ohm drop nothing while the pin takes no current. The array itself has no rating for a steady current; from a stiff source it carries amperes. The range of a line is 0 V to 5.5 V.",
+  "At -12 V the array carries the current of the source and the translator pin sees about -0.7 V behind 330 ohm; its clamp current stays below 50 mA.",
+  "The discharge is the current waveform of IEC 61000-4-2 for 8 kV (30 A at the first peak, 16 A at 30 ns, 8 A at 60 ns), written from the figures of the standard as they are commonly quoted; the standard was not read for this bench. No inductance of the array, of its ground path or of the tracks is in the circuit, so the first peak at the connector is lower than the 145 V that the datasheet of the array shows on its test board.",
+  "What the translator pin does above 6.5 V is not in its datasheet. With a clamp at 6.5 V (assumption) it takes the current that the specification estimates; without one it would stand at the voltage of the array for tens of nanoseconds. The pin has passed a human body test of 4 kV, which puts 30 times that current through it."
+ ],
+ "models": [
+  [
+   "U36",
+   "DIGITAL_TPD4E1U06",
+   "written here"
+  ],
+  [
+   "U38",
+   "DIGITAL_LVC8T245",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "logic-abuse.1k.cir",
+  "logic-abuse.minus.cir",
+  "logic-abuse.plus-clamped.cir"
+ ],
+ "format": 1
+}

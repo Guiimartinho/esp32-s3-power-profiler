@@ -1,0 +1,10 @@
+* 1N5819HW: forward voltage
+.include "../../models/power_input.lib"
+XD3 a k PWRIN_1N5819HW
+Vk k 0 0
+If 0 a PWL(0 0 5e-05 0.001 0.001 0.001 0.00105 0.01 0.002 0.01 0.00205 0.1 0.003 0.1 0.00305 1 0.004 1 0.00405 3 0.005 3)
+Ra a 0 1e9
+.control
+tran 2e-06 0.005 0 2e-06 uic
+.endc
+.end

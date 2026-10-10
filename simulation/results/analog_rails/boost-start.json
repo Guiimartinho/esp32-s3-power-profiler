@@ -1,0 +1,576 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "boost-start",
+ "title": "Boost converter as drawn: its start on a source limited to 0.67 A to 0.85 A",
+ "covers": "section 4.1 (no lock-out, no soft start), section 16 and the risk register (start on the data cable alone), decision D-51",
+ "summary": "The 5 V rail is brought up through a current limit and the converter starts by itself. The circuit is the converter as drawn: the position of the voltage detector U9 is empty and the enable pin is on the rail through R29. The converter is taken cycle by cycle. The source is limited to 0.67 A, 0.76 A and 0.85 A, the span of the limiter on the input of the controller module, and to 2.0 A, the USB-C input. The rail carries its capacitors and the 25 mA of the controller module. Three more runs on the 0.76 A source change one assumption about the converter each: an error amplifier that lets go of the full current earlier, the least current limit of the datasheet, and a converter that works only from the 2.7 V at which its datasheet begins. A last run of a second with the averaged model counts the starts.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "charged_0p67a",
+   "label": "Source limited to 0.67 A: +13V5 above 12.2 V after the source starts",
+   "value": 0.001294385,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_0p67a",
+   "label": "Source limited to 0.67 A: time the source spends in its limit",
+   "value": 0.00163196,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_0p67a",
+   "label": "Source limited to 0.67 A: level of the 5 V rail while the source is in its limit",
+   "value": 2.638058,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_up_0p67a",
+   "label": "Source limited to 0.67 A: 5 V rail above 4.12 V after the source starts",
+   "value": 0.00156647,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_0p67a",
+   "label": "Source limited to 0.67 A: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120096,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V; a rail that stays above 4.00 V is a start in one go (criterion of this bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_0p67a",
+   "label": "Source limited to 0.67 A: highest inductor current",
+   "value": 0.7097969,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5.95,
+   "source": "datasheet of the inductor: 30 % of the inductance lost at 5.95 A (10 % at 3 A)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_0p67a",
+   "label": "Source limited to 0.67 A: highest +13V5",
+   "value": 13.65403,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "datasheet of the +12V_A regulator: input up to 20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_0p76a",
+   "label": "Source limited to 0.76 A: +13V5 above 12.2 V after the source starts",
+   "value": 0.001114985,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_0p76a",
+   "label": "Source limited to 0.76 A: time the source spends in its limit",
+   "value": 0.001385281,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_0p76a",
+   "label": "Source limited to 0.76 A: level of the 5 V rail while the source is in its limit",
+   "value": 2.737533,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_up_0p76a",
+   "label": "Source limited to 0.76 A: 5 V rail above 4.12 V after the source starts",
+   "value": 0.001334351,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_0p76a",
+   "label": "Source limited to 0.76 A: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120102,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V; a rail that stays above 4.00 V is a start in one go (criterion of this bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_0p76a",
+   "label": "Source limited to 0.76 A: highest inductor current",
+   "value": 0.7997068,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5.95,
+   "source": "datasheet of the inductor: 30 % of the inductance lost at 5.95 A (10 % at 3 A)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_0p76a",
+   "label": "Source limited to 0.76 A: highest +13V5",
+   "value": 13.69837,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "datasheet of the +12V_A regulator: input up to 20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_0p85a",
+   "label": "Source limited to 0.85 A: +13V5 above 12.2 V after the source starts",
+   "value": 0.0009799723,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_0p85a",
+   "label": "Source limited to 0.85 A: time the source spends in its limit",
+   "value": 0.001197845,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_0p85a",
+   "label": "Source limited to 0.85 A: level of the 5 V rail while the source is in its limit",
+   "value": 2.822836,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_up_0p85a",
+   "label": "Source limited to 0.85 A: 5 V rail above 4.12 V after the source starts",
+   "value": 0.001159384,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_0p85a",
+   "label": "Source limited to 0.85 A: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120004,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V; a rail that stays above 4.00 V is a start in one go (criterion of this bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_0p85a",
+   "label": "Source limited to 0.85 A: highest inductor current",
+   "value": 0.8855036,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5.95,
+   "source": "datasheet of the inductor: 30 % of the inductance lost at 5.95 A (10 % at 3 A)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_0p85a",
+   "label": "Source limited to 0.85 A: highest +13V5",
+   "value": 13.7125,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "datasheet of the +12V_A regulator: input up to 20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_2p0a",
+   "label": "Source limited to 2.0 A: +13V5 above 12.2 V after the source starts",
+   "value": 0.001333739,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_2p0a",
+   "label": "Source limited to 2.0 A: time the source spends in its limit",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_up_2p0a",
+   "label": "Source limited to 2.0 A: 5 V rail above 4.12 V after the source starts",
+   "value": 0.001427608,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_2p0a",
+   "label": "Source limited to 2.0 A: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120094,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V; a rail that stays above 4.00 V is a start in one go (criterion of this bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_2p0a",
+   "label": "Source limited to 2.0 A: highest inductor current",
+   "value": 1.390023,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5.95,
+   "source": "datasheet of the inductor: 30 % of the inductance lost at 5.95 A (10 % at 3 A)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_2p0a",
+   "label": "Source limited to 2.0 A: highest +13V5",
+   "value": 13.66745,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "datasheet of the +12V_A regulator: input up to 20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_gentle",
+   "label": "0.76 A, gentle amplifier: +13V5 above 12.2 V after the source starts",
+   "value": 0.001217429,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_gentle",
+   "label": "0.76 A, gentle amplifier: time the source spends in its limit",
+   "value": 0.001252918,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_gentle",
+   "label": "0.76 A, gentle amplifier: level of the 5 V rail while the source is in its limit",
+   "value": 2.703051,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_gentle",
+   "label": "0.76 A, gentle amplifier: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120001,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_weak",
+   "label": "0.76 A, least current limit of the datasheet: +13V5 above 12.2 V after the source starts",
+   "value": 0.001044363,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_weak",
+   "label": "0.76 A, least current limit of the datasheet: time the source spends in its limit",
+   "value": 0.001272667,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_weak",
+   "label": "0.76 A, least current limit of the datasheet: level of the 5 V rail while the source is in its limit",
+   "value": 3.027461,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_weak",
+   "label": "0.76 A, least current limit of the datasheet: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120085,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_late",
+   "label": "0.76 A, converter working from 2.7 V only: +13V5 above 12.2 V after the source starts",
+   "value": 0.001212454,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": 0.0045,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "pass"
+  },
+  {
+   "key": "limited_late",
+   "label": "0.76 A, converter working from 2.7 V only: time the source spends in its limit",
+   "value": 0.001482678,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_late",
+   "label": "0.76 A, converter working from 2.7 V only: level of the 5 V rail while the source is in its limit",
+   "value": 2.743479,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_low_late",
+   "label": "0.76 A, converter working from 2.7 V only: lowest 5 V rail after it has passed 4.12 V",
+   "value": 4.120021,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: the supervisor trips at 3.83 V to 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_usbc",
+   "label": "Source limited to 2.0 A: highest current of the source",
+   "value": 1.512649,
+   "unit": "A",
+   "expected": null,
+   "low": 1.5,
+   "high": 2.5,
+   "source": "section 16: start current expected at 1.5 A to 2.5 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_usbc_time",
+   "label": "Source limited to 2.0 A: time the source gives more than 1 A",
+   "value": 0.0003837772,
+   "unit": "s",
+   "expected": null,
+   "low": 0.00015,
+   "high": 0.0002,
+   "source": "section 16: expected for 0.15 ms to 0.2 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "model_agreement",
+   "label": "0.76 A: +13V5 above 12.2 V after the source starts, averaged model",
+   "value": 0.001005242,
+   "unit": "s",
+   "expected": 0.001114985,
+   "low": 0.0009477371,
+   "high": 0.001282233,
+   "source": "the cycle-by-cycle model in the same circuit (check of the averaged model)",
+   "verdict": "pass"
+  },
+  {
+   "key": "starts",
+   "label": "0.76 A, averaged model: number of starts of the converter in the first second",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "section 16: a start that neither hangs nor repeats",
+   "verdict": "pass"
+  },
+  {
+   "key": "settled",
+   "label": "0.76 A, averaged model: +13V5 at the end of the first second",
+   "value": 13.52989,
+   "unit": "V",
+   "expected": null,
+   "low": 13.0,
+   "high": 14.1,
+   "source": "section 3: 13.0 V to 14.1 V",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "Start of the boost converter as drawn, for four limits of the source",
+   "boost-start.start.png"
+  ],
+  [
+   "assumptions",
+   "0.76 A source: the same start with other assumptions about the converter",
+   "boost-start.assumptions.png"
+  ]
+ ],
+ "notes": [
+  "The source is a voltage behind 0.2 ohm with a flat current limit and no path back. A real limiter may fold back or switch off while it limits; that belongs to the power input block and is not in this bench.",
+  "What the converter does below the 2.7 V at which its datasheet begins decides this bench, and the datasheet does not say it. The model works from 2.0 V and its current limit there continues the trend of the datasheet curves. With that the converter starts while the rail is still rising and takes all the source gives: the rail stands at the level of the figures for about a millisecond and rises to 5 V when +13V5 is charged. The start neither hangs nor repeats, with each of the other assumptions as well. A part that stops below some supply voltage would hold the rail at that voltage instead.",
+  "While the rail is held low nothing else is supplied from it: the supervisor has not released the other rails, and the controller module has its own regulator.",
+  "The error amplifier of the converter model is an assumption: the overshoot of +13V5 at the end of the start is not a figure of the part.",
+  "The ceramic capacitors are linear in the cycle-by-cycle runs: those of +13V5 take the value that needs the energy of the real charge from 0 V to 13.5 V, those of the 5 V rail the value they have at 5 V. The run of a second has them with their loss under bias.",
+  "The inductor is linear here; at the highest current of these runs it has lost less than 10 % of its inductance (datasheet curve)."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "C18",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C27",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C29",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C39",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C40",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014_AVG",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "boost-start.averaged-second.cir",
+  "boost-start.limited-0p76.cir"
+ ],
+ "format": 1
+}

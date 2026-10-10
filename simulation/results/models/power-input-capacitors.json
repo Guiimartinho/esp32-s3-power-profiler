@@ -1,0 +1,213 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "power-input-capacitors",
+ "title": "Capacitor models of the power input against their datasheets",
+ "covers": "the aluminum capacitor C11 and the ceramic capacitors under bias",
+ "summary": "The capacitors that set the transients of the 5 V rail are put on a current. A small signal gives the impedance of the aluminum capacitor at 120 Hz and 100 kHz. A constant current charges four ceramic capacitors from 0 V with the bias model that the benches of the power input give them; the slope of the voltage is the capacitance that is left at that voltage.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "bulk_farads",
+   "label": "C11: capacitance at 120 Hz",
+   "value": 4.700004e-05,
+   "unit": "F",
+   "expected": 4.7e-05,
+   "low": 3.76e-05,
+   "high": 5.64e-05,
+   "source": "Wurth 865060343004, page 1: 47 uF, 20 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "bulk_ohms",
+   "label": "C11: impedance at 100 kHz",
+   "value": 0.4413009,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": 0.4444,
+   "source": "Wurth 865060343004, page 1: 440 mohm at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c2_5v",
+   "label": "C2 (4.7 uF 25 V X7R 0805): share of its capacitance at 5 V",
+   "value": 0.7191049,
+   "unit": "",
+   "expected": 0.715,
+   "low": 0.6578,
+   "high": 0.7722,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c2_10v",
+   "label": "C2 (4.7 uF 25 V X7R 0805): share of its capacitance at 10 V",
+   "value": 0.3902479,
+   "unit": "",
+   "expected": 0.393,
+   "low": 0.36156,
+   "high": 0.42444,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c2_12v",
+   "label": "C2 (4.7 uF 25 V X7R 0805): share of its capacitance at 12 V",
+   "value": 0.3076961,
+   "unit": "",
+   "expected": 0.327,
+   "low": 0.30084,
+   "high": 0.35316,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c9_2p5v",
+   "label": "C9 (22 uF 10 V X7R 1206): share of its capacitance at 2.5 V",
+   "value": 0.8973111,
+   "unit": "",
+   "expected": 0.917,
+   "low": 0.84364,
+   "high": 0.99036,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c9_5v",
+   "label": "C9 (22 uF 10 V X7R 1206): share of its capacitance at 5 V",
+   "value": 0.6859808,
+   "unit": "",
+   "expected": 0.686,
+   "low": 0.63112,
+   "high": 0.74088,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c9_10v",
+   "label": "C9 (22 uF 10 V X7R 1206): share of its capacitance at 10 V",
+   "value": 0.3532236,
+   "unit": "",
+   "expected": 0.372,
+   "low": 0.34224,
+   "high": 0.40176,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c39_2p5v",
+   "label": "C39 (10 uF 25 V X5R 0805): share of its capacitance at 2.5 V",
+   "value": 0.7980693,
+   "unit": "",
+   "expected": 0.807,
+   "low": 0.74244,
+   "high": 0.87156,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c39_5v",
+   "label": "C39 (10 uF 25 V X5R 0805): share of its capacitance at 5 V",
+   "value": 0.4969936,
+   "unit": "",
+   "expected": 0.497,
+   "low": 0.45724,
+   "high": 0.53676,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c39_10v",
+   "label": "C39 (10 uF 25 V X5R 0805): share of its capacitance at 10 V",
+   "value": 0.1980833,
+   "unit": "",
+   "expected": 0.225,
+   "low": 0.207,
+   "high": 0.243,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "fail"
+  },
+  {
+   "key": "bias_c27_5v",
+   "label": "C27 (10 uF 25 V X7R 1210): share of its capacitance at 5 V",
+   "value": 0.9433359,
+   "unit": "",
+   "expected": 0.947,
+   "low": 0.87124,
+   "high": 1.02276,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c27_12v",
+   "label": "C27 (10 uF 25 V X7R 1210): share of its capacitance at 12 V",
+   "value": 0.7429395,
+   "unit": "",
+   "expected": 0.74,
+   "low": 0.6808,
+   "high": 0.7992,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_c27_13p5v",
+   "label": "C27 (10 uF 25 V X7R 1210): share of its capacitance at 13.5 V",
+   "value": 0.6954523,
+   "unit": "",
+   "expected": 0.695,
+   "low": 0.6394,
+   "high": 0.7506,
+   "source": "bias curve of Samsung Electro-Mechanics for the part, 25 C",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "bias",
+   "Capacitance that the ceramic capacitors keep under bias, as modelled",
+   "power-input-capacitors.bias.png"
+  ]
+ ],
+ "notes": [
+  "The series resistance of C11 is the impedance that its datasheet states as the maximum at 100 kHz and 20 C; a typical part has less, a cold one more, and the datasheet gives neither.",
+  "The bias model is one curve per part number with one parameter, the voltage at which half the capacitance is left; 8 % is the fit this project asks of it. The 10 uF 25 V part in 0805 (C39, C40) is 12 % below its curve at 10 V and fails that fit there; it stands on the 5 V rail, where the limiters hold it at 5.6 V or less. The model is used by the benches of the power input; the model map leaves the capacitors of the schematic at their nominal value.",
+  "The 1 uF and 100 nF capacitors in 0603 have no bias model: no curve of theirs was read."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "C2",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C27",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C39",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C9",
+   "PWRIN_MLCC",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "power-input-capacitors.bias.cir",
+  "power-input-capacitors.bulk.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,728 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "reversal",
+ "title": "The supply reverses while the ampere pair is closed",
+ "covers": "section 4.9 (VIN: a reversal with the switch closed; hold-off below ground, D-61), sections 14 and 16",
+ "summary": "Ampere mode runs on a supply that reverses within 1 us. The pair and the output pair are closed, range 3 is selected and a device under test of 10 uF with 100 ohm hangs on the output terminal. Nothing but the hold-off transistor opens the pair: it joins gate and common source once the common source is a base-emitter voltage below ground, and it has to empty the ramp capacitor through 6.8 kohm with the base current that 100 kohm leave it. The run shows how long that takes from 5 V and from low supply voltages, what reaches the device under test meanwhile, and what the transistors of the pair have to block when the pair opens with the current of the leads still flowing.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "opens_5v_to_m20v",
+   "label": "Pair open after the step: 5 V to -20 V",
+   "value": 6.737949e-06,
+   "unit": "s",
+   "expected": null,
+   "low": 5e-06,
+   "high": 3.5e-05,
+   "source": "section 4.9: within 5 us to 35 us from 5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_5v_to_m20v",
+   "label": "Lowest voltage at the device under test: 5 V to -20 V",
+   "value": -3.721476,
+   "unit": "V",
+   "expected": -2.4,
+   "low": null,
+   "high": null,
+   "source": "section 4.9: -2.4 V for a supply that steps to -20 V, simulated",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_m20v",
+   "label": "Largest current drawn backward through the leads: 5 V to -20 V",
+   "value": 85.35935,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_m20v",
+   "label": "Largest voltage across the transistor on the ladder side: 5 V to -20 V",
+   "value": 65.73805,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "fail"
+  },
+  {
+   "key": "energy_5v_to_m20v",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to -20 V",
+   "value": 0.0002374929,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_m20v",
+   "label": "Lowest voltage on VIN behind the fuse: 5 V to -20 V",
+   "value": -68.09533,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_m20v",
+   "label": "Largest current in the suppressor: 5 V to -20 V",
+   "value": 77.65465,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_m20v",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to -20 V",
+   "value": 51.11609,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_m20v",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to -20 V",
+   "value": 1.444343,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_5v_to_m5v",
+   "label": "Pair open after the step: 5 V to -5 V",
+   "value": 1.195739e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 5e-06,
+   "high": 3.5e-05,
+   "source": "section 4.9: within 5 us to 35 us from 5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_5v_to_m5v",
+   "label": "Lowest voltage at the device under test: 5 V to -5 V",
+   "value": -2.150724,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_m5v",
+   "label": "Largest current drawn backward through the leads: 5 V to -5 V",
+   "value": 28.08291,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_m5v",
+   "label": "Largest voltage across the transistor on the ladder side: 5 V to -5 V",
+   "value": 34.48214,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "fail"
+  },
+  {
+   "key": "energy_5v_to_m5v",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to -5 V",
+   "value": 4.232073e-05,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_m5v",
+   "label": "Lowest voltage on VIN behind the fuse: 5 V to -5 V",
+   "value": -36.42783,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_m5v",
+   "label": "Largest current in the suppressor: 5 V to -5 V",
+   "value": 21.46243,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_m5v",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to -5 V",
+   "value": 5.15455,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_m5v",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to -5 V",
+   "value": 0.3913428,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_5v_to_m5v_weak",
+   "label": "Pair open after the step: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 1.182316e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 5e-06,
+   "high": 3.5e-05,
+   "source": "section 4.9: within 5 us to 35 us from 5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_5v_to_m5v_weak",
+   "label": "Lowest voltage at the device under test: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": -2.150724,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_m5v_weak",
+   "label": "Largest current drawn backward through the leads: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 28.08091,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_m5v_weak",
+   "label": "Largest voltage across the transistor on the ladder side: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 34.7509,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "fail"
+  },
+  {
+   "key": "energy_5v_to_m5v_weak",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 2.350689e-05,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_m5v_weak",
+   "label": "Lowest voltage on VIN behind the fuse: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": -36.73394,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_m5v_weak",
+   "label": "Largest current in the suppressor: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 22.41756,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_m5v_weak",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 5.393923,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_m5v_weak",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to -5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 0.3858392,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_3v_to_m3v",
+   "label": "Pair open after the step: 3 V to -3 V",
+   "value": 1.782906e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dut_3v_to_m3v",
+   "label": "Lowest voltage at the device under test: 3 V to -3 V",
+   "value": -1.583773,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_3v_to_m3v_weak",
+   "label": "Pair open after the step: 3 V to -3 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 1.846938e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dut_3v_to_m3v_weak",
+   "label": "Lowest voltage at the device under test: 3 V to -3 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": -1.582121,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_2v_to_m2v",
+   "label": "Pair open after the step: 2 V to -2 V",
+   "value": 2.841038e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dut_2v_to_m2v",
+   "label": "Lowest voltage at the device under test: 2 V to -2 V",
+   "value": -1.292298,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_2v_to_m2v_weak",
+   "label": "Pair open after the step: 2 V to -2 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 3.941031e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dut_2v_to_m2v_weak",
+   "label": "Lowest voltage at the device under test: 2 V to -2 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": -1.292299,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_1p5v_to_m1p5v",
+   "label": "Pair open after the step: 1.5 V to -1.5 V",
+   "value": 6.793857e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.002,
+   "source": "section 4.9: within 2 ms from 1.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_1p5v_to_m1p5v",
+   "label": "Lowest voltage at the device under test: 1.5 V to -1.5 V",
+   "value": -1.154084,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_1p5v_to_m1p5v_lo",
+   "label": "Pair open after the step: 1.5 V to -1.5 V, hold-off transistor with the least gain at 2 mA",
+   "value": 0.0002999386,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.002,
+   "source": "section 4.9: within 2 ms from 1.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_1p5v_to_m1p5v_lo",
+   "label": "Lowest voltage at the device under test: 1.5 V to -1.5 V, hold-off transistor with the least gain at 2 mA",
+   "value": -1.154084,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_1p5v_to_m1p5v_weak",
+   "label": "Pair open after the step: 1.5 V to -1.5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 0.0003259386,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.002,
+   "source": "section 4.9: within 2 ms from 1.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_1p5v_to_m1p5v_weak",
+   "label": "Lowest voltage at the device under test: 1.5 V to -1.5 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": -1.154084,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_1v_to_m1v",
+   "label": "Pair open after the step: 1 V to -1 V",
+   "value": 0.0007782019,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dut_1v_to_m1v",
+   "label": "Lowest voltage at the device under test: 1 V to -1 V",
+   "value": -1.012711,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_1v_to_m1v_weak",
+   "label": "Pair open after the step: 1 V to -1 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": 0.002438202,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dut_1v_to_m1v_weak",
+   "label": "Lowest voltage at the device under test: 1 V to -1 V, hold-off transistor with a gain of 25 at 10 uA",
+   "value": -1.012713,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limited_opens",
+   "label": "Reversed 5 V supply limited to 1 A, request high: pair open after",
+   "value": 1.983331e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limited_lowest",
+   "label": "Reversed 5 V supply limited to 1 A, request high: lowest voltage of the supply node",
+   "value": -3.043971,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limited_after",
+   "label": "Reversed 5 V supply limited to 1 A, request high: supply node 35 us after the plug-in",
+   "value": -2.555671,
+   "unit": "V",
+   "expected": null,
+   "low": -0.1,
+   "high": null,
+   "source": "section 16: TP33 above -0.1 V after 35 us",
+   "verdict": "fail"
+  }
+ ],
+ "graphs": [
+  [
+   "to-minus-20v",
+   "The supply steps from 5 V to -20 V within 1 us, ampere pair closed, 1 uH of leads",
+   "reversal.to-minus-20v.png"
+  ],
+  [
+   "low-voltage",
+   "A low supply voltage reverses: the pair opens late or not at all",
+   "reversal.low-voltage.png"
+  ],
+  [
+   "limited",
+   "A reversed 5 V supply limited to 1 A is plugged in with the ampere request high",
+   "reversal.limited.png"
+  ]
+ ],
+ "notes": [
+  "The supply is a voltage source that reverses within 1 us behind 1 uH and 50 mohm, and it takes any current. The device under test is 10 uF behind 20 mohm with 100 ohm beside it. Both are the assumptions of the earlier simulations behind the figures of the specification. The output pair and the suppressor of the output terminal are the parts of the schematic with the models of their block; below ground that suppressor conducts forward and bounds what the device under test sees.",
+  "Until the pair opens, the reversed supply draws current backward through the ladder: the capacitor of the device under test, the capacitors of the supply node and, once a node is below ground, the body diodes on the way. When the pair then opens, the leads carry that current and their kick adds to the reversed voltage. The transistor on the ladder side has to block the difference between the supply node and the terminal. The model written here has no avalanche, so a figure above 30 V is the voltage the part would have to block and does not. The model of the manufacturer breaks down near 31 V: in the run with those models the transistor clamps there and takes the energy that the suppressor leaves, at a current that can pass the 28 A of its avalanche rating.",
+  "How fast the pair opens from a low voltage rests on the gain of the hold-off transistor at microamperes, which its datasheet does not state. The model assumes about 220 at 10 uA and 160 for the part with the least gain at 2 mA. The variant with a gain of 25 at 10 uA is the other reading: the model that the manufacturer publishes for this transistor puts the gain there. Which one a real part follows is a measurement.",
+  "In the last run the supply is a source that limits at 1 A and has no output capacitor. A real supply delivers the first microseconds from its output capacitor without any limit."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B_LO",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B_WEAK",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "reversal.5v_to_m20v.cir",
+  "reversal.limited.cir"
+ ],
+ "format": 1
+}

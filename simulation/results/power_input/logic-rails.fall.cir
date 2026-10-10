@@ -1,0 +1,46 @@
+* Supervisor and 3.3 V rails: the rail falls at 20 V/ms
+.include "../../models/power_input.lib"
+DD5 led 0 PWRIN_LED_GREEN
+XU6 ok5v 0 nc_u6_mr_pad3 ct sense rail PWRIN_TPS3808G01 tdhi=1m
+XU7 rail 0 ok5v v3c PWRIN_LP5907
+XU8 rail 0 ok5v v3a PWRIN_LP5907
+C12 sense 0 1e-09
+C13 rail 0 1e-07
+C14 rail 0 1e-06
+C15 rail 0 1e-06
+C16 v3c 0 1e-06
+C17 v3a 0 1e-06
+C35 v3c 0 1e-07
+C36 v3a 0 1e-07
+C51 v3a 0 1e-07
+C59 v3a 0 1e-07
+C86 v3a 0 1e-07
+C91 v3a 0 1e-06
+C92 v3c 0 1e-06
+C96 v3a 0 1e-07
+C97 v3a 0 1e-07
+C98 v3c 0 1e-07
+C99 v3c 0 1e-07
+R21 rail sense 86600
+R22 sense 0 10000
+R23 rail 0 10000
+R24 rail ct 100000
+R25 rail ok5v 10000
+R26 v3c led 1000
+R27 ok5v cp_en 100000
+R28 cp_en 0 150000
+C101 v3c 0 1e-07
+C102 v3a 0 1e-07
+C111 v3a 0 1e-07
+C112 v3a 0 1e-06
+* the 5 V rail as a source behind 50 mohm (not in the schematic)
+Vrail rail_s 0 PWL(0 0 0.001 0 0.00101 5 0.004 5 0.00425 0)
+Rrail rail_s rail 50m
+* loads of the two rails at idle (assumptions)
+Bload_c v3c 0 I = 0.01*v(v3c)/3.3
+Bload_a v3a 0 I = 0.025*v(v3a)/3.3
+.control
+save all @dd5[id]
+tran 5e-07 0.0055 0 5e-07 uic
+.endc
+.end

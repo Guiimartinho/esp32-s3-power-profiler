@@ -1,0 +1,229 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "power-input-limiter",
+ "title": "TPS259621 model against its datasheet",
+ "covers": "the model of the current limiters U3 and U4",
+ "summary": "The limiter of the schematic is put, alone, into the test circuits of its datasheet. The start with and without a capacitor at the dVdt pin, the current limit with four resistors and its fold-back at an output of 0 V, the response to an overload and to a short circuit, the clamp with a light and with a heavy load, the thresholds of the enable pin and of the input, the on-resistance and the gain of the current monitor.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "start_open_delay",
+   "label": "Start, dVdt pin open: turn-on delay to 10 %",
+   "value": 5.788042e-05,
+   "unit": "s",
+   "expected": 7.89e-05,
+   "low": 6.7065e-05,
+   "high": 9.0735e-05,
+   "source": "TI SLVSET8A page 8, typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "start_open_rise",
+   "label": "Start, dVdt pin open: rise from 10 % to 90 %",
+   "value": 5.327345e-05,
+   "unit": "s",
+   "expected": 9.41e-05,
+   "low": 7.9985e-05,
+   "high": 0.000108215,
+   "source": "TI SLVSET8A page 8, typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "start_open_slope",
+   "label": "Start, dVdt pin open: slope of the output",
+   "value": 75084.3,
+   "unit": "V/s",
+   "expected": 42700.0,
+   "low": 36295.0,
+   "high": 49105.0,
+   "source": "TI SLVSET8A page 8, typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "start_3n3_delay",
+   "label": "Start, 3300 pF at the dVdt pin: turn-on delay to 10 %",
+   "value": 0.0001679139,
+   "unit": "s",
+   "expected": 0.0002473,
+   "low": 0.000210205,
+   "high": 0.000284395,
+   "source": "TI SLVSET8A page 8, typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "start_3n3_rise",
+   "label": "Start, 3300 pF at the dVdt pin: rise from 10 % to 90 %",
+   "value": 0.0003098623,
+   "unit": "s",
+   "expected": 0.000311,
+   "low": 0.00026435,
+   "high": 0.00035765,
+   "source": "TI SLVSET8A page 8, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_3n3_slope",
+   "label": "Start, 3300 pF at the dVdt pin: slope of the output",
+   "value": 12908.96,
+   "unit": "V/s",
+   "expected": 13100.0,
+   "low": 11135.0,
+   "high": 15065.0,
+   "source": "TI SLVSET8A page 8, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "overload_time",
+   "label": "Overload of 32 %: load current within 2 % of the limit after",
+   "value": 4.131671e-05,
+   "unit": "s",
+   "expected": 8.7e-05,
+   "low": 6.09e-05,
+   "high": 0.0001131,
+   "source": "TI SLVSET8A page 8: 87 us typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "short_out",
+   "label": "Short circuit with 20 mohm: output 10 us after the short",
+   "value": 7.159248e-10,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.06441,
+   "source": "TI SLVSET8A page 8: 5 us to the limit; 1.5 times the limit in 20 mohm is 64 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_10m_level",
+   "label": "Clamp: output with 7 V at the input and 10 mA",
+   "value": 5.209611,
+   "unit": "V",
+   "expected": 5.45,
+   "low": 5.28,
+   "high": 5.61,
+   "source": "TI SLVSET8A page 6",
+   "verdict": "fail"
+  },
+  {
+   "key": "clamp_threshold",
+   "label": "Clamp: input voltage at which the output is highest",
+   "value": 5.77406,
+   "unit": "V",
+   "expected": 5.69,
+   "low": 5.54,
+   "high": 5.83,
+   "source": "TI SLVSET8A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_1a_level",
+   "label": "Clamp: output with 7 V at the input and 1 A",
+   "value": 5.209611,
+   "unit": "V",
+   "expected": 5.23,
+   "low": 5.0731,
+   "high": 5.3869,
+   "source": "TI SLVSET8A page 12, figure 16 at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_on",
+   "label": "Enable pin: voltage at which the output starts",
+   "value": 1.199516,
+   "unit": "V",
+   "expected": 1.2,
+   "low": 1.18,
+   "high": 1.22,
+   "source": "TI SLVSET8A page 7",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_off",
+   "label": "Enable pin: voltage at which the output ends",
+   "value": 1.100008,
+   "unit": "V",
+   "expected": 1.1,
+   "low": 1.08,
+   "high": 1.13,
+   "source": "TI SLVSET8A page 7",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_on",
+   "label": "Input: voltage at which the output starts",
+   "value": 2.529132,
+   "unit": "V",
+   "expected": 2.53,
+   "low": 2.46,
+   "high": 2.58,
+   "source": "TI SLVSET8A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_off",
+   "label": "Input: voltage at which the output ends",
+   "value": 2.420084,
+   "unit": "V",
+   "expected": 2.42,
+   "low": 2.36,
+   "high": 2.46,
+   "source": "TI SLVSET8A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "on_ohms",
+   "label": "On-resistance at 0.2 A and 5 V",
+   "value": 0.08796336,
+   "unit": "ohm",
+   "expected": 0.089,
+   "low": null,
+   "high": 0.0926,
+   "source": "TI SLVSET8A page 7, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "monitor_0a13",
+   "label": "Current monitor gain at 0.13 A",
+   "value": 0.0006600003,
+   "unit": "A/A",
+   "expected": 0.00065321,
+   "low": 0.00053122,
+   "high": 0.0008,
+   "source": "TI SLVSET8A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "monitor_1a5",
+   "label": "Current monitor gain at 1.5 A",
+   "value": 0.00066,
+   "unit": "A/A",
+   "expected": 0.00065715,
+   "low": 0.00063577,
+   "high": 0.00068405,
+   "source": "TI SLVSET8A page 6 (stated at 2 A)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The fit this project asks of the model is 15 % on a typical value; where the datasheet states limits, the limits are the ones of the datasheet.",
+  "The model is a typical part at 25 C without thermal shutdown. The fold-back of its limit between an output of 0 V and the full limit is an assumption: the datasheet gives the two ends only.",
+  "The short circuit is judged by the output voltage, because the current of the first microseconds depends on a saturation current that the datasheet does not give and the model does not have.",
+  "Decks that did not run with this model, so their figures are missing: limit-3830: power-input-limiter.limit-3830: the run failed: doAnalyses: TRAN:  Timestep too small; time = 0.000218655, timestep = 2.5e-18: trouble with node \"e.xu4.e_u3_e1#; limit-453: power-input-limiter.limit-453: the run failed: doAnalyses: TRAN:  Timestep too small; time = 0.000222023, timestep = 2.5e-18: trouble with node \"e.xu4.e_u3_e1#b; limit-7870: power-input-limiter.limit-7870: the run failed: doAnalyses: TRAN:  Timestep too small; time = 0.000254599, timestep = 2.5e-18: trouble with node \"e.xu4.e_u3_e1#; limit-909: power-input-limiter.limit-909: the run failed: doAnalyses: TRAN:  Timestep too small; time = 0.000221327, timestep = 2.5e-18: trouble with node \"e.xu4.e_u3_e1#b"
+ ],
+ "models": [
+  [
+   "U4",
+   "TPS259621_TRANS",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

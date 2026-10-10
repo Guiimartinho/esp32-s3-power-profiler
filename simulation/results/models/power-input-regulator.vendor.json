@@ -1,0 +1,184 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "power-input-regulator",
+ "title": "LP5907-3.3 model against its datasheet",
+ "covers": "the model of the 3.3 V regulators U7 and U8",
+ "summary": "A regulator of the schematic is put, alone, into the test circuits of its datasheet. The start from the enable pin and the discharge of the output, the load regulation and the current limit, the dropout at 100 mA and at 250 mA, the thresholds of the enable pin, and the supply rejection from 100 Hz to 100 kHz.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "output",
+   "label": "Output with 4.3 V at the input and 1 mA",
+   "value": 3.307358,
+   "unit": "V",
+   "expected": 3.3,
+   "low": 3.234,
+   "high": 3.366,
+   "source": "TI SNVS798Q page 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "start",
+   "label": "Output at 95 % after the enable",
+   "value": 0.0001085089,
+   "unit": "s",
+   "expected": 8e-05,
+   "low": null,
+   "high": 0.00015,
+   "source": "TI SNVS798Q page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot",
+   "label": "Overshoot of the start",
+   "value": 0.002229621,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "TI SNVS798Q page 6: 1 % with the enable",
+   "verdict": "pass"
+  },
+  {
+   "key": "discharge",
+   "label": "Output at 36.8 % after the enable has fallen (1 uF, 3.3 kohm beside the 230 ohm)",
+   "value": 0.0002153191,
+   "unit": "s",
+   "expected": 0.000215,
+   "low": 0.00018275,
+   "high": 0.00024725,
+   "source": "TI SNVS798Q page 5: 230 ohm typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_regulation",
+   "label": "Load regulation from 1 mA to 250 mA",
+   "value": 2.621735e-05,
+   "unit": "V",
+   "expected": 3.3e-05,
+   "low": 2.64e-05,
+   "high": 3.96e-05,
+   "source": "TI SNVS798Q page 5: 0.001 % per mA, which is 33 uV per mA",
+   "verdict": "fail"
+  },
+  {
+   "key": "limit",
+   "label": "Current with the output held at ground",
+   "value": 0.5000042,
+   "unit": "A",
+   "expected": 0.5,
+   "low": 0.25,
+   "high": null,
+   "source": "TI SNVS798Q page 5: 250 mA at least",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_0a1",
+   "label": "Dropout at 0.1 A",
+   "value": 0.05206172,
+   "unit": "V",
+   "expected": 0.05,
+   "low": 0.0425,
+   "high": 0.0575,
+   "source": "TI SNVS798Q page 5: 50 mV typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_0a25",
+   "label": "Dropout at 0.25 A",
+   "value": 0.06935561,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "TI SNVS798Q page 5: 250 mV at most in SOT-23",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_on",
+   "label": "Enable voltage at which the output starts",
+   "value": 1.189582,
+   "unit": "V",
+   "expected": 0.87,
+   "low": 0.4,
+   "high": 1.2,
+   "source": "TI SNVS798Q page 6 and figure 5-2",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_off",
+   "label": "Enable voltage at which the output ends",
+   "value": 0.3890048,
+   "unit": "V",
+   "expected": 0.84,
+   "low": 0.4,
+   "high": 1.2,
+   "source": "TI SNVS798Q page 6 and figure 5-2",
+   "verdict": "fail"
+  },
+  {
+   "key": "rejection_100",
+   "label": "Supply rejection at 100 Hz",
+   "value": 137.9211,
+   "unit": "dB",
+   "expected": 90.0,
+   "low": 87.0,
+   "high": 93.0,
+   "source": "TI SNVS798Q page 5, typical at 20 mA",
+   "verdict": "fail"
+  },
+  {
+   "key": "rejection_1000",
+   "label": "Supply rejection at 1000 Hz",
+   "value": 154.9522,
+   "unit": "dB",
+   "expected": 82.0,
+   "low": 79.0,
+   "high": 85.0,
+   "source": "TI SNVS798Q page 5, typical at 20 mA",
+   "verdict": "fail"
+  },
+  {
+   "key": "rejection_10000",
+   "label": "Supply rejection at 10000 Hz",
+   "value": 157.9624,
+   "unit": "dB",
+   "expected": 65.0,
+   "low": 62.0,
+   "high": 68.0,
+   "source": "TI SNVS798Q page 5, typical at 20 mA",
+   "verdict": "fail"
+  },
+  {
+   "key": "rejection_100000",
+   "label": "Supply rejection at 100000 Hz",
+   "value": 161.1926,
+   "unit": "dB",
+   "expected": 60.0,
+   "low": 57.0,
+   "high": 63.0,
+   "source": "TI SNVS798Q page 5, typical at 20 mA",
+   "verdict": "fail"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The fit this project asks of the model is 15 % on a typical value, and 3 dB on the supply rejection; where the datasheet states limits, the limits are the ones of the datasheet.",
+  "The model follows the supply rejection up to 100 kHz only, and it has no response of its own to a load step: the 40 mV of the datasheet for 250 mA are not in it.",
+  "The supply rejection is a small-signal analysis around an operating point that the solver finds with the regulator on."
+ ],
+ "models": [
+  [
+   "U8",
+   "LP5907_3P3_TRANS",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

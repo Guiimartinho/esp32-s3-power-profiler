@@ -1,0 +1,35 @@
+* Boost converter with a detector at U9, first attempt, source limited to 0.76 A
+.include "../../models/analog_rails.lib"
+.include "../../models/power_input.lib"
+DD6 sw p13v5 B0530W
+XL1 p5v sw L_74438357100
+XU9 0 en_boost p5v RAILS_803 vth=3.08 td=0.003
+XC11 p5v 0 PWRIN_WCAP_47U c=47u esr=0.44
+C13 p5v 0 1e-07
+C14 p5v 0 1e-06
+C15 p5v 0 1e-06
+C18 p5v 0 3.37978e-06
+C23 p13v5 fb_boost 2.2e-10
+C25 p13v5 0 1e-07
+C27 p13v5 0 8.10183e-06
+C29 ldo_in 0 8.10183e-06
+C39 p5v 0 4.96991e-06
+C40 p5v 0 4.96991e-06
+R29 p5v en_boost 51000
+R32 p13v5 fb_boost 133000
+R33 fb_boost 0 13300
+R37 p13v5 ldo_in 0.47
+XU10 sw 0 fb_boost en_boost p5v LMR62014
+* the source of the 5 V rail: no path back, as behind the multiplexer
+Vsrc src 0 PWL(0 0 0.001 0 0.0012 5)
+Bsrc src p5v I = min(max(v(src,p5v)/0.2, 0), 0.76)
+* loads: the controller module on the 5 V rail, the control pin of the source
+* regulator on +13V5; the +12V_A regulator is still held off
+Bmod p5v 0 I = 0.025*tanh(max(v(p5v), 0)/2)
+Rbleed p5v 0 10k
+Bctl ldo_in 0 I = 0.001*tanh(max(v(ldo_in), 0)/2)
+.control
+save p5v p13v5 ldo_in src en_boost i(Vsrc) @l.xl1.l1[i]
+tran 5n 0.0085 0 20n
+.endc
+.end

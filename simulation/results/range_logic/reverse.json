@@ -1,0 +1,224 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "reverse",
+ "title": "Reverse current through the ladder: under-range level and voltage across the ladder",
+ "covers": "section 4.4 (reverse current, decision D-69), rule F-22",
+ "summary": "A current flows from the load back into the output, in range 3 and in range 0. The comparators see forward current only, and the converter reads a reverse current as a code below the pedestal. The run lets the reverse current rise slowly to 30 mA and reads at which current the converter input falls below the level of code 650, from which firmware flags the samples as under-range. Then the current steps to 1 A, and the run reads the voltage across the ladder with range 3 selected, where the current flows through the channel of its switch, and with every range gate low, where it flows through the body diodes.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "flag_current",
+   "label": "Range 3: reverse current at which the converter input passes code 650",
+   "value": 0.01274328,
+   "unit": "A",
+   "expected": 0.013,
+   "low": 0.0125,
+   "high": 0.0135,
+   "source": "rule F-22: about 13 mA backward, calculated; to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_range_3",
+   "label": "Range 3, 1 A backward: voltage across the ladder",
+   "value": 0.1043262,
+   "unit": "V",
+   "expected": 0.105,
+   "low": 0.1,
+   "high": 0.11,
+   "source": "section 4.4: 105 mV per ampere, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter_range_3",
+   "label": "Range 3, 1 A backward: converter input",
+   "value": 0.0019913,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.02479553,
+   "source": "rule F-22: a code below 650 is flagged as under-range",
+   "verdict": "pass"
+  },
+  {
+   "key": "amplifier_range_3",
+   "label": "Range 3, 1 A backward: amplifier output",
+   "value": -1.942601,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ladder_range_0",
+   "label": "Range gates low, 1 A backward: voltage across the ladder",
+   "value": 0.7112823,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_range_0",
+   "label": "Range gates low, 1 A backward: converter input",
+   "value": 0.0019913,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.02479553,
+   "source": "rule F-22: a code below 650 is flagged as under-range",
+   "verdict": "pass"
+  },
+  {
+   "key": "comparators",
+   "label": "Highest level of a comparator output in both runs",
+   "value": 0.0,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 4.4: the comparators see forward current only",
+   "verdict": "pass"
+  },
+  {
+   "key": "range_changes",
+   "label": "Range changes in both runs",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.4: a reverse current moves no range by itself",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "reverse",
+   "A current from the load back into the output at 5 V",
+   "reverse.reverse.png"
+  ]
+ ],
+ "notes": [
+  "The load is a current source into the output, and the source of the instrument takes that current at 5 V behind 20 mohm. The regulator of the source meter cannot sink current, and an external supply may not: what the supply node then does is not in this run.",
+  "The converter is not in the circuit; code 650 is taken as 24.8 mV at its input. With 1 A backward that input rests at the lower limit of its driver: 2 mV in the model of the driver, 20 mV at the most by the datasheet figure in the head of that model. Both lie below the level of code 650.",
+  "With every range gate low the current divides between the body diodes of the five transistors of the ladder by their models, which are typical parts at 25 C; the share of each and its heating are not figures to take from this run.",
+  "No program is in the loop: that firmware selects range 3 and opens the output after 100 ms (rule F-22) is not simulated.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "reverse.range-0.cir",
+  "reverse.range-3.cir"
+ ],
+ "format": 1
+}

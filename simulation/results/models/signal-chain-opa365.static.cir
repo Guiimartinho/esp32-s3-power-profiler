@@ -1,0 +1,28 @@
+* OPA365: static figures
+.include "../../models/opamps.lib"
+Vp vp 0 5
+Vn vn 0 0
+Vmid mid 0 2.5
+Vhigh high 0 6
+Vlow low 0 -1
+Xhigh0 high o_high0 vp vn o_high0 OPA365
+Rhigh0 o_high0 mid 10000
+Xlow0 low o_low0 vp vn o_low0 OPA365
+Rlow0 o_low0 mid 10000
+* supply current of a follower without load, on supplies of its own
+Vpq vpq 0 5
+Vnq vnq 0 0
+Xq mid o_q vpq vnq o_q OPA365
+* a follower asked for 1 V above the middle, its output held at the middle
+Vask ask mid 1
+Xs ask o_s vp vn o_s OPA365
+Vshort o_s mid 0
+* a follower on 1 V of supply: below the supply range
+Vpd vpd 0 1
+Vin_d in_d 0 0.5
+Xd in_d o_d vpd 0 o_d OPA365
+Rd o_d 0 10k
+.control
+op
+.endc
+.end

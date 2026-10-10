@@ -1,0 +1,116 @@
+* USB-C source rising from 5 V to 12.5 V, typical limiter
+.include "../../models/digital.lib"
+.include "../../models/power_input.lib"
+.include "../../models/analog_rails.lib"
+C1 pico_5v 0 1e-07
+C2 vbus_c 0 3.37978e-06
+C3 vbus_c 0 1e-07
+C4 dvdt_c 0 3.3e-09
+C6 vin2 0 1e-06
+C7 vin1 0 1e-06
+C8 pr1 0 3.3e-08
+C9 damper 0 1.50915e-05
+XD1 rail vsys DIGITAL_1N5819HW
+XD2 0 vbus_c PWRIN_SMAJ10A
+XD3 vin2 pico_5v PWRIN_1N5819HW
+XD4 vin1 vbus_c PWRIN_1N5819HW
+DD5 led 0 PWRIN_LED_GREEN
+DD6 sw p13v5 B0530W
+XL1 rail sw L_74438357100
+R5 pico_5v en_p 4530
+R6 en_p 0 3010
+R7 cc1 0 5100
+R8 n_u3_ovlo_ovcsel 0 402000
+R9 vbus_c en_c 4530
+XU1 pico_vbus vsys 0 DIGITAL_PICO2_SUPPLY
+XU2_1 cc1 0 PWRIN_TPD4E1U06_CH
+XU2_2 cc2 0 PWRIN_TPD4E1U06_CH
+XU3 pico_5v vin2 en_p n_u3_ovlo_ovcsel ilm_p nc_u3_dv_dt_pad2 nc_u3_flt_pad6 0 PWRIN_TPS259621
+XU4 vbus_c vin1 en_c n_u4_ovlo_ovcsel ilm_c dvdt_c nc_u4_flt_pad6 0 PWRIN_TPS259621
+XU5 vin1 vin2 rail pr1 vin1 src_st 0 PWRIN_TPS2116
+XU6 ok5v 0 nc_u6_mr_pad3 ct sense rail PWRIN_TPS3808G01 tdhi=1m
+XU7 rail 0 ok5v v3c PWRIN_LP5907
+XU8 rail 0 ok5v v3a PWRIN_LP5907
+C10 damper 0 1.50915e-05
+XC11 rail 0 PWRIN_WCAP_47U c=47u esr=0.44
+C12 sense 0 1e-09
+C13 rail 0 1e-07
+C14 rail 0 1e-06
+C15 rail 0 1e-06
+C16 v3c 0 1e-06
+C17 v3a 0 1e-06
+C18 rail 0 3.37978e-06
+C21 cp_in 0 1.50915e-05
+C25 p13v5 0 1e-07
+C27 p13v5 0 6.95443e-06
+C29 p13v5_f 0 6.95443e-06
+C35 v3c 0 1e-07
+C36 v3a 0 1e-07
+C39 rail 0 4.96991e-06
+C40 rail 0 4.96991e-06
+C51 v3a 0 1e-07
+C59 v3a 0 1e-07
+C86 v3a 0 1e-07
+C91 v3a 0 1e-06
+C92 v3c 0 1e-06
+C96 v3a 0 1e-07
+C97 v3a 0 1e-07
+C98 v3c 0 1e-07
+C99 v3c 0 1e-07
+RJP1 pico_vbus pico_5v 0.001
+R10 en_c 0 3010
+R11 cc2 0 5100
+R12 n_u4_ovlo_ovcsel 0 402000
+R13 ilm_p 0 1210
+R15 ilm_c 0 453
+R16 ilm_c imon 10000
+R17 vin2 0 100000
+R18 vin1 pr1 13700
+R19 pr1 0 10000
+R20 vin1 damper 0.33
+R21 rail sense 86600
+R22 sense 0 10000
+R23 rail 0 10000
+R24 rail ct 100000
+R25 rail ok5v 10000
+R26 v3c led 1000
+R27 ok5v cp_en 100000
+R28 cp_en 0 150000
+R30 rail cp_in 2.2
+R37 p13v5 p13v5_f 0.47
+C101 v3c 0 1e-07
+C102 v3a 0 1e-07
+C105 mon_5v 0 1e-07
+C106 mon_cc1 0 1e-07
+C107 mon_cc2 0 1e-07
+C111 v3a 0 1e-07
+C112 v3a 0 1e-06
+R142 rail mon_5v 120000
+R143 mon_5v src_st 68100
+R144 cc1 mon_cc1 10000
+R145 cc2 mon_cc2 10000
+R151 mon_5v 0 100000
+* USB-C source behind its cable (not in the schematic)
+Vusbc usbc_s 0 PWL(0 5 0.007 5 0.0145 12.5)
+Rusbc_s usbc_s usbc_l 1m
+Vusbc_i usbc_l usbc_o 0
+Busbc_sw usbc_o usbc_p I = v(usbc_o,usbc_p)*(1e-9 + 200*pwrin_hi((time - 0.0001)/20n))
+Rusbc_c usbc_p usbc_c_m 0.15
+Lusbc_c usbc_c_m vbus_c 5e-07
+Rusbc_c_d usbc_c_m vbus_c 100
+* boost converter as a load (assumption: see the notes)
+Bboost_on boost_on 0 V = pwrin_hi((v(rail) - 2.7)/0.05)
+Rboost_lag boost_on boost_lag 5k
+Cboost_lag boost_lag 0 1n
+Bboost_in rail 0 I = 1.5*pwrin_hi((v(rail) - 2.7)/0.05)*pwrin_hi((13.5 - v(p13v5))/0.05)*v(boost_lag)
+Bboost_out 0 p13v5 I = 1.2*v(rail)/max(v(p13v5), 1)*pwrin_hi((v(rail) - 2.7)/0.05)*pwrin_hi((13.5 - v(p13v5))/0.05)*v(boost_lag)
+Rboost_load p13v5 0 146k
+* loads of the other blocks at idle (assumptions)
+Bload_c v3c 0 I = 0.01*v(v3c)/3.3
+Bload_a v3a 0 I = 0.025*v(v3a)/3.3
+Bload_5 rail 0 I = 0.085*pwrin_hi((v(ok5v) - 2)/0.2)*pwrin_hi((v(rail) - 2.7)/0.2)
+.control
+save all @b.xu5.b1[i]
+tran 1e-06 0.015 0 1e-06 uic
+.endc
+.end

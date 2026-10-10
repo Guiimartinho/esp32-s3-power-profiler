@@ -1,0 +1,66 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "loop",
+ "title": "Loop gain and phase margin: linear regulator, pre-regulator, tracking amplifier",
+ "covers": "section 4.2 (loop of the pre-regulator, C52), section 16 (open checks of U16 and U18)",
+ "summary": "Each loop is measured closed, with a source inside the model or at the output pin. The source is first powered up into a state and brought to rest; the operating point of the small-signal run starts from the end of that run. The loop of the linear regulator is read at its sense input with the output network of the netlist: C53 and C54, the capacitors of the supply node, the path to the device and the capacitor beside it. The loop of the pre-regulator is read at its feedback pin, with the difference amplifier in the path. The loop of the amplifier U19 is read by a double injection at its output, with and without C52. With the model of the manufacturer only the amplifier is measured.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "amplifier_margin",
+   "label": "Tracking amplifier U19 with C52: phase margin",
+   "value": 72.81329,
+   "unit": "deg",
+   "expected": 75.0,
+   "low": 60.0,
+   "high": null,
+   "source": "section 4.2: 73 to 77 degrees with the model of the manufacturer; the lower limit of 60 degrees is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "amplifier_crossover",
+   "label": "Tracking amplifier U19 with C52: crossover",
+   "value": 29476560.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amplifier_margin_without",
+   "label": "Tracking amplifier U19 without C52: phase margin",
+   "value": 7.297089,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The amplifier is the model of its manufacturer; the regulator and the converter have no model of a manufacturer that gives a loop gain, so this tier holds the amplifier alone."
+ ],
+ "models": [
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U19",
+   "SOURCE_METER_OPA365_PROBE",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

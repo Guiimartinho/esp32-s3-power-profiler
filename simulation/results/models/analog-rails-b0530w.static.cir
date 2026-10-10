@@ -1,0 +1,25 @@
+* B0530W: forward voltage and reverse current
+.include "../../models/analog_rails.lib"
+* forward voltage at the two currents of the datasheet, both variants
+It0 0 at0 0.1
+Dt0 at0 0 B0530W
+Ih0 0 ah0 0.1
+Dh0 ah0 0 B0530W_HI
+It1 0 at1 0.5
+Dt1 at1 0 B0530W
+Ih1 0 ah1 0.5
+Dh1 ah1 0 B0530W_HI
+* the clamp current of the rails
+Ic 0 ac 5m
+Dc ac 0 B0530W
+Ich 0 ach 5m
+Dch ach 0 B0530W_HI
+* reverse current
+Vr15 r15 0 15
+Dr15 0 r15 B0530W
+Vr30 r30 0 30
+Dr30 0 r30 B0530W
+.control
+op
+.endc
+.end

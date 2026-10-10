@@ -1,0 +1,470 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "trip",
+ "title": "Ampere mode: the output opens at 0.5 A to 1.2 A behind 0.5 uH to 3 uH of supply leads",
+ "covers": "sections 4.3 and 4.9 (supply node, D-63; bound of the gate, D-61), section 4.4 (trip)",
+ "summary": "The ampere pair carries 0.5 A to 1.2 A and the output opens. The load current stops within 0.1 us, faster than the output pair opens, or within 5 us. The current of the supply leads then has to go into the capacitor of the supply node and its damped branch, drawn as on the final schematic. The run shows the supply node, the VIN line behind the fuse and the parts between them, each against its rating. It is repeated with the two capacitors at 40 % of their value and, for comparison, without the damped branch.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "node_3uh_1p2a_0p1us",
+   "label": "Highest voltage of the supply node: 3 uH, 1.2 A, released in 0.1 us",
+   "value": 5.604954,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_3uh_1p2a_0p1us",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 1.2 A, released in 0.1 us",
+   "value": 5.609132,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_0p5uh_1p2a_0p1us",
+   "label": "Highest voltage of the supply node: 0.5 uH, 1.2 A, released in 0.1 us",
+   "value": 5.355719,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_0p5uh_1p2a_0p1us",
+   "label": "Highest voltage on VIN behind the fuse: 0.5 uH, 1.2 A, released in 0.1 us",
+   "value": 5.361883,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_1uh_1p2a_0p1us",
+   "label": "Highest voltage of the supply node: 1 uH, 1.2 A, released in 0.1 us",
+   "value": 5.425531,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_1uh_1p2a_0p1us",
+   "label": "Highest voltage on VIN behind the fuse: 1 uH, 1.2 A, released in 0.1 us",
+   "value": 5.432115,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_1p2a_0p1us",
+   "label": "Highest voltage of the supply node: 2 uH, 1.2 A, released in 0.1 us",
+   "value": 5.519944,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_1p2a_0p1us",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, 1.2 A, released in 0.1 us",
+   "value": 5.525257,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_0p5a_0p1us",
+   "label": "Highest voltage of the supply node: 3 uH, 0.5 A, released in 0.1 us",
+   "value": 5.252046,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_3uh_0p5a_0p1us",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 0.5 A, released in 0.1 us",
+   "value": 5.253789,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_1a_0p1us",
+   "label": "Highest voltage of the supply node: 3 uH, 1 A, released in 0.1 us",
+   "value": 5.504121,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_3uh_1a_0p1us",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 1 A, released in 0.1 us",
+   "value": 5.507604,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_1p2a_5us",
+   "label": "Highest voltage of the supply node: 3 uH, 1.2 A, released in 5 us",
+   "value": 5.567556,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_3uh_1p2a_5us",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 1.2 A, released in 5 us",
+   "value": 5.571418,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_1p2a_0p1us_derated",
+   "label": "Highest voltage of the supply node: 3 uH, 1.2 A, released in 0.1 us, capacitors at 40 %",
+   "value": 6.044741,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_3uh_1p2a_0p1us_derated",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 1.2 A, released in 0.1 us, capacitors at 40 %",
+   "value": 6.047159,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_1p2a_0p1us_no_damper",
+   "label": "Highest voltage of the supply node: 3 uH, 1.2 A, released in 0.1 us, without the damper",
+   "value": 6.839102,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_3uh_1p2a_0p1us_no_damper",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 1.2 A, released in 0.1 us, without the damper",
+   "value": 6.838531,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_1p2a_0p1us_no_damper_derated",
+   "label": "Highest voltage of the supply node: 3 uH, 1.2 A, released in 0.1 us, without the damper, capacitors at 40 %",
+   "value": 7.776446,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_3uh_1p2a_0p1us_no_damper_derated",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, 1.2 A, released in 0.1 us, without the damper, capacitors at 40 %",
+   "value": 7.775576,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "supply_side",
+   "label": "Largest voltage across the transistor on the supply side, runs with the damper",
+   "value": 0.006518501,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_side",
+   "label": "Largest voltage across the transistor on the ladder side, runs with the damper",
+   "value": 0.00368587,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_source",
+   "label": "Largest gate-source voltage of the pair, runs with the damper",
+   "value": 6.855673,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "rating of the CSD17577Q3A, 20 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate",
+   "label": "Highest voltage of the gate, runs with the damper",
+   "value": 12.72824,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "bound",
+   "label": "Largest current in the diode from the gate to +12 V_A, runs with the damper",
+   "value": 2.354403e-08,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor",
+   "label": "Largest current in the suppressor of VIN, runs with the damper",
+   "value": 0.0008939591,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "capacitor",
+   "label": "Highest voltage on the capacitor of the damped branch, runs with the damper",
+   "value": 5.986481,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 25.0,
+   "source": "rated voltage of C62 and C63, 25 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "damper_current",
+   "label": "Largest current in the resistor of the damped branch, runs with the damper",
+   "value": 0.8727341,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "damper_energy",
+   "label": "Largest energy in the resistor of the damped branch per release",
+   "value": 1.494378e-06,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The output pair and the device under test belong to another block. A current sink on the node after the shunts stands for them; it stops within 0.1 us, which is faster than the output pair opens (its gate is below 2 V within 7 us, specification), or within 5 us.",
+  "At these currents the leads hold microjoules: 2.2 uJ at 1.2 A and 3 uH. The node rises by 0.4 V to 1.1 V with the damped branch and by 1.9 V to 2.8 V without it, and neither the bound of the gate nor the suppressor takes part. Voltages of 10 V to 11 V on the node and of 30 V and more on the VIN line belong to a short circuit, in which the leads carry 15 A to 34 A when the trip acts, and to a supply that leaves its range while the pair is closed: the benches short, overvoltage and reversal run those cases.",
+  "The external supply is a voltage source behind its leads, 40 mohm per uH, and it takes current back: after the release the node rings against the leads through the closed pair.",
+  "The share of 40 % for the capacitors under bias is an assumption."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

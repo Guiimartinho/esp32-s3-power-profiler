@@ -1,0 +1,23 @@
+* RP2350 pad: levels, pull-down and the current of erratum E9
+.include "../../models/digital.lib"
+* pads at the 4 mA setting with 4 mA drawn and fed; a released pad with
+* its pull-down; a standard pad pulled above the 3.3 V of the module
+Viovdd iovdd 0 3.3
+Vhi hi 0 1
+Vlo lo 0 0
+X1 p1 hi hi iovdd 0 DIGITAL_RP2350_PAD
+I1 p1 0 4m
+X2 p2 lo hi iovdd 0 DIGITAL_RP2350_PAD
+I2 0 p2 4m
+X3 p3 lo lo iovdd 0 DIGITAL_RP2350_PAD rpd=36k
+V3 p3 0 3.3
+X4 p4 lo lo iovdd 0 DIGITAL_RP2350_PAD_STD
+I4 0 p4 1m
+* a released pad of stepping A2 with its input enabled: the voltage is
+* stepped and the current out of the pad is read
+X5 p5 lo lo iovdd 0 DIGITAL_RP2350_PAD e9=1
+V5 p5 0 0
+.control
+dc V5 0 3.3 0.02
+.endc
+.end

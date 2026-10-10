@@ -1,0 +1,607 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "tracking",
+ "title": "The tracking pre-regulator at rest: law, head room on the curve, dissipation",
+ "covers": "section 4.2 (pre-regulator, table of the curve), requirement R-08, decisions D-55, D-56",
+ "summary": "The source is powered up at a series of output voltages and loads and read at rest. Without load the output of the pre-regulator over the output of the linear regulator gives the tracking law, and the difference amplifier alone gives the three weights of its feedback voltage. At the four points of the curve of requirement R-08 the runs give the head room at the IN pin, the dissipation of the regulator and the power taken from the 5 V rail, with a typical regulator and with one at the guaranteed dropout. A corner run puts the six resistors of the amplifier, the feedback reference of the converter and the reference voltage at the limits that lower the pre-regulator. One more run loads the output with 5 ohm at 5.0 V, beyond the curve.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "law_offset",
+   "label": "Tracking law: offset",
+   "value": 0.6717877,
+   "unit": "V",
+   "expected": 0.672,
+   "low": 0.66528,
+   "high": 0.67872,
+   "source": "section 4.2",
+   "verdict": "pass"
+  },
+  {
+   "key": "law_slope",
+   "label": "Tracking law: slope",
+   "value": 0.956097,
+   "unit": "",
+   "expected": 0.956,
+   "low": 0.95122,
+   "high": 0.96078,
+   "source": "section 4.2",
+   "verdict": "pass"
+  },
+  {
+   "key": "weight_pre",
+   "label": "Feedback voltage: weight of the pre-regulator output",
+   "value": 0.2002706,
+   "unit": "",
+   "expected": 0.2,
+   "low": 0.198,
+   "high": 0.202,
+   "source": "section 4.2: 0.200 x V_PRE + 0.146 x VREF - 0.191 x V_LDO",
+   "verdict": "pass"
+  },
+  {
+   "key": "weight_ldo",
+   "label": "Feedback voltage: weight of the regulator output",
+   "value": -0.1914813,
+   "unit": "",
+   "expected": -0.191,
+   "low": -0.19291,
+   "high": -0.18909,
+   "source": "section 4.2",
+   "verdict": "pass"
+  },
+  {
+   "key": "weight_ref",
+   "label": "Feedback voltage: weight of the reference",
+   "value": 0.1461829,
+   "unit": "",
+   "expected": 0.146,
+   "low": 0.14454,
+   "high": 0.14746,
+   "source": "section 4.2",
+   "verdict": "pass"
+  },
+  {
+   "key": "feedback",
+   "label": "Feedback pin at rest, 5.0 V without load",
+   "value": 0.4999917,
+   "unit": "V",
+   "expected": 0.5,
+   "low": 0.499,
+   "high": 0.501,
+   "source": "section 4.2: the converter holds 0.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "law_end",
+   "label": "Pre-regulator output at 5.05 V of regulator output",
+   "value": 5.499799,
+   "unit": "V",
+   "expected": 5.5,
+   "low": 5.48,
+   "high": 5.52,
+   "source": "section 4.2: the law reaches 5.5 V at 5.05 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_0p8v",
+   "label": "0.8 V without load: pre-regulator output",
+   "value": 1.436192,
+   "unit": "V",
+   "expected": 1.437,
+   "low": 1.432689,
+   "high": 1.441311,
+   "source": "section 4.2, table of the curve: V_PRE, nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_loaded_0p8v",
+   "label": "0.8 V and 1 A: pre-regulator output",
+   "value": 1.432439,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "headroom_0p8v",
+   "label": "0.8 V and 1 A: IN pin above the output, nominal parts",
+   "value": 0.631865,
+   "unit": "V",
+   "expected": 0.637,
+   "low": 0.47,
+   "high": null,
+   "source": "section 4.2, table of the curve: head room, nominal; the limit is the dropout need of the same table",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_0p8v",
+   "label": "0.8 V and 1 A: head room above the dropout need, parts at their limits",
+   "value": 0.1327618,
+   "unit": "V",
+   "expected": 0.085,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2, table of the curve: margin, worst case",
+   "verdict": "pass"
+  },
+  {
+   "key": "regulates_0p8v",
+   "label": "0.8 V and 1 A: fall of the output, regulator at the guaranteed dropout, parts at their limits",
+   "value": 0.0009012278,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "requirement R-08: no overload on the curve; 10 mV is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_1a_0p8v",
+   "label": "0.8 V at 1 A, typical regulator: fall of the output",
+   "value": 0.0005059849,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.2: a typical regulator delivers 1 A at every set-point",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_2v",
+   "label": "2 V without load: pre-regulator output",
+   "value": 2.584435,
+   "unit": "V",
+   "expected": 2.584,
+   "low": 2.576248,
+   "high": 2.591752,
+   "source": "section 4.2, table of the curve: V_PRE, nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_loaded_2v",
+   "label": "2 V and 1 A: pre-regulator output",
+   "value": 2.580692,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "headroom_2v",
+   "label": "2 V and 1 A: IN pin above the output, nominal parts",
+   "value": 0.579132,
+   "unit": "V",
+   "expected": 0.584,
+   "low": 0.47,
+   "high": null,
+   "source": "section 4.2, table of the curve: head room, nominal; the limit is the dropout need of the same table",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_2v",
+   "label": "2 V and 1 A: head room above the dropout need, parts at their limits",
+   "value": 0.07650726,
+   "unit": "V",
+   "expected": 0.025,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2, table of the curve: margin, worst case",
+   "verdict": "pass"
+  },
+  {
+   "key": "regulates_2v",
+   "label": "2 V and 1 A: fall of the output, regulator at the guaranteed dropout, parts at their limits",
+   "value": 0.001491851,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "requirement R-08: no overload on the curve; 10 mV is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_1a_2v",
+   "label": "2 V at 1 A, typical regulator: fall of the output",
+   "value": 0.0004945273,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.2: a typical regulator delivers 1 A at every set-point",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_3p3v",
+   "label": "3.3 V without load: pre-regulator output",
+   "value": 3.827041,
+   "unit": "V",
+   "expected": 3.827,
+   "low": 3.815519,
+   "high": 3.838481,
+   "source": "section 4.2, table of the curve: V_PRE, nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_loaded_3p3v",
+   "label": "3.3 V and 0.83 A: pre-regulator output",
+   "value": 3.823909,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "headroom_3p3v",
+   "label": "3.3 V and 0.83 A: IN pin above the output, nominal parts",
+   "value": 0.5228929,
+   "unit": "V",
+   "expected": 0.527,
+   "low": 0.419,
+   "high": null,
+   "source": "section 4.2, table of the curve: head room, nominal; the limit is the dropout need of the same table",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_3p3v",
+   "label": "3.3 V and 0.83 A: head room above the dropout need, parts at their limits",
+   "value": 0.06745688,
+   "unit": "V",
+   "expected": 0.015,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2, table of the curve: margin, worst case",
+   "verdict": "pass"
+  },
+  {
+   "key": "regulates_3p3v",
+   "label": "3.3 V and 0.83 A: fall of the output, regulator at the guaranteed dropout, parts at their limits",
+   "value": 0.002090453,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "requirement R-08: no overload on the curve; 10 mV is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_1a_3p3v",
+   "label": "3.3 V at 1 A, typical regulator: fall of the output",
+   "value": 0.0004846946,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.2: a typical regulator delivers 1 A at every set-point",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_5v",
+   "label": "5 V without load: pre-regulator output",
+   "value": 5.452005,
+   "unit": "V",
+   "expected": 5.452,
+   "low": 5.435644,
+   "high": 5.468356,
+   "source": "section 4.2, table of the curve: V_PRE, nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "pre_loaded_5v",
+   "label": "5 V and 0.6 A: pre-regulator output",
+   "value": 5.449509,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "headroom_5v",
+   "label": "5 V and 0.6 A: IN pin above the output, nominal parts",
+   "value": 0.4492099,
+   "unit": "V",
+   "expected": 0.452,
+   "low": 0.35,
+   "high": null,
+   "source": "section 4.2, table of the curve: head room, nominal; the limit is the dropout need of the same table",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_5v",
+   "label": "5 V and 0.6 A: head room above the dropout need, parts at their limits",
+   "value": 0.05780892,
+   "unit": "V",
+   "expected": 0.002,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2, table of the curve: margin, worst case",
+   "verdict": "pass"
+  },
+  {
+   "key": "regulates_5v",
+   "label": "5 V and 0.6 A: fall of the output, regulator at the guaranteed dropout, parts at their limits",
+   "value": 0.002872878,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "requirement R-08: no overload on the curve; 10 mV is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_1a_5v",
+   "label": "5 V at 1 A, typical regulator: fall of the output",
+   "value": 0.0004746261,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.2: a typical regulator delivers 1 A at every set-point",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_0v8",
+   "label": "Dissipation of the regulator at 0.8 V and 1.0 A, typical",
+   "value": 0.8207642,
+   "unit": "W",
+   "expected": 0.82,
+   "low": 0.7,
+   "high": 1.02,
+   "source": "section 4.2: 0.82 W typical, 1.02 W worst case",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_5v",
+   "label": "Dissipation of the regulator at 5.0 V and 0.6 A, typical",
+   "value": 0.3591515,
+   "unit": "W",
+   "expected": 0.34,
+   "low": 0.28,
+   "high": 0.45,
+   "source": "section 4.2: 0.34 W typical, 0.45 W worst case",
+   "verdict": "pass"
+  },
+  {
+   "key": "watts_1a_0p8v",
+   "label": "Dissipation of the regulator at 0.8 V and 1 A, typical",
+   "value": 0.8207642,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "watts_1a_2v",
+   "label": "Dissipation of the regulator at 2 V and 1 A, typical",
+   "value": 0.7489106,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "watts_1a_3p3v",
+   "label": "Dissipation of the regulator at 3.3 V and 1 A, typical",
+   "value": 0.6710318,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "watts_1a_5v",
+   "label": "Dissipation of the regulator at 5 V and 1 A, typical",
+   "value": 0.5688129,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_curve_5v",
+   "label": "Power the pre-regulator takes from the 5 V rail at 5.0 V and 0.6 A",
+   "value": 3.502382,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_1a_5v",
+   "label": "Power the pre-regulator takes from the 5 V rail at 5.0 V and 1 A",
+   "value": 5.80216,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_idle_0v8",
+   "label": "Power the pre-regulator takes from the 5 V rail at 0.8 V without load",
+   "value": 0.08928548,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_idle_5v",
+   "label": "Power the pre-regulator takes from the 5 V rail at 5.0 V without load",
+   "value": 0.1625195,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overload",
+   "label": "Output into 5 ohm at a set-point of 5.0 V, regulator at the guaranteed dropout",
+   "value": 4.729147,
+   "unit": "V",
+   "expected": 4.48,
+   "low": 4.4,
+   "high": null,
+   "source": "section 4.2: 4.48 V simulated; requirement R-08: a sag of up to 0.6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "overload_regulator",
+   "label": "Regulator output in that run",
+   "value": 4.866576,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overload_current",
+   "label": "Current into the 5 ohm in that run",
+   "value": 0.9458293,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overload_typical",
+   "label": "Output into 5 ohm at a set-point of 5.0 V, typical regulator",
+   "value": 4.85807,
+   "unit": "V",
+   "expected": null,
+   "low": 4.4,
+   "high": null,
+   "source": "requirement R-08: a sag of up to 0.6 V beyond the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest",
+   "label": "Largest movement of output and pre-regulator in the last 2 ms of any run",
+   "value": 2.459744e-09,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "limit of this bench: a run counts as at rest below 0.1 mV",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "law",
+   "Tracking at rest: pre-regulator output and head room over the output",
+   "tracking.law.png"
+  ],
+  [
+   "power-up",
+   "The run a curve point is read from: 5.0 V, 0.6 A applied at 9 ms",
+   "tracking.power-up.png"
+  ]
+ ],
+ "notes": [
+  "Every figure is the end of a run that starts with all rails at zero and ends at rest. C41 has one hundredth of its value in these runs, which changes no voltage at rest.",
+  "The corner puts each of the six resistors of U19 at the limit of its 0.1 % that lowers the pre-regulator (found by one run per resistor), the feedback reference of the converter at 495 mV and the reference at its lower or upper limit of 0.05 % (assumption). It leaves out what the table of section 4.2 also counts: the drift of the resistors over 40 K and the copper between the converter and the bead, which the netlist does not hold.",
+  "The dropout need is the straight line of section 4.2, 170 mV + 0.300 ohm x I, and the regulator at the guaranteed dropout is the model with the parameters that put it on that line. Both rest on two guaranteed points of the datasheet at 25 C and on an estimate between them.",
+  "The converter is the averaged model: its load regulation of 4.4 mV per ampere at 3.3 V is fitted to the model of the manufacturer (4.5 mV), and its losses to four points of the datasheet at 3.6 V of input.",
+  "The power figures are those of the pre-regulator alone. The control current of the regulator comes from the boost converter, which belongs to another block."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "tracking.amplifier.cir",
+  "tracking.curve-5v.cir"
+ ],
+ "format": 1
+}

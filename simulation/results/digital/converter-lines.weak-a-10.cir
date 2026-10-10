@@ -1,0 +1,68 @@
+* Acquisition frame at 15 MHz, weak pad: converter slow, registers fast
+.include "../../models/digital.lib"
+C92 v3c 0 1e-06
+C98 v3c 0 1e-07
+C99 v3c 0 1e-07
+RRN3_1 gp19 0 4700
+RRN3_2 gp20 0 4700
+RRN3_3 gp21 0 4700
+RRN3_4 gp22 v3a 4700
+RRN4_1 gp19 adc_sck 47
+RRN4_2 gp20 adc_cnv 47
+RRN4_3 gp21 side_load 47
+RRN4_4 gp22 dac_cs_mid 47
+RRN5_1 u30_sclk adc_sck 220
+RRN5_2 u30_dout gp16 220
+RRN5_3 u30_cnv adc_cnv 220
+XU30 u30_cnv u30_dout u30_sclk v3c v3c 0 DIGITAL_ADS8860_IO code=43690 tdo=1.12e-08 cin=8e-12 cout=8e-12
+XU33 side_load adc_sck din4 din5 din6 din7 nc_u33_q7_pad7 0 q33 v3c din0 din1 din2 din3 0 v3c DIGITAL_LV165A tclk=5e-11 tld=5e-11
+XU34 side_load adc_sck vin_ov gate_out mux_a0 mux_a1 nc_u34_q7_pad7 0 q34 q33 pwr_good cmp_up cmp_jump cmp_oc 0 v3c DIGITAL_LV165A tclk=5e-11 tld=5e-11
+R138 q34 gp17 33
+* the 3.3 V rail of the module, an ideal source
+Viovdd iovdd 0 3.3
+* rails of the carrier as ideal sources
+Vlogic v3c 0 3.3
+Vanalog v3a 0 3.3
+* three pads of the controller run the frame; two pads read
+Xgp19 gp19 gp19_ctl gp19_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=8e-12 e9=0
+Xgp20 gp20 gp20_ctl gp20_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=8e-12 e9=0
+Xgp21 gp21 gp21_ctl gp21_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=8e-12 e9=0
+Xgp16 gp16 gp16_ctl gp16_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=8e-12 e9=0
+Xgp17 gp17 gp17_ctl gp17_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=8e-12 e9=0
+Vgp20_ctl gp20_ctl 0 PWL(0 0 1.33333e-07 0 1.33433e-07 1 8.53333e-07 1 8.53433e-07 0)
+Vgp19_ctl gp19_ctl 0 PWL(0 0 8.86667e-07 0 8.86767e-07 1 9.2e-07 1 9.201e-07 0 9.53333e-07 0 9.53433e-07 1 9.86667e-07 1 9.86767e-07 0 1.02e-06 0 1.0201e-06 1 1.05333e-06 1 1.05343e-06 0 1.08667e-06 0 1.08677e-06 1 1.12e-06 1 1.1201e-06 0 1.15333e-06 0 1.15343e-06 1 1.18667e-06 1 1.18677e-06 0 1.22e-06 0 1.2201e-06 1 1.25333e-06 1 1.25343e-06 0 1.28667e-06 0 1.28677e-06 1 1.32e-06 1 1.3201e-06 0 1.35333e-06 0 1.35343e-06 1 1.38667e-06 1 1.38677e-06 0 1.42e-06 0 1.4201e-06 1 1.45333e-06 1 1.45343e-06 0 1.48667e-06 0 1.48677e-06 1 1.52e-06 1 1.5201e-06 0 1.55333e-06 0 1.55343e-06 1 1.58667e-06 1 1.58677e-06 0 1.62e-06 0 1.6201e-06 1 1.65333e-06 1 1.65343e-06 0 1.68667e-06 0 1.68677e-06 1 1.72e-06 1 1.7201e-06 0 1.75333e-06 0 1.75343e-06 1 1.78667e-06 1 1.78677e-06 0 1.82e-06 0 1.8201e-06 1 1.85333e-06 1 1.85343e-06 0 1.88667e-06 0 1.88677e-06 1 1.92e-06 1 1.9201e-06 0)
+Vgp21_ctl gp21_ctl 0 PWL(0 1 1.33333e-07 1 1.33433e-07 0 1.53333e-07 0 1.53433e-07 1)
+Vgp19_oe gp19_oe 0 1
+Vgp20_oe gp20_oe 0 1
+Vgp21_oe gp21_oe 0 1
+Vgp16_ctl gp16_ctl 0 0
+Vgp16_oe gp16_oe 0 0
+Vgp17_ctl gp17_ctl 0 0
+Vgp17_oe gp17_oe 0 0
+* tracks (assumption)
+Ct1 adc_sck 0 2e-11
+Ct2 adc_cnv 0 1e-11
+Ct3 side_load 0 1e-11
+Ct4 gp16 0 1e-11
+Ct5 gp17 0 1e-11
+* the sixteen inputs of the registers, held by ideal sources
+Vs0 mux_a1 0 3.3
+Vs1 mux_a0 0 0
+Vs2 gate_out 0 3.3
+Vs3 vin_ov 0 0
+Vs4 cmp_oc 0 3.3
+Vs5 cmp_jump 0 0
+Vs6 cmp_up 0 3.3
+Vs7 pwr_good 0 0
+Vd0 din7 0 3.3
+Vd1 din6 0 0
+Vd2 din5 0 3.3
+Vd3 din4 0 0
+Vd4 din3 0 3.3
+Vd5 din2 0 0
+Vd6 din1 0 3.3
+Vd7 din0 0 0
+.control
+tran 0.05n 2e-06 0 0.25n
+.endc
+.end

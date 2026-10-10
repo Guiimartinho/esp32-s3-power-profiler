@@ -1,0 +1,71 @@
+* Signal chain: over-range, 0.6 V at the shunt
+.include "../../models/logic.lib"
+.include "../../models/diodes.lib"
+.include "../../models/mux509.lib"
+.include "../../models/opamps.lib"
+.include "../../models/ad8421.lib"
+.include "../../models/signal_chain.lib"
+C75 inn 0 2.2e-11
+C76 inp 0 2.2e-11
+C77 inp inn 2.2e-10
+C78 ped_div 0 1e-06
+C79 p12v_a 0 1e-07
+C80 p12v_a 0 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C83 p12v_a 0 1e-06
+C84 0 m4v_a 1e-07
+C85 lim adc_drv 1.5e-09
+C86 p3v3_a 0 1e-07
+C87 flt 0 6.8e-10
+C88 vdrv 0 1e-07
+C89 ref_cap 0 2.2e-05
+C90 adc_in 0 1e-08
+DD22_1 0 lim BAV199
+DD22_2 lim vdrv BAV199
+R91 mux_a1 0 5100
+R95 mux_a0 0 5100
+XU24 a0 mux_en m4v_a supply sense_r1 s3a s4a inp inn s4b s3b vout_s vout_s p12v_a 0 a1 MUX509
+XU26 ped_div ped p12v_a m4v_a ped OPA197
+XU27 inn rg_a rg_b inp m4v_a ped amp_raw p12v_a AD8421
+XU28 buf_p buf_n p3v3_a 0 buf_out OPA365
+XU29 flt adc_drv vdrv 0 adc_drv OPA365
+XU30 vref adc_in 0 0 cnv SIGNAL_CHAIN_ADS8860
+R111 mux_a1 a1 1000
+R112 mux_a0 a0 1000
+R113 p12v_a mux_en 10000
+R121 vref ped_div 49900
+R122 ped_div 0 1020
+R123 rg_a rg_b 523
+R124 buf_n 0 11000
+R125 amp_raw lim 3900
+R126 vref buf_p 10000
+R127 buf_out buf_n 1000
+R128 lim flt 3900
+R129 buf_out vdrv 10
+R130 adc_drv adc_in 22
+R131 vref ref_cap 0.22
+* ideal rails
+Vp12 p12v_a 0 12
+Vm4 m4v_a 0 -4
+Vp3v3a p3v3_a 0 3.3
+Vref vref 0 2.5
+* the ladder as ideal sources: the node after the shunts, and the
+* voltage across the shunt of each range at its sense taps
+Vvout vout_s 0 3.3
+Vsh0 supply vout_s PWL(0 0.05 2e-05 0.05 2.1e-05 0.6)
+Vsh1 sense_r1 vout_s 0
+Vsh2 s3a s3b 0
+Vk2 s3b vout_s 0
+Vsh3 s4a s4b 0
+Vk3 s4b vout_s 0
+* multiplexer address held for range 0
+Vmux_a0 mux_a0 0 0
+Vmux_a1 mux_a1 0 0
+* the converter acquires: its convert-start line is low
+Vcnv cnv 0 0
+.control
+save amp_raw lim flt adc_drv adc_in vdrv buf_out inp inn Vref#branch @r125[i] @r129[i] @dd22_1[id] @dd22_2[id] @d.xu30.dpu[id]
+tran 50n 0.0004 0 200n
+.endc
+.end

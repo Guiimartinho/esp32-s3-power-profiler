@@ -1,0 +1,151 @@
+* Load step, nominal-10u: 1 uA to 0.5 A with 10 uF at 5 V
+.include "../../models/logic.lib"
+.include "../../models/sequencer.lib"
+.include "../../models/diodes.lib"
+.include "../../models/output_stage.lib"
+.include "../../models/mosfets.lib"
+.include "../../models/mux509.lib"
+.include "../../models/opamps.lib"
+.include "../../models/ad8421.lib"
+.include "../../models/range_logic.lib"
+C62 supply 0 1e-06
+C63 n_c63_pad1 0 4.7e-06
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C69 0 m4v_a 1e-07
+C71 vout_s 0 1e-07
+C74 g_out_rc 0 1e-08
+C75 inn 0 2.2e-11
+C76 inp 0 2.2e-11
+C77 inp inn 2.2e-10
+C78 n_u26_p 0 1e-06
+C79 p12v_a 0 1e-07
+C80 p12v_a 0 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C83 p12v_a 0 1e-06
+C84 0 m4v_a 1e-07
+C85 lim n_u29_n 1.5e-09
+C86 p3v3_a 0 1e-07
+C87 n_u29_p 0 6.8e-10
+C88 vdrv 0 1e-07
+C89 n_c89_pad1 0 2.2e-05
+C90 adc_in 0 1e-08
+C93 th_jump 0 1e-07
+C94 th_oc 0 1e-07
+C95 th_up 0 1e-07
+C96 p3v3_a 0 1e-07
+C97 p3v3_a 0 1e-07
+DD20_1 0 g_out_rc BAV199
+DD20_2 g_out_rc g_out_off BAV199
+XD21 0 vout OUTPUT_PTVS15V
+DD22_1 0 lim BAV199
+DD22_2 lim vdrv BAV199
+DD23_1 0 cmp_in BAV199
+DD23_2 cmp_in p3v3_a BAV199
+MQ10 supply g_clamp_a vout_s IRLML0030_CLAMP
+MQ11 supply g_clamp_b vout_s IRLML0030_CLAMP
+MQ12 supply g_r1 sense_r1 IRLML0030
+MQ13 supply g_r2 sense_r2 IRLML0030
+MQ14 supply g_r3 sense_r3 CSD17577Q3A
+MQ15 vout_s g_out out_mid CSD17577Q3A
+MQ16 vout g_out out_mid CSD17577Q3A
+R87 supply n_c63_pad1 0.47
+R88 gate_r3 0 1000
+R89 gate_r1 0 1000
+R90 supply 0 100000
+R91 mux_a1 0 5100
+R92 supply g_clamp_a 22
+R93 gate_out 0 1000
+R94 gate_r2 0 1000
+R95 mux_a0 0 5100
+R96 gate_r3 n_u22_in_b 1000
+R97 gate_r1 n_u23_in_b 1000
+R98 gate_out n_u22_in_a 1000
+R99 gate_r2 n_u23_in_a 1000
+XU22_1 n_u22_in_a drv_out p12v_a 0 TC4427CH
+XU22_2 n_u22_in_b n_u22_out_b p12v_a 0 TC4427CH
+XU23_1 n_u23_in_a n_u23_out_a p12v_a 0 TC4427CH
+XU23_2 n_u23_in_b n_u23_out_b p12v_a 0 TC4427CH
+XU24 n_u24_a0 n_u24_en m4v_a supply sense_r1 n_u24_s3a n_u24_s4a inp inn n_u24_s4b n_u24_s3b vout_s vout_s p12v_a 0 n_u24_a1 MUX509
+XU26 n_u26_p ped p12v_a m4v_a ped OPA197
+XU27 inn n_r123_pad1 n_r123_pad2 inp m4v_a ped amp_raw p12v_a AD8421
+XU28 n_u28_p n_u28_n p3v3_a 0 n_r127_pad1 OPA365
+XU29 n_u29_p n_u29_n vdrv 0 n_u29_n OPA365
+XU31 cmp_jump th_jump cmp_in 0 cmp_in th_oc cmp_oc p3v3_a RL_MCP6562 tda=4.7e-08 tdb=4.7e-08 vosa=0 vosb=0
+XU32 cmp_in th_up cmp_up p3v3_a 0 MCP656X td=4.7e-08 vos=0
+R100 supply g_clamp_b 22
+R101 supply vout_s 1000
+R102 n_u23_out_b g_r1 47
+R103 g_r1 0 100000
+R104 sense_r1 vout_s 33
+R105 n_u23_out_a g_r2 47
+R106 g_r2 0 100000
+R107 sense_r2 vout_s 1
+RR107_SA sense_r2 n_u24_s3a 0.001
+RR107_SB vout_s n_u24_s3b 0.001
+R108 n_u22_out_b g_r3 10
+R109 g_r3 0 100000
+R110 sense_r3 vout_s 0.1
+RR110_SA sense_r3 n_u24_s4a 0.001
+RR110_SB vout_s n_u24_s4b 0.001
+R111 mux_a1 n_u24_a1 1000
+R112 mux_a0 n_u24_a0 1000
+R113 p12v_a n_u24_en 10000
+R115 drv_out 0 100000
+R116 drv_out g_out_off 220
+R117 drv_out g_out_rc 2.2e+06
+R120 g_out_rc g_out 10
+R121 vref n_u26_p 49900
+R122 n_u26_p 0 1020
+R123 n_r123_pad1 n_r123_pad2 523
+R124 n_u28_n 0 11000
+R125 amp_raw lim 3900
+R126 vref n_u28_p 10000
+R127 n_r127_pad1 n_u28_n 1000
+R128 lim n_u29_p 3900
+R129 n_r127_pad1 vdrv 10
+R130 n_u29_n adc_in 22
+R131 vref n_c89_pad1 0.22
+R132 vref th_jump 34800
+R133 th_jump th_oc 3600
+R134 th_oc th_up 2400
+R135 th_up 0 9310
+R136 amp_raw cmp_in 3010
+R137 cmp_in 0 1000
+* ideal rails
+Vp12 p12v_a 0 12
+Vm4 m4v_a 0 -4
+Vp3v3a p3v3_a 0 3.3
+Vref vref 0 2.5
+* source meter and closed mode switch: 5 V behind 20 mohm
+Vsrc src 0 5
+Rsrc src supply 0.02
+* range sequencer: model of rules F-16 to F-18, not a program
+Xseq cmp_up cmp_jump cmp_oc seq_down seq_enable seq_out_on gate_r1 gate_r2 gate_r3 mux_a0 mux_a1 gate_out SEQUENCER tseq=1e-07 toverlap=1e-06 tblank=2e-06 toc=1.2e-05
+* lines that firmware would drive: step-down request, enable, output request
+Vdown seq_down 0 0
+Venable seq_enable 0 3.3
+Vouton seq_out_on 0 3.3
+* device under test: a lead, a capacitor with its series resistance and
+* a current sink that stops drawing below about 0.1 V
+Rlead vout dut 0.001
+Cdut dut dut_c 1e-05
+Resr dut_c 0 0.005
+Vprog iprog 0 PWL(0 1e-06 2e-06 1e-06 2.01e-06 0.5)
+Rprog iprog 0 1k
+Bload dut 0 I = v(iprog)*0.5*(1 + tanh((v(dut) - 0.1)/0.02))
+* the run starts at rest in range 0, the output on
+.ic v(xu31.xa.h)=0 v(xu31.xb.h)=0 v(xu32.h)=0 v(g_r1)=0 v(g_r2)=0 v(g_r3)=0 v(g_out)=12 v(g_out_rc)=12 v(xseq.l1)=0 v(xseq.l2)=0 v(xseq.l3)=0 v(xseq.trip)=0
+.options method=gear
+.options trtol=1
+.options itl4=100
+.options abstol=1e-9
+.control
+save supply vout_s vout dut inp inn amp_raw cmp_in th_up th_oc th_jump cmp_up cmp_oc cmp_jump gate_r1 gate_r2 gate_r3 gate_out mux_a0 mux_a1 g_r1 g_r2 g_r3 g_out sense_r1 sense_r2 sense_r3 iprog @r101[i] @r104[i] @r107[i] @r110[i] @r108[i] @mq10[id] @mq11[id]
+tran 2e-09 3e-05
+.endc
+.end

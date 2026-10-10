@@ -1,0 +1,10 @@
+* SMAJ20CA: stand-off voltage
+.include "../../models/path_switching.lib"
+XD14 a 0 PATH_SMAJ20CA
+* the stand-off voltage of 20 V on the terminal
+Vtest a 0 dc 20 ac 1
+.control
+op
+ac lin 1 1e+06 1e+06
+.endc
+.end

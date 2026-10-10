@@ -1,0 +1,232 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "power-input-multiplexer",
+ "title": "TPS2116 model against its datasheet",
+ "covers": "the model of the power multiplexer U5",
+ "summary": "The multiplexer of the schematic is put, alone, into the test circuits of its datasheet. The soft start at three input voltages, the change of input with the threshold of the priority pin and the time without a channel, the on-resistance, the two levels of the reverse current blocking and the status output.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "start_5v_delay",
+   "label": "Soft start at 5 V: delay to 10 %",
+   "value": 0.001010264,
+   "unit": "s",
+   "expected": 0.001,
+   "low": 0.00085,
+   "high": 0.00115,
+   "source": "TI SLVSFG1A page 7, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_5v_soft",
+   "label": "Soft start at 5 V: 10 % to 90 %",
+   "value": 0.001702299,
+   "unit": "s",
+   "expected": 0.0017,
+   "low": 0.001445,
+   "high": 0.001955,
+   "source": "TI SLVSFG1A page 7, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_3p3v_delay",
+   "label": "Soft start at 3.3 V: delay to 10 %",
+   "value": 0.001127785,
+   "unit": "s",
+   "expected": 0.0012,
+   "low": 0.00102,
+   "high": 0.00138,
+   "source": "TI SLVSFG1A page 7, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_3p3v_soft",
+   "label": "Soft start at 3.3 V: 10 % to 90 %",
+   "value": 0.001352923,
+   "unit": "s",
+   "expected": 0.0013,
+   "low": 0.001105,
+   "high": 0.001495,
+   "source": "TI SLVSFG1A page 7, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_1p8v_delay",
+   "label": "Soft start at 1.8 V: delay to 10 %",
+   "value": 0.00127891,
+   "unit": "s",
+   "expected": 0.0014,
+   "low": 0.00119,
+   "high": 0.00161,
+   "source": "TI SLVSFG1A page 7, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_1p8v_soft",
+   "label": "Soft start at 1.8 V: 10 % to 90 %",
+   "value": 0.0008994829,
+   "unit": "s",
+   "expected": 0.0009,
+   "low": 0.000765,
+   "high": 0.001035,
+   "source": "TI SLVSFG1A page 7, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "priority_up",
+   "label": "Priority pin: voltage at which input 1 is taken",
+   "value": 1.00481,
+   "unit": "V",
+   "expected": 1.0,
+   "low": 0.92,
+   "high": 1.08,
+   "source": "TI SLVSFG1A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "priority_down",
+   "label": "Priority pin: voltage at which input 1 is left",
+   "value": 0.9952345,
+   "unit": "V",
+   "expected": 1.0,
+   "low": 0.92,
+   "high": 1.08,
+   "source": "TI SLVSFG1A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "change_time",
+   "label": "Change of input at 5 V with 10 ohm and 10 uF: output at its lowest after the priority pin has stepped",
+   "value": 8.429671e-06,
+   "unit": "s",
+   "expected": 8e-06,
+   "low": 4.8e-06,
+   "high": 1.12e-05,
+   "source": "TI SLVSFG1A page 7: 8 us typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "change_dip",
+   "label": "The same: dip of the output",
+   "value": 0.3297702,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "status_low",
+   "label": "Status output at 1 mA while input 2 supplies",
+   "value": 0.1,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "TI SLVSFG1A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "status_high",
+   "label": "Status output while input 1 supplies",
+   "value": 3.396633,
+   "unit": "V",
+   "expected": null,
+   "low": 3.3,
+   "high": null,
+   "source": "TI SLVSFG1A page 11: pulled high while input 1 is used",
+   "verdict": "pass"
+  },
+  {
+   "key": "on_ohms",
+   "label": "On-resistance at 5 V, from the drop and the current of input 1",
+   "value": 0.03700002,
+   "unit": "ohm",
+   "expected": 0.037,
+   "low": null,
+   "high": 0.046,
+   "source": "TI SLVSFG1A page 6, 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_open",
+   "label": "Reverse blocking: output above the input when the channel opens",
+   "value": 0.04173924,
+   "unit": "V",
+   "expected": 0.042,
+   "low": null,
+   "high": 0.07,
+   "source": "TI SLVSFG1A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_amps",
+   "label": "Reverse blocking: current back into the input before that",
+   "value": 1.128088,
+   "unit": "A",
+   "expected": 1.4,
+   "low": null,
+   "high": 4.0,
+   "source": "TI SLVSFG1A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_close",
+   "label": "Reverse blocking: output above the input when the channel closes again",
+   "value": 0.02013712,
+   "unit": "V",
+   "expected": 0.017,
+   "low": null,
+   "high": 0.04,
+   "source": "TI SLVSFG1A page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_leak",
+   "label": "Current back into the input while the channel is open",
+   "value": 1.514999e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.5e-07,
+   "source": "TI SLVSFG1A page 6: 1 nA typical, 0.15 uA at 105 C",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "Soft start at 5 V into 100 ohm and 10 uF",
+   "power-input-multiplexer.start.png"
+  ],
+  [
+   "change",
+   "Change from input 1 to input 2, both at 5 V, with 10 ohm and 10 uF",
+   "power-input-multiplexer.change.png"
+  ]
+ ],
+ "notes": [
+  "The fit this project asks of the model is 15 % on a typical value; where the datasheet states limits, the limits are the ones of the datasheet.",
+  "The model is a typical part at 25 C. Its leakage is a resistor that keeps the matrix regular: the leakage figure is no statement about the part.",
+  "The time of the change is read at the lowest point of the output; the datasheet does not say how it measures its 8 us, so the limit is wide."
+ ],
+ "models": [
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "power-input-multiplexer.change.cir",
+  "power-input-multiplexer.reverse.cir",
+  "power-input-multiplexer.start-5v.cir"
+ ],
+ "format": 1
+}

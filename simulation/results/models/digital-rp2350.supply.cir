@@ -1,0 +1,17 @@
+* Pico 2: supply side of the module
+.include "../../models/digital.lib"
+* module fed from its own connector: 5 V on VBUS, nothing else on VSYS
+Vbus vbus 0 5
+X1 vbus vsys 0 DIGITAL_PICO2_SUPPLY
+* module fed at VSYS: its diode blocks and its divider holds VBUS low
+Vsys wsys 0 5
+X2 wbus wsys 0 DIGITAL_PICO2_SUPPLY
+* the diode alone at the currents of its datasheet
+Id 0 da 0.1
+Dd da 0 DIGITAL_PMEG6010
+Ie 0 ea 1
+De ea 0 DIGITAL_PMEG6010
+.control
+tran 10u 20m
+.endc
+.end

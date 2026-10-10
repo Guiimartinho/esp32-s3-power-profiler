@@ -1,0 +1,441 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "blanking",
+ "title": "The blanking time: the old voltage after a change and the pulse of a step down",
+ "covers": "section 4.4 (blanking), rule F-17, decision D-76, section 11 (step down at 59 mA)",
+ "summary": "Two things that the step-up comparator must not act on are measured. First the old voltage. After a jump to range 3 the comparators still see what the amplifier held before: the capacitors at its inputs discharge through the multiplexer, and its output comes back from a voltage far above the thresholds. The run steps the load from 1 uA to 500 mA and to 20 mA, with and without a capacitor at the terminals, and reads how long CMP_UP stays high after the address changed. Second the pulse of a step down. The sequencer is in range 3 with 59 mA and no capacitor at the terminals, firmware asks for one step down, and the gate of the range 3 switch falls 1 us after range 2 took over. Below its threshold that gate pulls its charge out of the load node through the 1 ohm shunt. The run reads the pulse at the ladder, at the amplifier inputs and at the comparator inputs, with the step-up threshold at the lower limit of its band, at 5.0 V, 5.5 V and 0.8 V and with the multiplexer at 125 ohm, 250 ohm and 430 ohm.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "stale_shortest",
+   "label": "CMP_UP high after the address changed, shortest of the load steps",
+   "value": 2.585794e-07,
+   "unit": "s",
+   "expected": 6e-07,
+   "low": null,
+   "high": 3e-06,
+   "source": "section 4.4: 0.6 us to 1.0 us, simulated; rule F-17: blanked for 3 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "stale_longest",
+   "label": "CMP_UP high after the address changed, longest of the load steps",
+   "value": 8.329313e-07,
+   "unit": "s",
+   "expected": 1e-06,
+   "low": null,
+   "high": 3e-06,
+   "source": "section 4.4: 0.6 us to 1.0 us, simulated; rule F-17: blanked for 3 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "stale_1uf_125",
+   "label": "The same: 500 mA, 1 uF, 125 ohm",
+   "value": 4.187376e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_1uf_250",
+   "label": "The same: 500 mA, 1 uF, 250 ohm",
+   "value": 5.234647e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_1uf_430",
+   "label": "The same: 500 mA, 1 uF, 430 ohm",
+   "value": 6.652452e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_1uf_worst",
+   "label": "The same: 500 mA, 1 uF, worst delays",
+   "value": 7.31397e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_none_125",
+   "label": "The same: 500 mA, no capacitor, 125 ohm",
+   "value": 4.518929e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_none_250",
+   "label": "The same: 500 mA, no capacitor, 250 ohm",
+   "value": 5.425366e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_none_430",
+   "label": "The same: 500 mA, no capacitor, 430 ohm",
+   "value": 7.647243e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_none_worst",
+   "label": "The same: 500 mA, no capacitor, worst delays",
+   "value": 8.329313e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_100nf_250",
+   "label": "The same: 500 mA, 100 nF, 250 ohm",
+   "value": 4.871113e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_small_none_250",
+   "label": "The same: 20 mA, no capacitor, 250 ohm",
+   "value": 2.585794e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "stale_small_none_430",
+   "label": "The same: 20 mA, no capacitor, 430 ohm",
+   "value": 3.217936e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_changes",
+   "label": "Range changes after one step-down request, most of the nine runs",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": 1.0,
+   "high": 1.0,
+   "source": "section 11: one change of the range bits, no step back up",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_over",
+   "label": "Pulse over after the gate line fell, longest of the nine runs",
+   "value": 7.834082e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 2e-06,
+   "source": "rule F-17: blanked until 2.0 us after the last change",
+   "verdict": "pass"
+  },
+  {
+   "key": "down_ladder_5v_125",
+   "label": "5.0 V, 125 ohm: largest ladder voltage in the pulse",
+   "value": 0.09560069,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_sense_5v_125",
+   "label": "5.0 V, 125 ohm: largest voltage at the amplifier inputs",
+   "value": 0.07920637,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_input_5v_125",
+   "label": "5.0 V, 125 ohm: largest voltage at the comparator inputs",
+   "value": 0.4019814,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_ladder_5p5v_125",
+   "label": "5.5 V, 125 ohm: largest ladder voltage in the pulse",
+   "value": 0.09964511,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_sense_5p5v_125",
+   "label": "5.5 V, 125 ohm: largest voltage at the amplifier inputs",
+   "value": 0.08182612,
+   "unit": "V",
+   "expected": 0.0875,
+   "low": null,
+   "high": null,
+   "source": "section 4.4: reaches the lowest step-up threshold, simulated",
+   "verdict": "info"
+  },
+  {
+   "key": "down_input_5p5v_125",
+   "label": "5.5 V, 125 ohm: largest voltage at the comparator inputs",
+   "value": 0.4145004,
+   "unit": "V",
+   "expected": 0.4473537,
+   "low": null,
+   "high": null,
+   "source": "the same threshold at the comparator input",
+   "verdict": "info"
+  },
+  {
+   "key": "down_ladder_0p8v_125",
+   "label": "0.8 V, 125 ohm: largest ladder voltage in the pulse",
+   "value": 0.06266279,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_sense_0p8v_125",
+   "label": "0.8 V, 125 ohm: largest voltage at the amplifier inputs",
+   "value": 0.05971232,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_input_0p8v_125",
+   "label": "0.8 V, 125 ohm: largest voltage at the comparator inputs",
+   "value": 0.3090705,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_sense_5p5v_250",
+   "label": "5.5 V, 250 ohm: largest voltage at the amplifier inputs",
+   "value": 0.07004304,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_sense_5p5v_430",
+   "label": "5.5 V, 430 ohm: largest voltage at the amplifier inputs",
+   "value": 0.06134059,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "down_comparator",
+   "label": "CMP_UP high after the request, threshold at its lowest, longest of the runs",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "old-voltage",
+   "After the jump to range 3 on a 500 mA step: what the step-up comparator sees",
+   "blanking.old-voltage.png"
+  ],
+  [
+   "step-down",
+   "Step down from range 3 to range 2 at 59 mA, no capacitor, multiplexer 125 ohm",
+   "blanking.step-down.png"
+  ]
+ ],
+ "notes": [
+  "Old voltage: the amplifier model returns from its output limit at its slew rate. The overload recovery of the real part is not in its datasheet and not in the model; it adds to these times, and the specification allows 5 us for it elsewhere (section 4.5), which is longer than the 3 us from the first change to the end of the blanking. After a jump that does no harm, because range 3 has no step up left.",
+  "Step down: the size of the pulse follows the gate charge of the range 3 switch below its threshold. The model of that switch is fitted to the typical gate charge curve of its datasheet (12 nC at 4.5 V) and has a fixed gate-source capacitance; a part at the upper end of its gate charge gives a larger pulse.",
+  "With the transistor model written here the pulse stays 6 mV below the lowest step-up threshold at 5.5 V with the multiplexer at 125 ohm. With the model of the manufacturer, in the vendor tier, it is a tenth larger and passes that threshold by 3 mV at 5.5 V, as the specification says, and comes within 1 mV of it at 5.0 V. The two models differ in how they split the gate charge, which the datasheet does not settle. The blanking covers the pulse in either case.",
+  "The comparator model passes no pulse shorter than its delay of 47 ns, and the model of the sequencer none shorter than its reaction time: whether a short pulse above a threshold would move a real sequencer cannot be read from them. The figures to rely on are the voltages.",
+  "The source holds its voltage behind 20 mohm; 5.5 V is above the 5.00 V that firmware allows as a set-point and stands for the worst case of section 11.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "blanking.1uf-250.cir",
+  "blanking.5p5v-125.cir",
+  "blanking.5v-125.cir",
+  "blanking.none-250.cir"
+ ],
+ "format": 1
+}

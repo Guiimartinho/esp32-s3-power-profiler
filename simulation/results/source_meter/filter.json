@@ -1,0 +1,236 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "filter",
+ "title": "The filter in front of the IN pin: source impedance with and without the damper",
+ "covers": "section 4.2 (filter toward the regulator)",
+ "summary": "A test current is fed into the node of the IN pin and the voltage is read. The circuit is the bead FB1, the capacitor C46, the damper C43 with R59, and the output capacitors of the converter with their bleeder; the converter and the regulator are left out. The capacitors have the capacitance of their bias curve at 0.8 V and at 5.0 V of output, and the bead takes three values of its inductance, which its specification does not state. The same runs without the damper show what it is for.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "peak_0p8v_100nh",
+   "label": "0.8 V of output, bead of 0.1 uH: highest impedance at the IN pin above 20 kHz, with the damper",
+   "value": 0.313462,
+   "unit": "ohm",
+   "expected": 0.32,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.27 ohm to 0.37 ohm with the damper (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_hertz_0p8v_100nh",
+   "label": "0.8 V of output, bead of 0.1 uH: frequency of that peak",
+   "value": 175213.9,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_0p8v_100nh",
+   "label": "0.8 V of output, bead of 0.1 uH: highest impedance without the damper",
+   "value": 4.066433,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_0p8v_200nh",
+   "label": "0.8 V of output, bead of 0.2 uH: highest impedance at the IN pin above 20 kHz, with the damper",
+   "value": 0.3279971,
+   "unit": "ohm",
+   "expected": 0.32,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.27 ohm to 0.37 ohm with the damper (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_hertz_0p8v_200nh",
+   "label": "0.8 V of output, bead of 0.2 uH: frequency of that peak",
+   "value": 121147.3,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_0p8v_200nh",
+   "label": "0.8 V of output, bead of 0.2 uH: highest impedance without the damper",
+   "value": 6.875359,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_0p8v_500nh",
+   "label": "0.8 V of output, bead of 0.5 uH: highest impedance at the IN pin above 20 kHz, with the damper",
+   "value": 0.3524873,
+   "unit": "ohm",
+   "expected": 0.32,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.27 ohm to 0.37 ohm with the damper (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_hertz_0p8v_500nh",
+   "label": "0.8 V of output, bead of 0.5 uH: frequency of that peak",
+   "value": 72939.57,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_0p8v_500nh",
+   "label": "0.8 V of output, bead of 0.5 uH: highest impedance without the damper",
+   "value": 9.092738,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_5v_100nh",
+   "label": "5 V of output, bead of 0.1 uH: highest impedance at the IN pin above 20 kHz, with the damper",
+   "value": 0.3255645,
+   "unit": "ohm",
+   "expected": 0.32,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.27 ohm to 0.37 ohm with the damper (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_hertz_5v_100nh",
+   "label": "5 V of output, bead of 0.1 uH: frequency of that peak",
+   "value": 241986.8,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_5v_100nh",
+   "label": "5 V of output, bead of 0.1 uH: highest impedance without the damper",
+   "value": 6.706859,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_5v_200nh",
+   "label": "5 V of output, bead of 0.2 uH: highest impedance at the IN pin above 20 kHz, with the damper",
+   "value": 0.3382868,
+   "unit": "ohm",
+   "expected": 0.32,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.27 ohm to 0.37 ohm with the damper (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_hertz_5v_200nh",
+   "label": "5 V of output, bead of 0.2 uH: frequency of that peak",
+   "value": 167315.7,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_5v_200nh",
+   "label": "5 V of output, bead of 0.2 uH: highest impedance without the damper",
+   "value": 10.69145,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_5v_500nh",
+   "label": "5 V of output, bead of 0.5 uH: highest impedance at the IN pin above 20 kHz, with the damper",
+   "value": 0.3741757,
+   "unit": "ohm",
+   "expected": 0.32,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.27 ohm to 0.37 ohm with the damper (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_hertz_5v_500nh",
+   "label": "5 V of output, bead of 0.5 uH: frequency of that peak",
+   "value": 94002.29,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_5v_500nh",
+   "label": "5 V of output, bead of 0.5 uH: highest impedance without the damper",
+   "value": 13.0811,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "impedance",
+   "Impedance at the IN pin of the regulator, bead of 0.2 uH",
+   "filter.impedance.png"
+  ]
+ ],
+ "notes": [
+  "The inductance of the bead is an assumption, 0.1 uH to 0.5 uH: its reference specification gives the impedance at 100 MHz and the DC resistance alone. The copper between the converter and the bead, which section 10 holds to 15 mohm, is not in the netlist and not in this circuit; its inductance would add to that of the bead.",
+  "The capacitors are ideal apart from their bias: no series resistance and no series inductance, so the impedance above some megahertz is lower here than on a board.",
+  "The converter is left out: below its crossover, 19 kHz to 28 kHz in the model, its loop holds the impedance down, and the band of the peak starts there. The specification gives no limit for this impedance; the datasheet of the regulator asks for none at the IN pin."
+ ],
+ "models": [
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "filter.damped-5v-200nh.cir"
+ ],
+ "format": 1
+}

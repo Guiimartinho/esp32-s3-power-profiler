@@ -1,0 +1,27 @@
+* LT3042: dropout and current limit
+.include "../../models/analog_rails.lib"
+* dropout: the input falls slowly from 6 V, the load is a current sink
+Vd ind 0 PWL(0 0 1m 6 10m 6 0.21 4.5)
+Vend end 0 PWL(0 0 2m 3)
+Xd1 ind end pgd1 0 ind setd1 0 od1 od1 LT3042
+Rsetd1 setd1 0 49.9k
+Cod1 od1 0 4.7u
+Id1 od1 0 PWL(0 0 5m 0 6m 0.2)
+Xd2 ind end pgd2 0 ind setd2 0 od2 od2 LT3042
+Rsetd2 setd2 0 49.9k
+Cod2 od2 0 4.7u
+Id2 od2 0 PWL(0 0 5m 0 6m 0.05)
+* current limit: the output held at 0 V, 12 V and 20 V at the input
+Vl12 inl12 0 PWL(0 0 1m 12)
+Xl12 inl12 end pgl1 0 inl12 setl1 0 ol12 ol12 LT3042
+Rsetl1 setl1 0 49.9k
+Vs12 ol12 0 0
+Vl20 inl20 0 PWL(0 0 1m 20)
+Xl20 inl20 end pgl2 0 inl20 setl2 0 ol20 ol20 LT3042
+Rsetl2 setl2 0 49.9k
+Vs20 ol20 0 0
+.control
+save ind od1 od2 i(Vs12) i(Vs20)
+tran 50u 0.21 0 50u
+.endc
+.end

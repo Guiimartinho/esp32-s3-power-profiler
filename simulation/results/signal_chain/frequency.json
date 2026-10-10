@@ -1,0 +1,252 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "frequency",
+ "title": "Frequency response: input filter and anti-alias filter",
+ "covers": "section 4.5 (input filter D-65, anti-alias filter), section 4.3 (multiplexer resistance)",
+ "summary": "Small-signal runs around a shunt voltage of 50 mV in range 0. A source across the shunt gives the response to the signal: from the shunt to the amplifier inputs (the input filter, with 125 ohm, 250 ohm and 430 ohm in a multiplexer channel), from the amplifier output to the driver output (the anti-alias filter) and from the shunt to the converter input. A source on the node after the shunts moves both sense taps together and gives the response of the input filter to the common mode. The parts of the anti-alias filter are then drawn 60 times inside their tolerances.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "input_tau_125r",
+   "label": "Input filter, signal: time constant with 125 ohm per channel",
+   "value": 5.98653e-08,
+   "unit": "s",
+   "expected": 6e-08,
+   "low": 5.4e-08,
+   "high": 6.6e-08,
+   "source": "section 4.5: 0.06 us to 0.20 us over 125 ohm to 430 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_corner",
+   "label": "Input filter, signal: corner with 250 ohm per channel",
+   "value": 1329287.0,
+   "unit": "Hz",
+   "expected": 1350000.0,
+   "low": 1282500.0,
+   "high": 1417500.0,
+   "source": "section 4.5, D-65: 1.35 MHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_tau_250r",
+   "label": "Input filter, signal: time constant with 250 ohm per channel",
+   "value": 1.197296e-07,
+   "unit": "s",
+   "expected": 1.2e-07,
+   "low": 1.08e-07,
+   "high": 1.32e-07,
+   "source": "section 4.5: 0.06 us to 0.20 us over 125 ohm to 430 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_tau_430r",
+   "label": "Input filter, signal: time constant with 430 ohm per channel",
+   "value": 2.059274e-07,
+   "unit": "s",
+   "expected": 2e-07,
+   "low": 1.8e-07,
+   "high": 2.2e-07,
+   "source": "section 4.5: 0.06 us to 0.20 us over 125 ohm to 430 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_corner_cm",
+   "label": "Input filter, common mode: corner with 250 ohm per channel",
+   "value": 20034270.0,
+   "unit": "Hz",
+   "expected": 20000000.0,
+   "low": 18000000.0,
+   "high": 22000000.0,
+   "source": "section 4.5, D-65: 20 MHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "filter_frequency",
+   "label": "Anti-alias filter: natural frequency",
+   "value": 40263.8,
+   "unit": "Hz",
+   "expected": 40000.0,
+   "low": 38800.0,
+   "high": 41200.0,
+   "source": "section 4.5: two poles at 40 kHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "filter_q",
+   "label": "Anti-alias filter: Q",
+   "value": 0.7415475,
+   "unit": "",
+   "expected": 0.74,
+   "low": 0.7178,
+   "high": 0.7622,
+   "source": "section 4.5: Q = 0.74",
+   "verdict": "pass"
+  },
+  {
+   "key": "filter_peaking",
+   "label": "Anti-alias filter: rise above its level at low frequency",
+   "value": 0.03522284,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_gain",
+   "label": "Whole chain: gain at 10 Hz",
+   "value": 19.92921,
+   "unit": "",
+   "expected": 19.92925,
+   "low": 19.90933,
+   "high": 19.94918,
+   "source": "section 4.5: 19.93",
+   "verdict": "pass"
+  },
+  {
+   "key": "chain_corner",
+   "label": "Whole chain: frequency at which the response is 3 dB down",
+   "value": 41994.5,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_at_nyquist",
+   "label": "Whole chain: response at half the sample rate, below its level at 10 Hz",
+   "value": 4.934706,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_at_rate",
+   "label": "Whole chain: response at the sample rate, below its level at 10 Hz",
+   "value": 15.88542,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_at_1mhz",
+   "label": "Whole chain: response at 1 MHz, below its level at 10 Hz",
+   "value": 62.35097,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "filter_frequency_low",
+   "label": "Anti-alias filter: lowest natural frequency of 60 boards",
+   "value": 38940.38,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "filter_frequency_high",
+   "label": "Anti-alias filter: highest natural frequency of 60 boards",
+   "value": 42299.69,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "filter_q_low",
+   "label": "Anti-alias filter: lowest Q of 60 boards",
+   "value": 0.7111059,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "filter_q_high",
+   "label": "Anti-alias filter: highest Q of 60 boards",
+   "value": 0.7730296,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "response",
+   "Signal chain: frequency response",
+   "frequency.response.png"
+  ]
+ ],
+ "notes": [
+  "The ladder is not in this circuit: ideal sources stand on the inputs of the multiplexer, so the source of the input filter is the channel resistance alone.",
+  "The multiplexer model has a fixed resistance per channel and 6.7 pF at each output; the amplifier model has 3 pF between its inputs and 3 pF from each input. The capacitance of the tracks is not in the circuit; with 22 pF from each input to ground it moves the common-mode corner.",
+  "The tolerance of the two filter capacitors is taken as 5 %, the tolerance of their part numbers; the netlist value does not state it. The limits of the natural frequency and of Q are the fit that this bench asks of the nominal circuit, 3 %.",
+  "The amplifier model has two poles and gives 6.4 MHz at this gain; it does not have the peaking near 8 MHz that the datasheet shows at low gain."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "frequency.common-mode.cir",
+  "frequency.signal-250r.cir"
+ ],
+ "format": 1
+}

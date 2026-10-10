@@ -1,0 +1,36 @@
+* Logic line D0: contact discharge of -8 kV, translator pin without a clamp of its own
+.include "../../models/digital.lib"
+RRN6_1 din0 0 100000
+RRN6_2 din1 0 100000
+RRN6_3 din2 0 100000
+RRN6_4 din3 0 100000
+RRN8_1 j_d0 b_d0 330
+RRN8_2 j_d1 b_d1 330
+RRN8_3 j_d2 b_d2 330
+RRN8_4 j_d3 b_d3 330
+XU36 j_d0 j_d1 j_d2 j_d3 0 DIGITAL_TPD4E1U06
+XU38 v3c 0 din0 din1 din2 din3 din4 din5 din6 din7 0 0 0 b_d7 b_d6 b_d5 b_d4 b_d3 b_d2 b_d1 b_d0 0 vccb vccb DIGITAL_LVC8T245
+C100 vccb 0 1e-07
+C101 v3c 0 1e-07
+RRN11_1 b_d0 0 470000
+RRN11_2 b_d1 0 470000
+RRN11_3 b_d2 0 470000
+RRN11_4 b_d3 0 470000
+* contact discharge as a current source: two pulses that give 3.75 A per
+* kilovolt at the first peak with 0.8 ns of rise, 2 A per kilovolt at
+* 30 ns and 1 A per kilovolt at 60 ns
+.param esd_t0=5e-09
+.param esd_a1=-96.0897
+.param esd_a2=-43.1008
+Bx esd_x 0 V = max(time - esd_t0, 0)
+Rx esd_x 0 1
+Besd 0 j_d0 I = esd_a1*pwr(v(esd_x)/1.1n, 1.8)/(1 + pwr(v(esd_x)/1.1n, 1.8))*exp(-v(esd_x)/2n) + esd_a2*pwr(v(esd_x)/12n, 1.8)/(1 + pwr(v(esd_x)/12n, 1.8))*exp(-v(esd_x)/37n)
+Vccb vccb 0 3.3
+Vlogic v3c 0 3.3
+* D2 is held low by a device under test with 50 ohm
+Rd2 j_d2 0 50
+.options gmin=1e-13
+.control
+tran 0.01n 150n 0 0.05n
+.endc
+.end

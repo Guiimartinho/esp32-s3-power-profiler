@@ -1,0 +1,298 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "source-meter-parts",
+ "title": "Diode, transistor, bead and inductor of the source meter against their datasheets",
+ "covers": "the models of D11 and D12, Q1, FB1 and L2",
+ "summary": "Four parts of the schematic are put in the test conditions of their datasheets. The Schottky diode D11 carries a forced current, which gives its forward voltage from 0.1 mA to 1 A, and stands at 4 V in reverse for its capacitance. The transistor Q1 gives its threshold, its on-resistance and its current in saturation. The bead FB1 and the inductor L2 carry a test current over the frequency, which gives their impedance.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "forward_0p1ma",
+   "label": "1N5819HW: forward voltage at 0.1 mA",
+   "value": 0.08849242,
+   "unit": "V",
+   "expected": 0.092,
+   "low": 0.0828,
+   "high": 0.1012,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 3, figure 1, typical at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_1ma",
+   "label": "1N5819HW: forward voltage at 1 mA",
+   "value": 0.1501464,
+   "unit": "V",
+   "expected": 0.15,
+   "low": 0.135,
+   "high": 0.165,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 3, figure 1, typical at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_10ma",
+   "label": "1N5819HW: forward voltage at 10 mA",
+   "value": 0.2133476,
+   "unit": "V",
+   "expected": 0.222,
+   "low": 0.1998,
+   "high": 0.2442,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 3, figure 1, typical at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_100ma",
+   "label": "1N5819HW: forward voltage at 100 mA",
+   "value": 0.283522,
+   "unit": "V",
+   "expected": 0.289,
+   "low": 0.2601,
+   "high": 0.3179,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 3, figure 1, typical at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_1000ma",
+   "label": "1N5819HW: forward voltage at 1000 mA",
+   "value": 0.4225549,
+   "unit": "V",
+   "expected": 0.42,
+   "low": 0.378,
+   "high": 0.462,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 3, figure 1, typical at 25 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_capacitance",
+   "label": "1N5819HW: capacitance at 4 V in reverse",
+   "value": 4.98578e-11,
+   "unit": "F",
+   "expected": 5e-11,
+   "low": 4e-11,
+   "high": 6e-11,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 2: 50 pF typical, 60 pF at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_high_100ma",
+   "label": "1N5819HW, variant at the limit: forward voltage at 100 mA",
+   "value": 0.319582,
+   "unit": "V",
+   "expected": 0.32,
+   "low": 0.304,
+   "high": 0.336,
+   "source": "Diodes Incorporated DS30217 Rev. 22-2, page 2: 0.32 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_on",
+   "label": "BSS138: on-resistance at 10 V and 0.22 A",
+   "value": 1.420419,
+   "unit": "ohm",
+   "expected": 1.4,
+   "low": 1.2,
+   "high": 3.5,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 1.4 ohm typical, 3.5 ohm at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_threshold_typical",
+   "label": "BSS138, typical: gate voltage at 250 uA",
+   "value": 1.089854,
+   "unit": "V",
+   "expected": 1.2,
+   "low": 1.04,
+   "high": 1.25,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 0.5 / 1.2 / 1.5 V; figure 4: 1.05 V typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_follower",
+   "label": "BSS138, typical: gate voltage at 3.3 mA, the current of R53",
+   "value": 1.247722,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "fet_threshold_lower",
+   "label": "BSS138, lower limit: gate voltage at 250 uA",
+   "value": 0.500312,
+   "unit": "V",
+   "expected": 0.5,
+   "low": 0.34,
+   "high": 0.55,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 0.5 / 1.2 / 1.5 V; figure 4: 1.05 V typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_threshold_upper",
+   "label": "BSS138, upper limit: gate voltage at 250 uA",
+   "value": 1.499534,
+   "unit": "V",
+   "expected": 1.5,
+   "low": 1.34,
+   "high": 1.55,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 0.5 / 1.2 / 1.5 V; figure 4: 1.05 V typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_saturation_2p5v",
+   "label": "BSS138: drain current in saturation at 2.5 V on the gate",
+   "value": 0.1870704,
+   "unit": "A",
+   "expected": 0.19,
+   "low": 0.171,
+   "high": 0.209,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 3, figure 1",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_saturation_3v",
+   "label": "BSS138: drain current in saturation at 3 V on the gate",
+   "value": 0.3277663,
+   "unit": "A",
+   "expected": 0.36,
+   "low": 0.324,
+   "high": 0.396,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 3, figure 1",
+   "verdict": "pass"
+  },
+  {
+   "key": "fet_saturation_3p5v",
+   "label": "BSS138: drain current in saturation at 3.5 V on the gate",
+   "value": 0.5011367,
+   "unit": "A",
+   "expected": 0.545,
+   "low": 0.4905,
+   "high": 0.5995,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 3, figure 1",
+   "verdict": "pass"
+  },
+  {
+   "key": "bead_100mhz",
+   "label": "BLM31SN500: impedance at 100 MHz",
+   "value": 46.45705,
+   "unit": "ohm",
+   "expected": 50.0,
+   "low": 37.5,
+   "high": 62.5,
+   "source": "Murata JENF243A-0006Z-01, page 1: 50 ohm +/-25 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "bead_dc",
+   "label": "BLM31SN500: resistance at 100 Hz",
+   "value": 0.001604928,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": 0.001632,
+   "source": "Murata JENF243A-0006Z-01, page 1: 1.6 mohm at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "inductance",
+   "label": "XFL4020-152: inductance at 100 kHz",
+   "value": 1.5e-06,
+   "unit": "H",
+   "expected": 1.5e-06,
+   "low": 1.47e-06,
+   "high": 1.53e-06,
+   "source": "Coilcraft document 745-1, page 1: 1.5 uH +/-20 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "inductor_dc",
+   "label": "XFL4020-152: resistance at 100 Hz",
+   "value": 0.01443079,
+   "unit": "ohm",
+   "expected": 0.0144,
+   "low": 0.014112,
+   "high": 0.014688,
+   "source": "Coilcraft document 745-1, page 1: 14.4 mohm typical, 15.8 mohm at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "inductor_resonance",
+   "label": "XFL4020-152: self-resonance",
+   "value": 59826270.0,
+   "unit": "Hz",
+   "expected": 59000000.0,
+   "low": 53100000.0,
+   "high": 64900000.0,
+   "source": "Coilcraft document 745-1, page 1: 59 MHz typical",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "diode",
+   "1N5819HW model: forward voltage over the current",
+   "source-meter-parts.diode.png"
+  ],
+  [
+   "impedance",
+   "Bead FB1 and inductor L2: impedance over the frequency",
+   "source-meter-parts.impedance.png"
+  ]
+ ],
+ "notes": [
+  "The limits are the fit this project asks of a model: 10 % on a forward voltage and on a drain current. Limits of a datasheet are named as such.",
+  "The diode model has 4 uA of reverse current where the datasheet states 10 uA typical at 4 V and up to 2 mA at 100 C: no leakage figure may be taken from it.",
+  "The inductance of the bead below the frequency at which it turns resistive (0.2 uH) is an assumption: its reference specification has no curve.",
+  "The BSS138 model is fitted for the use of Q1, a source follower at a few milliamperes; it is not fitted to the on-resistance at low gate voltage."
+ ],
+ "models": [
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW_HI",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138_HI",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138_LO",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "source-meter-parts.bead.cir",
+  "source-meter-parts.diode.cir",
+  "source-meter-parts.fet-curve.cir",
+  "source-meter-parts.fet-on.cir",
+  "source-meter-parts.inductor.cir"
+ ],
+ "format": 1
+}

@@ -1,0 +1,159 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "source-meter-mcp4921",
+ "title": "MCP4921 model of the source meter against its datasheet",
+ "covers": "the model of the set-point DAC U15",
+ "summary": "The DAC U15 of the schematic is put in the test conditions of its datasheet. With 5 V of supply, a reference of 2.048 V, gain 2 and a load of 5 kohm with 100 pF, operating points give the transfer at four codes and at gain 1, the short-circuit current, the output after power-on and the current of the buffered reference input. One transient run steps the code from one quarter to three quarters of the range and gives the slew rate and the settling time.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "zero",
+   "label": "Output at code 0: the lower end of the swing",
+   "value": 0.00999798,
+   "unit": "V",
+   "expected": 0.01,
+   "low": 0.0,
+   "high": 0.011,
+   "source": "Microchip DS22248A, page 4: output swing from 0.01 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "step",
+   "label": "Step from code 100 to code 101",
+   "value": 0.0009997979,
+   "unit": "V",
+   "expected": 0.001,
+   "low": 0.000999,
+   "high": 0.001001,
+   "source": "Microchip DS22248A, page 19: VREF x G / 4096",
+   "verdict": "pass"
+  },
+  {
+   "key": "mid",
+   "label": "Output at code 2048, gain 2",
+   "value": 2.047586,
+   "unit": "V",
+   "expected": 2.048,
+   "low": 2.046976,
+   "high": 2.049024,
+   "source": "Microchip DS22248A, page 19",
+   "verdict": "pass"
+  },
+  {
+   "key": "full",
+   "label": "Output at code 4095, gain 2",
+   "value": 4.094172,
+   "unit": "V",
+   "expected": 4.095,
+   "low": 4.092952,
+   "high": 4.097047,
+   "source": "Microchip DS22248A, page 19",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain1",
+   "label": "Output at code 4095, gain 1",
+   "value": 2.047086,
+   "unit": "V",
+   "expected": 2.0475,
+   "low": 2.046476,
+   "high": 2.048524,
+   "source": "Microchip DS22248A, pages 19 and 24: the frame bit GA",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_circuit",
+   "label": "Current into a short circuit at code 4095",
+   "value": 0.015,
+   "unit": "A",
+   "expected": 0.015,
+   "low": 0.013,
+   "high": 0.024,
+   "source": "Microchip DS22248A, page 4: 15 mA typical, 24 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_resistance",
+   "label": "Resistance of the output after power-on",
+   "value": 500000.0,
+   "unit": "ohm",
+   "expected": 500000.0,
+   "low": 490000.0,
+   "high": 510000.0,
+   "source": "Microchip DS22248A, page 20: 500 kohm, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "reference_current",
+   "label": "Current of the buffered reference input",
+   "value": 2.048e-12,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-09,
+   "source": "Microchip DS22248A, page 20: a very high input impedance, no figure",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_terms",
+   "label": "Mid-scale with -0.1 % of gain, 0.8 mV of offset and a bow of 2 steps",
+   "value": 0.000751848,
+   "unit": "V",
+   "expected": 0.000752,
+   "low": 0.00074448,
+   "high": 0.00075952,
+   "source": "Microchip DS22248A, pages 3 and 4: the typical errors, as parameters of the model",
+   "verdict": "pass"
+  },
+  {
+   "key": "slew_rate",
+   "label": "Slew rate, 20 % to 80 % of the step",
+   "value": 549886.9,
+   "unit": "V/s",
+   "expected": 550000.0,
+   "low": 495000.0,
+   "high": 605000.0,
+   "source": "Microchip DS22248A, page 4: 0.55 V/us",
+   "verdict": "pass"
+  },
+  {
+   "key": "settling",
+   "label": "Settling to half a step, one quarter to three quarters of the range",
+   "value": 4.345998e-06,
+   "unit": "s",
+   "expected": 4.5e-06,
+   "low": 3.6e-06,
+   "high": 5.4e-06,
+   "source": "Microchip DS22248A, page 4: 4.5 us",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "settling",
+   "MCP4921 model: code 1024 to code 3072, 5 kohm and 100 pF",
+   "source-meter-mcp4921.settling.png"
+  ]
+ ],
+ "notes": [
+  "The serial interface is not modelled: the code is a parameter of the model, and a code change is a step without the glitch of the real part.",
+  "The limits are the fit this project asks of the model. The bandwidth of the output amplifier is fitted to the settling time, so that figure is not an independent check.",
+  "The datasheet states no output resistance and no noise; the model has 1 ohm (assumption) and no noise."
+ ],
+ "models": [
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "source-meter-mcp4921.settling.cir"
+ ],
+ "format": 1
+}

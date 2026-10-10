@@ -1,0 +1,10 @@
+* XFL4020-152: impedance
+.include "../../models/source_meter.lib"
+XL2 a b XFL4020_152
+* 1 A through the part, the far end grounded
+Vb b 0 0
+Itest 0 a dc 0 ac 1
+.control
+ac dec 40 100 300meg
+.endc
+.end

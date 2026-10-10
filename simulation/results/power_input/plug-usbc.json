@@ -1,0 +1,483 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "plug-usbc",
+ "title": "Plugging a live USB-C source: peak at the receptacle, in-rush, soft start, the 5 V rail",
+ "covers": "section 3 (order of the rails, steps 1 and 2), section 4.1 (input stage, hot plug), section 11",
+ "summary": "A live source is plugged into the USB-C receptacle of a carrier without power. The circuit is the whole power input with the logic supplies, the capacitors of the other sheets on the rails, the passive parts of the boost converter and the controller module on its diode. The cable of the module is not plugged. The run with a 5.0 V source shows the delay and the ramp of the limiter, the delay and the soft start of the multiplexer and the current that the source has to give. A run with 5.5 V looks for the highest voltages behind the limiter, a run on a source that gives no more than 0.9 A for a start on a weak port, and six short runs for the peak that the cable and the capacitors at the receptacle ring up to.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "limiter_delay",
+   "label": "Limiter: from the plug to 10 % at its output",
+   "value": 0.0002579467,
+   "unit": "s",
+   "expected": 0.00025,
+   "low": null,
+   "high": null,
+   "source": "section 4.1: turn-on delay of about 0.25 ms",
+   "verdict": "info"
+  },
+  {
+   "key": "limiter_ramp",
+   "label": "Limiter: slope of its output between 10 % and 90 %",
+   "value": 13390.66,
+   "unit": "V/s",
+   "expected": 13000.0,
+   "low": null,
+   "high": null,
+   "source": "section 4.1: 13 V/ms with C4",
+   "verdict": "info"
+  },
+  {
+   "key": "inrush_limiter",
+   "label": "Largest source current while the limiter ramps (damper and its own capacitor)",
+   "value": 0.590078,
+   "unit": "A",
+   "expected": null,
+   "low": 0.3,
+   "high": 0.9,
+   "source": "section 14: ramps of 0.3 A to 0.9 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "priority_lag",
+   "label": "Priority input of the multiplexer at 1.0 V after the output of the limiter has passed 2.37 V on its ramp",
+   "value": 0.0001573933,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "priority_time_constant",
+   "label": "Time constant with which the priority input follows the output of the limiter",
+   "value": 0.0001909542,
+   "unit": "s",
+   "expected": 0.00019,
+   "low": 0.0001805,
+   "high": 0.0001995,
+   "source": "section 4.1: C8 delays it by 0.19 ms (the limits are the fit of the bench)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_delay",
+   "label": "Rail at 10 % after the output of the limiter is at 10 %",
+   "value": 0.001317702,
+   "unit": "s",
+   "expected": 0.001,
+   "low": null,
+   "high": null,
+   "source": "section 3, step 1: about 1 ms after the limiter has turned on",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_ramp",
+   "label": "Rail from 10 % to 90 %",
+   "value": 0.001730941,
+   "unit": "s",
+   "expected": 0.0017,
+   "low": null,
+   "high": null,
+   "source": "section 3, step 1: ramp of 1.7 ms",
+   "verdict": "info"
+  },
+  {
+   "key": "inrush_rail_only",
+   "label": "Source current while the rail rises, before the boost converter runs",
+   "value": 0.3718784,
+   "unit": "A",
+   "expected": null,
+   "low": 0.3,
+   "high": 0.9,
+   "source": "section 14: ramps of 0.3 A to 0.9 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_peak",
+   "label": "Largest source current after the first microseconds (the boost converter starts)",
+   "value": 1.836835,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "boost_up",
+   "label": "Output of the boost converter at 13.4 V after the plug",
+   "value": 0.002934077,
+   "unit": "s",
+   "expected": 0.003,
+   "low": null,
+   "high": null,
+   "source": "section 3, step 2: charged about 3 ms after the start",
+   "verdict": "info"
+  },
+  {
+   "key": "rail_fall_back",
+   "label": "Largest fall-back of the rail during its rise",
+   "value": 0.0,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charge",
+   "label": "Charge that the source gives above 100 mA",
+   "value": 0.001328642,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "the 50 uC of the USB in-rush test (section 4.1 states that it is not met)",
+   "verdict": "fail"
+  },
+  {
+   "key": "rail_end",
+   "label": "Rail at the end of the run",
+   "value": 4.993407,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_glitch",
+   "label": "Highest level of 5V_OK during the run (the supervisor holds the carrier off)",
+   "value": 0.5496634,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_low",
+   "label": "5V_OK at the end of the run",
+   "value": 0.04941032,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.4,
+   "source": "section 3, step 3: hold-off of 0.18 s to 0.42 s",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_5p25v-0p15r-0p5u",
+   "label": "Peak at the receptacle, 5.25 V source, cable 0.15 ohm, 0.5 uH",
+   "value": 8.777635,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: 11.4 V and 12.2 V (simulated); limiter rated for 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_5p25v-0p08r-0p5u",
+   "label": "Peak at the receptacle, 5.25 V source, cable 0.08 ohm, 0.5 uH",
+   "value": 10.36647,
+   "unit": "V",
+   "expected": 11.4,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: 11.4 V and 12.2 V (simulated); limiter rated for 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_5p25v-0p08r-1p5u",
+   "label": "Peak at the receptacle, 5.25 V source, cable 0.08 ohm, 1.5 uH",
+   "value": 11.42794,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: 11.4 V and 12.2 V (simulated); limiter rated for 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_5p5v-0p15r-0p5u",
+   "label": "Peak at the receptacle, 5.5 V source, cable 0.15 ohm, 0.5 uH",
+   "value": 9.31343,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: 11.4 V and 12.2 V (simulated); limiter rated for 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_5p5v-0p08r-0p5u",
+   "label": "Peak at the receptacle, 5.5 V source, cable 0.08 ohm, 0.5 uH",
+   "value": 11.03433,
+   "unit": "V",
+   "expected": 12.2,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: 11.4 V and 12.2 V (simulated); limiter rated for 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_5p5v-0p08r-1p5u",
+   "label": "Peak at the receptacle, 5.5 V source, cable 0.08 ohm, 1.5 uH",
+   "value": 12.02851,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.1: 11.4 V and 12.2 V (simulated); limiter rated for 21 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_peak",
+   "label": "Largest current of the suppressor, 5.5 V source, cable 0.08 ohm, 1.5 uH",
+   "value": 0.7815026,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "behind_limiter_5v5",
+   "label": "Highest voltage behind the limiter, 5.5 V source, whole start",
+   "value": 5.499759,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.51,
+   "source": "section 4.1: 5.51 V or below",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_over_source",
+   "label": "Highest rail voltage above the source, 5.5 V source, whole start",
+   "value": -0.006054298,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.1: the rail never rises above the source",
+   "verdict": "pass"
+  },
+  {
+   "key": "weak_boost_up",
+   "label": "Source of 0.9 A: output of the boost converter at 13.4 V after the plug",
+   "value": 0.003225395,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "weak_rail_fall_back",
+   "label": "Source of 0.9 A: largest fall-back of the rail during its rise",
+   "value": 0.1521438,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "weak_receptacle_low",
+   "label": "Source of 0.9 A: lowest voltage at the receptacle once the limiter is on",
+   "value": 2.841654,
+   "unit": "V",
+   "expected": null,
+   "low": 3.09,
+   "high": null,
+   "source": "section 4.1: a limiter turns off at 2.67 V to 2.87 V and on at up to 3.09 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "weak_rail_end",
+   "label": "Source of 0.9 A: rail at the end of the run",
+   "value": 4.992291,
+   "unit": "V",
+   "expected": null,
+   "low": 4.12,
+   "high": null,
+   "source": "section 4.1: highest release level of the supervisor",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "USB-C plugged at 0.2 ms, 5.0 V source: the rail comes up",
+   "plug-usbc.start.png"
+  ],
+  [
+   "weak",
+   "The same start on a source that gives no more than 0.9 A",
+   "plug-usbc.weak.png"
+  ],
+  [
+   "peak",
+   "The first microseconds: 5.5 V source, cable of 0.08 ohm and 1.5 uH",
+   "plug-usbc.peak.png"
+  ]
+ ],
+ "notes": [
+  "The source is ideal behind its cable, with 100 ohm across the inductance of the cable. The cable values are assumptions; the peak at the receptacle depends on them more than on anything on the board, so three cables are shown.",
+  "The ceramic capacitors lose capacitance with voltage as the curves of their manufacturer show; the 4.7 uF at the receptacle has 39 % left at 10 V. The suppressor is a typical part: breakdown 11.7 V at 1 mA.",
+  "The boost converter is a load that takes 1.5 A from 2.7 V on the rail until its output is at 13.5 V: an assumption. Its inductor, diode and capacitors are the ones of the schematic. The largest source current after the first microseconds is that load on top of the charging of the rail.",
+  "The limiter and the multiplexer are typical parts at 25 C; the supervisor holds the carrier off during these runs, so the loads of the other blocks are zero.",
+  "5V_OK rises to about 0.5 V while the rail passes 0.8 V: below that supply the output of the supervisor is not defined (datasheet) and the model lets go of it. The regulators have no input voltage to work with at that moment.",
+  "The charge above 100 mA is compared with the USB in-rush test although that test belongs to a USB 2.0 port; the specification says the same of the module input.",
+  "The source of 0.9 A stands for a port that gives no more than USB 3 asks of it and limits without switching off: an assumption."
+ ],
+ "models": [
+  [
+   "C10",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "C18",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C2",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C21",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C27",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C29",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C39",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C40",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C9",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "plug-usbc.peak-5p5v-0p08r-1p5u.cir",
+  "plug-usbc.plug-5v0.cir",
+  "plug-usbc.plug-5v5.cir",
+  "plug-usbc.plug-weak.cir"
+ ],
+ "format": 1
+}

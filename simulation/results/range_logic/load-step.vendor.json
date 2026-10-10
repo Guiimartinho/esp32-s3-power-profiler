@@ -1,0 +1,469 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "load-step",
+ "title": "Requirement R-07: the drop on a step from 1 uA to 500 mA, and the ladder clamp",
+ "covers": "requirement R-07, sections 4.3 (ladder clamp) and 4.4 (jump up), decision D-65",
+ "summary": "The load steps from 1 uA to 500 mA in range 0 with 1 uF and with 10 uF. Until range 3 conducts the capacitor at the terminals supplies the step, and the voltage between the supply node and the output terminal, which is what the requirement limits, grows with it. The run is made with the nominal delays at 5 V, 3.3 V and 0.8 V, and with everything against the limit at once: the worst delays with the sequencer at its 100 ns, the jump threshold at the upper end of its band, the capacitor 10 % low and 20 nH of lead to it. Two more runs give the sequencer 300 ns, which rule F-16 forbids. The last runs take less capacitance and 1 A, to see when the ladder clamp begins to conduct.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "drop_nominal_1u",
+   "label": "1 uF, nominal, 5 V: largest drop",
+   "value": 0.3019735,
+   "unit": "V",
+   "expected": 0.312,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "above_nominal_1u",
+   "label": "1 uF, nominal, 5 V: time above 0.2 V",
+   "value": 3.085e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "requirement R-07: 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "late_nominal_1u",
+   "label": "1 uF, nominal, 5 V: from the final value after 5 us",
+   "value": 2.478646e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "section 11, test of R-07: within 50 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_nominal_1u_3v3",
+   "label": "1 uF, nominal, 3.3 V: largest drop",
+   "value": 0.3019623,
+   "unit": "V",
+   "expected": 0.312,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_nominal_1u_0v8",
+   "label": "1 uF, nominal, 0.8 V: largest drop",
+   "value": 0.302397,
+   "unit": "V",
+   "expected": 0.312,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_worst_1u",
+   "label": "0.9 uF, worst case, 5 V: largest drop",
+   "value": 0.387169,
+   "unit": "V",
+   "expected": 0.422,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "above_worst_1u",
+   "label": "0.9 uF, worst case, 5 V: time above 0.2 V",
+   "value": 4.07e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "requirement R-07: 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "late_worst_1u",
+   "label": "0.9 uF, worst case, 5 V: from the final value after 5 us",
+   "value": 2.134658e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "section 11, test of R-07: within 50 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_worst_1u_3v3",
+   "label": "0.9 uF, worst case, 3.3 V: largest drop",
+   "value": 0.3861777,
+   "unit": "V",
+   "expected": 0.422,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_worst_1u_0v8",
+   "label": "0.9 uF, worst case, 0.8 V: largest drop",
+   "value": 0.3854096,
+   "unit": "V",
+   "expected": 0.422,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "above_worst_1u_0v8",
+   "label": "0.9 uF, worst case, 0.8 V: time above 0.2 V",
+   "value": 3.65e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "requirement R-07: 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_worst_1u_slow_amplifier",
+   "label": "0.9 uF, worst case, amplifier at half its bandwidth: largest drop",
+   "value": 0.4023435,
+   "unit": "V",
+   "expected": 0.422,
+   "low": null,
+   "high": 0.5,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "above_worst_1u_slow_amplifier",
+   "label": "0.9 uF, worst case, amplifier at half its bandwidth: time above 0.2 V",
+   "value": 5.065e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "requirement R-07: 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_nominal_10u",
+   "label": "10 uF, nominal, 5 V: largest drop",
+   "value": 0.1681263,
+   "unit": "V",
+   "expected": 0.169,
+   "low": null,
+   "high": 0.25,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "late_nominal_10u",
+   "label": "10 uF, nominal, 5 V: from the final value after 10 us",
+   "value": 0.0007503999,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "section 11, test of R-07: within 50 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_nominal_10u_0v8",
+   "label": "10 uF, nominal, 0.8 V: largest drop",
+   "value": 0.1681364,
+   "unit": "V",
+   "expected": 0.169,
+   "low": null,
+   "high": 0.25,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_worst_10u",
+   "label": "9 uF, worst case, 5 V: largest drop",
+   "value": 0.1791347,
+   "unit": "V",
+   "expected": 0.186,
+   "low": null,
+   "high": 0.25,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "late_worst_10u",
+   "label": "9 uF, worst case, 5 V: from the final value after 10 us",
+   "value": 0.0003212753,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "section 11, test of R-07: within 50 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_worst_10u_slow_amplifier",
+   "label": "9 uF, worst case, amplifier at half its bandwidth: largest drop",
+   "value": 0.1805947,
+   "unit": "V",
+   "expected": 0.186,
+   "low": null,
+   "high": 0.25,
+   "source": "requirement R-07; simulated value of section 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_slow_sequencer",
+   "label": "1 uF, sequencer of 300 ns: largest drop",
+   "value": 0.4434767,
+   "unit": "V",
+   "expected": 0.472,
+   "low": null,
+   "high": null,
+   "source": "risk register, section 14",
+   "verdict": "info"
+  },
+  {
+   "key": "drop_slow_sequencer_worst",
+   "label": "0.9 uF, worst case, sequencer of 300 ns: drop",
+   "value": 0.4681546,
+   "unit": "V",
+   "expected": 0.519,
+   "low": null,
+   "high": null,
+   "source": "risk register, section 14",
+   "verdict": "info"
+  },
+  {
+   "key": "time_to_limit",
+   "label": "1 uF, nominal: time from the jump threshold to 0.5 V across the ladder",
+   "value": 7.703511e-07,
+   "unit": "s",
+   "expected": 7.7e-07,
+   "low": 7.2e-07,
+   "high": 8.2e-07,
+   "source": "section 4.4: 0.5 V corresponds to 0.77 us with 1 uF, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "final_range",
+   "label": "Range at the end of every run",
+   "value": 3.0,
+   "unit": "",
+   "expected": 3.0,
+   "low": 3.0,
+   "high": 3.0,
+   "source": "section 4.4: the jump comparator forces range 3",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_clamp_500m_470n",
+   "label": "470 nF, 500 mA, worst delays: ladder voltage",
+   "value": 0.5393649,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.3,
+   "source": "section 4.3: no conduction with 470 nF or more; threshold 1.3 V at 25 uA",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_clamp_1a_470n",
+   "label": "470 nF, 1 A, worst delays: ladder voltage",
+   "value": 0.8716332,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.3,
+   "source": "section 4.3: no conduction with 470 nF or more; threshold 1.3 V at 25 uA",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_clamp_1a_470n",
+   "label": "470 nF, 1 A: current in a clamp transistor",
+   "value": 1.291333e-10,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ladder_clamp_1a_100n",
+   "label": "100 nF, 1 A, worst delays: ladder voltage",
+   "value": 1.913949,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "clamp_clamp_1a_100n",
+   "label": "100 nF, 1 A: current in a clamp transistor",
+   "value": 0.05272916,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ladder_clamp_1a_none",
+   "label": "No capacitor, 1 A, worst delays: ladder voltage",
+   "value": 2.113886,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "clamp_clamp_1a_none",
+   "label": "No capacitor, 1 A: current in a clamp transistor",
+   "value": 0.4970735,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The drop is taken between the supply node and the output terminal, as the requirement defines it. The source holds its voltage behind 20 mohm, so the terminal voltage falls by about the same amount; what the regulator or an external supply adds is not in these runs.",
+  "Worst case: multiplexer 430 ohm, comparators 80 ns, sequencer 100 ns, driver 40 ns and 10 ohm, jump threshold at 155.1 mV, capacitor 10 % low, 20 nH of lead between the terminal and the capacitor. The amplifier keeps the bandwidth of its model, 6.4 MHz; two more runs give it half of that, which is an assumption (its datasheet states no spread) and comes close to the worst case of the earlier simulations of the design.",
+  "The two runs with a sequencer of 300 ns are outside rule F-16. They show where the limit of 0.5 V is lost and carry no limit themselves.",
+  "The gate charge of the range 3 switch, about 15 nC, is pushed into the load node when the switch turns on and lifts 1 uF by about 14 mV: the drop peaks that much below what the delay alone would give.",
+  "The clamp runs use the clamp model with its threshold 0.4 V below the typical curve. That model has no current below its threshold, so the ladder voltage against the 1.3 V of the datasheet is the figure that counts; the current is what the model shows beyond it.",
+  "The load is a current sink beside the capacitor (5 mohm in series) and stops drawing below about 0.1 V.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP_LO",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP_LO",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

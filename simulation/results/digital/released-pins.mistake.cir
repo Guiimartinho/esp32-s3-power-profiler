@@ -1,0 +1,71 @@
+* Pads of rule F-4 driven by mistake against the flag and the detector
+.include "../../models/digital.lib"
+.include "../../models/logic.lib"
+R1 vin_ov gp11 4700
+R3 dac_cs_mid c_dac_cs 1500
+R4 pwr_good gp28 1000
+R51 v3c pwr_good 1500
+R52 pwr_good 0 6800
+R70 gate_src 0 1000
+R71 gate_amp 0 4700
+R72 gate_amp n_u20_in_b 1000
+R75 gate_src n_u20_in_a 1000
+R88 gate_r3 0 1000
+R89 gate_r1 0 1000
+R91 mux_a1 0 5100
+R93 gate_out 0 1000
+R94 gate_r2 0 1000
+R95 mux_a0 0 5100
+R96 gate_r3 n_u22_in_a 1000
+R97 gate_r1 n_u23_in_a 1000
+R98 gate_out n_u22_in_b 1000
+R99 gate_r2 n_u23_in_b 1000
+RRN1_1 gp12 c_miso 2200
+RRN1_2 gp13 c_mon_cs 2200
+RRN1_3 gp14 c_sck 2200
+RRN1_4 gp15 c_mosi 2200
+RRN2_1 c_miso 0 4700
+RRN2_2 gp13 v3a 4700
+RRN2_3 gp14 0 4700
+RRN2_4 gp15 0 4700
+RRN3_1 gp19 0 4700
+RRN3_2 gp20 0 4700
+RRN3_3 gp21 0 4700
+RRN3_4 gp22 v3a 4700
+RRN4_1 gp19 adc_sck 47
+RRN4_2 gp20 adc_cnv 47
+RRN4_3 gp21 side_load 47
+RRN4_4 gp22 dac_cs_mid 47
+RRN5_1 u30_sclk adc_sck 220
+RRN5_2 u30_dout gp16 220
+RRN5_3 u30_cnv adc_cnv 220
+XU21 detector_in vref vin_ov v3a 0 MCP656X
+R111 mux_a1 n_u24_a1 1000
+R112 mux_a0 n_u24_a0 1000
+R138 q34 gp17 33
+* the 3.3 V rail of the module, an ideal source
+Viovdd iovdd 0 3.3
+Vanalog v3a 0 3.3
+Vref vref 0 2.5
+* the 3.3 V of the logic at its upper limit; the flag is held low by its comparators
+Vlogic v3c 0 3.3
+Vflag pwr_good 0 0
+* the detector output is low at first and high from 10 us on
+Vdet detector_in 0 PWL(0 0 10u 0 10.1u 3.3)
+Xpdo gp16 pdo_ctl pdo_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpdo_ctl pdo_ctl 0 0
+Vpdo_oe pdo_oe 0 0
+Xpsd gp17 psd_ctl psd_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpsd_ctl psd_ctl 0 0
+Vpsd_oe psd_oe 0 0
+Xpgood gp28 pgood_ctl pgood_oe iovdd 0 DIGITAL_RP2350_PAD_STD roh=170 rol=125 cpad=5e-12 e9=0
+Vpgood_ctl pgood_ctl 0 1
+Vpgood_oe pgood_oe 0 1
+Xpov gp11 pov_ctl pov_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vpov_oe pov_oe 0 1
+* the pad at VIN_OV drives high against a low detector, then low against a high one
+Vpov_ctl pov_ctl 0 PWL(0 1 10u 1 10.1u 0)
+.control
+tran 10n 20u
+.endc
+.end

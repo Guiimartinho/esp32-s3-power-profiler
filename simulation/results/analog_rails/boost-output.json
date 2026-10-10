@@ -1,0 +1,399 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "boost-output",
+ "title": "Boost converter: +13V5 with tolerances, against load, and its ripple",
+ "covers": "section 3 (analog rails, 13.0 V to 14.1 V), decision D-51",
+ "summary": "The boost converter on a 5 V rail that is up, with the loads of +13V5. The level of +13V5 is read from the averaged model: with typical parts, with the feedback voltage and the 1 % divider at their limits, at 10 mA and at 40 mA of load, and with the 5 V rail at 4.25 V and at 5.5 V. The ripple is read from the cycle-by-cycle model at the same two loads, at the output of the converter, behind the filter R37 with C29 at the input of the +12V_A regulator, and on the 5 V rail; then once more with a 0 ohm part in the place of R37.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "level_typ",
+   "label": "+13V5, typical parts, 10 mA",
+   "value": 13.52969,
+   "unit": "V",
+   "expected": 13.53,
+   "low": 13.46235,
+   "high": 13.59765,
+   "source": "section 3: 13.5 V; 1.23 V x (1 + R32 / R33)",
+   "verdict": "pass"
+  },
+  {
+   "key": "level_high",
+   "label": "+13V5, feedback voltage and divider at the limits that make it highest",
+   "value": 14.05825,
+   "unit": "V",
+   "expected": null,
+   "low": 13.0,
+   "high": 14.1,
+   "source": "section 3: 13.0 V to 14.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "level_low",
+   "label": "+13V5, feedback voltage and divider at the limits that make it lowest, 40 mA",
+   "value": 13.01575,
+   "unit": "V",
+   "expected": null,
+   "low": 13.0,
+   "high": 14.1,
+   "source": "section 3: 13.0 V to 14.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_step",
+   "label": "+13V5: change from 10 mA to 40 mA",
+   "value": -0.0003526635,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "line_low",
+   "label": "+13V5 with the 5 V rail at 4.25 V, 40 mA",
+   "value": 13.52936,
+   "unit": "V",
+   "expected": null,
+   "low": 13.0,
+   "high": 14.1,
+   "source": "section 3: 13.0 V to 14.1 V; D-49: the rail may stand at 4.25 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "line_high",
+   "label": "+13V5 with the 5 V rail at 5.5 V, 10 mA",
+   "value": 13.52967,
+   "unit": "V",
+   "expected": null,
+   "low": 13.0,
+   "high": 14.1,
+   "source": "section 3: 13.0 V to 14.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_light",
+   "label": "Current from the 5 V rail at 10 mA of load",
+   "value": 0.02985972,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "input_heavy",
+   "label": "Current from the 5 V rail at 40 mA of load",
+   "value": 0.1135813,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_p13v5_light",
+   "label": "Ripple at the output of the converter within two switching periods, peak to peak, 10 mA",
+   "value": 0.0008793921,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wander_p13v5_light",
+   "label": "Slow movement at the output of the converter over 0.25 ms, peak to peak, 10 mA",
+   "value": 0.001352364,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_ldo_in_light",
+   "label": "Ripple behind R37 with C29 within two switching periods, peak to peak, 10 mA",
+   "value": 3.981684e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wander_ldo_in_light",
+   "label": "Slow movement behind R37 with C29 over 0.25 ms, peak to peak, 10 mA",
+   "value": 0.001216739,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_p5v_light",
+   "label": "Ripple on the 5 V rail within two switching periods, peak to peak, 10 mA",
+   "value": 0.0008678715,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wander_p5v_light",
+   "label": "Slow movement on the 5 V rail over 0.25 ms, peak to peak, 10 mA",
+   "value": 0.001108123,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_ldo_in_light_0r",
+   "label": "Ripple at the input of the +12V_A regulator with R37 at 0 ohm, 10 mA",
+   "value": 0.0004518146,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_light",
+   "label": "That ripple behind the regulator by its 79 dB, R37 as drawn, 10 mA",
+   "value": 4.467523e-09,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_light_0r",
+   "label": "The same with R37 at 0 ohm, 10 mA",
+   "value": 5.069443e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_light",
+   "label": "Highest inductor current in regulation, 10 mA",
+   "value": 0.121651,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 3.0,
+   "source": "datasheet of the inductor: 10 % of the inductance lost at 3 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "ripple_p13v5_heavy",
+   "label": "Ripple at the output of the converter within two switching periods, peak to peak, 40 mA",
+   "value": 0.00254246,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wander_p13v5_heavy",
+   "label": "Slow movement at the output of the converter over 0.25 ms, peak to peak, 40 mA",
+   "value": 0.005134827,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_ldo_in_heavy",
+   "label": "Ripple behind R37 with C29 within two switching periods, peak to peak, 40 mA",
+   "value": 0.000129207,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wander_ldo_in_heavy",
+   "label": "Slow movement behind R37 with C29 over 0.25 ms, peak to peak, 40 mA",
+   "value": 0.004546985,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_p5v_heavy",
+   "label": "Ripple on the 5 V rail within two switching periods, peak to peak, 40 mA",
+   "value": 0.001143644,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "wander_p5v_heavy",
+   "label": "Slow movement on the 5 V rail over 0.25 ms, peak to peak, 40 mA",
+   "value": 0.003596573,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ripple_ldo_in_heavy_0r",
+   "label": "Ripple at the input of the +12V_A regulator with R37 at 0 ohm, 40 mA",
+   "value": 0.001319199,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_heavy",
+   "label": "That ripple behind the regulator by its 79 dB, R37 as drawn, 40 mA",
+   "value": 1.449726e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "passed_heavy_0r",
+   "label": "The same with R37 at 0 ohm, 40 mA",
+   "value": 1.480166e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_heavy",
+   "label": "Highest inductor current in regulation, 40 mA",
+   "value": 0.2414976,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 3.0,
+   "source": "datasheet of the inductor: 10 % of the inductance lost at 3 A",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "ripple",
+   "Boost converter in regulation: the last 12 us of each run",
+   "boost-output.ripple.png"
+  ],
+  [
+   "level",
+   "+13V5 from the averaged model: load step from 10 mA to 40 mA at 30 ms",
+   "boost-output.level.png"
+  ]
+ ],
+ "notes": [
+  "The level of +13V5 is that of the feedback divider and of the feedback voltage; the models add nothing to it. The response to the load step and the pattern of the pulses belong to an error amplifier that is an assumption: the compensation of the part is not published.",
+  "At these loads the converter works with a discontinuous inductor current. The ripple figures hold the capacitors at the capacitance they have at their voltage and no series resistance or inductance of the capacitors or of the board: the spikes at the edges of the switch node are not in them.",
+  "Beside the ripple of a cycle the output of the model moves by a few millivolts over a quarter of a millisecond. That slow movement belongs to the assumed error amplifier and is not a figure of the part; it is listed so that the next bench can take the worse of the two.",
+  "With a 0 ohm part in the place of R37 the ripple of the converter output stands at the input of the +12V_A regulator. Behind the regulator both cases are nanovolts by the 79 dB that its datasheet gives at 1 MHz: by conduction the choice of R37 does not matter. A bead cannot be simulated without a part number. What decides in practice is not in a circuit simulation: the edges of the switch node, which pass a regulator through its pass element and the board.",
+  "The load is a current sink behind R37: 10 mA stands for the +12V_A regulator with its loads and the control pin of the source regulator at rest, 40 mA for the same with 30 mA into that pin (datasheet limit at 1.1 A of output)."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "C18",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C27",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C29",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C39",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C40",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014_AVG",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "boost-output.level-typical.cir",
+  "boost-output.ripple-light.cir"
+ ],
+ "format": 1
+}

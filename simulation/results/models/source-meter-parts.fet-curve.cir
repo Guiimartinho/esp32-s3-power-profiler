@@ -1,0 +1,11 @@
+* BSS138: transfer curve
+.include "../../models/source_meter.lib"
+MQ1 d g s SOURCE_METER_BSS138
+* drain at 5 V, gate swept
+Vs s 0 0
+Vd d 0 5
+Vg g 0 2.5
+.control
+dc Vg 0.5 3.6 0.01
+.endc
+.end

@@ -1,0 +1,507 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "contact-bounce",
+ "title": "A contact of the USB-C cable opens and closes again: what reaches the multiplexer",
+ "covers": "section 4.1 (limits of the USB-C input: a contact that opens and closes again), section 14, section 16 (contact interrupted for 20 us to 20 ms)",
+ "summary": "The carrier is on a 5.5 V source when a contact of the cable opens and closes. In the first runs the carrier is running. While the contact is open the capacitors of the board feed it and every node falls with them; when the contact closes, the cable and the capacitor at the receptacle ring, and the limiter passes what reaches it until its current limit acts. The rail hangs on input 1 through the multiplexer and takes part. In the other runs the contact bounces during the start, when the limiter has charged its output and the multiplexer begins to charge the rail from the capacitors behind the limiter alone: input 1 then falls fast, and the rail does not help to damp the ring. The corner is a limiter that clamps as late as its datasheet allows behind a short cable.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "input1_run_20us",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 20 us: highest level of input 1 after the contact has closed",
+   "value": 5.475091,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_100us",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 100 us: highest level of input 1 after the contact has closed",
+   "value": 5.475092,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_300us",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 300 us: highest level of input 1 after the contact has closed",
+   "value": 5.475092,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_1ms",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 1 ms: highest level of input 1 after the contact has closed",
+   "value": 5.475094,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_3ms",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 3 ms: highest level of input 1 after the contact has closed",
+   "value": 5.496277,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_20ms",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 20 ms: highest level of input 1 after the contact has closed",
+   "value": 5.491095,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_typical_100us",
+   "label": "Running at idle, typical limiter, cable of 0.15 ohm and 0.5 uH: contact open for 100 us: highest level of input 1 after the contact has closed",
+   "value": 5.465086,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_typical_3ms",
+   "label": "Running at idle, typical limiter, cable of 0.15 ohm and 0.5 uH: contact open for 3 ms: highest level of input 1 after the contact has closed",
+   "value": 5.494748,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_loaded_20us",
+   "label": "Running at full output, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 20 us: highest level of input 1 after the contact has closed",
+   "value": 5.263452,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_loaded_100us",
+   "label": "Running at full output, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 100 us: highest level of input 1 after the contact has closed",
+   "value": 5.263441,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_run_loaded_300us",
+   "label": "Running at full output, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 300 us: highest level of input 1 after the contact has closed",
+   "value": 5.494529,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_1p45ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.45 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.440523,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_1p5ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.5 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.440419,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_1p55ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.55 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.440405,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_1p6ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.6 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.440405,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_1p65ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.65 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.440406,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_1p75ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.75 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.499876,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "input1_start_typical",
+   "label": "During the start, typical limiter, cable of 0.15 ohm and 0.5 uH: contact open from 0.9 ms to 1.6 ms after the plug: highest level of input 1 after the contact has closed",
+   "value": 5.416701,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.8,
+   "source": "section 16: contact interrupted for 20 us to 20 ms, TP2 below 5.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "before_run_20us",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 20 us: input 1 when the contact closes",
+   "value": 5.435172,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_run_100us",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 100 us: input 1 when the contact closes",
+   "value": 5.344142,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_run_300us",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 300 us: input 1 when the contact closes",
+   "value": 5.12348,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_run_1ms",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 1 ms: input 1 when the contact closes",
+   "value": 4.352783,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_run_3ms",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 3 ms: input 1 when the contact closes",
+   "value": 3.860254,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_run_20ms",
+   "label": "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 20 ms: input 1 when the contact closes",
+   "value": 2.244835,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_start_1p45ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.45 ms after the plug: input 1 when the contact closes",
+   "value": 4.782271,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_start_1p5ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.5 ms after the plug: input 1 when the contact closes",
+   "value": 4.353135,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_start_1p55ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.55 ms after the plug: input 1 when the contact closes",
+   "value": 3.91939,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_start_1p6ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.6 ms after the plug: input 1 when the contact closes",
+   "value": 3.503043,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_start_1p65ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.65 ms after the plug: input 1 when the contact closes",
+   "value": 3.10553,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "before_start_1p75ms",
+   "label": "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.75 ms after the plug: input 1 when the contact closes",
+   "value": 2.325818,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "input1_highest",
+   "label": "Highest level of input 1 after the contact has closed, in all runs",
+   "value": 5.499876,
+   "unit": "V",
+   "expected": 5.945,
+   "low": null,
+   "high": 6.0,
+   "source": "section 4.1: within 25 mV to 85 mV of the 6 V rating in the worst corners (simulated before); TPS2116 datasheet, page 4: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_highest",
+   "label": "Highest level of the 5 V rail after the contact has closed, in all runs",
+   "value": 5.495515,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 6.0,
+   "source": "TPS2116 and LP5907 datasheets, page 4 of each: 6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_over_source",
+   "label": "Highest level of the 5 V rail above the source, in all runs",
+   "value": -0.004484836,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.1: the rail never rises above the source",
+   "verdict": "pass"
+  },
+  {
+   "key": "receptacle_highest",
+   "label": "Highest voltage at the receptacle after the contact has closed, in all runs",
+   "value": 7.369819,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.1,
+   "source": "section 4.1: the suppressor conducts from 11.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable_highest",
+   "label": "Largest current of the cable when the contact closes, in all runs",
+   "value": 8.489009,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "During the start, late clamp, cable of 0.08 ohm and 0.3 uH: contact open from 0.9 ms to 1.6 ms after the plug",
+   "contact-bounce.start.png"
+  ],
+  [
+   "running",
+   "Running at idle, late clamp, cable of 0.08 ohm and 0.3 uH: contact open for 3 ms",
+   "contact-bounce.running.png"
+  ]
+ ],
+ "notes": [
+  "The source is an ideal 5.5 V behind its cable, and the contact is a conductance that opens within 1 us and closes within 50 ns: assumptions. A real contact bounces several times; one opening is simulated.",
+  "The cable values are assumptions. The late clamp is the datasheet limit of 5.83 V at the input with an output level of 5.61 V; the reaction time of the clamp is the typical 5 us, for which the datasheet states no limit.",
+  "The cable of the module is not plugged, so the module is fed from the rail and empties the board: after a gap of 20 ms input 1 stands at 2.2 V, the limiter has turned off (2.76 V at the receptacle) and the run ends with a new start. After the shorter gaps the limiter is still on.",
+  "The current through the limiter in the first microseconds after the contact has closed is bounded by resistances alone in the model, which has no saturation of the pass transistor; the ring at the receptacle that follows when the limiter cuts that current back is an upper bound for the same reason.",
+  "The ceramic capacitors have the capacitance they keep at 5 V; at a lower voltage they have more, which these runs do not show.",
+  "The supervisor has its release delay shortened to 1 ms, and each run ends before it would release the carrier again."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "contact-bounce.run-3ms.cir",
+  "contact-bounce.start-1p6ms.cir"
+ ],
+ "format": 1
+}

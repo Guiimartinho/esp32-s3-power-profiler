@@ -1,0 +1,19 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "boost-detector",
+ "title": "Boost converter with the voltage detector of decision D-84 fitted at U9",
+ "covers": "section 4.1 (the detector is the remedy if the converter does not start cleanly), requirement R-14, decision D-84, the risk register",
+ "summary": "A detector of 3.08 V holds the converter off until the 5 V rail has stood for a while. The position U9 is empty on the board. Here it carries an 803-type detector: its output holds the enable pin of the converter low until the rail has been above 3.08 V for the time-out of the part, and pulls it low again 20 us after the rail has fallen below. The converter then starts on a rail that already stands at 5 V, with +13V5 at 4.6 V. The first attempt is taken cycle by cycle on the three limits of the input of the controller module, on the corner that is kindest to the source, and on the USB-C input. Two runs of 1.1 s with the averaged model and the real time-out of 0.24 s then show what follows a failed attempt, with 1 mA and with 0.1 mA drawn from +13V5 in between.",
+ "status": "error",
+ "error": "boost-detector.0p67a: the run failed: Error on line 1 or its substitute:; unknown device type - error ; Simulation interrupted due to error!",
+ "tier": "vendor",
+ "engine": "",
+ "library_sha256": "",
+ "figures": [],
+ "graphs": [],
+ "notes": [],
+ "models": [],
+ "decks": [],
+ "format": 1
+}

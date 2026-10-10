@@ -1,0 +1,120 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-mcp6569",
+ "title": "MCP6569 model (open-drain output) against its datasheet",
+ "covers": "the model of the four comparators of the rail monitor U14",
+ "summary": "One comparator of the model in the test circuit of the datasheet. A slow triangle around a reference gives the two trip points, with and without an offset. A current forced into the low output gives its level at the two supplies of the datasheet figures. A step of 100 mV around the reference with 20 kohm to the supply and 25 pF at the output gives the delay and the fall time.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "hysteresis",
+   "label": "Hysteresis, typical variant",
+   "value": 0.003495919,
+   "unit": "V",
+   "expected": 0.0035,
+   "low": 0.003325,
+   "high": 0.003675,
+   "source": "DS20002143E page 7, figure 2-4: mean of 3.4 mV to 3.6 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "center",
+   "label": "Middle of the two trip points, no offset",
+   "value": 2.351629e-06,
+   "unit": "V",
+   "expected": null,
+   "low": -0.0001,
+   "high": 0.0001,
+   "source": "DS20002143E page 3: the offset is the middle of the trip points",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_min",
+   "label": "Hysteresis with the parameter at 1 mV",
+   "value": 0.0009947848,
+   "unit": "V",
+   "expected": 0.001,
+   "low": 0.00095,
+   "high": 0.00105,
+   "source": "DS20002143E page 3: 1 mV at least",
+   "verdict": "pass"
+  },
+  {
+   "key": "offset",
+   "label": "Middle of the two trip points with an offset of 5 mV",
+   "value": 0.005002344,
+   "unit": "V",
+   "expected": 0.005,
+   "low": 0.00485,
+   "high": 0.00515,
+   "source": "the parameter of the model",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_0",
+   "label": "Low level at 1.8 V of supply and 3 mA",
+   "value": 0.195098,
+   "unit": "V",
+   "expected": 0.2,
+   "low": 0.18,
+   "high": 0.22,
+   "source": "DS20002143E page 10, figures 2-21 and 2-24",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_1",
+   "label": "Low level at 5.5 V of supply and 25 mA",
+   "value": 0.4756214,
+   "unit": "V",
+   "expected": 0.48,
+   "low": 0.432,
+   "high": 0.528,
+   "source": "DS20002143E page 10, figures 2-21 and 2-24",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay",
+   "label": "Delay from the step to the falling output at half the supply, 3.3 V",
+   "value": 3.606021e-08,
+   "unit": "s",
+   "expected": 4.5e-08,
+   "low": 3.4e-08,
+   "high": 8e-08,
+   "source": "DS20002143E page 4: 56 ns at 1.8 V and 34 ns at 5.5 V typical, 80 ns at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "fall_time",
+   "label": "Fall time of the output from 90 % to 10 %",
+   "value": 1.551454e-08,
+   "unit": "s",
+   "expected": 2e-08,
+   "low": null,
+   "high": 4e-08,
+   "source": "DS20002143E page 4: 20 ns typical",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "step",
+   "MCP6569 model: output after a step of 100 mV, 20 kohm and 25 pF",
+   "analog-rails-mcp6569.step.png"
+  ]
+ ],
+ "notes": [
+  "The delay of the model does not change with the overdrive, and the model has no input bias current, no limit of the common-mode range and no supply current.",
+  "The output switch opens below a supply of 1.2 V, which is an assumption: the datasheet promises operation from 1.8 V and says nothing below."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-mcp6569.static.cir",
+  "analog-rails-mcp6569.step.cir"
+ ],
+ "format": 1
+}

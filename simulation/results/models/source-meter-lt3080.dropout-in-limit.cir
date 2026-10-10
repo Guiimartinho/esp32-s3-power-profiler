@@ -1,0 +1,20 @@
+* LT3080: dropout at the in pin
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080 voff=0.147 rc=0.134
+* one supply pin is swept down until the output falls
+Vctl vctl 0 5
+Vin in 0 2.3
+Vset set 0 1.5
+* a resistor as the load, so that the output falls gently in dropout
+Rload out 0 15
+.control
+alter Rload = 15
+dc Vin 2.3 1.5 -0.002
+alter Rload = 3
+dc Vin 2.3 1.5 -0.002
+alter Rload = 1.5
+dc Vin 2.3 1.5 -0.002
+alter Rload = 1.36364
+dc Vin 2.3 1.5 -0.002
+.endc
+.end

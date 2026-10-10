@@ -1,0 +1,35 @@
+* Rail monitor: every rail through its threshold and back
+.include "../../models/analog_rails.lib"
+R4 pwr_good gp28 1000
+C32 th_high 0 1e-09
+C33 th_low 0 1e-09
+C34 sense_m4 0 1e-09
+C35 p3v3_c 0 1e-07
+R41 p3v3_c th_high 10000
+R42 p3v3_a sense_3v3a 100000
+R43 th_high th_low 40200
+R44 th_low 0 49900
+R45 p12v_a sense_p12 249000
+R46 sense_p12 0 49900
+R47 p3v3_c sense_m4 49900
+R48 sense_m4 m4v_a 127000
+R49 vref sense_vref 36500
+R50 sense_vref 0 100000
+R51 p3v3_c pwr_good 1500
+R52 pwr_good 0 6800
+XU14_1 sense_p12 th_low pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+XU14_2 th_low sense_m4 pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+XU14_3 sense_3v3a th_high pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+XU14_4 sense_vref th_low pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+* 3V3_C stands, the four watched rails are moved one after the other
+V3c p3v3_c 0 PWL(0 0 1m 3.3)
+V3v3a p3v3_a 0 PWL(0 0 1m 3.3 0.005 3.3 0.045 2.7 0.085 3.3)
+V12v p12v_a 0 PWL(0 0 1m 12 0.085 12 0.125 8.5 0.165 12)
+Vm4v m4v_a 0 PWL(0 0 1m -4 0.165 -4 0.205 -1.5 0.245 -4)
+Vvref vref 0 PWL(0 0 1m 2.5 0.245 2.5 0.285 2 0.325 2.5)
+Cgp28 gp28 0 5p
+.control
+save p3v3_c p3v3_a p12v_a m4v_a vref pwr_good gp28 th_low th_high
+tran 10u 0.327 0 10u
+.endc
+.end

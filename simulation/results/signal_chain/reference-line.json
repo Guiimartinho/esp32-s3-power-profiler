@@ -1,0 +1,176 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "reference-line",
+ "title": "The reference pin of the converter during a conversion: R131 and C89",
+ "covers": "section 4.6 (capacitors on the reference line, D-75)",
+ "summary": "The converter takes its reference current and the line is watched. The circuit holds the reference U12 with its capacitors, the 22 uF of C89 behind the 0.22 ohm of R131 at the REF pin of the converter, and the 100 nF of the monitor converter on the same line. The model of the converter draws its reference current for the 710 ns of every conversion: 150 uA at 2.5 V, the 300 uA of the datasheet in proportion to the reference. Before the first conversion the line carries the mean of that current, so that the run starts in the state of a converter that has been running for long. The run is made at 100 kSPS and at 500 kSPS with C89 at its nominal value, and at 500 kSPS with the 14 uF and the 10.8 uF that the part keeps under bias.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "start_100k",
+   "label": "100 kSPS: REF pin at the start of a conversion, off its mean level by",
+   "value": 3.313603e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 3.814697e-05,
+   "source": "ADS8860 datasheet, page 31: within one code when a conversion starts",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_100k",
+   "label": "100 kSPS: REF pin falls during a conversion by",
+   "value": 2.991175e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_ppm_100k",
+   "label": "100 kSPS: the same as a part of the reference",
+   "value": 11.9647,
+   "unit": "ppm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "start_500k",
+   "label": "500 kSPS: REF pin at the start of a conversion, off its mean level by",
+   "value": 1.024528e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 3.814697e-05,
+   "source": "ADS8860 datasheet, page 31: within one code when a conversion starts",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_500k",
+   "label": "500 kSPS: REF pin falls during a conversion by",
+   "value": 2.886842e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_ppm_500k",
+   "label": "500 kSPS: the same as a part of the reference",
+   "value": 11.54737,
+   "unit": "ppm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "start_500k_14u",
+   "label": "500 kSPS, C89 at 14 uF: REF pin at the start of a conversion, off its mean level by",
+   "value": 1.088922e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 3.814697e-05,
+   "source": "ADS8860 datasheet, page 31: within one code when a conversion starts",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_500k_14u",
+   "label": "500 kSPS, C89 at 14 uF: REF pin falls during a conversion by",
+   "value": 2.991623e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_ppm_500k_14u",
+   "label": "500 kSPS, C89 at 14 uF: the same as a part of the reference",
+   "value": 11.96649,
+   "unit": "ppm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "start_500k_10u8",
+   "label": "500 kSPS, C89 at 10.8 uF: REF pin at the start of a conversion, off its mean level by",
+   "value": 1.143703e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 3.814697e-05,
+   "source": "ADS8860 datasheet, page 31: within one code when a conversion starts",
+   "verdict": "pass"
+  },
+  {
+   "key": "dip_500k_10u8",
+   "label": "500 kSPS, C89 at 10.8 uF: REF pin falls during a conversion by",
+   "value": 3.076941e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_ppm_500k_10u8",
+   "label": "500 kSPS, C89 at 10.8 uF: the same as a part of the reference",
+   "value": 12.30776,
+   "unit": "ppm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "line",
+   "Reference line at 500 kSPS: two conversions",
+   "reference-line.line.png"
+  ]
+ ],
+ "notes": [
+  "The reference current of the model is a constant current during the conversion. The real converter takes its charge as one packet per bit, with peaks far above the mean; the dip of the REF pin inside a bit period is therefore larger than this figure, and what counts is that the pin has recovered at the end of each bit, which no model here resolves.",
+  "The current is taken as 150 uA at 2.5 V (the datasheet states 300 uA at 5 V and mid-code); it depends on the code, which the model leaves out.",
+  "The reference is the model of the analog rails block, whose output impedance is a fit to two figures of its datasheet. The track between the reference and the converter has no inductance or resistance here, and C89 no inductance.",
+  "A dip that is the same at every conversion is part of the gain, which the calibration removes."
+ ],
+ "models": [
+  [
+   "U12",
+   "REF5025AID",
+   "written here"
+  ],
+  [
+   "U30",
+   "SIGNAL_CHAIN_ADS8860",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "reference-line.500k.cir"
+ ],
+ "format": 1
+}

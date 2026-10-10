@@ -1,0 +1,534 @@
+{
+ "block": "output_stage",
+ "block_title": "Output Stage",
+ "bench": "terminal",
+ "title": "The output terminal under abuse: reversed source, live source on the open output, charged capacitor on a lower output",
+ "covers": "section 4.9 (VOUT, D-70, D-71; source output, D-57), section 4.3 (charged device)",
+ "summary": "Three things that a user can do to the terminal are simulated. With the output off, a reversed source draws a current out of the terminal that rises to 2 A: the suppressor carries it forward, and the run shows the voltage it leaves at the terminal and whether the open pair begins to conduct from the side of the instrument. With the output off, a live source of 5 V and of 15 V is connected through a short lead, and one of 24 V behind 1 ohm: the run shows the voltage at the terminal, across the transistor on the terminal side and between gate and source of the pair, which has to stay off. The source of 5 V is connected once more to an instrument without supply. With the output on at 0.8 V, a capacitor of 100 uF charged to 5.5 V is plugged in: the current runs backward through the pair and the ladder, in range 3, in range 0, and with a source that cannot take current back.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "reverse_0a5",
+   "label": "Output off: terminal with 0.5 A drawn by a reversed source",
+   "value": -0.8392052,
+   "unit": "V",
+   "expected": -0.8,
+   "low": -0.9,
+   "high": -0.7,
+   "source": "section 4.9: -0.8 V from a source limited to 0.5 A; limit set here, 0.1 V around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_power",
+   "label": "Output off: power in the suppressor D21 at 0.5 A",
+   "value": 0.4196026,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reverse_2",
+   "label": "Output off: terminal with 2 A drawn by a reversed source",
+   "value": -0.8972132,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "hot5_terminal",
+   "label": "Output off, 5 V connected: highest voltage at the terminal",
+   "value": 10.61285,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "hot5_drain",
+   "label": "Output off, 5 V connected: largest drain-source voltage of Q16",
+   "value": 8.844804,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: the transistors are rated 30 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "hot5_gate",
+   "label": "Output off, 5 V connected: largest gate-source voltage of the pair",
+   "value": -0.1342004,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "the pair stays off: lowest threshold 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "hot5_node",
+   "label": "Output off, 5 V connected: largest move of the node after the shunts",
+   "value": 0.003265968,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "hot15_terminal",
+   "label": "Output off, 15 V connected: highest voltage at the terminal",
+   "value": 17.78068,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "hot15_drain",
+   "label": "Output off, 15 V connected: largest drain-source voltage of Q16",
+   "value": 16.19763,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: the transistors are rated 30 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "hot15_gate",
+   "label": "Output off, 15 V connected: largest gate-source voltage of the pair",
+   "value": -0.1342004,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "the pair stays off: lowest threshold 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "hot15_node",
+   "label": "Output off, 15 V connected: largest move of the node after the shunts",
+   "value": 0.009231352,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_terminal",
+   "label": "Output off, 24 V behind 1 ohm: highest voltage at the terminal",
+   "value": 17.90769,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_drain",
+   "label": "Output off, 24 V behind 1 ohm: largest drain-source voltage of Q16",
+   "value": 16.41695,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: the transistors are rated 30 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_gate",
+   "label": "Output off, 24 V behind 1 ohm: largest gate-source voltage of the pair",
+   "value": -0.1342023,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "the pair stays off: lowest threshold 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "strike_node",
+   "label": "Output off, 24 V behind 1 ohm: largest move of the node after the shunts",
+   "value": 0.01335766,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_current",
+   "label": "Output off, 24 V behind 1 ohm: current in the suppressor D21",
+   "value": 6.092312,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "strike_power",
+   "label": "Output off, 24 V behind 1 ohm: power in the suppressor D21",
+   "value": 109.0992,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 400.0,
+   "source": "Nexperia PTVSxS1UR, page 3: 400 W for a pulse of a millisecond",
+   "verdict": "pass"
+  },
+  {
+   "key": "unpowered_terminal",
+   "label": "Instrument without supply, 5 V connected: highest voltage at the terminal",
+   "value": 11.38195,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "unpowered_drain",
+   "label": "Instrument without supply, 5 V connected: largest drain-source voltage of Q16",
+   "value": 10.80837,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: the transistors are rated 30 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "unpowered_gate",
+   "label": "Instrument without supply, 5 V connected: largest gate-source voltage of the pair",
+   "value": 0.4467592,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "the pair stays off: lowest threshold 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "unpowered_node",
+   "label": "Instrument without supply, 5 V connected: largest move of the node after the shunts",
+   "value": 0.03113061,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "unpowered_gate_node",
+   "label": "Instrument without supply, 5 V connected: highest voltage of the gate node, TP37",
+   "value": 0.168064,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "section 16: every gate at or below 0.3 V with 5 V on VOUT and the instrument off",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_3_current",
+   "label": "Range 3, source that cannot sink: largest current backward through the pair",
+   "value": 21.75819,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 239.0,
+   "source": "TI SLPS515A, page 1: pulsed drain current 239 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_3_time",
+   "label": "Range 3, source that cannot sink: time for which more than 1 A flows backward",
+   "value": 8.786528e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_3_energy",
+   "label": "Range 3, source that cannot sink: energy in the pair",
+   "value": 1.680036e-05,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_3_node",
+   "label": "Range 3, source that cannot sink: highest voltage at the node after the shunts",
+   "value": 4.969236,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_3_supply",
+   "label": "Range 3, source that cannot sink: supply node 100 us after the plug",
+   "value": 4.4748,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_3_drive",
+   "label": "Range 3, source that cannot sink: lowest gate-source voltage of the pair",
+   "value": 8.022371,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_0_current",
+   "label": "Range 0, source that cannot sink: largest current backward through the pair",
+   "value": 21.46069,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 239.0,
+   "source": "TI SLPS515A, page 1: pulsed drain current 239 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_0_time",
+   "label": "Range 0, source that cannot sink: time for which more than 1 A flows backward",
+   "value": 7.311372e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_0_energy",
+   "label": "Range 0, source that cannot sink: energy in the pair",
+   "value": 1.620079e-05,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_0_node",
+   "label": "Range 0, source that cannot sink: highest voltage at the node after the shunts",
+   "value": 5.078118,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_0_supply",
+   "label": "Range 0, source that cannot sink: supply node 100 us after the plug",
+   "value": 4.211038,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_0_drive",
+   "label": "Range 0, source that cannot sink: lowest gate-source voltage of the pair",
+   "value": 7.932448,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_stiff_current",
+   "label": "Range 3, stiff source: largest current backward through the pair",
+   "value": 30.38978,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 239.0,
+   "source": "TI SLPS515A, page 1: pulsed drain current 239 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_stiff_time",
+   "label": "Range 3, stiff source: time for which more than 1 A flows backward",
+   "value": 5.301519e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_stiff_energy",
+   "label": "Range 3, stiff source: energy in the pair",
+   "value": 8.493445e-05,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "charged_stiff_node",
+   "label": "Range 3, stiff source: highest voltage at the node after the shunts",
+   "value": 2.074483,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_stiff_supply",
+   "label": "Range 3, stiff source: supply node 100 us after the plug",
+   "value": 0.8007789,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charged_stiff_drive",
+   "label": "Range 3, stiff source: lowest gate-source voltage of the pair",
+   "value": 10.19652,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The forward curve of the suppressor is an assumption (0.75 V at 0.1 A, 0.03 ohm, and 0.15 ohm in a second run); its datasheet has none. With it the terminal stands at -0.8 V with 0.5 A, which is 0.4 W in the suppressor: about 50 K to 90 K of rise by the thermal resistance of its datasheet (130 K/W on 1 cm2 of copper, 220 K/W on the standard footprint). That is why the reversed source has to be limited.",
+  "With the output off the gate node rests at 0 V and the common source follows the terminal one body diode above it. The current that the open pair passes from the instrument is taken from the transistor model below its threshold; it shows that the pair stays off, and no value of nanoamperes may be taken from it.",
+  "A live source on the open output lifts the gates through the drain of Q16. C74 and the 10 ohm of R120 hold them; the figure is the gate-source voltage against the lowest threshold of the datasheet.",
+  "Without supply every rail and line is at 0 V and the gate driver U22 is left out of the circuit, so that R115 alone holds the gate network: what the output of the unpowered driver does is in no datasheet and is an open check of section 16.",
+  "The live source is ideal behind 50 mohm and 0.2 uH (1 ohm for the 24 V case); the terminal rings against that inductance, and the suppressor bounds the ring from 16.7 V to 18.5 V.",
+  "The source that cannot sink is a current source limited to 1.4 A on C53 and C54 of the schematic, with 10 mohm for the source pair. On the board the regulator and its diode D11 see this event too; they belong to the source meter block. The stiff source is ideal behind 10 mohm and takes current back, as an external supply in ampere mode may.",
+  "The plugged capacitor has 20 mohm in series, behind 50 mohm and 0.2 uH of cable; these are assumptions. In range 0 the current passes the body diodes of the ladder clamp, which belong to the ladder block."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U25",
+   "OPAx197",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

@@ -1,0 +1,9 @@
+* 803-type detector: threshold, time-out, short and long dips
+.include "../../models/analog_rails.lib"
+Vdd vdd 0 PWL(0 0 10m 5 0.4 5 0.400001 2.9 0.40001 2.9 0.400011 5 0.5 5 0.500001 2.9 0.5001 2.9 0.500101 5 0.9 5 1.0 2.5)
+X1 0 out vdd RAILS_803
+Rpull vdd out 51k
+.control
+tran 100u 1.0 0 100u
+.endc
+.end

@@ -1,0 +1,31 @@
+* -4V_A: the pump switch by switch, with the loads of the rail
+.include "../../models/analog_rails.lib"
+DD8 m4v_a 0 B0530W
+C19 cfly_p cfly_n 1e-06
+C21 pump_in 0 1.50915e-05
+C22 0 cpout 3.41779e-06
+C28 0 m4v_a 3.76e-06
+C48 0 m4v_a 1e-07
+C69 0 m4v_a 1e-07
+C72 0 m4v_a 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C84 0 m4v_a 1e-07
+R27 ok5v en_pump 100000
+R28 en_pump 0 150000
+R30 p5v pump_in 2.2
+R34 fb_pump m4v_a 226000
+R36 0 fb_pump 100000
+R69 ldo_out m4v_a 1300
+XU11 pump_in 0 cpout m4v_a fb_pump en_pump cfly_n cfly_p LM27761
+V5 p5v 0 PWL(0 0 0.1m 5)
+Vok ok5v 0 PWL(0 0 0.2m 0 0.21m 4.7)
+Bload 0 m4v_a I = 0.00506*tanh(max(-v(m4v_a), 0)/2)
+Vldo ldo_out 0 0
+.options reltol=1e-5
+.options vntol=100n
+.control
+save m4v_a cpout pump_in cfly_p cfly_n
+tran 10n 3.5m 2.4m 25n
+.endc
+.end

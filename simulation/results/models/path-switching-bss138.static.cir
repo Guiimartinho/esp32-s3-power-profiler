@@ -1,0 +1,13 @@
+* BSS138: on-resistance
+.include "../../models/path_switching.lib"
+MQ2 d g 0 PATH_BSS138
+* a gate source and a drain current source; the control lines set them
+Vg g 0 10
+Id 0 d 0.22
+.control
+op
+alter Vg dc = 3.3
+alter Id dc = 0.0033
+op
+.endc
+.end

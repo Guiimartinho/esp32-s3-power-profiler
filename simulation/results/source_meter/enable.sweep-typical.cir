@@ -1,0 +1,19 @@
+* Enable pin of the pre-regulator over the 5 V rail
+.include "../../models/source_meter.lib"
+MQ1 smu_on ok_5v smu_en SOURCE_METER_BSS138
+R25 p5v ok_5v 10000
+R27 ok_5v pump_en 100000
+R28 pump_en 0 150000
+R53 smu_en 0 1000
+* the 5 V rail swept; the supervisor has released 5V_OK, which the two
+* enable inputs of the 3.3 V regulators load with 1 Mohm each
+Vp5 p5v 0 5
+Ren7 ok_5v 0 1e+06
+Ren8 ok_5v 0 1e+06
+* SMU_ON: a pin of the controller behind its output resistance
+Vsmu smu_pin 0 3.3
+Rsmu smu_pin smu_on 33
+.control
+dc Vp5 0 5.5 0.01
+.endc
+.end

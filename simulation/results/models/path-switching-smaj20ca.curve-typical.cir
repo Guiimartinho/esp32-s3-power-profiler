@@ -1,0 +1,56 @@
+* SMAJ20CA, typical breakdown voltage: forced current
+.include "../../models/path_switching.lib"
+XD14 a 0 PATH_SMAJ20CA
+* current forced into the terminal
+Itest 0 a 1m
+.control
+alter Itest dc = 1e-06
+op
+alter Itest dc = 1e-05
+op
+alter Itest dc = 0.0001
+op
+alter Itest dc = 0.001
+op
+alter Itest dc = 0.01
+op
+alter Itest dc = 0.1
+op
+alter Itest dc = 0.3
+op
+alter Itest dc = 1
+op
+alter Itest dc = 3
+op
+alter Itest dc = 6
+op
+alter Itest dc = 12.3
+op
+alter Itest dc = 20
+op
+alter Itest dc = -1e-06
+op
+alter Itest dc = -1e-05
+op
+alter Itest dc = -0.0001
+op
+alter Itest dc = -0.001
+op
+alter Itest dc = -0.01
+op
+alter Itest dc = -0.1
+op
+alter Itest dc = -0.3
+op
+alter Itest dc = -1
+op
+alter Itest dc = -3
+op
+alter Itest dc = -6
+op
+alter Itest dc = -12.3
+op
+alter Itest dc = -20
+op
+.endc
+.end

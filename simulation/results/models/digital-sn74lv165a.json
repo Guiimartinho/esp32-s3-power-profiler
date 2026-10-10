@@ -1,0 +1,109 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-sn74lv165a",
+ "title": "SN74LV165A model against its datasheet",
+ "covers": "the model of the side data registers U33 and U34",
+ "summary": "A register is loaded and shifted into the load of the datasheet. While the load pin is low the input D7 rises and the output follows it. Then the load pin goes high and nine clocks shift the pattern out, with the serial input high. The delays are read at half the supply, with the typical parameters and with the parameters set to the limits of the datasheet. A second deck loads the two outputs with 6 mA.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "wrong_bits",
+   "label": "Bits of the pattern that come out wrong, of nine",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "TI SCLS402R, page 11: D7 first, the serial input after D0",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_typical",
+   "label": "Clock to output, typical parameters",
+   "value": 8.692348e-09,
+   "unit": "s",
+   "expected": 8.6e-09,
+   "low": 8.17e-09,
+   "high": 9.03e-09,
+   "source": "TI SCLS402R, page 7: 8.6 ns typical at 3.3 V into 15 pF",
+   "verdict": "pass"
+  },
+  {
+   "key": "data_typical",
+   "label": "Input D7 to output while the load pin is low, typical parameters",
+   "value": 8.793346e-09,
+   "unit": "s",
+   "expected": 8.9e-09,
+   "low": 8.455e-09,
+   "high": 9.345e-09,
+   "source": "TI SCLS402R, page 7: 8.9 ns typical; the load pin itself has 9.1 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_slow",
+   "label": "Clock to output, parameter for the largest delay",
+   "value": 1.809235e-08,
+   "unit": "s",
+   "expected": 1.8e-08,
+   "low": 1.746e-08,
+   "high": 1.854e-08,
+   "source": "TI SCLS402R, page 7: 18 ns at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_fast",
+   "label": "Clock to output, parameter for the smallest delay",
+   "value": 8.515735e-10,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": 8e-10,
+   "high": 1.2e-09,
+   "source": "TI SCLS402R, page 7: 1 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_high",
+   "label": "Output high with 6 mA at 3.0 V",
+   "value": 2.7,
+   "unit": "V",
+   "expected": null,
+   "low": 2.48,
+   "high": null,
+   "source": "TI SCLS402R, page 6: 2.48 V at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_low",
+   "label": "Output low with 6 mA at 3.0 V",
+   "value": 0.3,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.44,
+   "source": "TI SCLS402R, page 6: 0.44 V at the most",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "shift",
+   "SN74LV165A: a load and the first clocks, typical delays",
+   "digital-sn74lv165a.shift.png"
+  ]
+ ],
+ "notes": [
+  "The delay parameters of the model are the delays of the datasheet less 1 ns, which the output stage adds into 15 pF.",
+  "The threshold of the inputs is half the supply and the output resistance 50 ohm: assumptions inside the limits of the datasheet. The model does not check pulse widths, setup or hold times; the benches of the side data measure them at the pins."
+ ],
+ "models": [],
+ "decks": [
+  "digital-sn74lv165a.levels.cir",
+  "digital-sn74lv165a.typical.cir"
+ ],
+ "format": 1
+}

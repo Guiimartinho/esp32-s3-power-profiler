@@ -1,0 +1,118 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "output-stage-suppressor",
+ "title": "PTVS15VS1UR model against its datasheet",
+ "covers": "the model of the suppressor D21 of the output terminal",
+ "summary": "The suppressor of the schematic is put in the test circuits of its datasheet. A current is forced through it backward and forward and the voltage is read: the breakdown voltage at 1 mA, the clamping voltage at the rated peak current and the forward voltage. The stand-off voltage is applied and the current is read, and a small signal gives the capacitance. The datasheet has neither a forward curve nor a capacitance, so those figures carry no limit: they are what the benches of the output stage assume. With the model written here the run is repeated for a part at each limit of the breakdown voltage and for the larger forward resistance that the benches also use.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "breakdown",
+   "label": "Breakdown voltage at 1 mA",
+   "value": 17.59241,
+   "unit": "V",
+   "expected": 17.6,
+   "low": 16.7,
+   "high": 18.5,
+   "source": "Nexperia PTVSxS1UR series, 1 December 2025, table 8, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp",
+   "label": "Clamping voltage at 16.4 A",
+   "value": 18.07988,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 24.4,
+   "source": "Nexperia PTVSxS1UR series, 1 December 2025, table 8, page 4: at most 24.4 V (10/1000 us pulse)",
+   "verdict": "pass"
+  },
+  {
+   "key": "standoff_current",
+   "label": "Reverse current at the stand-off voltage of 15 V",
+   "value": 2.357769e-08,
+   "unit": "A",
+   "expected": 1e-09,
+   "low": null,
+   "high": 1e-07,
+   "source": "Nexperia PTVSxS1UR series, 1 December 2025, table 8, page 4: 0.001 uA typical, 0.1 uA at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_0a1",
+   "label": "Forward voltage at 0.1 A (assumption)",
+   "value": 0.7907545,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "forward_1a",
+   "label": "Forward voltage at 1 A (assumption)",
+   "value": 0.8647567,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "forward_10a",
+   "label": "Forward voltage at 10 A (assumption)",
+   "value": 1.052159,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "capacitance_0v",
+   "label": "Capacitance at 0 V and 1 MHz (assumption)",
+   "value": 7.87e-10,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "capacitance_5v",
+   "label": "Capacitance at 5 V and 1 MHz (assumption)",
+   "value": 3.792315e-10,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The datasheet states the clamping voltage for a pulse of a millisecond, in which the part heats. The model has no temperature: for microseconds it clamps too high, which is the cautious side for the parts behind it.",
+  "The datasheet has no forward curve. The forward voltage of the model, 0.75 V at 0.1 A, and its forward resistance, 0.03 ohm with a second run at 0.15 ohm, are assumptions; so is the capacitance.",
+  "The reverse current below the breakdown is a resistor that gives the typical 1 nA at 15 V. No leakage figure may be taken from this model: the datasheet gives none at 5 V or above 25 C."
+ ],
+ "models": [
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

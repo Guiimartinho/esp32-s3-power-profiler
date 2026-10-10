@@ -1,0 +1,274 @@
+{
+ "block": "ladder",
+ "block_title": "Shunt Ladder",
+ "bench": "ranges",
+ "title": "The four ranges at rest: shunt seen by the amplifier and burden voltage",
+ "covers": "section 4.3 (range table, Kelvin sensing, one-hot selection), section 8 (shunt values)",
+ "summary": "Each range is held and the load current is stepped from 100 nA to 1.2 A. The voltage between the two outputs of the multiplexer is read. Its slope is the shunt that the amplifier sees; the voltage from the supply node to the node after the shunts is the burden. The run is repeated with the supply node at 0.8 V and at 5 V, because the gate drive of the range switches depends on it.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "shunt_r0_5v",
+   "label": "R0: shunt seen by the amplifier, supply node at 5 V",
+   "value": 999.9994,
+   "unit": "ohm",
+   "expected": 1000.0,
+   "low": 999.0,
+   "high": 1001.0,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r0_5v",
+   "label": "R0: burden at 100 µA, supply node at 5 V",
+   "value": 0.1,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shunt_r0_0p8v",
+   "label": "R0: shunt seen by the amplifier, supply node at 0.8 V",
+   "value": 999.9994,
+   "unit": "ohm",
+   "expected": 1000.0,
+   "low": 999.0,
+   "high": 1001.0,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r0_0p8v",
+   "label": "R0: burden at 100 µA, supply node at 0.8 V",
+   "value": 0.09999996,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "clamp_at_1a",
+   "label": "R0 held with 1 A of load: the ladder clamp bounds the ladder at",
+   "value": 2.508364,
+   "unit": "V",
+   "expected": null,
+   "low": 2.5,
+   "high": 2.9,
+   "source": "section 4.4 and rule F-21: 2.5 V to 2.9 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_r1_5v",
+   "label": "R1: shunt seen by the amplifier, supply node at 5 V",
+   "value": 31.94503,
+   "unit": "ohm",
+   "expected": 31.95,
+   "low": 31.91805,
+   "high": 31.98195,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r1_5v",
+   "label": "R1: burden at 3 mA, supply node at 5 V",
+   "value": 0.09590484,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shunt_r1_0p8v",
+   "label": "R1: shunt seen by the amplifier, supply node at 0.8 V",
+   "value": 31.94516,
+   "unit": "ohm",
+   "expected": 31.95,
+   "low": 31.91805,
+   "high": 31.98195,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r1_0p8v",
+   "label": "R1: burden at 3 mA, supply node at 0.8 V",
+   "value": 0.09589234,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "r0_share_in_r1",
+   "label": "R1: share of the current that flows through R0",
+   "value": 3.196828,
+   "unit": "%",
+   "expected": 3.0,
+   "low": 2.5,
+   "high": 3.5,
+   "source": "section 4.3, about 3 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_r2_5v",
+   "label": "R2: shunt seen by the amplifier, supply node at 5 V",
+   "value": 0.9989769,
+   "unit": "ohm",
+   "expected": 0.999,
+   "low": 0.998001,
+   "high": 0.999999,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r2_5v",
+   "label": "R2: burden at 100 mA, supply node at 5 V",
+   "value": 0.1022998,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shunt_r2_0p8v",
+   "label": "R2: shunt seen by the amplifier, supply node at 0.8 V",
+   "value": 0.9989813,
+   "unit": "ohm",
+   "expected": 0.999,
+   "low": 0.998001,
+   "high": 0.999999,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r2_0p8v",
+   "label": "R2: burden at 100 mA, supply node at 0.8 V",
+   "value": 0.1018563,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shunt_r3_5v",
+   "label": "R3: shunt seen by the amplifier, supply node at 5 V",
+   "value": 0.0999896,
+   "unit": "ohm",
+   "expected": 0.1,
+   "low": 0.0999,
+   "high": 0.1001,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r3_5v",
+   "label": "R3: burden at 1 A, supply node at 5 V",
+   "value": 0.1043215,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.107,
+   "source": "section 4.3: 105 mV to 107 mV, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_r3_0p8v",
+   "label": "R3: shunt seen by the amplifier, supply node at 0.8 V",
+   "value": 0.09998964,
+   "unit": "ohm",
+   "expected": 0.1,
+   "low": 0.0999,
+   "high": 0.1001,
+   "source": "sections 4.3 and 8, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "burden_r3_0p8v",
+   "label": "R3: burden at 1 A, supply node at 0.8 V",
+   "value": 0.1039194,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.107,
+   "source": "section 4.3: 105 mV to 107 mV, calculated",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "map",
+   "Shunt ladder at rest, supply node at 5 V: what each range gives",
+   "ranges.map.png"
+  ]
+ ],
+ "notes": [
+  "The supply node is an ideal source and the load an ideal current sink: the output switch and the source meter are not in this circuit.",
+  "The multiplexer is the behavioral model with 250 ohm per channel; its resistance carries no current here and does not enter these figures.",
+  "The range switches are fitted to the typical on-resistance of their datasheets. The burden of range 3 therefore is a typical value."
+ ],
+ "models": [
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "ranges.r0-5v.cir",
+  "ranges.r1-5v.cir",
+  "ranges.r2-5v.cir",
+  "ranges.r3-5v.cir"
+ ],
+ "format": 1
+}

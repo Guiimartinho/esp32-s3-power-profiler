@@ -1,0 +1,13 @@
+* Supervisor: thresholds and delay, CT tied to the supply
+.include "../../models/power_input.lib"
+XU6 reset 0 mr ct sense vdd PWRIN_TPS3808G01
+Vdd vdd 0 PWL(0 0 1m 3.3)
+Rpull reset vdd 100k
+Cload reset 0 50p
+Rmr mr vdd 1e9
+Vs sense 0 PWL(0 0 10m 0.30 110m 0.45 600m 0.45 700m 0.35)
+Rct ct vdd 100k
+.control
+tran 2e-05 0.72 0 2e-05 uic
+.endc
+.end

@@ -1,0 +1,320 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "logic-rails",
+ "title": "The supervisor of the 5 V rail and the two 3.3 V rails: thresholds, delay, start and trip",
+ "covers": "section 3 (supervisor, order of the rails steps 3 and 4, power-off), section 4.1 (thresholds of the 5 V rail, enforcement), section 4.11 (LED)",
+ "summary": "The 5 V rail is a source; the supervisor and the two regulators are the circuit. In the first run the rail rises within 50 ms, stays at 5 V until the supervisor has released the carrier, and falls slowly to 3 V: this gives the two levels of the supervisor, its delay, the start of the 3.3 V rails and their end. Two more runs of that kind have the supervisor and its divider at the two ends of their tolerances. A further run lets the rail fall at 20 V/ms down to 0 V: as fast as it falls when the supply is pulled at full output, and all the way down, which only a short circuit of the rail does. Twelve short runs dip the rail to 3.7 V and to 3.0 V for 5 us to 100 us to find the shortest dip that trips the supervisor.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "release_delay",
+   "label": "5V_OK high after the rail has passed 3.97 V, rising",
+   "value": 0.3001507,
+   "unit": "s",
+   "expected": 0.3,
+   "low": 0.18,
+   "high": 0.42,
+   "source": "section 3: 0.18 s to 0.42 s (calculated from datasheet limits)",
+   "verdict": "pass"
+  },
+  {
+   "key": "release_level",
+   "label": "Level of the rail at which the supervisor starts its delay",
+   "value": 3.972841,
+   "unit": "V",
+   "expected": 3.971,
+   "low": null,
+   "high": 4.12,
+   "source": "section 3: back above 4.12 V at most (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_level",
+   "label": "Level of the rail at which 5V_OK falls, rail falling slowly",
+   "value": 3.913701,
+   "unit": "V",
+   "expected": 3.912,
+   "low": 3.83,
+   "high": 4.0,
+   "source": "section 3: 3.83 V to 4.00 V (calculated; nominal 3.91 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3c_start",
+   "label": "3V3_C at 95 % after 5V_OK has passed 1.2 V",
+   "value": 6.28231e-05,
+   "unit": "s",
+   "expected": 4e-05,
+   "low": null,
+   "high": 0.00015,
+   "source": "section 3, step 4: 0.04 ms after 5V_OK; LP5907 datasheet: 80 us typical, 150 us at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_start",
+   "label": "3V3_A at 95 % after 5V_OK has passed 1.2 V",
+   "value": 6.287665e-05,
+   "unit": "s",
+   "expected": 4e-05,
+   "low": null,
+   "high": 0.00015,
+   "source": "section 3, step 4: 0.04 ms after 5V_OK; LP5907 datasheet: 80 us typical, 150 us at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3_before",
+   "label": "Highest level of a 3.3 V rail before 5V_OK rises",
+   "value": 2.916925e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 3: the 3.3 V rails come 0.04 ms after 5V_OK, not before",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3c_level",
+   "label": "3V3_C with 10 mA of load and 5 V on the rail",
+   "value": 3.29978,
+   "unit": "V",
+   "expected": 3.3,
+   "low": 3.234,
+   "high": 3.366,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_level",
+   "label": "3V3_A with 25 mA of load and 5 V on the rail",
+   "value": 3.299327,
+   "unit": "V",
+   "expected": 3.3,
+   "low": 3.234,
+   "high": 3.366,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_at_trip",
+   "label": "3V3_A just before the supervisor trips (rail at 3.93 V)",
+   "value": 3.299293,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "the regulator needs 3.3 V plus its dropout; LP5907 datasheet, page 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "ok_high",
+   "label": "High level of 5V_OK with 5 V on the rail",
+   "value": 4.715229,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "LP5907 datasheet, page 6: enable high from 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "led_amps",
+   "label": "Current of the LED",
+   "value": 0.001426006,
+   "unit": "A",
+   "expected": 0.0013,
+   "low": null,
+   "high": null,
+   "source": "section 4.11: 1.3 mA (calculated)",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_glitch",
+   "label": "Highest level of 5V_OK while the rail rises, before the release",
+   "value": 0.5497104,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_level_low",
+   "label": "Level of the rail at which 5V_OK falls, supervisor with the lowest threshold",
+   "value": 3.828492,
+   "unit": "V",
+   "expected": 3.83,
+   "low": 3.82,
+   "high": 3.84,
+   "source": "section 3: 3.83 V to 4.00 V (calculated from datasheet limits and the 0.1 % divider)",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_level_high",
+   "label": "Level of the rail at which 5V_OK falls, supervisor with the highest threshold",
+   "value": 3.99931,
+   "unit": "V",
+   "expected": 4.0,
+   "low": 3.99,
+   "high": 4.01,
+   "source": "section 3: 3.83 V to 4.00 V (calculated from datasheet limits and the 0.1 % divider)",
+   "verdict": "pass"
+  },
+  {
+   "key": "release_delay_high",
+   "label": "5V_OK high after the rail has passed 4.12 V, supervisor with the highest threshold and the longest delay",
+   "value": 0.4201916,
+   "unit": "s",
+   "expected": 0.42,
+   "low": 0.18,
+   "high": 0.422,
+   "source": "section 3: 0.18 s to 0.42 s after the rail is back above 4.12 V at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "release_level_high",
+   "label": "Level of the rail at which the supervisor with the highest threshold starts its delay",
+   "value": 4.120575,
+   "unit": "V",
+   "expected": 4.12,
+   "low": null,
+   "high": 4.13,
+   "source": "section 3: back above 4.12 V at most (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "fall_trip_delay",
+   "label": "Rail falling at 20 V/ms: 5V_OK below 1.2 V after the rail has passed 3.91 V",
+   "value": 3.579796e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "section 4.1: the pre-regulator is off within 0.1 ms (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "fall_v3c_3v0",
+   "label": "Rail falling at 20 V/ms: 3V3_C below 3.0 V after 5V_OK has fallen",
+   "value": 2.723363e-05,
+   "unit": "s",
+   "expected": 2e-05,
+   "low": null,
+   "high": null,
+   "source": "section 3: 3V3_C is below 3.0 V after 0.02 ms (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "fall_v3a_1v0",
+   "label": "Rail falling at 20 V/ms: 3V3_A below 1.0 V after 5V_OK has fallen",
+   "value": 0.0001426068,
+   "unit": "s",
+   "expected": 0.005,
+   "low": null,
+   "high": null,
+   "source": "section 3: 3V3_A is below 1.0 V after 4 ms to 6 ms (simulated, with the reference and its capacitors, which are not in this run)",
+   "verdict": "info"
+  },
+  {
+   "key": "fall_v3a_over_rail",
+   "label": "Rail falling at 20 V/ms: highest level of 3V3_A above the rail",
+   "value": 0.6497007,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "LP5907 datasheet, page 4: output at most 0.3 V above the input; the specification states no figure",
+   "verdict": "fail"
+  },
+  {
+   "key": "fall_v3c_over_rail",
+   "label": "Rail falling at 20 V/ms: highest level of 3V3_C above the rail",
+   "value": 0.6372905,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "LP5907 datasheet, page 4: output at most 0.3 V above the input; the specification states no figure",
+   "verdict": "fail"
+  },
+  {
+   "key": "dip_3p7v",
+   "label": "Shortest dip to 3.7 V that takes 5V_OK low (of 5, 10, 20, 30, 50, 100 us)",
+   "value": 0.0001,
+   "unit": "s",
+   "expected": 3e-05,
+   "low": null,
+   "high": null,
+   "source": "section 4.1: any dip below that level for more than about 30 us",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_3v",
+   "label": "Shortest dip to 3 V that takes 5V_OK low (of 5, 10, 20, 30, 50, 100 us)",
+   "value": 3e-05,
+   "unit": "s",
+   "expected": 3e-05,
+   "low": null,
+   "high": null,
+   "source": "section 4.1: any dip below that level for more than about 30 us",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "slow",
+   "The rail rises within 50 ms, holds, and falls slowly",
+   "logic-rails.slow.png"
+  ],
+  [
+   "start",
+   "The 3.3 V rails start when 5V_OK rises",
+   "logic-rails.start.png"
+  ],
+  [
+   "fall",
+   "The rail falls at 20 V/ms from 5 V",
+   "logic-rails.fall.png"
+  ]
+ ],
+ "notes": [
+  "The rail is a source behind 50 mohm, not the input stage: the levels of the supervisor do not depend on what feeds the rail.",
+  "The supervisor is a typical part: 0.405 V at its input, 1.5 % of hysteresis, 300 ms. The two corner runs take the 2 % of the datasheet, 3 % of hysteresis, 180 ms and 420 ms, with the 0.1 % divider against them; their limits are the figures of the specification with half a digit of rounding. In the fast runs the delay is shortened to 1 ms, which does not change the reaction to a falling rail.",
+  "The regulators start 80 us after their enable, the typical value of the datasheet, which is twice what the specification writes in step 4.",
+  "The loads of the rails are assumptions: 10 mA on 3V3_C beside the LED and 25 mA on 3V3_A. The capacitors of the rails are the ones of the schematic, also the ones drawn on other sheets. The reference and its capacitors, which feed 3V3_A back through D7 at power-off, are not in this circuit.",
+  "When the rail falls faster than the 3.3 V rails are discharged (230 ohm in the regulator), the output of a regulator stands above its input. The body diode that then conducts is an assumption of the model; the datasheet only gives the 0.3 V of the absolute maximum. The run in which this happens takes the rail to 0 V at 20 V/ms, which is a short circuit of the rail; when the supply is pulled at full output the rail stops falling once the load is shed, and the bench of the unplug finds 30 mV.",
+  "5V_OK is pulled up to the rail through R25, so its high level is the rail less what the inputs on the line take."
+ ],
+ "models": [
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "logic-rails.fall.cir",
+  "logic-rails.slow.cir"
+ ],
+ "format": 1
+}

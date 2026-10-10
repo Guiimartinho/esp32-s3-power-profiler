@@ -1,0 +1,32 @@
+* SN74LVC8T245: output levels, supply current at rest, isolation
+.include "../../models/digital.lib"
+* output levels at 3.0 V with 24 mA, the test of the datasheet
+Vcca vcca 0 3.0
+Vccb vccb 0 3.3
+X1 vcca 0 a1 a2 a3 a4 a5 a6 a7 a8 0 0 0 b8 b7 b6 b5 b4 b3 b2 b1 0 vccb vccb DIGITAL_LVC8T245
+Vb1 b1 0 3.3
+Ih a1 0 24m
+Vb2 b2 0 0
+Il 0 a2 24m
+Rb3 b3 0 1k
+Rb4 b4 0 1k
+Rb5 b5 0 1k
+Rb6 b6 0 1k
+Rb7 b7 0 1k
+Rb8 b8 0 1k
+* a second part without supply on the B side: its output is open
+Vccd vccd 0 0
+X2 vcca 0 c1 c2 c3 c4 c5 c6 c7 c8 0 0 0 d8 d7 d6 d5 d4 d3 d2 d1 0 vccd vccd DIGITAL_LVC8T245
+Vd1 d1 0 3.3
+Rpull vcca c1 100k
+Rd2 d2 0 1k
+Rd3 d3 0 1k
+Rd4 d4 0 1k
+Rd5 d5 0 1k
+Rd6 d6 0 1k
+Rd7 d7 0 1k
+Rd8 d8 0 1k
+.control
+op
+.endc
+.end

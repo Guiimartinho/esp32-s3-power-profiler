@@ -1,0 +1,162 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "path-switching-bc847b",
+ "title": "BC847B model against its datasheet",
+ "covers": "the model of the hold-off transistors Q6 and Q7",
+ "summary": "The transistor Q7 of the schematic is put in the test circuits of its datasheet. A forced collector current at 5 V gives the gain and the base-emitter voltage, forced collector and base currents give the saturation voltages, and two small-signal runs give the output capacitance and the transition frequency. The last saturation point has equal base and collector current, which is how the transistor works when it holds a mode pair open.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "gain_2ma",
+   "label": "Current gain at 2 mA and 5 V",
+   "value": 289.8288,
+   "unit": "",
+   "expected": 290.0,
+   "low": 200.0,
+   "high": 450.0,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "vbe_2ma",
+   "label": "Base-emitter voltage at 2 mA and 5 V",
+   "value": 0.6599653,
+   "unit": "V",
+   "expected": 0.66,
+   "low": 0.58,
+   "high": 0.7,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "vce_sat_10ma",
+   "label": "Saturation voltage at 10 mA with 0.5 mA of base current",
+   "value": 0.09220964,
+   "unit": "V",
+   "expected": 0.09,
+   "low": null,
+   "high": 0.25,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4: 90 mV typical, 250 mV at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "vce_sat_100ma",
+   "label": "Saturation voltage at 100 mA with 5 mA of base current",
+   "value": 0.2125731,
+   "unit": "V",
+   "expected": 0.2,
+   "low": null,
+   "high": 0.6,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4: 200 mV typical, 600 mV at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "vbe_sat_10ma",
+   "label": "Base-emitter voltage at 10 mA with 0.5 mA of base current",
+   "value": 0.7201061,
+   "unit": "V",
+   "expected": 0.7,
+   "low": 0.665,
+   "high": 0.735,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4, typical; 5 % asked of the fit",
+   "verdict": "pass"
+  },
+  {
+   "key": "vbe_sat_100ma",
+   "label": "Base-emitter voltage at 100 mA with 5 mA of base current",
+   "value": 0.9057909,
+   "unit": "V",
+   "expected": 0.9,
+   "low": 0.855,
+   "high": 0.945,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4, typical; 5 % asked of the fit",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_capacitance",
+   "label": "Output capacitance at 10 V, emitter open",
+   "value": 2.984899e-12,
+   "unit": "F",
+   "expected": 3e-12,
+   "low": 2.25e-12,
+   "high": 3.75e-12,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4, typical; 25 % asked of the fit",
+   "verdict": "pass"
+  },
+  {
+   "key": "transition_frequency",
+   "label": "Transition frequency at 10 mA and 5 V",
+   "value": 302844100.0,
+   "unit": "Hz",
+   "expected": 300000000.0,
+   "low": 100000000.0,
+   "high": null,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 4: 300 MHz typical, 100 MHz at least",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_100ma",
+   "label": "Current gain at 100 mA and 5 V",
+   "value": 126.2174,
+   "unit": "",
+   "expected": 100.0,
+   "low": null,
+   "high": null,
+   "source": "Diodes Incorporated DS11108 Rev. 28-2, page 5, figure 5, read from the curve of the type family",
+   "verdict": "info"
+  },
+  {
+   "key": "gain_10ua",
+   "label": "Current gain at 10 uA and 5 V",
+   "value": 213.9104,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "not in the datasheet: an assumption of the model",
+   "verdict": "info"
+  },
+  {
+   "key": "vce_hold",
+   "label": "Saturation voltage with 0.2 mA in the base and in the collector",
+   "value": 0.02573005,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the state of the hold-off of a mode pair at -20 V",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "curves",
+   "BC847B: gain at 5 V and saturation voltage at 20 times the base current",
+   "path-switching-bc847b.curves.png"
+  ]
+ ],
+ "notes": [
+  "The limits of the gain, of the base-emitter voltage and of the saturation voltages are those of the datasheet; the limits of the typical figures are the fit this project asks of a model.",
+  "The gain below 1 mA is an assumption: the datasheet states the gain at 2 mA only. The benches of the reversed supply run the two variants of the model with the least and the highest gain of the datasheet as well.",
+  "The model has no breakdown and no leakage: the benches compare the simulated voltages with the ratings (45 V collector to emitter, 6 V emitter to base)."
+ ],
+ "models": [
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "path-switching-bc847b.active.cir",
+  "path-switching-bc847b.capacitance.cir",
+  "path-switching-bc847b.saturation.cir",
+  "path-switching-bc847b.transit.cir"
+ ],
+ "format": 1
+}

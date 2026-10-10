@@ -1,0 +1,98 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-ads8860",
+ "title": "ADS8860 digital pins: model against the datasheet",
+ "covers": "the model of the convert-start, clock and data pins of the converter U30",
+ "summary": "One frame of the three-wire mode is clocked out of the model. CONVST rises, stays high for the longest conversion and falls; sixteen clocks of 15 MHz follow. DOUT carries 20 pF as in the load circuit of the datasheet and is held at half the supply while it is open. The delays are read between the input levels and the output levels of the datasheet, and the sixteen bits are compared with the word of the model.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "wrong_bits",
+   "label": "Bits read wrong, of 16",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "TI SBAS569B, page 22: most significant bit first",
+   "verdict": "pass"
+  },
+  {
+   "key": "open_while_converting",
+   "label": "DOUT while CONVST is high: level of the open line",
+   "value": 1.504295,
+   "unit": "V",
+   "expected": null,
+   "low": 1.35,
+   "high": 1.65,
+   "source": "TI SBAS569B, page 22: DOUT is open from the rising edge of CONVST",
+   "verdict": "pass"
+  },
+  {
+   "key": "first_bit",
+   "label": "CONVST low to first bit valid",
+   "value": 1.176458e-08,
+   "unit": "s",
+   "expected": 1.23e-08,
+   "low": 1.13e-08,
+   "high": 1.23e-08,
+   "source": "TI SBAS569B, page 8: 12.3 ns at the most; the model sits at the limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "next_bit",
+   "label": "SCLK falling to next bit valid, slowest transition",
+   "value": 1.333357e-08,
+   "unit": "s",
+   "expected": 1.34e-08,
+   "low": 1.24e-08,
+   "high": 1.34e-08,
+   "source": "TI SBAS569B, page 8: 13.4 ns at the most; the model sits at the limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "hold",
+   "label": "SCLK falling to the bit before it no longer valid, earliest",
+   "value": 1.152085e-08,
+   "unit": "s",
+   "expected": null,
+   "low": 3e-09,
+   "high": null,
+   "source": "TI SBAS569B, page 8: 3 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "released",
+   "label": "Sixteenth falling edge of SCLK to DOUT leaving its level",
+   "value": 1.433843e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1.82e-08,
+   "source": "TI SBAS569B, page 8: open 13.2 ns after the edge at the most; 5 ns more for the line to move by 0.1 V with 2.5 kohm and 25 pF",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "frame",
+   "ADS8860 digital pins: the word 0xA5C3 at 15 MHz into 20 pF",
+   "digital-ads8860.frame.png"
+  ]
+ ],
+ "notes": [
+  "The datasheet gives only the largest delays and the shortest hold time; the model sits at the largest delays by default, and a bench that needs the earliest change sets its delay parameter to 3 ns.",
+  "The output resistance of 40 ohm and the pin capacitance of 5 pF are assumptions: the datasheet states the output levels at 500 uA only and no capacitance of a digital pin.",
+  "The conversion itself is not in the model: DOUT carries the word given as a parameter."
+ ],
+ "models": [],
+ "decks": [
+  "digital-ads8860.frame.cir"
+ ],
+ "format": 1
+}

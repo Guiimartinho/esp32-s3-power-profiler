@@ -1,0 +1,15 @@
+* LT3080: load step
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080
+* 3 V on IN and VCONTROL, SET by 150 kohm with 0.1 uF, ceramic output capacitor
+Vin in 0 3
+Rjoin in vctl 1m
+Rset set 0 150k
+Cset set 0 0.1u
+Cout out out_c 1e-05
+Resr out_c 0 0.005
+Iload out 0 PULSE(0.1 1.1 5e-06 1e-07 1e-07 1.25e-05 1)
+.control
+tran 10n 50u 0 10n
+.endc
+.end

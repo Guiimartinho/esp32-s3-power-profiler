@@ -1,0 +1,21 @@
+* MCP3208 inputs: the diodes of an analog pin
+.include "../../models/digital.lib"
+* 1 mA into an analog input and out of one, with the supply present
+Vdd vdd 0 3.3
+Vref vref 0 2.5
+X1 up dn ch2 ch3 ch4 ch5 ch6 ch7 0 cs din dout clk 0 vref vdd DIGITAL_MCP3208
+Iup 0 up 1m
+Idn dn 0 1m
+Vcs cs 0 3.3
+Vck clk 0 0
+Vdi din 0 0
+R2 ch2 0 1k
+R3 ch3 0 1k
+R4 ch4 0 1k
+R5 ch5 0 1k
+R6 ch6 0 1k
+R7 ch7 0 1k
+.control
+tran 1n 100n
+.endc
+.end

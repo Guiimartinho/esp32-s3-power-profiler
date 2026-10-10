@@ -1,0 +1,275 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "output-stage-buffer",
+ "title": "OPA197 model with a capacitive load behind an isolation resistor",
+ "covers": "the model of the guard buffer U25 in the use the output stage makes of it",
+ "summary": "The buffer of the schematic drives the loads of table 3 of its datasheet. The datasheet gives, for a capacitor behind an isolation resistor, the resistor that leaves 45 degrees and the one that leaves 60 degrees of phase margin, with the overshoot measured for a step of 100 mV. The guard buffer works in that circuit, with 47 ohm and 100 nF, so this is the property of the model that the output stage rests on. The loop gain is taken by double injection at the output of the amplifier, with the feedback closed, and the step is run in the same circuit. The last row is the load of the board, for which the table has no entry.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "margin_1n_24r",
+   "label": "1 nF behind 24 ohm: phase margin",
+   "value": 44.26737,
+   "unit": "deg",
+   "expected": 45.0,
+   "low": 35.0,
+   "high": 55.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_1n_24r",
+   "label": "1 nF behind 24 ohm: overshoot of a 100 mV step",
+   "value": 29.271,
+   "unit": "%",
+   "expected": 22.5,
+   "low": 14.5,
+   "high": 30.5,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_1n_100r",
+   "label": "1 nF behind 100 ohm: phase margin",
+   "value": 81.73766,
+   "unit": "deg",
+   "expected": 60.0,
+   "low": 50.0,
+   "high": 70.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "fail"
+  },
+  {
+   "key": "overshoot_1n_100r",
+   "label": "1 nF behind 100 ohm: overshoot of a 100 mV step",
+   "value": 4.514,
+   "unit": "%",
+   "expected": 9.0,
+   "low": 1.0,
+   "high": 17.0,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_10n_20r",
+   "label": "10 nF behind 20 ohm: phase margin",
+   "value": 54.61389,
+   "unit": "deg",
+   "expected": 45.0,
+   "low": 35.0,
+   "high": 55.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_10n_20r",
+   "label": "10 nF behind 20 ohm: overshoot of a 100 mV step",
+   "value": 18.09,
+   "unit": "%",
+   "expected": 22.1,
+   "low": 14.1,
+   "high": 30.1,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_10n_51r",
+   "label": "10 nF behind 51 ohm: phase margin",
+   "value": 89.08342,
+   "unit": "deg",
+   "expected": 60.0,
+   "low": 50.0,
+   "high": 70.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "fail"
+  },
+  {
+   "key": "overshoot_10n_51r",
+   "label": "10 nF behind 51 ohm: overshoot of a 100 mV step",
+   "value": 0.0,
+   "unit": "%",
+   "expected": 8.7,
+   "low": 0.7,
+   "high": 16.7,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "fail"
+  },
+  {
+   "key": "margin_100n_6p2r",
+   "label": "100 nF behind 6.2 ohm: phase margin",
+   "value": 48.03378,
+   "unit": "deg",
+   "expected": 45.0,
+   "low": 35.0,
+   "high": 55.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_100n_6p2r",
+   "label": "100 nF behind 6.2 ohm: overshoot of a 100 mV step",
+   "value": 21.623,
+   "unit": "%",
+   "expected": 23.1,
+   "low": 15.1,
+   "high": 31.1,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_100n_15p8r",
+   "label": "100 nF behind 15.8 ohm: phase margin",
+   "value": 82.1018,
+   "unit": "deg",
+   "expected": 60.0,
+   "low": 50.0,
+   "high": 70.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "fail"
+  },
+  {
+   "key": "overshoot_100n_15p8r",
+   "label": "100 nF behind 15.8 ohm: overshoot of a 100 mV step",
+   "value": 0.0,
+   "unit": "%",
+   "expected": 8.6,
+   "low": 0.6,
+   "high": 16.6,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "fail"
+  },
+  {
+   "key": "margin_1000n_2r",
+   "label": "1000 nF behind 2 ohm: phase margin",
+   "value": 46.77357,
+   "unit": "deg",
+   "expected": 45.0,
+   "low": 35.0,
+   "high": 55.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_1000n_2r",
+   "label": "1000 nF behind 2 ohm: overshoot of a 100 mV step",
+   "value": 21.931,
+   "unit": "%",
+   "expected": 21.0,
+   "low": 13.0,
+   "high": 29.0,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_1000n_4p7r",
+   "label": "1000 nF behind 4.7 ohm: phase margin",
+   "value": 77.88371,
+   "unit": "deg",
+   "expected": 60.0,
+   "low": 50.0,
+   "high": 70.0,
+   "source": "TI SBOS737C, table 3, page 23",
+   "verdict": "fail"
+  },
+  {
+   "key": "overshoot_1000n_4p7r",
+   "label": "1000 nF behind 4.7 ohm: overshoot of a 100 mV step",
+   "value": 0.0,
+   "unit": "%",
+   "expected": 8.6,
+   "low": 0.6,
+   "high": 16.6,
+   "source": "TI SBOS737C, table 3, page 23, measured",
+   "verdict": "fail"
+  },
+  {
+   "key": "margin_100n_47r",
+   "label": "Load of the board, 100 nF behind 47 ohm: phase margin",
+   "value": 98.07494,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_100n_47r",
+   "label": "Load of the board, 100 nF behind 47 ohm: crossover",
+   "value": 1272716.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overshoot_100n_47r",
+   "label": "Load of the board, 100 nF behind 47 ohm: overshoot",
+   "value": 0.0,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "unity_gain",
+   "label": "Without a capacitor: frequency at which the loop gain is 1",
+   "value": 8711751.0,
+   "unit": "Hz",
+   "expected": 10000000.0,
+   "low": 8000000.0,
+   "high": 12000000.0,
+   "source": "TI SBOS737C, page 8: unity gain bandwidth 10 MHz",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_open",
+   "label": "Without a capacitor: phase margin",
+   "value": 57.21029,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "loop",
+   "OPA197 follower with 100 nF behind an isolation resistor: loop gain",
+   "output-stage-buffer.loop.png"
+  ],
+  [
+   "step",
+   "OPA197 follower with 100 nF behind an isolation resistor: 100 mV step",
+   "output-stage-buffer.step.png"
+  ]
+ ],
+ "notes": [
+  "The limits are the fit this project asks of the model: 10 degrees around the phase margin of the table and 8 points around its overshoot. They are not datasheet limits.",
+  "What fails is a limit of the model, not of the board. Where the table gives 45 degrees the model is close. Where the table gives 60 degrees the model leaves 15 to 30 degrees more, and no overshoot where 9 % were measured: an output impedance that is a resistance up to 1 MHz, as figure 26 of the datasheet shows it, does not reproduce that column. The model is too optimistic once the isolation resistor is larger than the value for 45 degrees.",
+  "The guard buffer has 47 ohm in front of 100 nF, three times the resistor of the 60 degree row of the table. Its margin is therefore above 60 degrees by the table itself; the figure that the model gives for the board is too high by what the 60 degree rows show. In the vendor tier the model of the manufacturer is further from the table than the one written here, on the optimistic side in every row.",
+  "The rails are those of the board, +12 V and -4 V; the datasheet states the table for +18 V and -18 V. The model does not depend on its rails."
+ ],
+ "models": [
+  [
+   "U25",
+   "OUTPUT_OPA197_PROBE",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "output-stage-buffer.series-100n-15p8r.cir"
+ ],
+ "format": 1
+}

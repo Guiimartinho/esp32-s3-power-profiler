@@ -1,0 +1,144 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "clamps",
+ "title": "Clamp diodes D8 and D9: one analog rail present, the other one absent",
+ "covers": "section 3 (Schottky clamps), decision D-52",
+ "summary": "One of the two analog rails is brought up while the other has no converter. The amplifiers that sit between +12V_A and -4V_A draw their supply current through both rails, so the rail without a converter is pulled across ground until its clamp diode conducts. The bench holds that state and reads the voltage of the absent rail: with the typical diode and the typical supply currents, with the diode at the largest forward voltage of its datasheet and the largest supply currents, and with that diode in the cold.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "m4_typ",
+   "label": "-4V_A with its converter absent (typical diode, typical load)",
+   "value": 0.1997182,
+   "unit": "V",
+   "expected": 0.24,
+   "low": null,
+   "high": 0.24,
+   "source": "section 3 and D-52: below +0.24 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "p12_typ",
+   "label": "+12V_A with its converter absent (typical diode, typical load)",
+   "value": -0.1943098,
+   "unit": "V",
+   "expected": -0.23,
+   "low": -0.23,
+   "high": null,
+   "source": "section 3 and D-52: above -0.23 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_typ",
+   "label": "Current through D8 in that state (typical diode, typical load)",
+   "value": 0.004902492,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_max",
+   "label": "-4V_A with its converter absent (largest forward voltage, largest load)",
+   "value": 0.2964356,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "datasheet of the charge pump: its output at most 0.3 V above ground",
+   "verdict": "pass"
+  },
+  {
+   "key": "p12_max",
+   "label": "+12V_A with its converter absent (largest forward voltage, largest load)",
+   "value": -0.29284,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "datasheet of the +12V_A regulator: its output at most 0.3 V below ground",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_max",
+   "label": "Current through D8 in that state (largest forward voltage, largest load)",
+   "value": 0.006066821,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_cold",
+   "label": "-4V_A with its converter absent (largest forward voltage, largest load, -40 C)",
+   "value": 0.3942093,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "datasheet of the charge pump: its output at most 0.3 V above ground",
+   "verdict": "fail"
+  },
+  {
+   "key": "p12_cold",
+   "label": "+12V_A with its converter absent (largest forward voltage, largest load, -40 C)",
+   "value": -0.3914324,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "datasheet of the +12V_A regulator: its output at most 0.3 V below ground",
+   "verdict": "fail"
+  },
+  {
+   "key": "current_cold",
+   "label": "Current through D8 in that state (largest forward voltage, largest load, -40 C)",
+   "value": 0.005991263,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The load is one current sink between the two rails for the supply currents of the amplifiers; it fades out below 3 V between the rails. The minimum load R69 of the source regulator hangs on -4V_A from a regulator output held at 0 V.",
+  "The 0.24 V and 0.23 V of the specification are met by the typical diode, whose forward voltage is an assumption 40 mV below the datasheet maximum. With the diode at that maximum the rail stands closer to the 0.3 V that the datasheets of the two regulators allow at their output pins.",
+  "The cold run uses the temperature law of the diode equation with the barrier height usual for a Schottky diode; the datasheet of the diode gives no forward voltage in the cold, so that figure is a trend and not a datasheet value."
+ ],
+ "models": [
+  [
+   "D8",
+   "B0530W_HI",
+   "written here"
+  ],
+  [
+   "D8",
+   "DI_B0530W",
+   "vendor"
+  ],
+  [
+   "D9",
+   "B0530W_HI",
+   "written here"
+  ],
+  [
+   "D9",
+   "DI_B0530W",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

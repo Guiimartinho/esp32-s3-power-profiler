@@ -1,0 +1,27 @@
+* REF5025: level, regulation, supply current and noise
+.include "../../models/analog_rails.lib"
+Vin vin 0 DC 5 AC 0
+* without load, sourcing 10 mA, sinking 10 mA
+X0 vin 0 nr0 o0 REF5025AID
+C0 o0 0 1u
+Xp vin 0 nrp op REF5025AID
+Ip op 0 10m
+Xn vin 0 nrn on REF5025AID
+In 0 on 10m
+* line: 18 V at the input
+Vhi vhi 0 18
+Xh vhi 0 nrh oh REF5025AID
+* dropout: 10 mA from a supply 0.45 V above the nominal output
+Vlo vlo 0 2.95
+Xl vlo 0 nrl ol REF5025AID
+Il ol 0 10m
+* with the noise capacitor
+Xc vin 0 nrc oc REF5025AID
+Cc oc 0 1u
+Cnr nrc 0 1u
+.control
+op
+noise v(o0) Vin dec 40 1 100k
+noise v(oc) Vin dec 40 1 100k
+.endc
+.end

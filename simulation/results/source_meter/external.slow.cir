@@ -1,0 +1,88 @@
+* A voltage from outside on the output, raised slowly
+.include "../../models/source_meter.lib"
+.include "../../models/diodes.lib"
+.include "../../models/opamps.lib"
+XL2 sw_l1 sw_l2 XFL4020_152
+MQ1 smu_on ok_5v smu_en SOURCE_METER_BSS138
+C36 p3v3_a 0 1e-07
+C37 vina 0 1e-07
+C38 dac_ref 0 1e-07
+C39 p5v 0 4.97e-06
+C40 p5v 0 4.97e-06
+C41 dac_filt 0 1e-08
+C42 v_pre 0 2.14539e-05
+C43 ldo_in damper 2.14539e-05
+C44 p12v_a 0 1e-07
+C45 v_pre 0 2.14539e-05
+C46 ldo_in 0 9.33075e-06
+C47 vctl 0 5e-07
+C48 0 m4v_a 1e-07
+C49 ldo_set 0 1e-07
+C50 v_pre 0 2.14539e-05
+C51 p3v3_a 0 1e-07
+C52 trk_n pre_fb 1e-11
+C53 ldo_out 0 2.2e-05
+C54 ldo_out 0 1e-07
+C55 trk_sense 0 1e-07
+C62 supply 0 1e-06
+C63 supply_damper 0 4.7e-06
+C71 vout_s 0 1e-07
+DD10_1 vctl_feed vctl BAV199
+DD10_2 vctl vctl BAV199
+DD11 ldo_out ldo_in SOURCE_METER_1N5819HW
+DD12 0 ldo_out SOURCE_METER_1N5819HW
+DD13_1 ldo_out trk_sense BAV199
+DD13_2 trk_sense trk_sense BAV199
+XFB1 v_pre ldo_in BLM31SN500
+R53 smu_en 0 1000
+R54 dac_out dac_filt 10000
+R55 vref dac_ref 2000
+R56 dac_ref 0 2000
+R57 set_fb 0 10000
+R58 set_drv set_fb 11000
+R59 damper 0 0.33
+R60 set_drv ldo_set 1000
+R61 p13v5 vctl_feed 10
+R62 v_pre 0 1000
+R63 trk_n pre_fb 19100
+R64 trk_sense trk_n 93100
+R65 ldo_out trk_sense 6650
+R66 trk_p 0 23700
+R67 v_pre trk_p 100000
+R68 vref trk_p 137000
+R69 ldo_out m4v_a 1300
+R87 supply supply_damper 0.47
+R90 supply 0 100000
+XU15 p3v3_a dac_ref dac_out 0 MCP4921 code=0 code1=616 t1=0.0006
+XU16 p5v vina smu_en vina pre_fb v_pre sw_l1 sw_l2 pg_open 0 0 TPS63020_AVG
+XU17 dac_filt set_fb p12v_a m4v_a set_drv OPA197
+XU18 ldo_in vctl ldo_set ldo_out LT3080
+XU19 trk_p trk_n p3v3_a 0 pre_fb OPA365
+* ideal rails: the circuits that make them belong to other blocks
+Vp5 p5v 0 PWL(0 0 1e-05 0 0.00011 5)
+Vp13 p13v5 0 PWL(0 0 2e-05 0 0.00015 13.5)
+Vp12 p12v_a 0 PWL(0 0 0.0003 0 0.0004 12)
+Vm4 m4v_a 0 PWL(0 0 0.00025 0 0.0003 -4)
+Vp3v3a p3v3_a 0 PWL(0 0 0.00016 0 0.00026 3.3)
+Vref vref 0 PWL(0 0 0.0004 0 0.00045 2.5)
+* SMU_ON: a pin of the controller behind its output resistance
+Vsmu smu_pin 0 PWL(0 0 0.0005 0 0.000501 3.3)
+Rsmu smu_pin smu_on 33
+* 5V_OK: released by the supervisor, pulled up by R25 against its loads
+Vok ok_5v 0 PWL(0 0 0.0002 0 0.00021 4.717)
+* the path to the device under test, as three resistors: the closed
+* source pair, the shunt of the range with its switch, the closed
+* output pair with copper and contacts
+Rpair ldo_out supply 0.0106
+Rshunt supply vout_s 0.1041
+Rpath vout_s dut 0.0306
+* the device under test: a current sink and its capacitor
+Iload dut 0 0
+* a device that holds the terminal: a source behind 50 mohm, connected at
+* the voltage of the output, raised slowly, held at 5.0 V and raised again
+Vext ext 0 PWL(0 0.8 0.015 0.8 0.045 5 0.06 5 0.075 6.5)
+Bext ext dut I = v(ext,dut)/0.05*0.5*(1 + tanh((time - 0.015)/20u))
+.control
+tran 2u 0.075 0 20u
+.endc
+.end

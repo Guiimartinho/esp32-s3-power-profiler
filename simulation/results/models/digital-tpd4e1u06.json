@@ -1,0 +1,175 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-tpd4e1u06",
+ "title": "TPD4E1U06 model against its datasheet",
+ "covers": "the model of the arrays U35, U36 and U37 at the logic port",
+ "summary": "A current is forced into one line of the array and out of it. The breakdown at 1 mA is read for the three values of the parameter, the forward voltage at 1 mA, and the voltages at the pulsed currents of the datasheet curves. A neighbor line that rests at 3.3 V behind 1 kohm shows whether a line in breakdown disturbs it. The capacitance of a line is read at 2.5 V.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "breakdown_low",
+   "label": "Breakdown at 1 mA, parameter at the lower limit",
+   "value": 6.501961,
+   "unit": "V",
+   "expected": 6.5,
+   "low": 6.4,
+   "high": 6.6,
+   "source": "TI SLVSBQ9D, page 5: 6.5 V at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "breakdown_middle",
+   "label": "Breakdown at 1 mA, default parameter",
+   "value": 7.501961,
+   "unit": "V",
+   "expected": 7.5,
+   "low": 6.5,
+   "high": 8.5,
+   "source": "TI SLVSBQ9D, page 5: 6.5 V to 8.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "breakdown_high",
+   "label": "Breakdown at 1 mA, parameter at the upper limit",
+   "value": 8.501961,
+   "unit": "V",
+   "expected": 8.5,
+   "low": 8.4,
+   "high": 8.6,
+   "source": "TI SLVSBQ9D, page 5: 8.5 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward",
+   "label": "Voltage below ground at 1 mA out of a line",
+   "value": 0.7511305,
+   "unit": "V",
+   "expected": 0.75,
+   "low": 0.675,
+   "high": 0.825,
+   "source": "TI SLVSBQ9D, page 6, figure 5 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pulsed_6a",
+   "label": "Voltage of a line at 6 A into it",
+   "value": 13.35109,
+   "unit": "V",
+   "expected": 13.0,
+   "low": 11.44,
+   "high": 14.56,
+   "source": "TI SLVSBQ9D, page 6, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pulsed_12a",
+   "label": "Voltage of a line at 12 A into it",
+   "value": 18.78694,
+   "unit": "V",
+   "expected": 18.5,
+   "low": 16.28,
+   "high": 20.72,
+   "source": "TI SLVSBQ9D, page 6, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pulsed_18a",
+   "label": "Voltage of a line at 18 A into it",
+   "value": 24.20792,
+   "unit": "V",
+   "expected": 24.0,
+   "low": 21.12,
+   "high": 26.88,
+   "source": "TI SLVSBQ9D, page 6, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pulsed_27a",
+   "label": "Voltage of a line at 27 A into it",
+   "value": 32.32889,
+   "unit": "V",
+   "expected": 30.5,
+   "low": 26.84,
+   "high": 34.16,
+   "source": "TI SLVSBQ9D, page 6, figure 1 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pulsed_back_9a",
+   "label": "Voltage below ground at 9 A out of a line",
+   "value": 6.38603,
+   "unit": "V",
+   "expected": 7.0,
+   "low": 5.95,
+   "high": 8.05,
+   "source": "TI SLVSBQ9D, page 6, figure 2 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pulsed_back_18a",
+   "label": "Voltage below ground at 18 A out of a line",
+   "value": 11.80396,
+   "unit": "V",
+   "expected": 11.5,
+   "low": 9.775,
+   "high": 13.225,
+   "source": "TI SLVSBQ9D, page 6, figure 2 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "dynamic_resistance",
+   "label": "Dynamic resistance between 10 A and 20 A, line to ground",
+   "value": 0.9035856,
+   "unit": "ohm",
+   "expected": 1.0,
+   "low": 0.85,
+   "high": 1.15,
+   "source": "TI SLVSBQ9D, page 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "neighbor",
+   "label": "Neighbor line at 3.3 V behind 1 kohm while 1 A flows into the driven line",
+   "value": 3.3,
+   "unit": "V",
+   "expected": null,
+   "low": 3.25,
+   "high": 3.35,
+   "source": "a line in breakdown must not move a line that rests below it",
+   "verdict": "pass"
+  },
+  {
+   "key": "capacitance",
+   "label": "Capacitance of a line at 2.5 V and 1 MHz",
+   "value": 8.843141e-13,
+   "unit": "F",
+   "expected": 8e-13,
+   "low": 6e-13,
+   "high": 1e-12,
+   "source": "TI SLVSBQ9D, page 5: 0.8 pF typical, 1 pF at the most",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "curve",
+   "TPD4E1U06: voltage of a line against the current forced through it",
+   "digital-tpd4e1u06.curve.png"
+  ]
+ ],
+ "notes": [
+  "The pulsed curves of the datasheet are taken with pulses of 100 ns. In a surge of 8/20 us the part heats and clamps higher, 11 V at 1 A and 15 V at 3 A (page 5); the model does not heat and gives lower values there.",
+  "The model says nothing about leakage and nothing about the current or the energy that destroys the part: the datasheet rates 3 A and 45 W for a surge of 8/20 us and gives no figure for a continuous current.",
+  "The limits on the pulsed points are the fit this project asks of the model."
+ ],
+ "models": [],
+ "decks": [
+  "digital-tpd4e1u06.lines.cir"
+ ],
+ "format": 1
+}
