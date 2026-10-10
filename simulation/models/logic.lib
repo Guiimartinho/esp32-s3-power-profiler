@@ -1,0 +1,66 @@
+* Behavioral models of the logic-level parts, written for this project.
+* None of these is a model of a manufacturer. Every figure is from the
+* datasheet named beside it.
+
+* ---------------------------------------------------------------------
+* Delay of a logic signal on a 0 to 1 scale, without a transmission line.
+*   A node follows the input at a limited rate and takes twice the delay
+*   for the whole way; the output switches when the node passes the middle.
+*   Both edges are delayed by td. A pulse shorter than td does not pass, and
+*   one shorter than 2 td comes out shorter.
+*   An ideal line would delay every pulse alike, but each of its edges sets
+*   a breakpoint for the solver, and two breakpoints a few attoseconds apart
+*   stop a run with "timestep too small".
+.subckt DLY in out params: td=100n
+Cr r 0 1n
+Rr r 0 1e12
+Br 0 r I = {0.5n/td}*tanh((v(in) - v(r))*50)
+Bo out 0 V = 0.5*(1 + tanh((v(r) - 0.5)*40))
+.ends DLY
+
+* ---------------------------------------------------------------------
+* One channel of the TC4427 gate driver (U20, U22, U23), non-inverting.
+* Microchip datasheet DS20001422G, page 3: VIH 2.4 V and VIL 0.8 V (1.5 V
+* used); delay of the rising edge tD1 20 ns typical and 30 ns at most, of
+* the falling edge tD2 40 ns typical and 50 ns at most, both at 18 V; output
+* resistance 7 ohm typical and 10 ohm at most; rise time 19 ns into 1 nF.
+*   The two delays are the maxima at 18 V, taken for the 12 V of this
+*   board, where the datasheet gives none.
+*   The output follows the supply pin, so a missing rail gives no drive.
+*   Not modelled: the supply current, the input capacitance, the clamps of
+*   the input.
+.subckt TC4427CH in out vdd gnd params: td=30n tdoff=50n ro=7 vth=1.5
+Ba a 0 V = 0.5*(1 + tanh((v(in,gnd) - {vth})/0.05))
+Ra a b 1k
+Ca b 0 2p
+* high as soon as the copy with the shorter delay is high, low only when
+* both are low: the rising edge takes td, the falling edge tdoff
+Xdr b cr DLY td={td}
+Xdf b cf DLY td={tdoff}
+Bc c 0 V = 1 - (1 - v(cr))*(1 - v(cf))
+Bo o gnd V = max(v(vdd,gnd), 0) * min(max((v(c) - 0.2)/0.6, 0), 1)
+Ro o out {ro}
+.ends TC4427CH
+
+* ---------------------------------------------------------------------
+* MCP6561, MCP6562, MCP6569: one comparator with a push-pull output.
+* Microchip datasheet DS20002139E, pages 3 and 4: hysteresis 1 mV to 5 mV
+* (3 mV used), input offset 10 mV at most (parameter vos, 0 by default),
+* propagation delay 47 ns typical and 80 ns at most at 100 mV overdrive,
+* output edge 20 ns.
+*   Pins: non-inverting input, inverting input, output, supply, ground. The
+*   output swings between the two supply pins and is low without a supply.
+*   The output resistance of 100 ohm and the 5 pF behind it are assumptions:
+*   the datasheet gives the output levels at a load current, not a
+*   resistance.
+*   Not modelled: the dependence of the delay on the overdrive, the bias
+*   current, the common-mode range.
+.subckt MCP656X inp inn out vdd gnd params: td=47n vhy=3m vos=0
+Bx x 0 V = 0.5*(1 + tanh((v(inp,inn) - {vos} + {vhy/2}*(2*v(h) - 1))/0.2m))
+Rh x h 1k
+Ch h 0 2p
+Xd h y DLY td={td}
+Bo o gnd V = max(v(vdd,gnd), 0) * min(max((v(y) - 0.2)/0.6, 0), 1)
+Ro o out 100
+Co out gnd 5p
+.ends MCP656X

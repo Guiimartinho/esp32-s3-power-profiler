@@ -1,0 +1,147 @@
+# Model map: what every part of the schematic is in a SPICE circuit.
+#
+# [part."<manufacturer part number or value>"] gives the model of the
+# repository, [ref.<designator>] an exception for one part, and
+# [vendor."<manufacturer part number>"] the model of the manufacturer, which
+# takes the place of the first in the vendor tier. The files of the
+# manufacturers are not in the repository: their licenses do not allow it.
+#
+# kind: resistor, capacitor, inductor, network, kelvin, subckt, device,
+# short, skip. Resistors, capacitors, inductors, resistor networks, test
+# points, fiducials, holes and shields need no entry.
+# ports: the pins of the part in the order of the SPICE element. A part
+# with several units in one package gives one list of pins per unit in
+# units instead.
+
+# ---- MOSFETs ----------------------------------------------------------
+[part."IRLML0030TRPBF"]
+kind = "device"
+letter = "M"
+name = "IRLML0030"
+ports = ["3", "1", "2"]
+library = "mosfets.lib"
+origin = "written here"
+
+[part."CSD17577Q3A"]
+kind = "device"
+letter = "M"
+name = "CSD17577Q3A"
+ports = ["5", "4", "1"]
+library = "mosfets.lib"
+origin = "written here"
+
+# The two parts of the ladder clamp work with the gate on the drain: they
+# take the fit of the output characteristics, not the fit of the switch.
+[ref.Q10]
+kind = "device"
+letter = "M"
+name = "IRLML0030_CLAMP"
+ports = ["3", "1", "2"]
+library = "mosfets.lib"
+origin = "written here"
+
+[ref.Q11]
+kind = "device"
+letter = "M"
+name = "IRLML0030_CLAMP"
+ports = ["3", "1", "2"]
+library = "mosfets.lib"
+origin = "written here"
+
+# ---- Four-terminal shunts ---------------------------------------------
+# Pins 1 and 4 carry the current, pins 2 and 3 are the sense pads.
+[ref.R107]
+kind = "kelvin"
+ports = ["1", "2", "3", "4"]
+
+[ref.R110]
+kind = "kelvin"
+ports = ["1", "2", "3", "4"]
+
+# ---- Drivers, multiplexer, comparators --------------------------------
+[part."TC4427EOA713"]
+kind = "subckt"
+name = "TC4427CH"
+units = [["2", "7", "6", "3"], ["4", "5", "6", "3"]]
+library = "logic.lib"
+origin = "written here"
+
+[part."MUX509IPWR"]
+kind = "subckt"
+name = "MUX509"
+ports = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"]
+library = "mux509.lib"
+origin = "written here"
+
+[part."MCP6561T-E/OT"]
+kind = "subckt"
+name = "MCP656X"
+ports = ["3", "4", "1", "5", "2"]
+library = "logic.lib"
+origin = "written here"
+
+[part."MCP6562-E/SN"]
+kind = "subckt"
+name = "MCP656X"
+units = [["3", "2", "1", "8", "4"], ["5", "6", "7", "8", "4"]]
+library = "logic.lib"
+origin = "written here"
+
+# ---- Diodes -----------------------------------------------------------
+# A pair in series: pin 1 anode, pin 2 cathode, pin 3 the common point.
+[part."BAV199-7-F"]
+kind = "device"
+letter = "D"
+name = "BAV199"
+units = [["1", "3"], ["3", "2"]]
+library = "diodes.lib"
+origin = "written here"
+
+# ---- Amplifiers -------------------------------------------------------
+# SOT-23-5: 1 output, 2 negative supply, 3 non-inverting input, 4 inverting
+# input, 5 positive supply.
+[part."OPA197IDBVR"]
+kind = "subckt"
+name = "OPA197"
+ports = ["3", "4", "5", "2", "1"]
+library = "opamps.lib"
+origin = "written here"
+
+[part."OPA365AIDBVR"]
+kind = "subckt"
+name = "OPA365"
+ports = ["3", "4", "5", "2", "1"]
+library = "opamps.lib"
+origin = "written here"
+
+[part."AD8421ARZ"]
+kind = "subckt"
+name = "AD8421"
+ports = ["1", "2", "3", "4", "5", "6", "7", "8"]
+library = "ad8421.lib"
+origin = "written here"
+
+# ---- Models of the manufacturers (vendor tier; files not versioned) ----
+# Pins of the subcircuit: drain, gate, source.
+[vendor."CSD17577Q3A"]
+kind = "subckt"
+name = "CSD17577Q3A"
+ports = ["5", "4", "1"]
+library = "vendor/ti-csd17577-CSD17577Q3A.lib"
+origin = "vendor"
+
+# Pins of the subcircuit: non-inverting input, inverting input, positive
+# supply, negative supply, output. The MCP6562 is two of the same.
+[vendor."MCP6561T-E/OT"]
+kind = "subckt"
+name = "MCP6561"
+ports = ["3", "4", "5", "2", "1"]
+library = "vendor/mchp-mcp6561.lib"
+origin = "vendor"
+
+[vendor."MCP6562-E/SN"]
+kind = "subckt"
+name = "MCP6561"
+units = [["3", "2", "8", "4", "1"], ["5", "6", "8", "4", "7"]]
+library = "vendor/mchp-mcp6561.lib"
+origin = "vendor"

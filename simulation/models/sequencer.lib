@@ -1,0 +1,99 @@
+* Range sequencer and over-current trip: the behavior that the specification
+* asks of the programs of the controller (rules F-16, F-17 and F-18, section
+* 4.4). No such program exists yet. This is a model of the rules, not of an
+* implementation: it has no clock, and its reaction time is a parameter.
+*
+* Inputs, logic levels of the controller (vlogic):
+*   cmp_up, cmp_jump, cmp_oc   the three comparators
+*   down     a pulse asks for one step down (firmware); ignored while
+*            cmp_up is high or a change is in progress
+*   enable   low: range 0, every gate low
+*   out_on   the request to close the output switch
+* Outputs, same levels, behind the resistance of a pad (rpad):
+*   g1 g2 g3   gates of the range switches, one-hot with overlap
+*   a0 a1      address of the multiplexer
+*   gout       gate of the output switch; low after a trip
+* Rules:
+*   F-16  cmp_jump forces range 3 after tseq, in every state, never blanked.
+*   F-17  every change is make-before-break: the new gate and the address
+*         change together, the old gate falls toverlap later; cmp_up is
+*         ignored from the first change until tblank after the last one.
+*   F-18  in range 3, cmp_oc high without interruption for toc opens the
+*         output switch until the model is reset.
+*
+* The logic is written with products and sums of signals between 0 and 1,
+* never with min, max or a comparison: those have corners, and the solver
+* stops at a corner that lies where a signal rests. "a or b" is
+* 1 - (1 - a)*(1 - b), "a and b" is a*b.
+.func seq_hi(x) {0.5*(1 + tanh((x - 0.5)*20))}
+
+* Set-reset latch on a 0 to 1 scale; reset wins.
+.subckt SEQ_LATCH s r q
+Cq q 0 5p
+Rq q 0 1e12
+Bq 0 q I = 1m*((1 - seq_hi(v(r)))*(seq_hi(v(s)) + (1 - seq_hi(v(s)))*seq_hi(v(q))) - v(q))
+.ends SEQ_LATCH
+
+.subckt SEQUENCER cmp_up cmp_jump cmp_oc down enable out_on g1 g2 g3 a0 a1 gout
++ params: vlogic=3.3 tseq=100n toverlap=1u tblank=2u toc=12u rpad=33
+* inputs on a 0 to 1 scale, with the reaction time of the sequencer
+Bup upr 0 V = seq_hi(v(cmp_up)/{vlogic})
+Bju jur 0 V = seq_hi(v(cmp_jump)/{vlogic})
+Boc ocr 0 V = seq_hi(v(cmp_oc)/{vlogic})
+Bdn dnr 0 V = seq_hi(v(down)/{vlogic})
+Ben en 0 V = seq_hi(v(enable)/{vlogic})
+Bon on 0 V = seq_hi(v(out_on)/{vlogic})
+Xdup upr ups DLY td={tseq}
+Xdju jur jus DLY td={tseq}
+Xddn dnr dns DLY td={tseq}
+* the range as three latches: range 1 or more, 2 or more, 3
+X1 s1 r1 l1 SEQ_LATCH
+X2 s2 r2 l2 SEQ_LATCH
+X3 s3 r3 l3 SEQ_LATCH
+* Each latch has a copy delayed by the overlap and the blanking time. A step
+* is taken only from a state that this copy confirms, so that a state must
+* have stood for the whole blanking time before the next step, up or down.
+* That is the blanking of rule F-17. A condition never names the latch it
+* sets or clears: a latch that takes away its own drive on the way stops
+* half way.
+Xq1 l1 l1d DLY td={toverlap + tblank}
+Xq2 l2 l2d DLY td={toverlap + tblank}
+Xq3 l3 l3d DLY td={toverlap + tblank}
+Bupok upok 0 V = v(ups)*v(en)
+Bdnok dnok 0 V = v(dns)*(1 - v(ups))*v(en)
+Bjump jump 0 V = v(jus)*v(en)
+Bs1 s1 0 V = 1 - (1 - v(upok)*(1 - v(l1d)))*(1 - v(jump))
+Bs2 s2 0 V = 1 - (1 - v(upok)*v(l1)*v(l1d)*(1 - v(l2d)))*(1 - v(jump))
+Bs3 s3 0 V = 1 - (1 - v(upok)*v(l2)*v(l2d)*(1 - v(l3d)))*(1 - v(jump))
+Br1 r1 0 V = 1 - (1 - v(dnok)*v(l1d)*(1 - v(l2))*(1 - v(l2d)))*v(en)
+Br2 r2 0 V = 1 - (1 - v(dnok)*v(l2d)*(1 - v(l3))*(1 - v(l3d)))*v(en)
+Br3 r3 0 V = 1 - (1 - v(dnok)*v(l3d))*v(en)
+* one gate at a time, the old one held for the overlap
+Bh1 h1 0 V = v(l1)*(1 - v(l2))
+Bh2 h2 0 V = v(l2)*(1 - v(l3))
+Bh3 h3 0 V = v(l3)
+Xo1 h1 h1d DLY td={toverlap}
+Xo2 h2 h2d DLY td={toverlap}
+Xo3 h3 h3d DLY td={toverlap}
+Bg1 g1i 0 V = {vlogic}*(1 - (1 - v(h1))*(1 - v(h1d)))
+Bg2 g2i 0 V = {vlogic}*(1 - (1 - v(h2))*(1 - v(h2d)))
+Bg3 g3i 0 V = {vlogic}*(1 - (1 - v(h3))*(1 - v(h3d)))
+Ba0 a0i 0 V = {vlogic}*(v(h1) + v(h3))
+Ba1 a1i 0 V = {vlogic}*v(l2)
+Rg1 g1i g1 {rpad}
+Rg2 g2i g2 {rpad}
+Rg3 g3i g3 {rpad}
+Ra0 a0i a0 {rpad}
+Ra1 a1i a1 {rpad}
+* over-current trip: a timer that runs while cmp_oc is high in range 3; it
+* rises by 1 V per microsecond, stops near 40 V and falls back in nanoseconds
+Ct tm 0 1p
+Rt tm 0 1e12
+Bgo go 0 V = seq_hi(v(ocr)*v(h3))
+Bt 0 tm I = v(go)*1u*(1 - seq_hi((v(tm) - 39)/2)) - (1 - v(go))*1m*v(tm)
+Bts ts 0 V = seq_hi(v(tm) - {toc*1e6} + 0.5)
+Bzero zero 0 V = 1 - v(en)
+Xtrip ts zero trip SEQ_LATCH
+Bgo2 goi 0 V = {vlogic}*v(on)*v(en)*(1 - v(trip))
+Rgo goi gout {rpad}
+.ends SEQUENCER

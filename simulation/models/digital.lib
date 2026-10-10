@@ -1,0 +1,584 @@
+* Models of the digital lines and the monitors, written for this project.
+* None of these is a model of a manufacturer. Every figure names its
+* datasheet and page; a figure that no datasheet gives says "assumption".
+* Parts of other sheets that hang on these lines (converter, DAC, gate
+* drivers, regulators that are switched off) have a model of their pins
+* here under a name of this block; the benches name them through overrides.
+
+* ---------------------------------------------------------------------
+* Ideal delay: a matched 50 ohm line with a gain of 1.
+.subckt DIGITAL_DLY in out params: td=1n
+E1 a 0 in 0 2
+R1 a b 50
+T1 b 0 c 0 Z0=50 TD={td}
+R2 c 0 50
+E2 out 0 c 0 1
+.ends DIGITAL_DLY
+
+* ---------------------------------------------------------------------
+* Protection diode of a CMOS pin. The datasheets state ratings such as
+* "VDD + 0.6 V" and no curve: 0.6 V at 1 mA with 10 ohm in series is an
+* assumption (the analog input model of the MCP3208, DS21298E page 18,
+* draws its pin diodes with a threshold of 0.6 V).
+.model DIGITAL_PIN_D D(IS=8.3e-14 N=1 RS=10)
+
+* A logic input as its absolute maximum ratings describe it: a capacitance
+* and a diode to each rail. Used for the pins of parts of other sheets:
+* MCP4921 (DS22248A page 2: VSS - 0.3 V to VDD + 0.3 V, 2 mA at an input
+* pin; page 7: 10 pF typical), TC4427 (DS20001422G page 2: VDD + 0.3 V to
+* GND - 5 V), MUX509 (SBAS758C, digital pins).
+*   cin: 10 pF is the MCP4921 figure; other parts give none (assumption).
+*   Not modelled: the function behind the pin, leakage.
+.subckt DIGITAL_INPUT_PIN pin vdd gnd params: cin=10p
+Cin pin gnd {cin}
+Dup pin vdd DIGITAL_PIN_D
+Ddn gnd pin DIGITAL_PIN_D
+.ends DIGITAL_INPUT_PIN
+
+* ---------------------------------------------------------------------
+* BAT54S, one diode of the pair (D24). onsemi BAT54SLT1/D rev. 18, page 2,
+* each diode at 25 C: forward voltage 0.22 V typical and 0.24 V at most at
+* 0.1 mA, 0.29 V and 0.32 V at 1 mA, 0.35 V and 0.40 V at 10 mA, 0.41 V and
+* 0.50 V at 30 mA, 0.52 V and 0.80 V at 100 mA; reverse current 0.15 uA
+* typical and 2 uA at most at 25 V; capacitance 7.6 pF typical at 1 V.
+* Page 3: 0.335 V at 0.1 mA and -40 C, 0.125 V at 85 C (figure 2), which
+* EG = 0.69 and XTI = 2 reproduce; 13.5 pF at 0 V and 4.5 pF at 5 V
+* (figure 4).
+*   DIGITAL_BAT54S        typical forward curve
+*   DIGITAL_BAT54S_HI     forward voltage at the maximum at 1 mA and 10 mA
+*   DIGITAL_BAT54S_LEAKY  reverse current of 2 uA, the maximum; its
+*                         forward voltage is too low and means nothing
+*   The reverse current of the first two is their saturation current, 20 nA
+*   and 25 nA, the order of the typical curve at 1 V (figure 3: 30 nA).
+*   Not modelled: the rise of the reverse current with the voltage.
+.model DIGITAL_BAT54S       D(IS=2.0e-8 N=1.0 RS=1.2 CJO=13.5p VJ=0.3 M=0.39
++ EG=0.69 XTI=2 BV=30 IBV=10u)
+.model DIGITAL_BAT54S_HI    D(IS=2.47e-8 N=1.162 RS=1.2 CJO=13.5p VJ=0.3 M=0.39
++ EG=0.69 XTI=2 BV=30 IBV=10u)
+.model DIGITAL_BAT54S_LEAKY D(IS=2.0e-6 N=1.0 RS=1.2 CJO=13.5p VJ=0.3 M=0.39
++ EG=0.69 XTI=2 BV=30 IBV=10u)
+
+* ---------------------------------------------------------------------
+* 1N5819HW (D1 of the controller sheet). Diodes Incorporated DS30217
+* rev. 22-2, page 2 at 25 C: forward voltage at most 0.32 V at 0.1 A and
+* 0.45 V at 1 A; reverse current 10 uA typical and 50 uA at most at 4 V,
+* 15 uA and 75 uA at 6 V, 1 mA typical at 4 V and 100 C; 50 pF typical at
+* 4 V. Page 3, figure 1, typical: 0.15 V at 1 mA, 0.29 V at 0.1 A, 0.40 V
+* at 1 A; figure 3: 110 pF at 0 V.
+*   The reverse current is the saturation current of 4 uA plus a resistor:
+*   rleak = 1 Mohm gives 8 uA at 4 V (typical), rleak = 87 kohm gives 50 uA
+*   at 4 V and 73 uA at 6 V (the maxima of the datasheet).
+*   Pins: anode, cathode.
+.subckt DIGITAL_1N5819HW a k params: rleak=1meg
+D1 a k DIGITAL_1N5819_D
+Rl a k {rleak}
+.ends DIGITAL_1N5819HW
+.model DIGITAL_1N5819_D D(IS=4u N=1.05 RS=0.07 CJO=110p VJ=1 M=0.49 EG=0.69
++ XTI=2 BV=40 IBV=1m)
+
+* ---------------------------------------------------------------------
+* TPD4E1U06, four lines to one clamp (U35, U36, U37). TI SLVSBQ9D.
+* Page 8, figure 9: each line has a diode up to an inner rail and a diode
+* up from ground; one clamp from the inner rail to ground. Page 5:
+* breakdown 6.5 V to 8.5 V at 1 mA, dynamic resistance 1.0 ohm line to
+* ground and 0.6 ohm ground to line, 0.8 pF per line at 2.5 V, leakage 1 nA
+* typical and 10 nA at most at 2.5 V. Page 6: forward 0.75 V at 1 mA
+* (figure 5); pulsed 13 V at 6 A, 18.5 V at 12 A and 24 V at 18 A (figure 1),
+* 7 V at 9 A backward (figure 2).
+*   vbr: breakdown at 1 mA; the datasheet gives no typical value (its
+*   figure 5 shows 8.4 V for one part). 7.5 V is the middle of the limits.
+*   Not modelled: leakage (the inner rail has 100 Gohm to ground so that it
+*   is a node), the heating that lifts the clamp to 11 V at 1 A and 15 V
+*   at 3 A in a surge of 8/20 us (page 5), the destruction of the part.
+*   Pins: the four lines, ground. Pin 5 of the package is not connected.
+.subckt DIGITAL_TPD4E1U06 io1 io2 io3 io4 gnd params: vbr=7.5
+D1u io1 rail DIGITAL_TPD_UP
+D1d gnd io1 DIGITAL_TPD_DN
+D2u io2 rail DIGITAL_TPD_UP
+D2d gnd io2 DIGITAL_TPD_DN
+D3u io3 rail DIGITAL_TPD_UP
+D3d gnd io3 DIGITAL_TPD_DN
+D4u io4 rail DIGITAL_TPD_UP
+D4d gnd io4 DIGITAL_TPD_DN
+Dz rail zk DIGITAL_TPD_Z
+Vz zk gnd {vbr - 1.5}
+Rr rail gnd 100g
+.ends DIGITAL_TPD4E1U06
+.model DIGITAL_TPD_UP D(IS=2.5e-16 N=1 RS=0.45 CJO=0.5p VJ=0.7 M=0.3)
+.model DIGITAL_TPD_DN D(IS=2.5e-16 N=1 RS=0.6 CJO=0.5p VJ=0.7 M=0.3)
+.model DIGITAL_TPD_Z  D(IS=2.5e-16 N=1 RS=0.45 CJO=30p)
+
+* ---------------------------------------------------------------------
+* SN74LVC8T245, the direction that the board uses: B port in, A port out
+* (U38). TI SCES584D.
+*   Input (page 7): low below 0.35 x VCCB and high above 0.65 x VCCB at
+*   1.65 V to 1.95 V, 0.7 V and 1.7 V at 2.3 V to 2.7 V, 0.8 V and 2.0 V at
+*   3.0 V to 3.6 V, 0.3 x VCCB and 0.7 x VCCB at 4.5 V to 5.5 V. The
+*   threshold of the model is kth x VCCB; kth = 0.5 is an assumption inside
+*   those limits. Pin capacitance 8.5 pF typical, 10 pF at most (page 9).
+*   Ratings (page 6): -0.5 V to 6.5 V at a pin whatever the supplies are,
+*   50 mA in the clamp of an input below ground. The pin has a diode to
+*   ground and none to its supply. What it does above 6.5 V is not stated:
+*   vpos is the level of an assumed clamp of the pin itself and is far
+*   away by default.
+*   Output (page 9): 2.4 V at least with 24 mA at 3 V, 0.55 V at most, so
+*   25 ohm at the most; ro = 20 ohm is an assumption.
+*   Delay B to A with 3.3 V on the A side (page 11): 0.8 ns to 7.2 ns with
+*   1.8 V on the B side, 0.7 ns to 6.1 ns with 3.3 V, 0.6 ns to 6.0 ns with
+*   5 V, into 15 pF. tpd = 3 ns is an assumption inside those limits.
+*   Supply of the B side (page 9): 8 uA at the most at rest (iccb); page 11:
+*   power-dissipation capacitance 2 pF per input up to 3.3 V and 3 pF at
+*   5 V (cpd), drawn as the charge of a capacitor at every rising edge.
+*   Isolation (page 15): with a supply below 0.1 V the outputs are open.
+*   Not modelled: the direction A to B, the supply current of the A side,
+*   leakage (1 uA at 25 C, 2 uA over temperature, page 9), the behaviour
+*   between 0.1 V and 1.65 V, which the datasheet does not specify either.
+*   Pins in the order of the package.
+.subckt DIGITAL_LVC8T245 vcca dir a1 a2 a3 a4 a5 a6 a7 a8 g1 g2 g3
++ b8 b7 b6 b5 b4 b3 b2 b1 oe vccb vccb2
++ params: kth=0.5 tpd=3n ro=20 cio=8.5p cpd=2p iccb=8u vpos=1000
+Rg2 g2 g1 1m
+Rg3 g3 g1 1m
+Rvb vccb2 vccb 1m
+Ben1 en1 0 V = 0.5*(1 + tanh((v(vccb,g1) - 0.1)/0.01))
+Ben2 en2 0 V = 0.5*(1 + tanh((v(vcca,g1) - 0.1)/0.01))
+Ben3 en3 0 V = 0.5*(1 - tanh((v(oe,g1) - 0.5*v(vcca,g1))/0.05))
+Ben4 en4 0 V = 0.5*(1 - tanh((v(dir,g1) - 0.5*v(vcca,g1))/0.05))
+Ben en 0 V = v(en1)*v(en2)*v(en3)*v(en4)
+Bq vccb g1 I = {iccb}*tanh(v(vccb,g1)/0.2)
+Cdir dir g1 4p
+Coe oe g1 4p
+Rdir dir g1 1e12
+Roe oe g1 1e12
+X1 b1 a1 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X2 b2 a2 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X3 b3 a3 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X4 b4 a4 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X5 b5 a5 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X6 b6 a6 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X7 b7 a7 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+X8 b8 a8 vcca vccb g1 en DIGITAL_LVC8T245_CH kth={kth} tpd={tpd} ro={ro} cio={cio} cpd={cpd} vpos={vpos}
+.ends DIGITAL_LVC8T245
+
+* One channel of the translator: B pin, A pin, the two supplies, ground,
+* and the enable of the package (0 V or 1 V).
+.subckt DIGITAL_LVC8T245_CH b a vcca vccb gnd en
++ params: kth=0.5 tpd=3n ro=20 cio=8.5p cpd=2p vpos=1000
+.param go={1/ro}
+.param gpd=5e-4
+Cb b gnd {cio}
+Db gnd b DIGITAL_PIN_D
+Dp b pk DIGITAL_PIN_D
+Vp pk gnd {vpos}
+Bs s 0 V = 0.5*(1 + tanh((v(b,gnd) - {kth}*v(vccb,gnd))/0.02))
+Rs s sf 100
+Cs sf 0 1p
+Xd sf sd DIGITAL_DLY td={tpd}
+Bq sq 0 V = min(max(v(sd), 0), 1)
+* the charge that an edge of the input costs the supply of the B side
+Bpu vccb p I = v(vccb,p)*{gpd}*v(sf)
+Bpd p gnd I = v(p,gnd)*{gpd}*(1 - v(sf))
+Cp p gnd {cpd}
+* output stage on the supply of the A side
+Boh vcca a I = v(vcca,a)*{go}*v(sq)*v(en)
+Bol a gnd I = v(a,gnd)*{go}*(1 - v(sq))*v(en)
+Ca a gnd {cio}
+Ra a gnd 1e12
+.ends DIGITAL_LVC8T245_CH
+
+* ---------------------------------------------------------------------
+* SN74LV165A, parallel-load shift register (U33, U34). TI SCLS402R.
+*   Function (page 11): a low level at the load pin copies the eight
+*   inputs, whatever the clock does; with the load pin high a rising edge
+*   of the clock shifts toward the input D7, whose stage drives the
+*   output. The clock is the OR of the clock pin and the inhibit pin.
+*   Delay at 3.3 V into 15 pF (page 7): clock to output 8.6 ns typical at
+*   25 C, 1 ns to 18 ns over temperature; load pin to output 9.1 ns typical,
+*   18.5 ns at most; input D7 to output 8.9 ns typical, 16.5 ns at most.
+*   tclk and tld are the delays to the output stage; the edge of the
+*   output adds about 1 ns into 15 pF.
+*   Output (page 6): 2.48 V at least with 6 mA at 3 V and 0.44 V at most,
+*   so 87 ohm and 73 ohm at the most; ro = 50 ohm is an assumption.
+*   Inputs (pages 5 and 6): high above 0.7 x VCC, low below 0.3 x VCC,
+*   1.7 pF, 5.5 V whatever the supply is: a diode to ground and none to
+*   the supply. The threshold of the model is vth, 1.65 V, half of 3.3 V
+*   (assumption inside the limits); it does not follow the supply pin.
+*   The time limits that the model does not check and the benches measure
+*   (page 6, 3.3 V, -40 C to 85 C): load pulse 9 ns, clock pulse 7 ns, load
+*   high 6 ns before the clock, data 8.5 ns before the end of the load.
+*   Not modelled: supply current, leakage, the open output without supply.
+*   Needs the XSPICE code models of ngspice (digital.cm).
+*   Pins in the order of the package.
+.subckt DIGITAL_LV165A pl cp d4 d5 d6 d7 qn7 gnd q7 ds d0 d1 d2 d3 ce vcc
++ params: vth=1.65 tclk=7.6n tld=8.0n ro=50 ci=1.7p
+.model LVADC adc_bridge(in_low={vth} in_high={vth} rise_delay=10p fall_delay=10p)
+.model LVDAC dac_bridge(out_low=0 out_high=1 out_undef=0.5 t_rise=0.4n t_fall=0.4n)
+.model LVFF d_dff(clk_delay={tclk} set_delay={tld} reset_delay={tld} ic=0
++ rise_delay=1p fall_delay=1p)
+.model LVINV d_inverter(rise_delay=1p fall_delay=1p)
+.model LVAND d_and(rise_delay=1p fall_delay=1p)
+.model LVOR d_or(rise_delay=1p fall_delay=1p)
+Aadc [%vd(pl,gnd) %vd(cp,gnd) %vd(ce,gnd) %vd(ds,gnd) %vd(d0,gnd) %vd(d1,gnd)
++ %vd(d2,gnd) %vd(d3,gnd) %vd(d4,gnd) %vd(d5,gnd) %vd(d6,gnd) %vd(d7,gnd)]
++ [xpl xcp xce xds x0 x1 x2 x3 x4 x5 x6 x7] LVADC
+Ald xpl ld LVINV
+Ack [xcp xce] ck LVOR
+Ai0 x0 n0 LVINV
+Ai1 x1 n1 LVINV
+Ai2 x2 n2 LVINV
+Ai3 x3 n3 LVINV
+Ai4 x4 n4 LVINV
+Ai5 x5 n5 LVINV
+Ai6 x6 n6 LVINV
+Ai7 x7 n7 LVINV
+As0 [ld x0] s0 LVAND
+As1 [ld x1] s1 LVAND
+As2 [ld x2] s2 LVAND
+As3 [ld x3] s3 LVAND
+As4 [ld x4] s4 LVAND
+As5 [ld x5] s5 LVAND
+As6 [ld x6] s6 LVAND
+As7 [ld x7] s7 LVAND
+Ar0 [ld n0] r0 LVAND
+Ar1 [ld n1] r1 LVAND
+Ar2 [ld n2] r2 LVAND
+Ar3 [ld n3] r3 LVAND
+Ar4 [ld n4] r4 LVAND
+Ar5 [ld n5] r5 LVAND
+Ar6 [ld n6] r6 LVAND
+Ar7 [ld n7] r7 LVAND
+Af0 xds ck s0 r0 q0 qb0 LVFF
+Af1 q0 ck s1 r1 q1 qb1 LVFF
+Af2 q1 ck s2 r2 q2 qb2 LVFF
+Af3 q2 ck s3 r3 q3 qb3 LVFF
+Af4 q3 ck s4 r4 q4 qb4 LVFF
+Af5 q4 ck s5 r5 q5 qb5 LVFF
+Af6 q5 ck s6 r6 q6 qb6 LVFF
+Af7 q6 ck s7 r7 q7d qb7d LVFF
+Adac [q7d qb7d] [y yn] LVDAC
+Bo o gnd V = v(vcc,gnd)*min(max(v(y), 0), 1)
+Ro o q7 {ro}
+Bon on gnd V = v(vcc,gnd)*min(max(v(yn), 0), 1)
+Ron on qn7 {ro}
+Cpl pl gnd {ci}
+Ccp cp gnd {ci}
+Cce ce gnd {ci}
+Cds ds gnd {ci}
+C0 d0 gnd {ci}
+C1 d1 gnd {ci}
+C2 d2 gnd {ci}
+C3 d3 gnd {ci}
+C4 d4 gnd {ci}
+C5 d5 gnd {ci}
+C6 d6 gnd {ci}
+C7 d7 gnd {ci}
+Dpl gnd pl DIGITAL_PIN_D
+Dcp gnd cp DIGITAL_PIN_D
+Ripl pl gnd 1e12
+Ricp cp gnd 1e12
+Rice ce gnd 1e12
+Rids ds gnd 1e12
+Rid0 d0 gnd 1e12
+Rid1 d1 gnd 1e12
+Rid2 d2 gnd 1e12
+Rid3 d3 gnd 1e12
+Rid4 d4 gnd 1e12
+Rid5 d5 gnd 1e12
+Rid6 d6 gnd 1e12
+Rid7 d7 gnd 1e12
+Rvc vcc gnd 1e9
+Rq7 q7 gnd 1e12
+Rqn7 qn7 gnd 1e12
+.ends DIGITAL_LV165A
+
+* ---------------------------------------------------------------------
+* ADS8860, the digital pins in the three-wire mode with DIN high (U30).
+* TI SBAS569B.
+*   Function (page 22): the rising edge of CONVST starts a conversion and
+*   opens DOUT. The falling edge of CONVST puts the first bit on DOUT;
+*   every falling edge of SCLK puts the next one; after the 16th falling
+*   edge, or when CONVST rises, DOUT is open again.
+*   Timing at 3 V (page 8): next bit valid at most 13.4 ns after the
+*   falling edge of SCLK (tdo), the bit before it valid for 3 ns at least;
+*   first bit at most 12.3 ns after CONVST fell (ten); DOUT open at most
+*   13.2 ns after CONVST rose; the model opens it at once. The datasheet
+*   gives no typical value.
+*   tdo and ten are the delays to the output stage: into the 20 pF of the
+*   datasheet the output reaches its level 2 ns later, so the defaults,
+*   11.2 ns and 10.2 ns, put the model at the largest delays. tdo = 2.8 ns
+*   gives the earliest change, 3 ns after the edge.
+*   Conversion 500 ns to 710 ns, quiet time 20 ns: not checked here.
+*   Levels (page 7): inputs high above 0.7 x DVDD and low below 0.3 x DVDD;
+*   output 0.8 x DVDD and 0.2 x DVDD at 500 uA into 20 pF, which bounds its
+*   resistance at 1.2 kohm and says nothing more. Ratings (page 5): pins
+*   from -0.3 V to DVDD + 0.3 V, no current figure.
+*   Assumptions: ro = 40 ohm, cin = cout = 5 pF, threshold vth 1.65 V, a
+*   diode from every pin to DVDD and from ground to every pin.
+*   code: the word that is shifted out, 0 to 65535.
+*   Not modelled: the converter itself, the supply currents.
+*   Needs the XSPICE code models of ngspice (digital.cm).
+*   Pins: CONVST, DOUT, SCLK, DIN, DVDD, ground.
+.subckt DIGITAL_ADS8860_IO convst dout sclk din dvdd gnd
++ params: code=42435 tdo=11.2n ten=10.2n ro=40 cin=5p cout=5p vth=1.65
+.param go={1/ro}
+.model ADADC adc_bridge(in_low={vth} in_high={vth} rise_delay=10p fall_delay=10p)
+.model ADDAC dac_bridge(out_low=0 out_high=1 out_undef=0.5 t_rise=0.2n t_fall=0.2n)
+.model ADINV d_inverter(rise_delay=1p fall_delay=1p)
+.model ADAND d_and(rise_delay=1p fall_delay=1p)
+.model ADEN d_buffer(rise_delay={ten} fall_delay=1p)
+.model ADTFF d_tff(clk_delay={tdo} set_delay=1n reset_delay=1n ic=0
++ rise_delay=1p fall_delay=1p)
+.model ADLOW d_pulldown(load=1p)
+Aadc [%vd(convst,gnd) %vd(sclk,gnd)] [xcnv xsck] ADADC
+Alow zero ADLOW
+Ainc xcnv ncnv ADINV
+Aink xsck nsck ADINV
+* counter of the falling edges of SCLK, held at zero while CONVST is high
+At0 nq4 nsck zero xcnv q0 nq0 ADTFF
+Aa1 [q0 nq4] t1 ADAND
+At1 t1 nsck zero xcnv q1 nq1 ADTFF
+Aa2 [q0 q1] t2 ADAND
+At2 t2 nsck zero xcnv q2 nq2 ADTFF
+Aa3 [q0 q1 q2] t3 ADAND
+At3 t3 nsck zero xcnv q3 nq3 ADTFF
+Aa4 [q0 q1 q2 q3] t4 ADAND
+At4 t4 nsck zero xcnv q4 nq4 ADTFF
+* DOUT drives while CONVST is low and fewer than 16 edges have passed
+Aen1 ncnv enr ADEN
+Aen2 [enr nq4 ncnv] en ADAND
+Adac [q0 q1 q2 q3 en] [y0 y1 y2 y3 ye] ADDAC
+Bn n 0 V = floor(v(y0) + 2*v(y1) + 4*v(y2) + 8*v(y3) + 0.5)
+Bb bit 0 V = floor({code}/pwr(2, 15 - v(n)) + 1e-6) - 2*floor({code}/pwr(2, 16 - v(n)) + 1e-6)
+Rb bit bf 100
+Cb bf 0 2p
+Bs sq 0 V = min(max(v(bf), 0), 1)
+Be eq 0 V = min(max(v(ye), 0), 1)
+Boh dvdd dout I = v(dvdd,dout)*{go}*v(sq)*v(eq)
+Bol dout gnd I = v(dout,gnd)*{go}*(1 - v(sq))*v(eq)
+Cout dout gnd {cout}
+Rout dout gnd 1e12
+Ccnv convst gnd {cin}
+Csck sclk gnd {cin}
+Cdin din gnd {cin}
+Dcu convst dvdd DIGITAL_PIN_D
+Dcd gnd convst DIGITAL_PIN_D
+Dsu sclk dvdd DIGITAL_PIN_D
+Dsd gnd sclk DIGITAL_PIN_D
+Diu din dvdd DIGITAL_PIN_D
+Did gnd din DIGITAL_PIN_D
+Dou dout dvdd DIGITAL_PIN_D
+Dod gnd dout DIGITAL_PIN_D
+.ends DIGITAL_ADS8860_IO
+
+* ---------------------------------------------------------------------
+* MCP3208, the inputs and the sampling of the monitor converter (U40).
+* Microchip DS21298E.
+*   Analog input (page 18, figure 4-1): 7 pF at the pin, a diode with a
+*   threshold of 0.6 V to each rail, a sampling switch of 1 kohm and a
+*   sampling capacitor of 20 pF. Page 3: leakage 1 nA typical and 1 uA at
+*   the most; it is not in the model and a bench adds it as a source.
+*   Sampling (page 19): after the start bit, the first clock with the
+*   select low and DIN high, four more rising edges take the mode bit and
+*   the channel bits D2, D1 and D0. The input is sampled from the fourth
+*   of them to the falling edge of the fifth clock after the start bit,
+*   1.5 clock cycles.
+*   The sampling capacitor keeps its charge between two samples and meets
+*   the next channel with the voltage of the one before: an assumption
+*   about the capacitor array, which the datasheet does not describe. With
+*   reset = 1 the capacitor is set to vres while the select is high, for
+*   the worst case of a capacitor that starts far from the input.
+*   Digital pins (page 3): high above 0.7 x VDD, low below 0.3 x VDD, 10 pF
+*   at the most, leakage 10 uA at the most; page 2: -0.6 V to VDD + 0.6 V.
+*   The threshold of the model is vth, 1.65 V (assumption, half of 3.3 V).
+*   Not modelled: the conversion and the data output (DOUT is open), the
+*   mode bit (single-ended is assumed), offset, gain and linearity errors
+*   (3 LSB, 5 LSB and 1 LSB at the most, page 2), the reference current.
+*   The voltage held on the node "samp" inside is what a conversion works on.
+*   Needs the XSPICE code models of ngspice (digital.cm).
+*   Pins in the order of the package.
+.subckt DIGITAL_MCP3208 ch0 ch1 ch2 ch3 ch4 ch5 ch6 ch7 dgnd cs din dout clk agnd vref vdd
++ params: rss=1k csamp=20p cpin=7p cdig=10p vth=1.65 reset=0 vres=0
+.param gss={1/rss}
+.model MCADC adc_bridge(in_low={vth} in_high={vth} rise_delay=10p fall_delay=10p)
+.model MCDAC dac_bridge(out_low=0 out_high=1 out_undef=0.5 t_rise=5n t_fall=5n)
+.model MCFF d_dff(clk_delay=2n set_delay=2n reset_delay=2n ic=0 rise_delay=1p fall_delay=1p)
+.model MCINV d_inverter(rise_delay=1p fall_delay=1p)
+.model MCAND d_and(rise_delay=1p fall_delay=1p)
+.model MCOR d_or(rise_delay=1p fall_delay=1p)
+.model MCLOW d_pulldown(load=1p)
+Aadc [%vd(cs,dgnd) %vd(clk,dgnd) %vd(din,dgnd)] [xcs xck xdi] MCADC
+Alow zero MCLOW
+Ainv xck nck MCINV
+* the start bit, then one stage per clock
+Aor0 [st xdi] std MCOR
+Af0 std xck zero xcs st nst MCFF
+Af1 st xck zero xcs s1 ns1 MCFF
+Af2 s1 xck zero xcs s2 ns2 MCFF
+Af3 s2 xck zero xcs s3 ns3 MCFF
+Af4 s3 xck zero xcs s4 ns4 MCFF
+Af5 s4 xck zero xcs s5 ns5 MCFF
+Af6 s5 nck zero xcs e ne MCFF
+Asm [s4 ne] smp MCAND
+* the channel bits, shifted in until the sampling starts
+Ah0 [s4 b0] h0 MCAND
+Ag0 [ns4 xdi] g0 MCAND
+Ao0 [h0 g0] b0d MCOR
+Ab0 b0d xck zero xcs b0 nb0 MCFF
+Ah1 [s4 b1] h1 MCAND
+Ag1 [ns4 b0] g1 MCAND
+Ao1 [h1 g1] b1d MCOR
+Ab1 b1d xck zero xcs b1 nb1 MCFF
+Ah2 [s4 b2] h2 MCAND
+Ag2 [ns4 b1] g2 MCAND
+Ao2 [h2 g2] b2d MCOR
+Ab2 b2d xck zero xcs b2 nb2 MCFF
+Ae0 [smp nb2 nb1 nb0] e0 MCAND
+Ae1 [smp nb2 nb1 b0] e1 MCAND
+Ae2 [smp nb2 b1 nb0] e2 MCAND
+Ae3 [smp nb2 b1 b0] e3 MCAND
+Ae4 [smp b2 nb1 nb0] e4 MCAND
+Ae5 [smp b2 nb1 b0] e5 MCAND
+Ae6 [smp b2 b1 nb0] e6 MCAND
+Ae7 [smp b2 b1 b0] e7 MCAND
+Adac [e0 e1 e2 e3 e4 e5 e6 e7 xcs] [y0 y1 y2 y3 y4 y5 y6 y7 yc] MCDAC
+Bs0 ch0 samp I = v(ch0,samp)*{gss}*min(max(v(y0), 0), 1)
+Bs1 ch1 samp I = v(ch1,samp)*{gss}*min(max(v(y1), 0), 1)
+Bs2 ch2 samp I = v(ch2,samp)*{gss}*min(max(v(y2), 0), 1)
+Bs3 ch3 samp I = v(ch3,samp)*{gss}*min(max(v(y3), 0), 1)
+Bs4 ch4 samp I = v(ch4,samp)*{gss}*min(max(v(y4), 0), 1)
+Bs5 ch5 samp I = v(ch5,samp)*{gss}*min(max(v(y5), 0), 1)
+Bs6 ch6 samp I = v(ch6,samp)*{gss}*min(max(v(y6), 0), 1)
+Bs7 ch7 samp I = v(ch7,samp)*{gss}*min(max(v(y7), 0), 1)
+Csamp samp agnd {csamp}
+Rsamp samp agnd 1e13
+Brs samp agnd I = (v(samp,agnd) - {vres})*1e-3*{reset}*min(max(v(yc), 0), 1)
+Cp0 ch0 agnd {cpin}
+Cp1 ch1 agnd {cpin}
+Cp2 ch2 agnd {cpin}
+Cp3 ch3 agnd {cpin}
+Cp4 ch4 agnd {cpin}
+Cp5 ch5 agnd {cpin}
+Cp6 ch6 agnd {cpin}
+Cp7 ch7 agnd {cpin}
+Du0 ch0 vdd DIGITAL_PIN_D
+Dd0 agnd ch0 DIGITAL_PIN_D
+Du1 ch1 vdd DIGITAL_PIN_D
+Dd1 agnd ch1 DIGITAL_PIN_D
+Du2 ch2 vdd DIGITAL_PIN_D
+Dd2 agnd ch2 DIGITAL_PIN_D
+Du3 ch3 vdd DIGITAL_PIN_D
+Dd3 agnd ch3 DIGITAL_PIN_D
+Du4 ch4 vdd DIGITAL_PIN_D
+Dd4 agnd ch4 DIGITAL_PIN_D
+Du5 ch5 vdd DIGITAL_PIN_D
+Dd5 agnd ch5 DIGITAL_PIN_D
+Du6 ch6 vdd DIGITAL_PIN_D
+Dd6 agnd ch6 DIGITAL_PIN_D
+Du7 ch7 vdd DIGITAL_PIN_D
+Dd7 agnd ch7 DIGITAL_PIN_D
+Xcs cs vdd dgnd DIGITAL_INPUT_PIN cin={cdig}
+Xck clk vdd dgnd DIGITAL_INPUT_PIN cin={cdig}
+Xdi din vdd dgnd DIGITAL_INPUT_PIN cin={cdig}
+Xdo dout vdd dgnd DIGITAL_INPUT_PIN cin={cdig}
+Rref vref agnd 1e9
+Rgg dgnd agnd 1m
+.ends DIGITAL_MCP3208
+
+* ---------------------------------------------------------------------
+* MCP9700A temperature sensor (U39). Microchip DS20001942L, pages 3 and 4:
+* 500 mV at 0 C, 10.0 mV per kelvin, accuracy +/-1 C typical and +/-2 C at
+* the most from 0 C to 70 C, output impedance 20 ohm at 500 Hz, supply
+* 2.3 V to 5.5 V, 6 uA typical.
+*   The temperature is that of the simulation plus dt; terr is the error of
+*   the part in kelvin.
+*   Not modelled: the turn-on time of 0.8 ms, the limit of 100 uA of output
+*   current (which the model does not take from the supply pin either), the
+*   non-linearity of 0.5 C, noise.
+*   Pins: supply, output, ground.
+.subckt DIGITAL_MCP9700A vdd vout gnd params: dt=0 terr=0 zout=20 idd=6u
+Bt t 0 V = 0.5 + 0.010*(temper + {dt} + {terr})
+Bo o gnd V = min(v(t), max(v(vdd,gnd) - 0.1, 0))*0.5*(1 + tanh((v(vdd,gnd) - 2.0)/0.1))
+Ro o vout {zout}
+Bq vdd gnd I = {idd}*tanh(v(vdd,gnd)/0.2)
+.ends DIGITAL_MCP9700A
+
+* ---------------------------------------------------------------------
+* A pad of the RP2350 as a bench uses it. RP2350 datasheet, table 1683
+* (page 1336) at 3.3 V: output 2.62 V at least and 0.5 V at most at the
+* current of the drive setting, so 170 ohm and 125 ohm at the most at
+* 4 mA, 57 ohm and 42 ohm at 12 mA; input high above 2.0 V, low below
+* 0.8 V; pull-down 36 kohm to 113 kohm, pull-up 32 kohm to 86 kohm;
+* leakage 1 uA. The datasheet gives no typical output resistance and no
+* capacitance.
+*   ctl: 1 V for a high level, 0 V for a low one. oe: 1 V drives, 0 V
+*   releases the pad.
+*   roh, rol: the limits of the 4 mA setting by default.
+*   cpad: 5 pF for the pad, its package pin and the socket (assumption).
+*   tedge: time constant of the edge inside the pad (assumption).
+*   e9 = 1 adds the current of erratum E9 of stepping A2 (page 1358 and
+*   figure 157 on page 1359, a typical part with the input enabled): up to
+*   115 uA out of a pad that stands between 1.2 V and 2.4 V.
+*   Not modelled: the input buffer (the benches read the 0.8 V and 2.0 V
+*   limits), the slew setting, the difference between parts.
+*   Pins: pad, ctl, oe, the 3.3 V of the module, ground.
+.subckt DIGITAL_RP2350_PAD pad ctl oe iovdd gnd
++ params: roh=170 rol=125 cpad=5p rpd=1e12 rpu=1e12 tedge=0.3n e9=0
+.param goh={1/roh}
+.param gol={1/rol}
+.param cedge={tedge/1e3}
+Rc ctl cf 1k
+Cc cf 0 {cedge}
+Ro oe of 1k
+Co of 0 {cedge}
+Bs s 0 V = min(max(v(cf), 0), 1)
+Be e 0 V = min(max(v(of), 0), 1)
+Boh iovdd pad I = v(iovdd,pad)*{goh}*v(s)*v(e)
+Bol pad gnd I = v(pad,gnd)*{gol}*(1 - v(s))*v(e)
+Be9 iovdd pad I = {e9}*pwl(v(pad,gnd), 0,0, 1.2,0, 1.3,115u, 1.4,115u, 1.6,108u,
++ 1.8,98u, 2.0,85u, 2.1,55u, 2.2,22u, 2.3,5u, 2.4,0, 6,0)
+Rpd pad gnd {rpd}
+Rpu pad iovdd {rpu}
+Cp pad gnd {cpad}
+Dd gnd pad DIGITAL_PIN_D
+.ends DIGITAL_RP2350_PAD
+
+* A standard pad (GP26 to GP28): the same with a diode to the 3.3 V of the
+* module (RP2350 datasheet, table 1683: input at most IOVDD + 0.3 V; Pico 2
+* datasheet, section 5.2).
+.subckt DIGITAL_RP2350_PAD_STD pad ctl oe iovdd gnd
++ params: roh=170 rol=125 cpad=5p rpd=1e12 rpu=1e12 tedge=0.3n e9=0
+X1 pad ctl oe iovdd gnd DIGITAL_RP2350_PAD roh={roh} rol={rol} cpad={cpad} rpd={rpd}
++ rpu={rpu} tedge={tedge} e9={e9}
+Du pad iovdd DIGITAL_PIN_D
+.ends DIGITAL_RP2350_PAD_STD
+
+* ---------------------------------------------------------------------
+* The supply side of the Raspberry Pi Pico 2 (U1). Pico 2 datasheet,
+* figure 7 on page 15: VBUS feeds VSYS through the Schottky diode D1,
+* PMEG6010ELR; R10, 5.6 kohm, and R1, 10 kohm, go from VBUS to ground with
+* GP24 between them; 47 uF on VSYS; a buck-boost regulator from 1.8 V on.
+* Diode (Nexperia PMEG6010ELR of 1 January 2023, page 4, typical at 25 C):
+* 475 mV at 0.1 A, 605 mV at 1 A, reverse current 5 nA at 5 V.
+*   pload: what the module takes, as a constant power. Tables 1 and 2 of
+*   the Pico 2 datasheet (page 13) give 27 mW to 71 mW for its examples;
+*   0.1 W is an assumption for a program that uses both cores.
+*   Pins: VBUS, VSYS, ground. The node gp24 inside is the VBUS sense pin.
+.subckt DIGITAL_PICO2_SUPPLY vbus vsys gnd params: pload=0.1
+D1 vbus vsys DIGITAL_PMEG6010
+R10 vbus gp24 5.6k
+R1 gp24 gnd 10k
+C1 vsys gnd 47u
+Bl vsys gnd I = {pload}/max(v(vsys,gnd), 1.5)*0.5*(1 + tanh((v(vsys,gnd) - 1.8)/0.05))
+.ends DIGITAL_PICO2_SUPPLY
+.model DIGITAL_PMEG6010 D(IS=3.4n N=1.05 RS=0.075 CJO=120p EG=0.69 XTI=2 BV=60 IBV=1m)
+
+* ---------------------------------------------------------------------
+* LP5907 switched off (U7 and U8 while the supervisor holds the carrier
+* off). TI SNVS798Q, page 5: with the enable pin low the output is
+* discharged through 230 ohm (typical). Nothing else of the regulator is
+* in this model.
+*   Pins: input, output, ground.
+.subckt DIGITAL_LP5907_OFF in out gnd params: rad=230
+Rad out gnd {rad}
+Rin in gnd 1e9
+.ends DIGITAL_LP5907_OFF

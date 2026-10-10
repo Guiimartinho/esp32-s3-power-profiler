@@ -1,0 +1,114 @@
+# Model map of the analog rails and of the rail monitor.
+#
+# The parts of the two sheets that sit nowhere else take a [part] entry.
+# The supervisor U6 and the two 3.3 V regulators U7 and U8 are drawn on the
+# sheet of the logic supplies and take their models from the map of the
+# power input. The averaged models of the two converters (LMR62014_AVG,
+# LM27761_AVG), the ceramic capacitors with their loss under bias
+# (RAILS_MLCC) and the voltage detector at the position U9 (RAILS_803) are
+# given by the benches through overrides.
+
+# ---- Schottky diodes D6 to D9 ------------------------------------------
+# Pin 1 is the cathode, pin 2 the anode.
+[part."B0530W-7-F"]
+kind = "device"
+letter = "D"
+name = "B0530W"
+ports = ["2", "1"]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- Inductor of the boost converter -----------------------------------
+[part."74438357100"]
+kind = "subckt"
+name = "L_74438357100"
+ports = ["1", "2"]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- Boost converter: SW, GND, FB, SHDN, VIN ----------------------------
+[part."LMR62014XMF/NOPB"]
+kind = "subckt"
+name = "LMR62014"
+ports = ["1", "2", "3", "4", "5"]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- Charge pump: VIN, GND, CPOUT, VOUT, VFB, EN, C1-, C1+ ---------------
+[part."LM27761DSGT"]
+kind = "subckt"
+name = "LM27761"
+ports = ["1", "2", "3", "4", "5", "6", "7", "8"]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- Reference: VIN, GND, TRIM/NR, VOUT ---------------------------------
+[part."REF5025AID"]
+kind = "subckt"
+name = "REF5025AID"
+ports = ["2", "4", "5", "6"]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- Regulator of +12V_A: IN, EN/UV, PG, ILIM, PGFB, SET, GND, OUTS, OUT
+[part."LT3042EMSE#PBF"]
+kind = "subckt"
+name = "LT3042"
+ports = ["1", "3", "4", "5", "6", "7", "8", "9", "10"]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- Rail monitor: four comparators with open-drain outputs -------------
+# Pins of one unit: non-inverting input, inverting input, output, supply,
+# ground.
+[part."MCP6569-E/SL"]
+kind = "subckt"
+name = "MCP6569_OD"
+units = [["3", "2", "1", "4", "11"], ["5", "6", "7", "4", "11"], ["10", "9", "8", "4", "11"], ["12", "13", "14", "4", "11"]]
+library = "analog_rails.lib"
+origin = "written here"
+
+# ---- U9: a position without a part (decision D-84) ----------------------
+[ref.U9]
+kind = "skip"
+
+# ---- Models of the manufacturers (vendor tier; files not versioned) ----
+# Tried with ngspice 45.2 on 10 October 2026:
+#   B0530W (Diodes Incorporated): runs.
+#   REF5025 (Texas Instruments): runs with its supply applied in one step;
+#     gives a singular matrix while it has no supply. Its noise is five
+#     times the figure of its own datasheet in ngspice.
+#   LMR62014 (Texas Instruments): the file begins with a byte order mark,
+#     which ngspice reads as a device line; with the mark taken away the
+#     model runs, at about 25 s for a millisecond of the boost circuit.
+#   LM27761 (Texas Instruments): takes the square root of a negative number
+#     in the branch of an IF that PSpice does not evaluate and stops in the
+#     first microsecond; with that guarded 3 ms take more than 8 minutes.
+#     No entry.
+#   MCP6566 (Microchip, the single comparator of the MCP6569 family): runs
+#     with a standing supply and shows 0.14 mV of hysteresis, against 1 mV
+#     at least in its datasheet; stops with "timestep too small" when its
+#     supply rises. No entry.
+[vendor."B0530W-7-F"]
+kind = "device"
+letter = "D"
+name = "DI_B0530W"
+ports = ["2", "1"]
+library = "vendor/diodes-B0530W-B0530W.spice.txt"
+origin = "vendor"
+
+# Pins of the subcircuit: SW, GND, FDBACK, SHDN, VIN.
+[vendor."LMR62014XMF/NOPB"]
+kind = "subckt"
+name = "LMR62014_TRANS"
+ports = ["1", "2", "3", "4", "5"]
+library = "vendor/ti-lmr62014a-LMR62014_PSPICE_TRANS__LMR62014_TRANS.LIB"
+origin = "vendor"
+
+# Pins of the subcircuit: VIN, TEMP, GND, TRIM, VOUT.
+[vendor."REF5025AID"]
+kind = "subckt"
+name = "REF5025"
+ports = ["2", "3", "4", "5", "6"]
+library = "vendor/ti-ref5025-REF5025_PSPICE_AIO__REF5025.LIB"
+origin = "vendor"

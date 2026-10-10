@@ -1,0 +1,621 @@
+* Models of the parts of the analog rails and of the rail monitor, written
+* for this project. None of these is a model of a manufacturer. Every
+* figure is from the datasheet named beside it, with its page; a figure that
+* is an assumption says so. The qualification benches of the block "models"
+* (analog_rails_*) put each model into the test circuit of its datasheet.
+*
+* All of these are behavioral models at 25 C. None of them holds the time
+* step down by itself, except the two switching models (LMR62014 and
+* LM27761), which carry their oscillators and are for runs of milliseconds.
+
+* ---------------------------------------------------------------------
+* Helpers.
+*
+* rails_b(x, lo, hi): x held between two bounds. The value of a node is an
+* unknown of the solver: inside one of its iterations it can be anything,
+* whatever the source that drives the node may give. The products and the
+* divisions in the sources below therefore take their operands through
+* this function, so that an iteration that goes astray cannot overflow and
+* leave the solver in a state from which it does not recover.
+.func rails_b(x,lo,hi) {min(max((x),(lo)),(hi))}
+
+* RAILS_CMP: a comparator with hysteresis that gives a state between 0 and
+* 1. The state is high when inp is above inn. vhy is the whole width of
+* the hysteresis: the state rises at +vhy/2 and falls at -vhy/2. The
+* feedback inside is 1.304 times vhy with a transition a twentieth of that
+* wide, which puts the two points of no return exactly there. tau is the
+* time constant of the state node.
+.subckt RAILS_CMP inp inn q params: vhy=10m tau=1u
+.param vfb = {1.304*vhy}
+.param w = {vfb/20}
+.param half = {vfb/2}
+Bx x 0 V = 0.5*(1 + tanh((v(inp,inn) + {half}*(2*v(q) - 1))/{w}))
+Rq x q 1k
+Cq q 0 {tau/1k}
+.ends RAILS_CMP
+
+* RAILS_LAG: three equal RC stages in a row with unity gain, as a delay
+* that needs no short time step. td is the delay of the half-way point.
+.subckt RAILS_LAG in out params: td=45n
+.param rc = {td/2.67}
+E1 a 0 in 0 1
+R1 a b 1k
+C1 b 0 {rc/1k}
+E2 c 0 b 0 1
+R2 c d 1k
+C2 d 0 {rc/1k}
+E3 e 0 d 0 1
+R3 e out 1k
+C3 out 0 {rc/1k}
+.ends RAILS_LAG
+
+* A silicon junction for clamps and parasitic paths inside the models below.
+.model RAILS_DSI D(IS=1e-14 N=1 RS=1)
+
+* ---------------------------------------------------------------------
+* B0530W (D6 to D9), Schottky rectifier, 30 V and 0.5 A. Diodes Incorporated
+* datasheet DS30139 rev. 12-2, page 2: forward voltage at most 0.375 V at
+* 0.1 A and 0.430 V at 0.5 A; reverse current at most 20 uA at 15 V and
+* 130 uA at 30 V; breakdown at least 30 V at 130 uA; total capacitance
+* 170 pF at 0 V. Page 3, figure 4: about 65 pF at 5 V and 33 pF at 20 V,
+* which VJ = 1.0 V and M = 0.54 follow. Figure 3: typical reverse current
+* at 25 C from 5 uA at 1 V to 35 uA at 30 V.
+*   The datasheet has no usable typical forward curve: its figure 2 does not
+*   agree with its own table. Two variants therefore:
+*   B0530W     0.335 V at 0.1 A and 0.41 V at 0.5 A: ASSUMED typical, 40 mV
+*              and 20 mV below the maxima, with a saturation current of
+*              5 uA, the typical reverse current of figure 3 at 1 V
+*   B0530W_HI  0.375 V at 0.1 A and 0.430 V at 0.5 A: the datasheet maxima
+*              (N = 1.05 ASSUMED, which fixes the other two parameters)
+*   The reverse current of both is flat with the voltage, and that of
+*   B0530W_HI (0.11 uA) is far below a real part: take no leakage figure
+*   from them. EG and XTI are the usual values of a Schottky barrier and not
+*   datasheet values: a run at another temperature shows a trend only.
+.model B0530W    D(IS=5u N=1.29 RS=53m CJO=170p VJ=1.0 M=0.54 BV=33 IBV=130u
++ EG=0.69 XTI=2)
+.model B0530W_HI D(IS=0.111u N=1.05 RS=28.3m CJO=170p VJ=1.0 M=0.54 BV=33
++ IBV=130u EG=0.69 XTI=2)
+
+* ---------------------------------------------------------------------
+* 74438357100 (L1), the inductor of the boost converter. Wuerth Elektronik
+* datasheet 74438357100 rev. 003.002, page 1: 10 uH +-20 %, 100.8 mohm
+* typical and 110 mohm at most, self-resonant frequency 15 MHz, inductance
+* 10 % down at 3 A and 30 % down at 5.95 A.
+*   Pins: the two ends.
+*   Not modelled: the fall of the inductance with the current, the loss in
+*   the core, the self-resonance. The inductance is the parameter lnom, for
+*   the tolerance.
+.subckt L_74438357100 a b params: lnom=10u rdc=100.8m
+L1 a m {lnom}
+R1 m b {rdc}
+.ends L_74438357100
+
+* ---------------------------------------------------------------------
+* Ceramic capacitor of class II with its loss of capacitance under bias,
+* for the capacitors of the rails whose value sets a time or a ripple
+* (C19 to C22, C27 to C31). The capacitance at a voltage V is
+* c / (1 + (V / v0)^2): half of it is left at v0. The same law and the same
+* figures as the model of the power input block, which read them from the
+* bias curves at 25 C on the part pages of Samsung Electro-Mechanics on
+* 9 October 2026; they were NOT read again for this file:
+*   CL21B475KAFNNNE, 4.7 uF 25 V X7R 0805: 71.5 % at 5 V, 39.3 % at 10 V,
+*     32.7 % at 12 V: v0 = 8.0
+*   CL32B106KAJNNNE, 10 uF 25 V X7R 1210: 94.7 % at 5 V, 69.5 % at 13.5 V:
+*     v0 = 20.4
+*   CL31B226KPHNNNE, 22 uF 10 V X7R 1206: 68.6 % at 5 V, 37.2 % at 10 V:
+*     v0 = 7.39
+*   CL21A106KAYNNNE, 10 uF 25 V X5R 0805: 49.7 % at 5 V, 22.5 % at 10 V:
+*     v0 = 4.97
+* Decision D-51 of the specification states the first of them as "a third
+* of its value at 12 V".
+*   Pins: the two ends.
+*   Not modelled: aging, the temperature, the dependence on the amplitude
+*   of the ripple.
+.subckt RAILS_MLCC p n params: c=1u v0=8 esr=5m
+.param q0 = {c*v0}
+.param g = {v0/esr}
+* the charge is q0 x atan(V / v0): a linear capacitor of q0 on a node that
+* follows atan(V / v0) through a conductance, and the current of that
+* conductance flows between the two pins. The conductance is the series
+* resistance of the part: esr at 0 V (ASSUMED, a few milliohm), more under
+* bias.
+Bq p n I = {g}*(atan(min(max(v(p,n), -100), 100)/{v0}) - v(uc))
+Bu 0 uc I = {g}*(atan(min(max(v(p,n), -100), 100)/{v0}) - v(uc))
+Cq uc 0 {q0}
+Ruc uc 0 1e12
+.ends RAILS_MLCC
+
+* ---------------------------------------------------------------------
+* MCP6569 (U14), one comparator with an open-drain output. Microchip
+* datasheet DS20002143E. Page 3: offset +-3 mV typical and +-10 mV at most
+* (parameter vos), hysteresis 1 mV to 5 mV (parameter vhy; 3.5 mV is the
+* mean of figure 2-4, page 7), common-mode input 4 pF and differential
+* input 2 pF. Page 4: low level at most 0.6 V at 3 mA with a supply of
+* 1.8 V and at 8 mA with 5.5 V, output pin 8 pF, delay high to low 56 ns at
+* 1.8 V and 34 ns at 5.5 V (45 ns taken for 3.3 V, parameter td), fall
+* time 20 ns. Page 10, figures 2-21 and 2-24: the low level is 0.2 V at
+* 3 mA with 1.8 V and 0.48 V at 25 mA with 5.5 V at 25 C, which
+* 99.5 ohm V / (supply - 0.27 V) follows: 33 ohm at 3.3 V.
+*   Pins: non-inverting input, inverting input, output, supply, ground.
+*   The output is a switch to ground that closes when the non-inverting
+*   input is below the inverting one. It is open when the supply is below
+*   von (1.2 V ASSUMED; the datasheet promises operation from 1.8 V and
+*   says nothing below).
+*   Not modelled: the dependence of the delay on the overdrive, the bias
+*   current, the common-mode range, the supply current (100 uA), the
+*   leakage of the open output (1 uA at most), the short-circuit limit
+*   (30 mA).
+.subckt MCP6569_OD inp inn out vdd gnd params: td=45n vhy=3.5m vos=0 von=1.2
+.param vfb = {1.304*vhy}
+.param w = {vfb/20}
+.param half = {vfb/2}
+Ccmp inp gnd 4p
+Ccmn inn gnd 4p
+Cdif inp inn 2p
+Bx x 0 V = 0.5*(1 + tanh((v(inp,inn) - {vos} + {half}*(2*v(h) - 1))/{w}))
+Rh x h 1k
+Ch h 0 2p
+* the output stage sees the decision only when it is complete: a part with
+* internal hysteresis has latched long before its output moves
+Bz z 0 V = 0.5*(1 + tanh((v(h) - 0.5)/0.05))
+Xd z y RAILS_LAG td={td}
+* conductance of the output switch, in siemens: 0 when the state is high or
+* the supply is missing
+Bg g 0 V = (1 - min(max((v(y) - 0.2)/0.6, 0), 1))*0.5*(1 + tanh((v(vdd,gnd) - {von})/0.05))*min(max(v(vdd,gnd) - 0.27, 0.05), 6)/99.5
+Bo out gnd I = min(max(v(out,gnd), -1), 7)*v(g)
+Co out gnd 8p
+Rleak out gnd 1e9
+.ends MCP6569_OD
+
+* ---------------------------------------------------------------------
+* An 803-type voltage detector with a threshold of 3.08 V (U9, a position
+* without a part), as the boost benches need it when they fit it. Figures
+* of the APX803S-31, Diodes Incorporated datasheet DS39161 rev. 2-2, page 3:
+* threshold 3.04 V / 3.08 V / 3.13 V, supply below the threshold to RESET
+* low 20 us, RESET held for 140 ms / 240 ms / 280 ms after the supply has
+* returned (parameter td), low level at most 0.3 V at 1.2 mA, RESET valid
+* from a supply of 1.0 V on, open drain.
+*   Pins: GND, RESET, VDD.
+*   The 20 us are taken for both directions and for any depth of the dip;
+*   the datasheet gives them for a step to 100 mV below the threshold.
+*   Not modelled: the supply current. The hysteresis of the threshold is
+*   10 mV, ASSUMED: the datasheet gives none.
+.subckt RAILS_803 gnd reset vdd params: vth=3.08 td=0.24
+.param vmid = {vth + 0.005}
+.param rate = {1e-6/td}
+Vth th gnd {vmid}
+Xc vdd th above RAILS_CMP vhy=10m tau=2u
+* the supply has to stay on one side of the threshold for 20 us before the
+* part takes notice: a lag of 29 us and a second comparator at its middle
+Ra above ad 1k
+Ca ad 0 29n
+Vhalf half 0 0.5
+Xg ad half good RAILS_CMP vhy=50m tau=1u
+* the timer runs up to 1 in td while the supply is good and is emptied
+* within a microsecond when it is not; the output switches when the timer
+* passes 1
+Ct tim 0 1u
+Rt tim 0 1e12
+Bt 0 tim I = rails_b(v(good),0,1)*{rate}*0.5*(1 - tanh((v(tim) - 1.05)/0.01)) - (1 - rails_b(v(good),0,1))*rails_b(v(tim),-1,2)*2
+Vone one 0 1
+Xok tim one ok RAILS_CMP vhy=20m tau=1u
+Rok ok okd 1k
+Cok okd 0 1n
+* open drain: closed while the timer has not run out, open without supply
+Bg g 0 V = (1 - rails_b(v(okd),0,1))*0.5*(1 + tanh((v(vdd,gnd) - 1.0)/0.05))/100
+Bo reset gnd I = min(max(v(reset,gnd), -1), 7)*v(g)
+Co reset gnd 5p
+.ends RAILS_803
+
+* ---------------------------------------------------------------------
+* LT3042 (U13), the regulator of +12V_A. Analog Devices datasheet LT3042
+* rev. C, pages 3 and 4 (electrical characteristics): SET pin current
+* 100 uA +-1 % (parameter iset); 2 mA in fast start-up; output offset
+* +-1 mV (parameter vos); dropout 220 mV up to 50 mA, 270 mV at 150 mA,
+* 350 mV at 200 mA; ground pin current 2 mA at 1 mA of load; output noise
+* 2 nV/rtHz at 10 kHz and 0.8 uV RMS from 10 Hz to 100 kHz with 4.7 uF at
+* the SET pin; reference current noise 6 nA RMS in the same band
+* (20 pA/rtHz, page 18); ripple rejection 117 dB at 120 Hz, 91 dB at
+* 10 kHz, 78 dB at 100 kHz, 79 dB at 1 MHz, 56 dB at 10 MHz; EN/UV
+* threshold 1.24 V rising with 170 mV of hysteresis; input lock-out 1.78 V
+* with 75 mV; internal current limit 300 mA at 12 V across the part and
+* 180 mA at 20 V (parameter ilimit); PGFB trip point 300 mV rising with
+* 7 mV of hysteresis, pin current 25 nA; PG low 30 mV at 100 uA. Page 5,
+* note 7: SET and OUTS are clamped by diodes with two 25 ohm resistors.
+* Pages 18 and 19: the 2 mA stay on while PGFB is below 300 mV, unless the
+* regulator is in current limit, in dropout or below its input lock-out;
+* a current sink of about 4 mA discharges the output while OUTS is above
+* SET, with the input above 2.5 V and the output above 1.5 V; bandwidth
+* about 1 MHz with 4.7 uF at the output (page 15).
+*   Pins: IN, EN/UV, PG, ILIM, PGFB, SET, GND, OUTS, OUT.
+*   The output stage is a transconductance of 29.5 S from SET to OUTS, which
+*   is 1 MHz with 4.7 uF and less with more capacitance, as page 15 says,
+*   with an integral part below 10 kHz.
+*   The supply rejection is a path from IN into the reference input with a
+*   zero at 500 Hz and a pole at 42 kHz, fitted to the four points up to
+*   1 MHz; above the bandwidth of the output stage the model rejects more
+*   than the 56 dB at 10 MHz of the datasheet.
+*   Not modelled: the loop beyond its first pole (no statement about
+*   stability can be taken from this model), the programmable current
+*   limit (ILIM is tied to ground on the board), the thermal limit, the
+*   1/f noise of the error amplifier, the reverse protection, the spikes of
+*   a switching supply, which the datasheet says pass the part (page 18).
+*   ASSUMED: the SET current needs 0.1 V between IN and SET; in shutdown the
+*   SET pin is left to its resistor and to the clamp, and the output is not
+*   discharged.
+.subckt LT3042 in en pg ilim pgfb set gnd outs out params: iset=100u vos=0 ilimit=0.3
+Rilim ilim gnd 1meg
+* enable and input lock-out
+Ven enr gnd 1.155
+Xen en enr eon RAILS_CMP vhy=170m tau=1u
+Vuv uvr gnd 1.7425
+Xuv in uvr uok RAILS_CMP vhy=75m tau=1u
+Bon on 0 V = rails_b(v(eon),0,1)*rails_b(v(uok),0,1)
+Ron on ond 1k
+Con ond 0 5n
+* power good comparator and its open collector
+Vpg pgr gnd 0.2965
+Xpg pgfb pgr pgok RAILS_CMP vhy=7m tau=5u
+Ipgfb pgfb gnd 25n
+Bpg pg gnd I = rails_b(v(pg,gnd),-1,30)*rails_b(v(ond),0,1)*(1 - rails_b(v(pgok),0,1))/300
+Rpg pg gnd 1e9
+* fast start-up is allowed while the pass element is neither in dropout
+* nor in current limit
+Bfs fs 0 V = 0.5*(1 + tanh((v(in,out) - 0.3)/0.03))*0.5*(1 - tanh((v(io) - 0.95*v(il))/0.01))
+Rfs fs fsd 1k
+Cfs fsd 0 1n
+* SET current: 100 uA, 2 mA in fast start-up
+Biset in set I = rails_b(v(ond),0,1)*({iset} + 1.9m*(1 - rails_b(v(pgok),0,1))*rails_b(v(fsd),0,1))*tanh(max(v(in,set), 0)/0.1)
+* clamp between SET and OUTS
+Dc1 set c1 RAILS_DSI
+Rc1 c1 outs 50
+Dc2 outs c2 RAILS_DSI
+Rc2 c2 set 50
+* supply rejection, referred to the reference input
+Eps ps1 0 in gnd 1.184e-4
+Rpa ps1 ps2 830
+Cpa ps1 ps2 383.5n
+Rpb ps2 0 10
+* noise: 2 nV/rtHz of the error amplifier and 20 pA/rtHz of the reference
+* current, each as the open-circuit noise of a resistor
+Rna na 0 241.5
+Rni ni 0 1k
+Gni gnd set ni 0 4.914e-3
+Bref ref 0 V = v(set,gnd) + {vos} + v(ps2) + v(na)
+* pass element
+Bil il 0 V = {ilimit}*(1 - 0.05*min(max(v(in,out) - 12, 0), 10))
+Bia ia 0 V = max(v(in,out) - 0.21, 0)/0.5
+* proportional and integral: the integral part takes the load regulation
+* to zero (0.1 mV from 1 mA to 200 mA in the datasheet)
+Ber er 0 V = v(ref) - v(outs,gnd)
+Bx 0 x I = rails_b(v(ond),0,1)*1.85*v(er) - 1e3*(max(v(x) - v(il), 0) + min(v(x), 0)) - (1 - rails_b(v(ond),0,1))*v(x)
+Cx x 0 1u
+Rx x 0 1meg
+Bio io 0 V = rails_b(v(ond),0,1)*max(min(min(29.5*v(er) + v(x), v(il)), v(ia)), 0)
+Bout in out I = v(io)
+Bsink out gnd I = rails_b(v(ond),0,1)*4m*0.5*(1 + tanh((v(outs,gnd) - v(ref) - 2m)/1m))*0.5*(1 + tanh((v(out,gnd) - 1.5)/0.1))
+Biq in gnd I = rails_b(v(ond),0,1)*(1.9m + 0.025*v(io))
+* parasitic diodes from ground to the output and to the SET pin (page 5, note 10)
+Dso gnd out RAILS_DSI
+Dss gnd set RAILS_DSI
+.ends LT3042
+
+* ---------------------------------------------------------------------
+* REF5025 (U12), the 2.5 V reference, standard grade. Texas Instruments
+* datasheet SBOS410O. Page 7: load regulation 20 ppm/mA typical, which is
+* 50 mohm at 2.5 V (parameter rdc); line regulation 1 ppm/V; short-circuit
+* current 25 mA; noise 0.9 uV RMS per volt from 10 Hz to 1 kHz. Page 8:
+* quiescent current 0.8 mA; supply at least 2.7 V. Page 11, figure 6-6:
+* dropout 20 mV without load and 53 mV more per milliampere at 25 C.
+* Page 13, figures 6-15 and 6-16: at the start the output rises with about
+* 20 mA into its capacitor (2.5 V in 135 us with 1 uF, in 1.2 ms with
+* 10 uF). Page 23, figure 8-1: a band gap of 1.2 V feeds the output
+* amplifier through 10 kohm (R4), and the TRIM/NR pin is on that node
+* through 1 kohm (R3). Page 26: a capacitor at TRIM/NR halves the noise of
+* the output.
+*   Pins: VIN, GND, TRIM/NR, VOUT.
+*   The output impedance is an inductance in series with rdc and in
+*   parallel with a resistance, fitted to two figures of page 13:
+*   leq = 253 uH and rpar = 33 ohm without load: the peak of the noise
+*       density at 10 kHz, 2.1 times the floor, with 1 uF (figure 6-14);
+*   both divided by (1 + load current / i0), with i0 = 0.135 mA: about
+*       30 uH at 1 mA, the 8 mV of the step from -1 mA to +1 mA with 1 uF
+*       (figure 6-17), and no overshoot at the end of the start (figure
+*       6-15).
+*   The datasheet has no curve of the output impedance for this grade: the
+*   fit, and above all its change with the load, is an ASSUMPTION that two
+*   figures support. i0 = 1 (no change with the load) is the cautious case.
+*   Noise: three quarters of the noise power is put ahead of R4 and one
+*   quarter behind it, which is what "halves the noise" asks; white only.
+*   Not modelled: the 0.1 Hz to 10 Hz noise (3 uV peak to peak per volt),
+*   the drift, the TEMP pin, the trim range, the supply rejection as a
+*   curve (only the line regulation and what the output impedance gives),
+*   whatever the part does to its output while its supply is absent.
+*   ASSUMED: the band gap is alive above 1.8 V of supply; below, the output
+*   stage neither sources nor sinks; 10 Mohm from the output to ground.
+.subckt REF5025AID vin gnd nr out params: vnom=2.5 leq=253u rpar=33 rdc=50m isc=22m i0=0.135m
+.param gain = {vnom/1.2}
+.param kl = {1e-6/leq}
+Balive al 0 V = 0.5*(1 + tanh((v(vin,gnd) - 1.8)/0.1))
+* band gap with its share of the noise (26.8 nV/rtHz ahead of R4)
+Rnbg nbg 0 43.36k
+Bbg bg gnd V = 1.2*rails_b(v(al),0,1) + v(nbg)
+R4 bg p 10k
+R3 p nr 1k
+Cnr nr gnd 5p
+* noise of the output amplifier, referred to its input: 17.2 nV/rtHz
+Rna na 0 17.86k
+Be e 0 V = {gain}*(v(p,gnd) + v(na)) + 2.5e-6*v(vin,gnd) - v(out,gnd)
+* the inductive part of the output current, as a state in amperes; it is
+* held inside the short-circuit current
+* (the factor of the load stops growing at the short-circuit current, and
+* the error is bounded, so that no iteration of the solver can run away)
+Bfl fl 0 V = 1 + min(abs(v(xi)), {isc})/{i0}
+Bxi 0 xi I = {kl}*(rails_b(v(e),-5,5) - {rdc}*rails_b(v(xi),-1,1))*rails_b(v(fl),1,1e3) - 100*(max(v(xi) - {isc}, 0) + min(v(xi) + {isc}, 0))
+Cxi xi 0 1u
+Rxi xi 0 1e12
+Bit it 0 V = v(xi) + rails_b(v(e),-5,5)*rails_b(v(fl),1,1e3)/{rpar}
+* source from the supply through the dropout of the pass element, sink to
+* ground; both limited
+Bsrc vin out I = rails_b(v(al),0,1)*max(min(min(v(it), {isc}), max(v(vin,out) - 0.02, 0)/53), 0)
+Bsnk out gnd I = rails_b(v(al),0,1)*max(min(-v(it), {isc}), 0)
+Biq vin gnd I = 0.8m*tanh(max(v(vin,gnd), 0))
+Rout out gnd 10meg
+.ends REF5025AID
+
+* ---------------------------------------------------------------------
+* LM27761 (U11), the inverting charge pump with a regulator behind it, for
+* -4V_A. Texas Instruments datasheet SNVSA85D. Page 5: supply current
+* 370 uA, 7 uA in shutdown; switching frequency 2 MHz; output resistance
+* to CPOUT 2 ohm at 5.5 V (2.5 ohm at 5 V, page 1; parameter rneg); dropout
+* of the regulator 30 mV at 100 mA; rejection 35 dB at 2 MHz with 80 mA;
+* noise 20 uV RMS from 10 Hz to 100 kHz; feedback reference 1.22 V, 1.202 V
+* to 1.238 V (parameter vfb); enable high from 1.2 V and low below 0.4 V
+* (0.8 V taken). Page 10: lock-out at 2.4 V falling and 2.6 V rising;
+* input current limit 500 mA; pulse skipping at light load; in shutdown the
+* output is pulled to ground with about 1.85 mA. Page 7, figure 5-10: the
+* output starts to move 320 us after the enable and is there 140 us later;
+* figure 5-12: dropout 64 mV to 86 mV at 250 mA (0.29 ohm taken for -4 V).
+* Page 13, equation 5: output = -1.22 V x (R1 + R2) / R2. Page 15, figures
+* 7-3 and 7-4: at light load the pump holds CPOUT 2.7 % short of the
+* supply (80 mV at 3 V, 150 mV at 5.5 V; parameter kpfm), above that
+* current the drop is the output resistance.
+*   Pins: VIN, GND, CPOUT, VOUT, VFB, EN, C1-, C1+.
+*   Two models share the regulator:
+*   LM27761      the pump as four switches at 2 MHz with the flying
+*                capacitor of the board, for runs of milliseconds. Each
+*                switch has rsw; 0.28 ohm gives the 2.5 ohm of 5 V with
+*                1 uF. Pulse skipping with 10 mV of hysteresis (ASSUMED).
+*   LM27761_AVG  the pump as a source of -supply behind rneg, held at
+*                -kpfm x supply at light load. It shows no ripple. The
+*                flying capacitor is not used.
+*   The regulator is a proportional and integral loop of about 100 kHz
+*   (ASSUMED) with a feed-through of 40 nF from CPOUT to VOUT, which is the
+*   35 dB at 2 MHz with the 2.2 uF of the datasheet circuit and nothing
+*   more than that one point.
+*   Noise: the 20 uV RMS are put at the reference as if measured at an
+*   output of -1.8 V, the circuit of most figures of the datasheet; the
+*   datasheet does not name the output voltage of that row. At -4 V this
+*   gives 44 uV RMS; read as an output figure it would be 20 uV RMS.
+*   Not modelled: the thermal limit, the coupling of the switching edges
+*   into the output (the 2.6 mV to 3.2 mV of ripple of page 6, figure 5-1,
+*   are mostly that), the change of the switch resistance with the supply.
+*   ASSUMED: 1 Mohm from CPOUT to ground stands for the sense divider of
+*   the pump; the discharge of the output needs 1.5 V of supply.
+.subckt LM27761_LDO cpout out fb gnd on params: vfb=1.22
+* reference with a soft start of 60 us
+Bss 0 ss I = rails_b(v(on),0,1)*(1 - rails_b(v(ss),0,1))*0.016667 - (1 - rails_b(v(on),0,1))*rails_b(v(ss),0,1)*0.2
+Css ss 0 1u
+Rss ss 0 1e12
+* noise at the reference: 42.9 nV/rtHz, white
+Rn nz 0 111.1k
+Be e 0 V = v(fb,gnd) + {vfb}*rails_b(v(ss),0,1) + v(nz)
+* integral part, held between 0 and 0.3 A
+Bx 0 x I = 0.77*v(e) - 1e3*(max(v(x) - 0.3, 0) + min(v(x), 0))
+Cx x 0 1u
+Rx x 0 1meg
+Bp out cpout I = rails_b(v(on),0,1)*max(min(min(12.3*v(e) + v(x), 0.3), max(v(out,cpout), 0)/0.29), 0)
+Cft cpout out 40n
+.ends LM27761_LDO
+
+.subckt LM27761_CTRL vin gnd en on params: ten=320u
+Ven enr gnd 0.8
+Xen en enr eon RAILS_CMP vhy=100m tau=1u
+Vuv uvr gnd 2.5
+Xuv vin uvr uok RAILS_CMP vhy=200m tau=1u
+Bon0 on0 0 V = rails_b(v(eon),0,1)*rails_b(v(uok),0,1)
+Xdl on0 ond RAILS_LAG td={ten}
+Bon on 0 V = rails_b(v(on0),0,1)*0.5*(1 + tanh((rails_b(v(ond),0,1) - 0.5)/0.05))
+.ends LM27761_CTRL
+
+.subckt LM27761_AVG vin gnd cpout out fb en cn cp params: vfb=1.22 rneg=2.5 kpfm=0.973
+Xctl vin gnd en on LM27761_CTRL
+Rcn cn gnd 1meg
+Rcp cp gnd 1meg
+Bip ip 0 V = rails_b(v(on),0,1)*min(max((v(cpout,gnd) + v(vin,gnd))/{rneg}, 0), 0.5)*0.5*(1 + tanh((v(cpout,gnd) + {kpfm}*v(vin,gnd))/10m))
+Bpump cpout gnd I = v(ip)
+Bin vin gnd I = v(ip) + 363u*rails_b(v(on),0,1) + 7u*tanh(max(v(vin,gnd), 0))
+Rsense cpout gnd 1meg
+Dsub cpout gnd RAILS_DSI
+Xldo cpout out fb gnd on LM27761_LDO vfb={vfb}
+Bdis gnd out I = (1 - rails_b(v(on),0,1))*1.85m*tanh(max(-v(out,gnd), 0)/0.02)*0.5*(1 + tanh((v(vin,gnd) - 1.5)/0.1))
+.ends LM27761_AVG
+
+.subckt LM27761 vin gnd cpout out fb en cn cp params: vfb=1.22 rsw=0.28 kpfm=0.973 fsw=2meg
+Xctl vin gnd en on LM27761_CTRL
+Vosc osc 0 SIN(0 1 {fsw})
+* pulse skipping: the pump runs while CPOUT is short of -kpfm x supply
+Vz z 0 0
+Bpf pf 0 V = v(cpout,gnd) + {kpfm}*v(vin,gnd)
+Xpf pf z run RAILS_CMP vhy=10m tau=20n
+* two phases that do not overlap: charge, then transfer
+Bp1 p1 0 V = rails_b(v(on),0,1)*rails_b(v(run),0,1)*0.5*(1 + tanh((v(osc) - 0.15)/0.04))
+Bp2 p2 0 V = rails_b(v(on),0,1)*rails_b(v(run),0,1)*0.5*(1 + tanh((-v(osc) - 0.15)/0.04))
+Bs1 vin cp I = v(vin,cp)*rails_b(v(p1),0,1)/{rsw}
+Bs3 cn gnd I = v(cn,gnd)*rails_b(v(p1),0,1)/{rsw}
+Bs2 cp gnd I = v(cp,gnd)*rails_b(v(p2),0,1)/{rsw}
+Bs4 cn cpout I = v(cn,cpout)*rails_b(v(p2),0,1)/{rsw}
+Rcn cn gnd 10meg
+Rcp cp gnd 10meg
+Bin vin gnd I = 363u*rails_b(v(on),0,1) + 7u*tanh(max(v(vin,gnd), 0))
+Rsense cpout gnd 1meg
+Dsub cpout gnd RAILS_DSI
+Xldo cpout out fb gnd on LM27761_LDO vfb={vfb}
+Bdis gnd out I = (1 - rails_b(v(on),0,1))*1.85m*tanh(max(-v(out,gnd), 0)/0.02)*0.5*(1 + tanh((v(vin,gnd) - 1.5)/0.1))
+.ends LM27761
+
+* ---------------------------------------------------------------------
+* LMR62014 (U10), the boost converter of +13V5. Texas Instruments datasheet
+* SNVS735B. Page 4: input 2.7 V to 14 V; switch resistance 260 mohm at 5 V
+* and 300 mohm at 3.3 V; shutdown pin on from 1.5 V and off below 0.5 V
+* (1.0 V taken); feedback 1.230 V, 1.205 V to 1.255 V (parameter vref);
+* supply current 2 mA switching and 0.4 mA idle; 1.6 MHz, 1.0 MHz to
+* 1.85 MHz (parameter fsw); largest duty cycle 93 % typical and 86 % at
+* least (parameter dmax); switch current limit 2 A typical and 1.8 A at
+* least at 25 C, 1.4 A at least over temperature (parameter klim scales the
+* typical curve: 1, 0.9 and 0.7). Page 9: peak current control with a ramp
+* added to the sensed current; no soft start and no lock-out are named
+* anywhere in the datasheet. Page 13, figure 21: the typical current limit
+* falls with the duty cycle and with the supply. Read from it, as the limit
+* at a duty cycle of 0 and its slope per unit of duty cycle:
+*   supply 2.7 V: 1.58 A, 1.21 A     supply 3.0 V: 1.91 A, 1.33 A
+*   supply 3.3 V: 2.28 A, 1.49 A     supply 5.0 V: 3.41 A, 2.02 A
+* The curves end at a duty cycle of 40 %; below that this is a straight
+* continuation and not a datasheet value. Above 5 V the limit is held.
+*   Pins: SW, GND, FB, SHDN, VIN.
+*   Two models:
+*   LMR62014      every cycle: a ramp of 1.6 MHz, a switch, a comparator
+*                 that opens the switch when the switch current plus the
+*                 slope of figure 21 reaches the command, which is bounded
+*                 by the limit at a duty cycle of 0. With the command at
+*                 its bound this is the current limit of figure 21.
+*   LMR62014_AVG  the same control law averaged over a cycle, for runs of
+*                 seconds. It needs the inductance as a parameter and
+*                 drives its SW pin as a current source into the diode of
+*                 the board: the inductor of the board must be left out of
+*                 a circuit that uses it. A path from VIN to SW stands for
+*                 the inductor while the converter is off.
+*   The error amplifier is ASSUMED: the compensation of the part is
+*   internal and not published. Near the set point it is proportional and
+*   integral (2 A/V, a zero at 2 kHz, a pole at 100 kHz). When the output
+*   is far below its set point it asks for the full current: the command
+*   rises by kover (50 A/V) for every volt that the feedback, seen behind
+*   a pole at 6 kHz, is more than eknee (20 mV) low. The pole sits where
+*   the datasheet asks for the zero of the feed-forward capacitor (page
+*   10), so that the two cancel and the full current lasts until the
+*   output is within about 1 V of its set point. That is the greedy end
+*   of what an amplifier can do, and the one that asks most of a limited
+*   source; eknee=0.1 kover=20 is a gentle one, which lets the current
+*   fall over the last 2.7 V. More than about 60 A/V would make the last
+*   part of a charge oscillate in the model. No statement about the loop,
+*   the load transient or the overshoot at the end of the start can be
+*   taken from either model.
+*   ASSUMED: the part works down to 2.0 V of supply (parameter vmin; the
+*   datasheet ends at 2.7 V and names no lock-out); the limit below 2.7 V
+*   continues the trend of figure 21 down to nothing at 1.6 V.
+*   ASSUMED: the sensed current is blanked for 44 ns after the switch has
+*   closed; the datasheet gives no figure.
+*   Not modelled: the thermal limit, the edges of the switch node (the
+*   spikes and the ringing that the layout makes).
+.subckt LMR62014_EA fb gnd act i0 cmd params: vref=1.23 eknee=0.02 kover=50
+* act: 1 while the converter runs; i0: the bound of the command.
+* Proportional part: 2 A/V near the set point, and kover more for what
+* the feedback is low beyond eknee, as an amplifier that runs into its
+* limit. Integral part: zero until the feedback has come within 0.2 V of
+* the reference for the first time after a start, so that the model adds
+* little overshoot of its own; then free between 0 and 3.5 A, standing
+* still while the command is at its bound. One pole at 100 kHz behind all.
+Be e 0 V = {vref} - min(max(v(fb,gnd), -5), 10)
+Bst stx 0 V = rails_b(v(act),0,1)*0.5*(1 + tanh((0.5*(1 + tanh((0.2 - v(e))/0.005)) + rails_b(v(st),0,1) - 0.5)/0.1))
+Rst stx st 1k
+Cst st 0 1n
+Bx 0 x I = rails_b(v(st),0,1)*0.0251*v(e)*0.5*(1 - tanh((v(c) - v(i0))/0.05)) - 1e3*(max(v(x) - 3.5, 0) + min(v(x), 0)) - (1 - rails_b(v(st),0,1))*v(x)
+Cx x 0 1u
+Rx x 0 1meg
+* (every term is bounded, so that no iteration of the solver can overflow)
+* the error behind a pole at 6 kHz, for the large-signal part
+Ref e ef 1k
+Cef ef 0 26.5n
+Bu u 0 V = rails_b(2*v(e) + {kover}*max(rails_b(v(ef),-5,10) - {eknee}, 0) + min(max(v(x), -1), 5), -20, 20)
+Bc c 0 V = 0.5*(rails_b(v(u),-20,20) + sqrt(rails_b(v(u),-20,20)*rails_b(v(u),-20,20) + 1e-4))
+Rc c cmd 1k
+Cc cmd 0 1.59n
+.ends LMR62014_EA
+
+.subckt LMR62014 sw gnd fb en vin params: vref=1.23 fsw=1.6meg dmax=0.93 klim=1 vmin=2.0 eknee=0.02 kover=50
+.param per = {1/fsw}
+* shutdown pin and the least supply
+Ven enr gnd 1.0
+Xen en enr eon RAILS_CMP vhy=100m tau=0.2u
+Bact act 0 V = rails_b(v(eon),0,1)*0.5*(1 + tanh((v(vin,gnd) - {vmin})/0.05))
+Xea fb gnd act i0 cmd LMR62014_EA vref={vref} eknee={eknee} kover={kover}
+* limit at a duty cycle of 0 and slope of the ramp, from the supply
+Bi0 i0 0 V = {klim}*pwl(min(max(v(vin,gnd), 1.6), 14), 1.6,0, 2.7,1.58, 3.0,1.91, 3.3,2.28, 5.0,3.41, 14,3.41)
+Bsl sl 0 V = {klim}*pwl(min(max(v(vin,gnd), 1.6), 14), 1.6,0, 2.7,1.21, 3.0,1.33, 3.3,1.49, 5.0,2.02, 14,2.02)
+* ramp from 0 to 1 in each period
+Vramp ramp 0 PULSE(0 1 0 {per - 4n} 4n 0 {per})
+* switch: resistance from the supply (0.26 ohm at 5 V, 0.30 ohm at 3.3 V)
+Bron ron 0 V = 0.26 + 0.0235*max(5 - min(v(vin,gnd), 5), 0)
+Bisw isw 0 V = rails_b(v(sw,gnd),-5,60)*rails_b(v(gate),0,1)/rails_b(v(ron),0.1,1)
+* the comparator: over when the current plus the ramp passes the command
+* (the sensed current is not read in the first 44 ns after the switch has
+* closed; the ramp counts from the 3 % of the period at which the switch
+* closes, so that the duty cycle of figure 21 is the time the switch is
+* closed)
+Bov ov 0 V = 0.5*(1 + tanh((v(isw)*0.5*(1 + tanh((v(ramp) - 0.10)/0.004)) + v(sl)*max(v(ramp) - 0.03, 0) - min(v(cmd), v(i0)))/0.01))
+* latch: set by the comparator, cleared in the first 3 % of each period.
+* The clearing pulse is a source of its own and not a function of the
+* ramp: the solver stops at both of its edges, so it cannot step over
+* it. The state is a bounded source behind 3 ns, so that it cannot leave
+* the range from 0 to 1 whatever the time step is.
+Vrst rst 0 PULSE(0 1 {per - 3n} 2n 2n {0.03*per} {per})
+Btr trx 0 V = 0.5*(1 + tanh((rails_b(v(ov),0,1) + rails_b(v(tr),0,1)*(1 - rails_b(v(rst),0,1)) - 0.5)/0.1))
+Rtr trx tr 1k
+Ctr tr 0 3p
+Bgate gate 0 V = rails_b(v(act),0,1)*min(max(1 - rails_b(v(tr),0,1), 0), 1)*0.5*(1 + tanh(({dmax} - v(ramp))/0.004))*0.5*(1 + tanh((v(ramp) - 0.03)/0.004))
+Bsw sw gnd I = v(isw)
+Dbody gnd sw RAILS_DSI
+Rsw sw gnd 100meg
+Csw sw gnd 20p
+Biq vin gnd I = 0.4m*tanh(max(v(vin,gnd), 0)) + 1.6m*rails_b(v(act),0,1)
+.ends LMR62014
+
+.subckt LMR62014_AVG sw gnd fb en vin params: vref=1.23 fsw=1.6meg dmax=0.93 klim=1 vmin=2.0 lind=10u rdc=0.1008 eknee=0.02 kover=50
+.param lf = {lind*fsw}
+Ven enr gnd 1.0
+Xen en enr eon RAILS_CMP vhy=100m tau=0.2u
+Bact act 0 V = rails_b(v(eon),0,1)*0.5*(1 + tanh((v(vin,gnd) - {vmin})/0.05))
+Bi0 i0 0 V = {klim}*pwl(min(max(v(vin,gnd), 1.6), 14), 1.6,0, 2.7,1.58, 3.0,1.91, 3.3,2.28, 5.0,3.41, 14,3.41)
+Bsl sl 0 V = {klim}*pwl(min(max(v(vin,gnd), 1.6), 14), 1.6,0, 2.7,1.21, 3.0,1.33, 3.3,1.49, 5.0,2.02, 14,2.02)
+Xea fb gnd act i0 cmd LMR62014_EA vref={vref} eknee={eknee} kover={kover}
+Bron ron 0 V = 0.26 + 0.0235*max(5 - min(v(vin,gnd), 5), 0)
+* the inductor while the converter is off or the output is below the
+* supply: a one-way path from VIN to SW
+Bpass vin sw I = max(v(vin,sw), 0)/{rdc}
+* supply and switch node, bounded for the divisions below
+Bvi vi 0 V = rails_b(v(vin,gnd),0.5,20)
+Bvs vs 0 V = rails_b(v(sw,gnd),0.5,40)
+* head room of the off time and duty cycle in continuous conduction
+Bvx vx 0 V = max(rails_b(v(vs),0.5,40) - rails_b(v(vi),0.5,20), 0.2)
+* (with the drops of the switch and of the winding at the peak current)
+Bd d 0 V = rails_b((rails_b(v(vx),0.2,40) + rails_b(v(ipc),0,5)*{rdc})/max(rails_b(v(vs),0.5,40) - rails_b(v(ipc),0,5)*rails_b(v(ron),0.1,1), 0.5), 0, {dmax})
+* bounded command, peak current in continuous and in discontinuous
+* conduction, ripple of the inductor current
+Bic ic 0 V = rails_b(v(cmd), 0, rails_b(v(i0),0,5))
+Bipc ipc 0 V = max(rails_b(v(ic),0,5) - rails_b(v(sl),0,5)*rails_b(v(d),0,1), 0)
+Bipd ipd 0 V = rails_b(v(ic),0,5)/(1 + rails_b(v(sl),0,5)*{lf}/rails_b(v(vi),0.5,20))
+Brip rip 0 V = max(rails_b(v(vi),0.5,20) - rails_b(v(ipc),0,5)*(rails_b(v(ron),0.1,1) + {rdc}), 0.1)*rails_b(v(d),0,1)/{lf}
+* current into the diode, averaged over a cycle
+* (never less than 10 uA while the converter runs: the diode of the board
+* stays biased and the switch node stays one diode drop above the output)
+Bio io 0 V = rails_b(v(act),0,1)*max(v(ipc) > v(rip) ? (rails_b(v(ipc),0,5) - 0.5*rails_b(v(rip),0,5))*(1 - rails_b(v(d),0,1)) : min(0.5*{lf}*rails_b(v(ipd),0,5)*rails_b(v(ipd),0,5)/rails_b(v(vx),0.2,40), rails_b(v(ipd),0,5)), 1e-5)
+Rio io iof 1k
+Cio iof 0 2n
+Bout gnd sw I = rails_b(v(iof),0,5)
+* what that takes from the supply: the power into the diode node, the
+* loss in the switch and in the winding, the supply current
+Bil il 0 V = v(ipc) > v(rip) ? rails_b(v(ipc),0,5) - 0.5*rails_b(v(rip),0,5) : 0.5*rails_b(v(ipd),0,5)*rails_b(v(ipd),0,5)*{lf}*(1/rails_b(v(vi),0.5,20) + 1/rails_b(v(vx),0.2,40))
+Bin vin gnd I = rails_b(v(iof),0,5)*rails_b(v(vs),0.5,40)/rails_b(v(vi),0.5,20) + rails_b(v(act),0,1)*rails_b(v(il),0,5)*rails_b(v(il),0,5)*(rails_b(v(ron),0.1,1)*rails_b(v(d),0,1) + {rdc})/rails_b(v(vi),0.5,20) + 0.4m*tanh(max(v(vin,gnd), 0)) + 1.6m*rails_b(v(act),0,1)
+Rsw sw gnd 100meg
+Csw sw gnd 100p
+.ends LMR62014_AVG

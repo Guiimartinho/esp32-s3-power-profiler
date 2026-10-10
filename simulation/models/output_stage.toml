@@ -1,0 +1,28 @@
+# Model map of the output stage: the parts that only its sheet holds.
+# The format is that of models.toml.
+
+# ---- Suppressor of the output terminal --------------------------------
+# SOD123W: pin 1 cathode, pin 2 anode. Pins of the subcircuit: anode,
+# cathode.
+[part."PTVS15VS1UR,115"]
+kind = "subckt"
+name = "OUTPUT_PTVS15V"
+ports = ["2", "1"]
+library = "output_stage.lib"
+origin = "written here"
+
+# The subcircuit of the manufacturer has the anode first as well.
+[vendor."PTVS15VS1UR,115"]
+kind = "subckt"
+name = "PTVS15VS1UR"
+ports = ["2", "1"]
+library = "vendor/nexperia-PTVS15VS1UR-PTVS15VS1UR.txt"
+origin = "vendor"
+
+# ---- Connectors of the device under test ------------------------------
+# The pin header and the terminal block are wires; a bench names the nets.
+[ref.J3]
+kind = "skip"
+
+[ref.J4]
+kind = "skip"

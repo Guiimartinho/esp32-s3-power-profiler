@@ -1,0 +1,126 @@
+# Model map of the power input and the logic supplies (sheets "Power Input"
+# and "Logic Supplies"). The models are in power_input.lib; each names its
+# datasheet and what it leaves out.
+
+# ---- Limiters, multiplexer, supervisor, regulators -----------------------
+# Pins of the subcircuit: IN OUT EN/UVLO OVCSEL ILM dVdt FLT GND.
+[part."TPS259621DDAR"]
+kind = "subckt"
+name = "PWRIN_TPS259621"
+ports = ["4", "5", "3", "8", "7", "2", "6", "1"]
+library = "power_input.lib"
+origin = "written here"
+
+# Pins of the subcircuit: VIN1 VIN2 VOUT PR1 MODE ST GND.
+[part."TPS2116DRLR"]
+kind = "subckt"
+name = "PWRIN_TPS2116"
+ports = ["3", "6", "2", "4", "5", "8", "1"]
+library = "power_input.lib"
+origin = "written here"
+
+# Pins of the subcircuit: RESET GND MR CT SENSE VDD.
+[part."TPS3808G01DBVR"]
+kind = "subckt"
+name = "PWRIN_TPS3808G01"
+ports = ["1", "2", "3", "4", "5", "6"]
+library = "power_input.lib"
+origin = "written here"
+
+# Pins of the subcircuit: IN GND EN OUT. Pin 4 is not connected.
+[part."LP5907MFX-3.3/NOPB"]
+kind = "subckt"
+name = "PWRIN_LP5907"
+ports = ["1", "2", "3", "5"]
+library = "power_input.lib"
+origin = "written here"
+
+# ---- Diodes --------------------------------------------------------------
+# The suppressor at the USB-C receptacle. The symbol has no polarity (pins
+# A1 and A2); the part is unidirectional and the model takes pin 1, on the
+# receptacle, as the cathode. Pins of the subcircuit: anode, cathode.
+[part."SMAJ10A-E3/61"]
+kind = "subckt"
+name = "PWRIN_SMAJ10A"
+ports = ["2", "1"]
+library = "power_input.lib"
+origin = "written here"
+
+# The LED of the carrier: pin 1 cathode, pin 2 anode.
+[part."150060VS75000"]
+kind = "device"
+letter = "D"
+name = "PWRIN_LED_GREEN"
+ports = ["2", "1"]
+library = "power_input.lib"
+origin = "written here"
+
+# ---- Part types that other sheets use as well ----------------------------
+# The Schottky diodes across the two limiters. SOD-123: pin 1 cathode, pin 2
+# anode. Pins of the subcircuit: anode, cathode.
+[ref.D3]
+kind = "subckt"
+name = "PWRIN_1N5819HW"
+ports = ["2", "1"]
+library = "power_input.lib"
+origin = "written here"
+
+[ref.D4]
+kind = "subckt"
+name = "PWRIN_1N5819HW"
+ports = ["2", "1"]
+library = "power_input.lib"
+origin = "written here"
+
+# The protection array on the two CC pins: pins 1 and 3 are the lines, pin 2
+# is ground; pins 4 and 6 are tied to ground and pin 5 is not connected.
+[ref.U2]
+kind = "subckt"
+name = "PWRIN_TPD4E1U06_CH"
+units = [["1", "2"], ["3", "2"]]
+library = "power_input.lib"
+origin = "written here"
+
+# ---- Parts with a model of their own -------------------------------------
+# The aluminum capacitor of the 5 V rail, with its series resistance. The
+# capacitance repeats the value of the schematic.
+[ref.C11]
+kind = "subckt"
+name = "PWRIN_WCAP_47U"
+ports = ["1", "2"]
+library = "power_input.lib"
+origin = "written here"
+params = "c=47u esr=0.44"
+
+# The USB-C receptacle is a set of wires; a bench names the nets.
+[ref.J2]
+kind = "skip"
+
+# ---- Models of the manufacturers (vendor tier; files not versioned) -------
+# Pins of the subcircuit: GND dVdT UVLO IN OUT FLT_N ILIM OVLO_OVCSEL.
+[vendor."TPS259621DDAR"]
+kind = "subckt"
+name = "TPS259621_TRANS"
+ports = ["1", "2", "3", "4", "5", "6", "7", "8"]
+library = "vendor/ti-tps259621-SLVMD53__TPS259621_PSpice_Model__TPS259621_trans.lib"
+origin = "vendor"
+
+# Pins of the subcircuit: GND MODE PR1 ST VIN1 VIN2 VOUT_0 VOUT_1.
+[vendor."TPS2116DRLR"]
+kind = "subckt"
+name = "TPS2116_TRANS"
+ports = ["1", "5", "4", "8", "3", "6", "2", "7"]
+library = "vendor/ti-tps2116-TPS2116_PSPICE_TRANS__TPS2116_TRANS.LIB"
+origin = "vendor"
+
+# The model of the manufacturer for the supervisor TPS3808G01 (SLIM038A) is
+# not named here: ngspice does not load it. Nine of its lines call the ERROR
+# function of PSpice, which ngspice does not know.
+
+# Pins of the subcircuit: EN VIN VOUT N_C GND.
+[vendor."LP5907MFX-3.3/NOPB"]
+kind = "subckt"
+name = "LP5907_3P3_TRANS"
+ports = ["3", "1", "5", "4", "2"]
+library = "vendor/ti-lp5907u-lp5907_3p3_trans.lib"
+origin = "vendor"

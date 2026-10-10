@@ -1,0 +1,87 @@
+# Model map of the source meter block (sheet "Source Meter").
+#
+# The models are in source_meter.lib, written from the datasheets named
+# there. The operational amplifiers U17 and U19 and the diode pairs D10 and
+# D13 take the shared models of models.toml.
+
+# ---- Linear regulator -------------------------------------------------
+# DFN: 1 to 3 and the pad OUT, 4 SET, 5 VCONTROL, 6 not connected, 7 and 8
+# IN. Order of the model: IN, VCONTROL, SET, OUT.
+[part."LT3080EDD#PBF"]
+kind = "subckt"
+name = "LT3080"
+ports = ["7", "5", "4", "1"]
+library = "source_meter.lib"
+origin = "written here"
+
+# ---- Tracking pre-regulator -------------------------------------------
+# Order of the model: VIN, VINA, EN, PS/SYNC, FB, VOUT, L1, L2, PG, GND,
+# PGND.
+[part."TPS63020DSJR"]
+kind = "subckt"
+name = "TPS63020_AVG"
+ports = ["10", "1", "12", "13", "3", "4", "8", "6", "14", "2", "15"]
+library = "source_meter.lib"
+origin = "written here"
+
+# The transient model of the manufacturer switches at 2.4 MHz: a
+# millisecond takes minutes. Order of that model: L1, VIN, VINA, EN,
+# PS_SYNC, GND, PGND, PG, FB, VOUT, L2.
+[vendor."TPS63020DSJR"]
+kind = "subckt"
+name = "TPS63020_TRANS"
+ports = ["8", "10", "1", "12", "13", "2", "15", "14", "3", "4", "6"]
+library = "vendor/ti-tps63020-SLIM135__TPS63020_PSPICE_TRANS__TPS63020_TRANS.lib"
+origin = "vendor"
+
+# ---- Set-point DAC ----------------------------------------------------
+# The serial interface is not modelled: the code is a parameter of the
+# model, which the benches set. Order of the model: VDD, VREF, VOUT, VSS.
+[part."MCP4921-E/SN"]
+kind = "subckt"
+name = "MCP4921"
+ports = ["1", "6", "8", "7"]
+library = "source_meter.lib"
+origin = "written here"
+
+# ---- Filter and inductor of the pre-regulator -------------------------
+[part."BLM31SN500SN1L"]
+kind = "subckt"
+name = "BLM31SN500"
+ports = ["1", "2"]
+library = "source_meter.lib"
+origin = "written here"
+
+[part."XFL4020-152MEC"]
+kind = "subckt"
+name = "XFL4020_152"
+ports = ["1", "2"]
+library = "source_meter.lib"
+origin = "written here"
+
+# ---- Parts whose type sits on other sheets as well --------------------
+# 1N5819HW: pin 1 cathode, pin 2 anode.
+[ref.D11]
+kind = "device"
+letter = "D"
+name = "SOURCE_METER_1N5819HW"
+ports = ["2", "1"]
+library = "source_meter.lib"
+origin = "written here"
+
+[ref.D12]
+kind = "device"
+letter = "D"
+name = "SOURCE_METER_1N5819HW"
+ports = ["2", "1"]
+library = "source_meter.lib"
+origin = "written here"
+
+# BSS138 in SOT-23: 1 gate, 2 source, 3 drain.
+[ref.Q1]
+kind = "device"
+letter = "M"
+name = "SOURCE_METER_BSS138"
+ports = ["3", "1", "2"]
+library = "source_meter.lib"
+origin = "written here"

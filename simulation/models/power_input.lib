@@ -1,0 +1,483 @@
+* Models of the power input and the logic supplies, written for this
+* project. None of these is a model of a manufacturer. Every figure is from
+* the datasheet named beside it; a figure that is an assumption says so.
+*
+* All of them are typical parts at 25 C unless a parameter is changed. None
+* has a temperature: the thermal shutdown of the limiters, of the
+* multiplexer and of the regulators is not modelled, and neither is any
+* drift. No leakage figure may be taken from these models.
+*
+* Every name here starts with PWRIN, so that this file can stand beside the
+* other model files in one deck.
+
+* ---------------------------------------------------------------------
+* Helpers.
+*   pwrin_hi(x)     a step from 0 to 1 around x = 0, a few units wide
+*   pwrin_pos(x,e)  x where x is positive and 0 where it is negative, with
+*                   a rounded corner of width e
+*   pwrin_min(a,b,e) the smaller of two values, with the same corner
+* The corners are rounded because the solver stops at a sharp corner on
+* which a signal rests.
+.func pwrin_hi(x) {0.5*(1 + tanh(x))}
+.func pwrin_pos(x,e) {0.5*((x) + sqrt((x)*(x) + (e)*(e)))}
+.func pwrin_min(a,b,e) {(a) - 0.5*(((a) - (b)) + sqrt(((a) - (b))*((a) - (b)) + (e)*(e)))}
+
+* Comparator with hysteresis on a 0 to 1 scale: the output rises when the
+* input passes vr and falls when it passes vf. The threshold moves from vr
+* to vf while the output passes its middle, so the two levels are met
+* within 0.2 vs. tau is the time constant of the output.
+.subckt PWRIN_SCHMITT inp inn out params: vr=1.2 vf=1.1 vs=2m tau=1u
+.param grate={1n/tau}
+.param dthr={vr - vf}
+Cq out 0 1n
+Rq out 0 1e12
+Bq 0 out I = ({grate})*(pwrin_hi((v(inp,inn) - ({vr}) + ({dthr})*pwrin_hi((v(out) - 0.5)*20))/({vs})) - v(out))
+.ends PWRIN_SCHMITT
+
+* Delay of a signal on a 0 to 1 scale, with one time for the rising and one
+* for the falling edge: a node follows the input at a limited rate and the
+* output switches when it passes the middle. The input is read as 0 or 1
+* around its middle and the output is exactly 0 or 1 away from the middle:
+* a comparator that creeps toward its threshold neither starts the delay
+* early nor leaves a channel a little open.
+.subckt PWRIN_DLY in out params: ton=10u toff=1u
+.param rfall={0.5n/toff}
+.param rdiff={0.5n/ton - 0.5n/toff}
+Cr r 0 1n
+Rr r 0 1e12
+Bd d 0 V = pwrin_hi((v(in) - 0.5)*40)
+Br 0 r I = tanh((v(d) - v(r))*50)*(({rfall}) + ({rdiff})*pwrin_hi((v(d) - v(r))*50))
+Bo out 0 V = pwrin_hi((v(r) - 0.5)*60)
+.ends PWRIN_DLY
+
+* Body diode of a pass transistor. No datasheet states one: an assumption,
+* a plain silicon junction.
+.model PWRIN_BODY D(IS=1e-12 N=1 RS=50m CJO=100p)
+
+* ---------------------------------------------------------------------
+* TPS259621, current limiter with over-voltage clamp (U3, U4).
+* Texas Instruments SLVSET8A (August 2019).
+*   On-resistance 89 mohm typical above 4 V at 25 C, 115.3 mohm at most up
+*   to 85 C (page 7): parameter ron.
+*   Enable: 1.20 V rising and 1.10 V falling at the EN/UVLO pin; input
+*   under-voltage 2.53 V rising and 2.42 V falling (pages 6 and 7).
+*   Current limit: the ILM pin carries 656 uA per ampere of output current
+*   (page 13, figure 25) into the resistor of the schematic, and the limit
+*   is the equation of page 22, ILIM = 903 / RILM + 0.0112 A, which is the
+*   pin voltage 0.5924 V once 11.2 mA are taken off the current.
+*   Fold-back: at an output of 0 V the limit is 0.80 A with 453 ohm and
+*   0.105 A with 7.87 kohm (figures 22 and 23, page 13). The model takes the
+*   straight line through these two points for other resistors (0.34 A with
+*   the 1.21 kohm of U3: an ASSUMPTION), and lets the limit grow in a
+*   straight line with the output voltage up to vfold, 1 V by default. The
+*   datasheet gives no curve between 0 V and the full limit: vfold is an
+*   ASSUMPTION, and the benches that depend on it run it at two values.
+*   Response: 87 us from an overload of 20 % to the limit, 5 us for a short
+*   circuit, which the part detects at 1.5 times the limit (pages 8 and 23).
+*   Start: without a capacitor at the dVdt pin the output rises with
+*   42.7 V/ms at 5 V after 78.9 us to 10 %; with 3300 pF 13.1 V/ms after
+*   247.3 us (page 8). The pin sources 2.11 uA and the output follows the
+*   pin with a gain of 20.93 (page 7); the offset vdoff is fitted to the
+*   247.3 us.
+*   Turn-off delay 11.6 us at 5 V (page 8).
+*   Clamp: with 400 kohm at the OVCSEL pin the output is held at 5.45 V at
+*   10 mA (5.28 V to 5.61 V) once the input is above 5.69 V (5.54 V to
+*   5.83 V), within 5 us (pages 6 and 8); parameters vclamp and vovc. Shorted
+*   the pin selects 3.83 V and 3.59 V, open 13.77 V and 13.58 V. The
+*   datasheet does not say how the pin is read: the model sources 1 uA into
+*   it and looks at its voltage, an ASSUMPTION.
+*   Supply current 206 uA while on, about 45 uA while disabled with the EN
+*   pin above 0.74 V (page 6 and figures 5 and 10).
+* How it is built: a transistor with a square law (kfet, vth) behind a
+* resistor, and a gate node that the charge pump lifts and the ramp, the
+* current limit, the clamp and the enable logic pull down. kfet is fitted
+* to the fall of the clamped output with load in figure 16 (5.455 V at
+* 10 mA, 5.23 V at 1 A); vth and vov are ASSUMPTIONS that only set scales.
+*   Not modelled: the thermal shutdown and its retry after 95 ms, the FLT
+*   output, the circuit breaker with the ILM pin shorted, the dependence of
+*   the on-resistance on the input voltage, the saturation current of the
+*   transistor (the peak of the current into a short circuit, before the
+*   limit acts, is bounded by the resistances alone and is an upper bound),
+*   the body diode is an ASSUMPTION.
+* Pins: IN OUT EN/UVLO OVCSEL ILM dVdt FLT GND.
+.subckt PWRIN_TPS259621 in out en ovcsel ilm dvdt flt gnd
++ params: ron=89m vref=0.5924 ioff=11.2m vreffb=0.222 iofffb=59m vfold=1.0
++ gimon=656u vclamp=5.45 vovc=5.69 venr=1.20 venf=1.10 vuvr=2.53 vuvf=2.42
++ tdon=38u tdoff=11.6u sron=42.7k idvdt=2.11u gdvdt=20.93 vdoff=1.28
++ tlim=87u tsc=5u kfet=50 vth=1.0 vov=4.0 iq=206u
+.param rser={ron - 1/(kfet*vov)}
+.param khalf={kfet/2}
+.param vgmax={vth + vov}
+.param icp={1n*sron}
+.param idn={1n*sron + 1n*(vov + 1.72)/tlim}
+.param ifast={1n*(vov - 0.28)/(0.6*tsc)}
+.param glim=20m
+.param vlimc={atanh(sron/(sron + (vov + 1.72)/tlim))*(1n*sron + 1n*(vov + 1.72)/tlim)/20m}
+.param dvref={vref - vreffb}
+.param dioff={ioff - iofffb}
+.param vfast={1.5*vref}
+.param vov10m={sqrt(0.02/kfet)}
+.param vgoff={1n*sron/1m}
+.param dovc1={vovc - 3.83}
+.param dovc2={13.77 - vovc}
+.param dcl1={vclamp - 3.59}
+.param dcl2={13.58 - vclamp}
+* enable: the EN/UVLO pin and the under-voltage protection of the input
+Xen en gnd sen PWRIN_SCHMITT vr={venr} vf={venf} vs=2m tau=1u
+Xuv in gnd suv PWRIN_SCHMITT vr={vuvr} vf={vuvf} vs=2m tau=1u
+Bwant want 0 V = v(sen)*v(suv)
+Xdl want on PWRIN_DLY ton={tdon} toff={tdoff}
+Ren en gnd 1e10
+* the pass transistor behind its series resistance, with the current sensed
+Rser in d {rser}
+Vsn d dx 0
+Bfet dx out I = ({khalf})*(pwrin_pos(v(g,out) - ({vth}), 5m)*pwrin_pos(v(g,out) - ({vth}), 5m) - pwrin_pos(v(g,dx) - ({vth}), 5m)*pwrin_pos(v(g,dx) - ({vth}), 5m))
+Dbody out in PWRIN_BODY
+Rout out gnd 1e9
+* dVdt pin: 2.11 uA while on, discharged while off
+Cdv dvdt gnd 5p
+Rdv dvdt gnd 1e10
+Bdv gnd dvdt I = ({idvdt})*v(on)*pwrin_hi((2.0 - v(dvdt,gnd))/0.05) - 1m*v(dvdt,gnd)*(1 - v(on))
+Brmp rmp 0 V = pwrin_pos(({gdvdt})*v(dvdt,gnd) - ({vdoff}), 5m)
+* OVCSEL pin and the two levels it selects
+Rsel ovcsel gnd 1e9
+Bsel gnd ovcsel I = 1u*pwrin_hi((1.2 - v(ovcsel,gnd))/0.05)*pwrin_hi((v(in,gnd) - 2.0)/0.1)
+Bsa sa 0 V = pwrin_hi((v(ovcsel,gnd) - 0.1)/0.01)
+Bsb sb 0 V = pwrin_hi((v(ovcsel,gnd) - 0.8)/0.02)
+Bvovc lovc 0 V = 3.83 + ({dovc1})*v(sa) + ({dovc2})*v(sb)
+Bvcl lcl 0 V = 3.59 + ({dcl1})*v(sa) + ({dcl2})*v(sb)
+Bovx ovx 0 V = pwrin_hi((v(in,gnd) - v(lovc))/5m)
+Rov ovx ovc 1k
+Cov ovc 0 2n
+* ILM pin: the monitor current, and the limit with its fold-back
+Rim ilm gnd 1e9
+Bim gnd ilm I = ({gimon})*pwrin_pos(i(Vsn), 1u)*pwrin_hi((3.0 - v(ilm,gnd))/0.05)
+Bw w 0 V = pwrin_min(pwrin_pos(v(out,gnd), 10m)/({vfold}), 1, 0.02)
+Berr err 0 V = v(ilm,gnd)*(1 - (({iofffb}) + ({dioff})*v(w))/(pwrin_pos(i(Vsn), 1m) + 1m)) - ({vreffb}) - ({dvref})*v(w) + ({vlimc})
+* the gate: charge pump, clamp to the source, ramp, limit, short circuit,
+* over-voltage clamp, and the pull-down while off
+Cg g gnd 1n
+Rg g gnd 1e12
+Bg gnd g I = ({icp})*v(on) - 10m*pwrin_pos(v(g,out) - ({vgmax}), 5m) - 1m*pwrin_pos(v(g,gnd) - v(rmp), 5m) - ({idn})*tanh(({glim})*pwrin_pos(v(err), 0.5m)/({idn})) - ({ifast})*pwrin_hi((v(ilm,gnd) - ({vfast}))/0.02) - 1m*pwrin_pos(v(g,gnd) - v(lcl) - ({vth}) - ({vov10m}) + ({vgoff}), 5m)*v(ovc) - 1m*v(g,gnd)*(1 - v(on))
+* supply current
+Biq in gnd I = ({iq})*v(on) + 45u*(1 - v(on))*pwrin_hi((v(en,gnd) - 0.74)/0.02)*pwrin_hi((v(in,gnd) - 1.0)/0.1)
+Rflt flt gnd 1e9
+.ends PWRIN_TPS259621
+
+* ---------------------------------------------------------------------
+* TPS2116, power multiplexer with priority (U5).
+* Texas Instruments SLVSFG1A (May 2021).
+*   On-resistance 37 mohm typical at 5 V and 25 C, 55 mohm at most up to
+*   85 C (page 6): parameter ron.
+*   Selection (page 10): with MODE high the PR1 pin chooses, input 1 above
+*   its reference of 1.0 V (0.92 V to 1.08 V) and input 2 below it; with
+*   MODE low and PR1 low the higher input is passed. No hysteresis is
+*   stated; the model has 10 mV, an ASSUMPTION, so that it decides when
+*   the pin rests at the reference.
+*   Change of input (pages 7 and 12): both channels are off for 8 us at 5 V,
+*   and the new one closes only when the output is no higher than its
+*   input plus the reverse threshold.
+*   Reverse current blocking (page 6): the conducting channel opens when the
+*   output is 42 mV above its input (70 mV at most) and closes again at
+*   17 mV; 2 us response.
+*   Soft start (pages 7 and 11): only when a channel closes with the output
+*   below 1 V. Delay to 10 % 1.0 ms and 10 % to 90 % in 1.7 ms at 5 V
+*   (1.3 ms at 3.3 V, 0.9 ms at 1.8 V): a ramp of 2.35 V/ms at 5 V and
+*   1.6 V/ms at 1.8 V, straight line between, that starts 0.79 ms after the
+*   channel is chosen.
+*   Status output: open drain, 0.1 V at 1 mA, high only while input 1 is
+*   chosen; 5 us (page 6).
+*   An input counts as present above 1.6 V, where the operating range
+*   starts (page 4), and as absent below 1.4 V: the hysteresis is an
+*   ASSUMPTION, the datasheet states no under-voltage levels. After both
+*   inputs were absent the part closes a channel without soft start only
+*   0.5 ms later (trestart): an ASSUMPTION for the reset that page 11
+*   describes without a time.
+*   A channel that closes reaches its on-resistance with a time constant of
+*   1 us (tedge): an ASSUMPTION, the datasheet gives no figure for the edge.
+*   It sets the first peak of the current when a channel closes onto an
+*   output far below its input.
+*   Not modelled: the supply current (1.3 uA), the thermal shutdown, the
+*   reset of the part when its supply collapses faster than 1 V in 10 us
+*   (page 11), the leakage of an open channel (a resistor of 5 Gohm keeps
+*   the matrix regular and is no statement about the 1 nA of the datasheet),
+*   the limit of 4 A for a pulse (page 4): the model passes any current.
+* Pins: VIN1 VIN2 VOUT PR1 MODE ST GND.
+.subckt PWRIN_TPS2116 vin1 vin2 vout pr1 mode st gnd
++ params: ron=37m vrefpr=1.0 vrcbr=42m vrcbf=17m tsw=8u vmin=1.5 vssoff=1.85 trestart=0.5m
++ tedge=1u
+.param gon={1/ron}
+.param gdn={10n/tedge}
+.param gdiff={9n/tedge}
+* which input is wanted
+Xp1 pr1 gnd p1 PWRIN_SCHMITT vr={vrefpr + 5m} vf={vrefpr - 5m} vs=1m tau=1u
+Bmd md 0 V = pwrin_hi((v(mode,gnd) - 0.7)/20m)
+Bh1 h1 0 V = pwrin_hi(v(vin1,vin2)/5m)
+Xpw1 vin1 gnd pw1 PWRIN_SCHMITT vr={vmin + 0.1} vf={vmin - 0.1} vs=5m tau=0.1u
+Xpw2 vin2 gnd pw2 PWRIN_SCHMITT vr={vmin + 0.1} vf={vmin - 0.1} vs=5m tau=0.1u
+Bw1 w1 0 V = v(pw1)*(v(md)*v(p1) + (1 - v(md))*(1 - v(p1))*v(h1))
+Bw2 w2 0 V = v(pw2)*(v(md)*(1 - v(p1)) + (1 - v(md))*(1 - v(p1))*(1 - v(h1)))
+Rw1 w1 w1f 1k
+Cw1 w1f 0 0.2n
+Rw2 w2 w2f 1k
+Cw2 w2f 0 0.2n
+* break before make: a channel opens at once and closes after tsw
+Xd1 w1f on1 PWRIN_DLY ton={tsw} toff=0.3u
+Xd2 w2f on2 PWRIN_DLY ton={tsw} toff=0.3u
+* reverse current blocking of each channel
+Xr1 vout vin1 rcb1 PWRIN_SCHMITT vr={vrcbr} vf={vrcbf} vs=1m tau=1u
+Xr2 vout vin2 rcb2 PWRIN_SCHMITT vr={vrcbr} vf={vrcbf} vs=1m tau=1u
+Bc1 c1 0 V = v(on1)*pwrin_hi((0.5 - v(rcb1))*40)
+Bc2 c2 0 V = v(on2)*pwrin_hi((0.5 - v(rcb2))*40)
+* soft start: a ramp node that sets how far the output may be. While both
+* channels are open it is put at its start, below 0 V, when the output is
+* below 1 V or the part was without supply a moment ago, and at its top
+* otherwise; a channel that closes finds it there. In a change of input with
+* the output above 1 V the node stands at its top before and after, so the
+* result does not depend on how the solver steps through the 8 us.
+Bany any 0 V = 1 - (1 - v(on1))*(1 - v(on2))
+Bpany pany 0 V = 1 - (1 - v(pw1))*(1 - v(pw2))
+Xal pany alive PWRIN_DLY ton={trestart} toff=1u
+Btg tg 0 V = (7 + ({vssoff}))*pwrin_hi((v(vout,gnd) - 1.0)/20m)*v(alive) - ({vssoff})
+Css ss 0 1n
+Rss ss 0 1e12
+Bss 0 ss I = 1n*(1600 + 234.4*pwrin_pos(v(vin1,gnd)*v(on1) + v(vin2,gnd)*v(on2) - 1.8, 10m))*v(any)*pwrin_hi((7 - v(ss))/0.1) - 1m*(v(ss) - v(tg))*(1 - v(any))
+Blim lim 0 V = pwrin_pos(v(ss), 5m)
+* a channel that closes reaches its on-resistance with the time constant
+* tedge and opens ten times faster
+Cg1 g1 0 1n
+Rg1 g1 0 1e12
+Bg1 0 g1 I = (v(c1) - v(g1))*(({gdn}) - ({gdiff})*pwrin_hi((v(c1) - v(g1))*50))
+Cg2 g2 0 1n
+Rg2 g2 0 1e12
+Bg2 0 g2 I = (v(c2) - v(g2))*(({gdn}) - ({gdiff})*pwrin_hi((v(c2) - v(g2))*50))
+* the two channels: the on-resistance, held back by the ramp while the
+* output is brought up
+B1 vin1 vout I = v(g1)*pwrin_min(({gon})*v(vin1,vout), pwrin_pos(20*(v(lim) - v(vout,gnd)), 5m), 10m) + 2e-10*v(vin1,vout)
+B2 vin2 vout I = v(g2)*pwrin_min(({gon})*v(vin2,vout), pwrin_pos(20*(v(lim) - v(vout,gnd)), 5m), 10m) + 2e-10*v(vin2,vout)
+Rvo vout gnd 1e9
+* status output
+Rst1 w1 sth 5k
+Cst1 sth 0 1n
+Bst st gnd I = 10m*v(st,gnd)*(1 - v(sth))*(1 - (1 - v(pw1))*(1 - v(pw2)))
+Rst st gnd 1e10
+Rpr pr1 gnd 1e10
+Rmo mode gnd 1e10
+.ends PWRIN_TPS2116
+
+* ---------------------------------------------------------------------
+* TPS3808G01, voltage supervisor with adjustable threshold (U6).
+* Texas Instruments SBVS050N (August 2026).
+*   Threshold at the SENSE pin 0.405 V falling, 1 % typical and 2 % at
+*   most; hysteresis 1.5 % typical and 3 % at most (page 6): parameters vit
+*   and vhys (in percent).
+*   The output falls 20 us after the pin has stepped from 5 % above to 5 %
+*   below the threshold (page 7): a filter of 27 us in front of the
+*   comparator, which also gives the shorter times of figure 6-5 for a
+*   larger step (a few microseconds at 50 % against about 2 us).
+*   Release delay: 300 ms (180 ms to 420 ms) with the CT pin tied to the
+*   supply through a resistor, 20 ms (12 ms to 28 ms) with the pin open
+*   (page 7): parameters tdhi and tdlo. The model looks whether the pin is
+*   above half the supply.
+*   Output: open drain, 0.4 V at most at 1 mA, taken as 100 ohm from
+*   figure 6-7; held low from a supply of 0.8 V (page 6: at most), released
+*   only above 1.7 V with the delay.
+*   Manual reset pin with 90 kohm to the supply (page 6).
+*   Not modelled: a capacitor at the CT pin (the delay it would set), the
+*   supply current (2.4 uA), the input current of the SENSE pin (25 nA at
+*   most), the output below a supply of 0.8 V, where the datasheet calls it
+*   undefined (the model lets go of it).
+* Pins: RESET GND MR CT SENSE VDD.
+.subckt PWRIN_TPS3808G01 reset gnd mr ct sense vdd
++ params: vit=0.405 vhys=1.5 tdhi=0.30 tdlo=0.02 tfilt=27u ron=100
+.param vitr={vit*(1 + vhys/100)}
+.param rfilt={tfilt/1n}
+.param rlo={1/tdlo}
+.param rdiff={1/tdhi - 1/tdlo}
+.param gon={1/ron}
+Bsn sb 0 V = v(sense,gnd)
+Rsf sb sf {rfilt}
+Csf sf 0 1n
+Xcmp sf 0 good PWRIN_SCHMITT vr={vitr} vf={vit} vs=0.3m tau=0.5u
+Rmr mr vdd 90k
+Bgd gd 0 V = pwrin_hi((v(good) - 0.5)*40)
+Bok ok 0 V = v(gd)*pwrin_hi((v(vdd,gnd) - 1.7)/20m)*pwrin_hi((v(mr,gnd) - 0.5*v(vdd,gnd) - 0.05)/20m)
+Rok ok okd 1k
+Cok okd 0 1n
+* the delay: a node that rises by 1 V in the delay time and is emptied when
+* the supply or the input is bad
+Rct ct gnd 1e9
+Bct cth 0 V = pwrin_hi((v(ct,gnd) - 0.5*v(vdd,gnd) - 0.05)/20m)
+Ctm tm 0 1u
+Rtm tm 0 1e12
+Btm 0 tm I = 1u*(({rlo}) + ({rdiff})*v(cth))*v(okd)*pwrin_hi((1.2 - v(tm))/0.02) - 0.1*v(tm)*(1 - v(okd))
+Brel rel 0 V = pwrin_hi((v(tm) - 1.0)/5m)
+Brs reset gnd I = ({gon})*v(reset,gnd)*pwrin_hi((0.5 - v(rel)*v(okd))*40)*pwrin_hi((v(vdd,gnd) - 0.8)/50m)
+Rrs reset gnd 1e10
+Rsn sense gnd 1e10
+Rvd vdd gnd 2meg
+.ends PWRIN_TPS3808G01
+
+* ---------------------------------------------------------------------
+* LP5907-3.3, linear regulator (U7, U8).
+* Texas Instruments SNVS798Q (July 2025).
+*   Output 3.3 V, 2 % (page 5): parameter vout.
+*   Dropout 50 mV typical at 100 mA and 250 mV at most at 250 mA in SOT-23
+*   (page 5; figure 5-18 shows about 0.5 ohm): parameter rdo, 0.5 ohm, with
+*   1.0 ohm as the limit.
+*   Current limit 500 mA typical, 250 mA at least (page 5): parameter ilim.
+*   Load regulation 0.001 % per mA (page 5): 33 uV per mA, parameter gea.
+*   Enable: the limits are 0.4 V and 1.2 V (page 6); figure 5-2 shows 0.87 V
+*   rising and 0.84 V falling with 5 V at the input, which the model takes.
+*   1 Mohm from the pin to ground (page 6).
+*   Start: 80 us typical and 150 us at most from the enable to 95 %
+*   (page 6); figure 5-15 shows about 30 us without output and then the
+*   rise, which the model takes as a straight ramp of the reference.
+*   Output discharge 230 ohm while disabled (page 5).
+*   Supply rejection at 20 mA: 90 dB at 100 Hz, 82 dB at 1 kHz, 65 dB at
+*   10 kHz, 60 dB at 100 kHz (page 5): a share of 3.2e-5 of the input and a
+*   share of 1.1e-3 behind a high-pass of 20 kHz, added to the reference.
+*   The model holds up to 100 kHz; above that figure 5-20 shows a rejection
+*   that the model does not follow.
+*   Supply current 12 uA without load and 250 uA at 250 mA (page 5).
+*   Not modelled: the response to a load step (40 mV for 250 mA in 10 us,
+*   page 6), the line regulation at DC (0.02 % per volt), noise, the
+*   behavior below an input of 2.2 V, which the datasheet does not specify
+*   (the model works from 1.0 V, an ASSUMPTION from figure 5-4); the body
+*   diode from the output to the input is an ASSUMPTION.
+* Pins: IN GND EN OUT.
+.subckt PWRIN_LP5907 in gnd en out
++ params: vout=3.3 rdo=0.5 ilim=0.5 gea=30 venr=0.87 venf=0.84 ton=80u
+.param srr={0.95*vout/(ton - 30u)}
+.param vroff={30u*0.95*vout/(ton - 30u)}
+.param gdo={1/rdo}
+Ren en gnd 1meg
+Xen en gnd se PWRIN_SCHMITT vr={venr} vf={venf} vs=2m tau=0.5u
+Bena ena 0 V = v(se)*pwrin_hi((v(in,gnd) - 1.0)/50m)
+* the reference with its start
+Cr r 0 1n
+Rr r 0 1e12
+Br 0 r I = 1n*({srr})*v(ena)*tanh((({vout}) - v(r))/0.02) - 1m*(v(r) + ({vroff}))*(1 - v(ena))
+* what the reference takes over from the input
+Bib ib 0 V = v(in,gnd)
+Chp ib hp 1n
+Rhp hp 0 7.96k
+Bref ref 0 V = pwrin_pos(v(r), 2m) + v(ena)*(3.2e-5*v(in,gnd) + 1.1e-3*v(hp))
+* the pass element: regulation, dropout and current limit
+Vsn in ip 0
+Bp ip out I = v(ena)*pwrin_min(pwrin_min(pwrin_pos(({gea})*(v(ref) - v(out,gnd)), 1m), ({gdo})*pwrin_pos(v(ip,out), 1m), 5m), ({ilim}), 5m)
+Dbody out in PWRIN_BODY
+Bad out gnd I = 4.348m*v(out,gnd)*(1 - v(se))*pwrin_hi((v(in,gnd) - 1.0)/50m)
+Bq in gnd I = v(ena)*(12u + 0.95m*pwrin_pos(i(Vsn), 1u))
+Rout out gnd 1e9
+.ends PWRIN_LP5907
+
+* ---------------------------------------------------------------------
+* 1N5819HW, Schottky diode (D1, D3, D4).
+* Diodes Incorporated DS30217 Rev. 22-2 (April 2026).
+*   Forward voltage, typical curve at 25 C (figure 1, page 3): 150 mV at
+*   1 mA, 212 mV at 10 mA, 282 mV at 100 mA, 434 mV at 1 A, 670 mV at 3 A.
+*   The limits of page 2 are 320 mV at 0.1 A, 450 mV at 1 A, 750 mV at 3 A.
+*   Reverse current, typical curve at 25 C (figure 2): 6 uA at 4 V and 9 uA
+*   at 10 V, which the saturation current of the fit and the resistor rleak
+*   of 2 Mohm give. The table of page 2 states 10 uA typical and 50 uA at
+*   most at 4 V: rleak = 86.6k gives the 50 uA.
+*   Capacitance 50 pF at 4 V (page 2) and 110 pF at 0 V (figure 3).
+*   Breakdown 40 V at 1 mA (page 2).
+*   Not modelled: the rise of the reverse current with temperature, which
+*   doubles every 9 K (figure 2).
+* Pins: anode, cathode.
+.model PWRIN_D5819 D(IS=3.8u N=1.04 RS=98m CJO=110p VJ=0.4 M=0.33 BV=40 IBV=1m EG=0.69 XTI=2)
+.subckt PWRIN_1N5819HW a k params: rleak=2meg
+D1 a k PWRIN_D5819
+Rl a k {rleak}
+.ends PWRIN_1N5819HW
+
+* ---------------------------------------------------------------------
+* SMAJ10A, unidirectional transient suppressor (D2).
+* Vishay document 88390 (9 January 2024).
+*   Breakdown 11.1 V to 12.3 V at 1 mA (page 2): parameter vbr, 11.7 V.
+*   Clamping voltage 17.0 V at most at 23.5 A (page 2), which with the
+*   highest breakdown gives 0.2 ohm: parameter rz.
+*   Reverse current 1 uA at most at 10 V (page 2): 10 Mohm.
+*   Capacitance about 0.8 nF at 10 V (figure 4, page 4).
+*   Forward voltage 3.5 V at most at 25 A (page 2, note 6); the model gives
+*   2.6 V there, an ASSUMPTION for the typical part.
+*   Not modelled: heating; the rating is 400 W for 1 ms and 3.3 W
+*   continuous on an infinite heat sink (page 1).
+* Pins: anode, cathode.
+.model PWRIN_SMAJ_F D(IS=1e-11 N=1.1 RS=70m CJO=2n VJ=0.7 M=0.33)
+.model PWRIN_ZENER D(IS=1e-14 N=1)
+.subckt PWRIN_SMAJ10A a k params: vbr=11.7 rz=0.2
+.param vz={vbr - 0.655 - 1m*rz}
+Df a k PWRIN_SMAJ_F
+Dz k z PWRIN_ZENER
+Vz z y {vz}
+Rz y a {rz}
+Rl a k 10meg
+.ends PWRIN_SMAJ10A
+
+* ---------------------------------------------------------------------
+* TPD4E1U06, one channel of the protection array (U2).
+* Texas Instruments SLVSBQ9D (April 2017), page 5.
+*   Breakdown 6.5 V to 8.5 V at 1 mA: parameter vbr, 7.5 V (the middle).
+*   Clamping voltage 11 V at 1 A and 15 V at 3 A: 2.6 ohm fits both within
+*   7 %. (The 1.0 ohm of the datasheet is a fit between 10 A and 20 A.)
+*   Capacitance 0.8 pF. Resistance in the forward direction 0.6 ohm.
+*   Not modelled: the leakage (1 nA typical, 10 nA at most at 2.5 V).
+* Pins: IO, GND.
+.model PWRIN_TPD_F D(IS=1e-14 N=1 RS=0.6)
+.subckt PWRIN_TPD4E1U06_CH io gnd params: vbr=7.5 rdyn=2.6
+.param vz={vbr - 0.655 - 1m*rdyn}
+Df gnd io PWRIN_TPD_F
+Dz io z PWRIN_ZENER
+Vz z y {vz}
+Rz y gnd {rdyn}
+Cl io gnd 0.8p
+.ends PWRIN_TPD4E1U06_CH
+
+* ---------------------------------------------------------------------
+* Green LED 150060VS75000 (D5).
+* Wurth Elektronik datasheet, revision 002.009 (26 February 2019), page 2:
+* forward voltage 2.0 V typical and 2.4 V at most at 20 mA; reverse current
+* 10 uA at most at 5 V. The slope is taken from the curve of page 3, which
+* falls by about 0.1 V from 30 mA to 5 mA.
+.model PWRIN_LED_GREEN D(IS=3.2e-23 N=1.6 RS=1.0 CJO=20p BV=5 IBV=10u)
+
+* ---------------------------------------------------------------------
+* Aluminum capacitor 865060343004, 47 uF 16 V (C11).
+* Wurth Elektronik WCAP-ASLL datasheet, revision 002.000 (2 May 2023),
+* page 1: 47 uF, 20 %; impedance 440 mohm at most at 100 kHz and 20 C.
+*   The series resistance is taken as that impedance: the datasheet states
+*   no typical value and none for other temperatures. The capacitance
+*   repeats the value of the schematic.
+*   Not modelled: the leakage (7.6 uA at most), the series inductance, the
+*   rise of the resistance in the cold.
+.subckt PWRIN_WCAP_47U p n params: c=47u esr=0.44
+C1 p a {c}
+R1 a n {esr}
+.ends PWRIN_WCAP_47U
+
+* ---------------------------------------------------------------------
+* Ceramic capacitor of class II with its loss of capacitance under bias.
+* The capacitance at a voltage V is c / (1 + (V / v0)^2), so the charge is
+* c v0 atan(V / v0). v0 is the voltage at which half the capacitance is
+* left. It is fitted to the bias curve at 25 C that Samsung
+* Electro-Mechanics shows on the page of each part (read on 9 October 2026):
+*   CL21B475KAFNNNE, 4.7 uF 25 V X7R 0805: 71.5 % at 5 V, 39.3 % at 10 V,
+*     32.7 % at 12 V: v0 = 8.0 (model 71.9 %, 39.0 %, 30.8 %)
+*   CL31B226KPHNNNE, 22 uF 10 V X7R 1206: 68.6 % at 5 V, 37.2 % at 10 V:
+*     v0 = 7.39
+*   CL21A106KAYNNNE, 10 uF 25 V X5R 0805: 49.7 % at 5 V, 22.5 % at 10 V:
+*     v0 = 4.97
+*   CL32B106KAJNNNE, 10 uF 25 V X7R 1210: 94.7 % at 5 V, 69.5 % at 13.5 V:
+*     v0 = 20.4
+* The benches of the power input give it the value of the schematic and the
+* v0 of the part number. The 1 uF and 100 nF parts in 0603 stay linear: no
+* curve of theirs was read.
+*   Not modelled: the series resistance (a few milliohm), aging, the
+*   temperature, the dependence on the AC amplitude.
+.subckt PWRIN_MLCC p n params: c=1u v0=8
+.param q0={c*v0}
+C1 p n Q = '({q0})*atan(v(p,n)/({v0}))'
+.ends PWRIN_MLCC
