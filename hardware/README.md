@@ -9,14 +9,35 @@ designed here, which holds everything else: power input, source meter, shunt
 ladder, signal chain, side data and connectors. Sections 4.11 and 5 of the
 [specification](../docs/specification.md) define the interface.
 
-![Carrier board, draft A2](doc/images/board-3d.jpg)
+![Rendered view of the carrier board, draft A2](doc/images/board-3d.jpg)
+
+The picture is a rendering from the KiCad files, with the Pico 2 on its
+sockets. It is not a photograph: no board has been built.
 
 ## Status
 
-Draft A2. The KiCad project holds the whole carrier board as a review draft:
-the schematic with 428 parts on fifteen A4 pages (the root sheet and
-fourteen sheets) and a four-layer board of 150 mm × 100 mm with every
-footprint placed and the tracks drawn by an autorouter.
+Draft A2, as of 2026-10-10. The KiCad project holds the whole carrier board
+as a review draft: the schematic with 428 parts on fifteen A4 pages (the
+root sheet and fourteen sheets) and a four-layer board of 150 mm × 100 mm
+with every footprint placed and the tracks drawn by an autorouter. It is
+drawn and checked by rule checks and against datasheets. It is not built,
+and nothing is measured.
+
+| What | State |
+| --- | --- |
+| Schematic | Every sheet drawn: 428 parts, 225 nets, 15 pages |
+| Electrical rules check | 0 errors, 0 warnings |
+| Netlist against datasheets | Checked independently; no blocker and no major defect found |
+| Bill of materials | 151 lines, each with a part number and a maker; three lines without stock on 2026-10-09 |
+| Component checks | 0 closed; every part is a candidate |
+| Board, placement | 425 footprints placed by a script; not reviewed by hand |
+| Board, routing | Autorouted: 956 of 984 connections; 28 open, 25 of which break a function while they are open |
+| Design rules check with schematic parity | 0 violations, 0 footprint errors, 28 unconnected items |
+| Layout review | Not started: no pours on the 1 A path, no guard ring, no coupled Kelvin pairs, converter loops as the autorouter left them |
+| Simulations | Run for the figures that the specification marks "simulated"; their files are not in this repository |
+| PIO programs | Not written |
+| Fabrication outputs | None |
+| Measurements | None: no board has been built |
 
 What the draft has behind it:
 
@@ -28,9 +49,19 @@ What the draft has behind it:
   footprint and ratings of every part type that is new in this draft, and
   six subsystems as a whole (power, source meter, ampere path, measuring
   chain, controller and logic, and the seams between the blocks). That
-  check found no blocker and no major defect.
+  check found no blocker and no major defect. It is not a component check:
+  it closes no item of section 16 of the specification. Its notes are not
+  filed in this repository, so the result can be read here but not
+  inspected: it counts as a review, not as evidence.
 - Every line of the bill of materials has a part number and a maker (151
   lines; section 17 of the specification).
+- The board passes the design rules check of KiCad with no rule violation
+  and with no difference between board and schematic. The check lists 28
+  unconnected items, the connections that the autorouter left open
+  ([Still to Do](#still-to-do) names each one).
+- The notes on the sheets were compared with the specification figure by
+  figure and corrected where they differed, and the pictures and the PDF of
+  [`doc/`](doc/README.md) are plotted from the present files.
 
 It is not a design to fabricate:
 
@@ -38,10 +69,14 @@ It is not a design to fabricate:
   these documents is a datasheet value, a calculation, a simulation or an
   estimate; the specification says which.
 - The parts are the candidates of the specification. No component check of
-  [`docs/checks/`](../docs/checks/) is closed, and the open checks of
-  section 16 of the specification stand, the bench items among them.
+  [`docs/checks/`](../docs/checks/README.md) is closed, and the open checks
+  of section 16 of the specification stand, the bench items among them.
 - The board is an autorouted draft that needs a layout review before
-  fabrication ([Board](#board)).
+  fabrication ([Board](#board)). With its 28 open connections it would not
+  work: the 5 V rail does not reach the converters, and neither mode has a
+  complete current path.
+- The files of the simulations are not in `simulation/`, so nobody can
+  repeat a figure that the specification marks "simulated".
 - The range logic and the sampling clock are programs for the PIO blocks of
   the controller. They are not written yet; until they are, the pin
   assignment of the controller is provisional.
@@ -68,8 +103,8 @@ It is not a design to fabricate:
 | --- | --- |
 | `kicad/` | KiCad 10 project: schematic sheets, board, design rules and library tables |
 | `kicad/lib/` | Project symbol and footprint libraries |
-| `doc/` | Pictures of every schematic sheet and of the board, and the schematic as PDF |
-| `simulation/` | SPICE simulations: front end and regulator (empty in this draft) |
+| `doc/` | Pictures of every schematic sheet and of the board, the schematic as PDF, and the bill of materials of the draft as CSV |
+| `simulation/` | Place of the simulation files behind the figures marked "simulated". Empty: none is filed yet ([Still to Do](#still-to-do) lists them) |
 | `fabrication/` | Outputs of each revision: Gerber and drill files, bill of materials, placement (empty until a revision is fabricated) |
 
 ## KiCad Project
@@ -123,7 +158,7 @@ Supply rails:
 | `+13V5` | Boost converter, running whenever `+5V` is present | +12 V_A regulator, control pin of the output regulator |
 | `+12V_A` | Low-noise regulator | Amplifiers, multiplexer, gate drivers, buffers |
 | `-4V_A` | Inverting charge pump with regulator | Amplifiers, multiplexer, buffers, minimum load of the output regulator |
-| `+3V3_A` | Low-noise regulator | Converter, comparators, DAC, monitor, reference, buffer of the driver rail |
+| `+3V3_A` | Low-noise regulator | Converter, comparators, DAC, monitor, reference, buffer of the driver rail, tracking amplifier of the pre-regulator, temperature sensor |
 | `+3V3_C` | Regulator | Logic of the carrier, rail monitor, power LED |
 | `VREF` | 2.5 V reference, supplied from `+3V3_A` | Converter, DAC, monitor, thresholds, pedestal, driver rail |
 
@@ -135,10 +170,13 @@ start-up order is in section 3 of the specification.
 
 The bill of materials is generated from the schematic, in which each of
 its parts carries the fields `MPN` and `Manufacturer`: one line per part
-number, 151 lines. From `kicad/`:
+number, 151 lines for 368 parts. The positions without parts, the test
+points, the mounting holes, the fiducials and the solder jumpers are not
+in it. The list of this draft is filed as [`doc/bom.csv`](doc/bom.csv);
+to make it again, from `kicad/`:
 
 ```sh
-kicad-cli sch export bom --output bom.csv --fields 'Reference,Value,Footprint,MPN,Manufacturer,${QUANTITY}' --group-by 'Value,Footprint,MPN,Manufacturer' --exclude-dnp power-profiler-carrier.kicad_sch
+kicad-cli sch export bom --output ../doc/bom.csv --fields 'Reference,Value,Footprint,MPN,Manufacturer,${QUANTITY}' --group-by 'Value,Footprint,MPN,Manufacturer' --exclude-dnp power-profiler-carrier.kicad_sch
 ```
 
 ### Board
@@ -150,7 +188,10 @@ footprint has its nets and its symbol.
   (decision D-85).
 - Four copper layers: `F.Cu` carries signals and all parts, `In1.Cu` is the
   ground plane, `In2.Cu` carries power and signals, `B.Cu` signals. All 425
-  footprints are on the top side.
+  footprints are on the top side. The schematic has 428 parts: the two
+  sockets of the module (MP1, MP2) sit in the holes of the module
+  footprint, and the cover of the shield can (MP3) snaps onto its frame,
+  so these three have no footprint of their own.
 - The stackup in the board setup is the build that section 10.1 of the
   specification assumes until a manufacturer is chosen: 1.6 mm, 35 µm
   outer and 17.5 µm inner copper, 0.2 mm of dielectric between each outer
@@ -203,21 +244,31 @@ The board of this draft is the result of several runs, each one continuing
 from the board of the run before and routing only what was still open:
 
 - 956 of the 984 connections are routed. 28 are open, and the design rules
-  check lists them. Most lie where parts stand too close for a track or a
-  via: at the input multiplexer, the pre-regulator, the charge pump, the
-  ampere pair and the Kelvin multiplexer. Five belong to parts that
-  came into the schematic after the first runs (two test points, a
-  capacitor of the rail monitor, the position of the voltage detector): the
-  router found no way to them through the tracks already laid. The other
-  six are single connections: on `5V_OK`, on `PWR_GOOD`, at the output of
-  the linear regulator, on one logic input, on the pedestal and on the
-  sense line of the tracking amplifier.
+  check lists them; the table under [Still to Do](#still-to-do) names each
+  one with its place on the board and with what it breaks. Seventeen lie
+  where parts stand too close for a track or a via: at the input
+  multiplexer, the pre-regulator, the charge pump, the ampere pair and the
+  Kelvin multiplexer. Five belong to parts that came into the schematic
+  after the first runs (two test points, a capacitor of the rail monitor,
+  the position of the voltage detector): the router found no way to them
+  through the tracks already laid. The other six are single connections:
+  on `5V_OK`, on `PWR_GOOD`, at the output of the linear regulator, on one
+  logic input, on the pedestal and on the sense line of the tracking
+  amplifier.
+- The open connections are not loose ends of minor nets. The 5 V rail is in
+  five pieces, with the pad of the unfitted voltage detector as a sixth,
+  the node after the shunts is in three, the VIN input in three, and one of
+  the two Kelvin sense lines of the 0.1 Ω shunt, the one on its supply
+  side, is open from end to end.
 - 7.83 m of track in 3,228 segments and 499 vias: 3.57 m on `F.Cu`, 2.66 m
   on `In2.Cu` and 1.60 m on `B.Cu`. `In1.Cu` is an unbroken ground plane.
-- The tracks of the power nets are necks of 0.3 mm to 0.5 mm, and those of
-  the rails, the guard nets and the gate drivers are 0.25 mm wide. The router
-  did not finish the board with the widths of their classes, and section 10
-  of the specification asks for pours on the power nets in any case.
+- The tracks are narrower than their net classes ask. Those of the power
+  nets are 0.4 mm and 0.5 mm wide, with necks down to 0.24 mm at the pads,
+  where the classes ask for 0.8 mm to 1.5 mm. Those of the rails, the guard
+  nets and the gate drivers are 0.25 mm wide, with necks of 0.19 mm and
+  0.15 mm, where the classes ask for 0.25 mm to 0.5 mm. The router did not
+  finish the board with the widths of the classes, and section 10 of the
+  specification asks for pours on the power nets in any case.
 - The bottom layer under the measured node carries tracks. With that area
   kept free the router did not reach the pins of the Kelvin multiplexer;
   the ground plane lies between those tracks and the node.
@@ -315,44 +366,209 @@ kicad-cli sch erc --severity-all power-profiler-carrier.kicad_sch
 kicad-cli pcb drc --schematic-parity --severity-all power-profiler-carrier.kicad_pcb
 ```
 
-The electrical rules check reports no errors and no warnings.
+Results on the files of this draft, with KiCad 10.0.0 on 2026-10-10:
+
+| Check | Result |
+| --- | --- |
+| Electrical rules check | 0 errors, 0 warnings |
+| Design rules check, rule violations | 0 |
+| Design rules check, footprint errors (difference between board and schematic) | 0 |
+| Design rules check, unconnected items | 28 |
 
 The design rules check compares the board with its rules and with the
 schematic. Before a board is ordered it must report no rule violation, no
-difference between board and schematic and no unconnected item. On the
-board of this draft it reports:
+difference between board and schematic and no unconnected item. The 28
+unconnected items are the open connections of the autorouted board; the
+table under [Still to Do](#still-to-do) is made from this report.
 
-- no rule violation;
-- no footprint error and no difference between board and schematic;
-- 28 unconnected items: the open connections named under "Board".
+Three corrections stand behind the result of the board. The autorouter had
+left five pairs of vias 0.493 mm to 0.499 mm apart; each pair was moved
+apart by less than 0.01 mm and the ground plane was filled again. The
+pattern that binds one net to its net class was corrected. And the stackup
+of the board file was set to the build of section 10.1 of the
+specification.
 
-Both were run with `kicad-cli` only. The project has not been opened in the
-KiCad editor yet.
+Both checks were run with `kicad-cli` only. The project has not been opened
+in the KiCad editor yet. The checks say that the files are consistent and
+that the copper keeps the rules of the project as they were relaxed for
+the autorouter: the larger spacings of the rule file do not apply to a
+track that touches a footprint, the tracks are narrower than their net
+classes ask, and the bottom layer under the measured node carries tracks
+([Board](#board)). They say nothing about whether the layout is good,
+which is the subject of the layout review.
 
 ### Still to Do
 
-The board, before it can be ordered (section 10.8 of the specification):
+Nothing of this list is started. It is the hardware part of the next steps
+that the [README](../README.md#project-status) of the repository puts in
+order: the board first (items 1 and 2 here), then the software, which the
+[firmware guide](../firmware/README.md) and the
+[host guide](../host/README.md) list, then the simulation files (item 3).
+The checks that need parts or a bench (item 4) and the work that waits for
+firmware (item 5) belong to the phases that follow.
+
+#### 1. Close the 28 Open Connections
+
+The table is made from the report of the design rules check. Each line is
+one connection that the autorouter did not draw: two pieces of copper of
+the same net that have to be joined. The coordinates are those of the board
+editor, in millimeters; the upper left corner of the board is at (50, 50).
+The distance is the straight line between the two points. KiCad names one
+item of each piece, and another run of the check can name another item of
+the same piece. The nets whose name starts with `Net-(` have no label on
+the drawings; the column beside the name says what they are.
+
+The picture shows where they are: each link joins the two ends of one
+connection over the pale copper of the board, and its number is the
+number of the line in the table.
+
+![The 28 open connections of the board](doc/images/board-open-connections.png)
+
+| No. | Net | What the net is | From | At (mm) | To | At (mm) | Distance | While it is open |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | `+5V` | 5 V rail of the carrier | track on `F.Cu` | 53.16, 131.36 | U9 pad 3 | 55.50, 126.06 | 5.8 mm | The boost converter U10 and the charge pump U11 hang on the rail only through the pad of U9, a position without a part: with No. 1 or No. 2 open there is no +13.5 V, no +12 V_A and no −4 V_A |
+| 2 | `+5V` | 5 V rail of the carrier | U9 pad 3 | 55.50, 126.06 | track on `F.Cu` | 71.15, 120.04 | 16.8 mm | As No. 1; the far end is at the input capacitors C39 and C40 of the pre-regulator |
+| 3 | `+5V` | 5 V rail of the carrier | track on `F.Cu` | 71.15, 119.00 | track on `F.Cu` | 72.80, 118.00 | 1.9 mm | The input capacitors C39 and C40 are not at the supply pins of the pre-regulator U16, and everything behind No. 2 has no supply |
+| 4 | `+5V` | 5 V rail of the carrier | track on `F.Cu` | 75.50, 103.45 | track on `F.Cu` | 72.80, 118.00 | 14.8 mm | The pre-regulator U16 has no supply: no source mode. The near end is the bulk capacitor C11, on the main part of the rail |
+| 5 | `+5V` | 5 V rail of the carrier | track on `F.Cu` | 82.76, 97.25 | track on `F.Cu` | 78.00, 94.78 | 5.4 mm | The outputs of the input multiplexer U5 do not reach the rail: the carrier has no supply at all |
+| 6 | `/Analog Rails/5V_OK` | Release signal of the supervisor of the 5 V rail | track on `F.Cu` | 108.12, 107.08 | track on `F.Cu` | 106.00, 99.75 | 7.6 mm | The supervisor U6 reaches only the +3V3_A regulator U8. The +3V3_C regulator U7, the +12 V_A regulator U13, the charge pump and the transistor Q1 at the enable of the pre-regulator never get the release |
+| 7 | `/Controller/PWR_GOOD` | Flag of the rail monitor | track on `B.Cu` | 81.12, 126.23 | track on `F.Cu` | 83.30, 125.37 | 2.3 mm | The pull-up R51 and the comparator outputs for +12 V_A and the reference (U14 pins 1 and 14) are cut off from the line to the controller: the flag stays low |
+| 8 | `/Monitors/SRC_ST` | Status output of the input multiplexer | U5 pad 8 | 82.76, 97.75 | track on `B.Cu` | 88.15, 95.77 | 5.7 mm | Channel 2 of the monitor cannot tell which input supplies the rail: R143 is never switched into the divider |
+| 9 | `/Monitors/VIN_P` | VIN behind the fuse | Q5 pad 5 | 178.88, 136.75 | R73 pad 1 | 182.55, 137.12 | 3.7 mm | The ampere pair is not connected to VIN: ampere mode has no current path |
+| 10 | `/Monitors/VIN_P` | VIN behind the fuse | track on `B.Cu` | 182.00, 140.86 | R73 pad 1 | 182.55, 137.12 | 3.8 mm | The divider of the over-voltage detector (R73) is cut off from VIN: the detector sees nothing; with it the ampere pair, which hangs on the same pad |
+| 11 | `Net-(D13-K)` | Sense node of the tracking amplifier, where R64, R65, C55 and D13 meet | R64 pad 1 | 88.30, 121.78 | track on `F.Cu` | 105.51, 134.60 | 21.5 mm | The amplifier U19 does not see the output of the linear regulator: the pre-regulator does not follow the output |
+| 12 | `Net-(D17-A)` | Gate node of the ampere pair (TP32) | track on `F.Cu` | 177.06, 137.72 | Q9 pad 4 | 175.64, 134.38 | 3.6 mm | The gate of Q9 is not driven: the ampere pair cannot close |
+| 13 | `Net-(D17-A)` | Gate node of the ampere pair (TP32) | R84 pad 1 | 177.25, 139.57 | track on `B.Cu` | 172.15, 139.25 | 5.1 mm | The gates are cut off from the charging resistor R80, from C61 and from TP32: the ampere pair cannot close |
+| 14 | `Net-(D4-A)` | Output of the USB-C limiter U4, input 1 of the multiplexer (TP2) | U5 pad 3 | 84.24, 96.75 | U5 pad 5 | 82.76, 96.25 | 1.6 mm | Input 1 of the multiplexer U5 is open: the USB-C connector cannot supply the carrier |
+| 15 | `Net-(Q1-S)` | Enable pin of the pre-regulator (TP18) | track on `F.Cu` | 70.33, 121.93 | TP18 pad 1 | 66.75, 121.25 | 3.6 mm | No function is lost: only the test point TP18 is not connected |
+| 16 | `Net-(Q12-S)` | Upper end of the 33 Ω shunt R104, at the source of Q12 | track on `F.Cu` | 161.50, 102.76 | U24 pad 5 | 155.86, 100.67 | 6.0 mm | The upper sense tap of range 1 does not reach the multiplexer: range 1 cannot be measured |
+| 17 | `Net-(RN10-R3.1)` | Logic input D6 between its series resistor and the level translator | track on `F.Cu` | 168.14, 67.42 | RN10 pad 3 | 182.95, 76.40 | 17.3 mm | D6 does not reach the level translator U38 |
+| 18 | `Net-(U11-C-)` | Negative side of the flying capacitor C19 of the charge pump | C19 pad 2 | 67.40, 142.28 | U11 pad 7 | 69.05, 142.00 | 1.7 mm | The charge pump U11 cannot pump: no −4 V_A |
+| 19 | `Net-(U11-VIN)` | Supply pin of the charge pump, behind R30 | U11 pad 1 | 70.95, 142.50 | C21 pad 1 | 72.72, 143.95 | 2.3 mm | The charge pump U11 has no supply: no −4 V_A |
+| 20 | `Net-(U14B--)` | Input of the rail monitor for −4 V_A, between R47 and R48 | C34 pad 1 | 76.78, 135.75 | track on `F.Cu` | 80.38, 135.85 | 3.6 mm | The comparator works. Its input lacks C34, the capacitor that keeps an edge of the flag from moving the threshold |
+| 21 | `Net-(U15-Vref)` | Reference input of the DAC, half the reference (TP19) | C38 pad 1 | 102.75, 124.17 | TP19 pad 1 | 102.75, 128.25 | 4.1 mm | No function is lost: only the test point TP19 is not connected |
+| 22 | `Net-(U16-FB)` | Feedback pin of the pre-regulator, driven by the amplifier U19 (TP24) | TP24 pad 1 | 83.40, 114.70 | U16 pad 3 | 75.70, 119.00 | 8.8 mm | The feedback pin of U16 is open: the pre-regulator does not regulate |
+| 23 | `Net-(U24-S4A)` | Kelvin sense line of the 0.1 Ω shunt R110 on its supply side | U24 pad 7 | 155.86, 99.38 | R110 pad 2 | 173.75, 123.08 | 29.7 mm | The whole line is missing, the net has no track: range 3, the range up to 1 A, cannot be measured |
+| 24 | `Net-(U26--)` | Pedestal, from the buffer U26 to the reference pin of the amplifier (TP41) | track on `F.Cu` | 144.45, 103.49 | track on `F.Cu` | 148.65, 94.64 | 9.8 mm | The reference pin of the amplifier U27 floats: no range gives a valid reading |
+| 25 | `/Output Stage/VOUT_S` | Node after the shunts | track on `F.Cu` | 150.14, 100.83 | track on `F.Cu` | 155.72, 111.00 | 11.6 mm | The shunts of ranges 2 and 3, C71 and the ladder clamp are joined to the rest of the node only through Nos. 25 and 26: with either open the current of ranges 2 and 3 does not reach the output switch |
+| 26 | `/Output Stage/VOUT_S` | Node after the shunts | track on `F.Cu` | 161.03, 97.63 | track on `F.Cu` | 150.14, 100.67 | 11.3 mm | As No. 25; this one also cuts the lower sense taps of ranges 0 and 1 (U24 pins 12 and 13) off from their shunts and from the output switch |
+| 27 | `/Path Switching/LDO_OUT` | Output of the linear regulator | track on `F.Cu` | 109.65, 138.38 | track on `F.Cu` | 112.16, 143.31 | 5.5 mm | The regulator U18 is cut off from the source pair (Q4), from its minimum load R69 and from the clamp D12: source mode has no current path |
+| 28 | `/Path Switching/SUPPLY` | Supply node of the ladder | U24 pad 4 | 155.86, 101.33 | track on `F.Cu` | 157.88, 106.69 | 5.7 mm | The 1 kΩ shunt R101 and its upper sense tap are cut off from the node: range 0 carries no current |
+
+To use the table in KiCad, open the board, run Inspect, Design Rules
+Checker and take the tab "Unconnected Items": it lists the same 28
+connections on the same nets, a click on an entry moves the view to it,
+and the thin ratsnest line shows the two ends to join. The coordinates of
+an entry can differ from the table, because KiCad may name another item of
+the same piece of copper: find a line by its net and by the parts named
+in its last column.
+
+Which of them matter:
+
+- 25 of the 28 break a function for as long as they are open. Three do
+  not: Nos. 15 and 21 leave a test point unconnected, and No. 20 leaves
+  one filter capacitor off its node.
+- The 5 V rail has five (Nos. 1 to 5). With No. 5 open nothing on the
+  carrier is supplied; the others take the supply from the pre-regulator,
+  the boost converter and the charge pump.
+- The node after the shunts has two (Nos. 25 and 26) and the supply node of
+  the ladder one (No. 28). Together with Nos. 9, 16, 23 and 27 they are
+  on the measured path or on its sense lines: no range and no mode works
+  with them open.
+- No. 23 is a whole Kelvin sense line of the 0.1 Ω shunt, the one on its
+  supply side, 29.7 mm in a straight line and the longest of the list. Its
+  partner on the output side is routed. It is one half of a Kelvin pair
+  and belongs to the layout review as much as to this list: section
+  10.3 of the specification asks for the pair on one layer, without vias,
+  with equal lengths.
+- Nos. 1 and 2 join two parts of the rail through the pad of a position
+  that carries no part. When they are drawn by hand, the rail goes to the
+  boost converter and to the charge pump directly, and the pad of U9 is a
+  branch of it.
+
+The connections on the 1 A path (Nos. 9, 25 to 27) are not tracks to add:
+they are part of the pours of step 2.
+
+#### 2. Review the Layout
+
+What an autorouter does not do, and what the board therefore lacks
+(section 10.8 of the specification, with the rule of section 10 behind
+each item):
 
 - Review the placement and the routed board against the rules of
-  section 10, and close every connection the autorouter left open.
+  section 10. Nobody has done that by hand.
 - Draw the 1 A path as pours and count its squares; draw the output island
-  of the linear regulator and the ground fills with their vias.
+  of the linear regulator and the ground fills with their vias. The power
+  nets are tracks of 0.5 mm or less now.
 - Draw the guard ring with its mask opening and its pour, and keep foreign
-  nets and ground fill away from the measured node.
+  nets and ground fill away from the measured node (1.0 mm from ground
+  fill to the node). Clear the bottom layer under the measured node, which
+  carries tracks now.
 - Route the Kelvin pairs and the amplifier inputs as pairs of equal length
-  on one layer without vias.
+  on one layer without vias, with taps that leave a shunt pad apart from
+  the force copper. No. 23 of the table is one of these lines.
 - Lay the loops of the pre-regulator, the boost converter and the charge
   pump on the top layer without vias, and route the reference as a star.
 - Take tracks through the wall of the shield can only at the openings of
   its frame; place the vias of the thermal pads, of the 1 A path and of the
   lands of the can.
+- Read the distances that no net class holds: the gate node of the output
+  switch 2 mm from VOUT, the converters 30 mm from the can, the copper of
+  VIN 1.0 mm from the pads of other nets. The rule file does not apply its
+  spacings to a track that touches a courtyard, so these are checked by
+  eye.
+- Give the tracks of the rails, the guard nets and the gate drivers the
+  widths of their net classes (0.4 mm for the rails, 0.5 mm and 0.3 mm
+  for the guard nets, 0.3 mm for the gate drivers); the autorouter drew
+  them 0.25 mm wide or narrower.
+- Calculate the resistance of the 1 A path from the plotted copper, and
+  that of the copper from the pre-regulator to FB1 (15 mΩ or less;
+  section 16).
 - Compare a 1:1 print with the module on its sockets, the USB-C connector,
   the terminal block, the frame of the can and one of the 1 A transistors.
+- Open the project in the KiCad editor. Until now every check ran from the
+  command line.
+- Run both checks again. The board can be ordered only when the design
+  rules check reports no violation, no difference between board and
+  schematic and no unconnected item.
 
-The open checks of section 16 of the specification:
+#### 3. File the Simulations
+
+`simulation/` is empty. The specification marks every figure that comes
+from a simulation with the word "simulated", and the circuit files of those
+simulations are not in this repository. Until they are, such a figure can
+be read but not repeated, and nobody can see which models and which corner
+cases stand behind it. What has to be filed, block by block:
+
+| Block | Section of the specification | Figures that rest on a simulation |
+| --- | --- | --- |
+| Rails, start and stop | 3, 4.7, 4.11 | Order of the rails at power-up with datasheet delays (+12 V_A above 9.85 V after 8 ms to 17 ms, PWR_GOOD about 24 ms after `5V_OK`); order at power-off; levels of the clamps between +12 V_A and −4 V_A (+0.24 V and −0.23 V, D-52); the capacitors at the inputs of the rail monitor, with an estimated pin capacitance; the instants at which firmware sees PWR_GOOD rise and fall |
+| Input stage | 4.1 | Behavioral models of the limiters, the multiplexer and the supervisor (D-47, D-48). Hot plug of a live cable (11.4 V and 12.2 V at the connector, 5.51 V or less behind the limiter); a contact that opens and closes again (25 mV to 85 mV below the 6 V rating of the multiplexer inputs); in-rush on a computer port (0.71 A to 0.87 A, 0.44 mC to 0.96 mC); USB-C plugged while the module input supplies (dip to 4.0 V to 4.5 V); the recharge pulse when the multiplexer falls back to the module input |
+| Pre-regulator loop and linear regulator | 4.2 | Phase margin of the tracking amplifier (73° to 77°, with the model of its maker) and of the converter loop (55° or more, with a behavioral model); fold-back at a short circuit (0.84 V); set-point step down (IN pin 0.44 V above the output); power returned to the 5 V rail (0.12 W to 0.20 W for about 5 ms, 0.06 W on a set-point step); the clamps D11 and D10 with C47 at power-off; source impedance at the IN pin with the damper (0.27 Ω to 0.37 Ω); the regulator on its control pin alone; sag in dropout (4.48 V into 5 Ω) |
+| Mode switches and output switch | 4.2 | A mode pair closing as a follower (supply node at about 0.9 V/ms) and opening within 1 µs; ramp of the output switch (0.44 V/ms, 90 % after about 20 ms), in-rush of 0.39 A into 1000 µF and 0.85 A into 2200 µF, largest DUT capacitance without a trip; opening in 7 µs; the gate charging current in the reading (0.5 µA at 30 ms, 4 nA at 200 ms) |
+| Shunt ladder, load step | 2 (R-07), 4.3 | Drop on a step from 1 µA to 500 mA (312 mV nominal and 422 mV worst case with 1 µF at the DUT, 169 mV and 186 mV with 10 µF); the damper of the supply node (node below 11.5 V at a trip, sag of 0.17 V to 0.21 V); the ladder clamp at a hot plug or a short circuit (8.8 A in each part, 14.2 A in one); the sweep of the multiplexer on-resistance, 125 Ω to 430 Ω |
+| Range change and trip | 4.4 | Range 3 conducting 0.35 µs after the threshold (0.20 µs to 0.51 µs) with a sequencer of 100 ns; what the blanking of 2 µs has to cover; the times behind the trip qualification (8.6 µs of recharge after a step to 1.0 A, 12 µs to 29 µs with long leads, 2.1 µs with 100 µF at the VIN terminals) |
+| Signal chain | 4.5, 4.10 | Settling after a range change (about 45 µs to 0.1 % and 65 µs to 1 LSB; 37 µs to 50 µs and 64 µs to 70 µs over the cases); phase margin of the buffer of the driver rail (54° with its 10 Ω); the converter input in overload (VREF + 0.20 V in the worst case); noise in range 0 (about 2.1 nA from a quiet supply, 26 nA to 27 nA in source mode, 1.1 nA to 3.9 nA for the mean of 100 samples) |
+| VIN protection | 4.9 | The terminal at −20 V to +20 V with the ampere pair open (less than 1 mA; the 30 V rating reached for tens of nanoseconds at the plug-in edge); a supply that steps to ±20 V with the pair closed (9.2 V and −2.4 V at the DUT); the interlock with both requests high; a pair closing on a live supply; the supply node at a trip (0.5 V or more below +12 V_A); 125 µA taken from the supply in ampere mode |
+| VOUT terminal | 4.9 | The suppressor at a trip (11.6 A forward, terminal at −0.8 V to −1.7 V, with an assumed forward curve); a charged DUT plugged into a live output (regulator input 0.32 V to 0.94 V below its output for 3 µs to 21 µs) |
+| Digital inputs | 4.8 | Clamp of the translator supply (−0.40 V at 0 °C and at 27 °C; −0.44 V with 470 Ω in place of 1 kΩ) |
+| Output switch, heat | 10.6 | About 25 mJ and 3.5 W in the output pair for milliseconds each time the output is switched on into a capacitive DUT |
+| Converter lines | 15 (D-75) | The lines of the converter driven into a dead supply for up to 0.1 ms at power-off |
+
+The list is made from a search of the specification for "simulated"; the
+specification is the reference where the two differ. Each set of files
+needs the circuit, the models with their source, the corner cases and the
+result that the specification quotes, so that a run gives the figure again.
+The models of the input stage and of the converter loop are behavioral:
+section 16 keeps those figures open until they are measured.
+
+#### 4. Close the Open Checks
+
+Section 16 of the specification, tracked in
+[`docs/checks/`](../docs/checks/README.md):
 
 - Close the component checks, part by part, each with the comparison of
-  pin numbers and land pattern with the datasheet.
+  pin numbers and land pattern with the datasheet. None is closed.
 - Before a board is ordered, without a carrier board: the risk prototypes of
   phase 1 (reaction of the range sequencer, pre-regulator with its tracking
   amplifier, start of the boost converter from a supply limited to 0.7 A),
@@ -367,14 +583,24 @@ The open checks of section 16 of the specification:
   output switch and the in-rush with a capacitor in place of the DUT.
 - Decide the three positions without parts on the bench.
 
-The rest:
+#### 5. With the Firmware
 
 - Write the PIO programs of the range sequencer and of the acquisition, and
-  test them in an emulator.
-- Put the simulation files behind the figures of the specification into
-  `simulation/`; the directory is empty.
+  test them in an emulator. Until they exist the pin assignment of the
+  controller is provisional, and a change of it changes the Controller
+  sheet and the board.
+- The firmware rules that guard hardware (F-1 to F-36, section 6.6 of the
+  specification) are part of this design: several limits of the carrier
+  hold only with them. None is implemented; the
+  [firmware guide](../firmware/README.md) says what exists.
+
+#### After Every Change
+
 - Plot the pictures of `doc/` again after every change to the schematic or
   the board; the commands are at the end of [`doc/README.md`](doc/README.md).
+  Export the bill of materials again after a change to the schematic.
+- After a change to the schematic, check that the nets of the 1 A path
+  still have their net class, and run both checks.
 
 ## Design References
 
