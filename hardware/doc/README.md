@@ -5,14 +5,23 @@ design can be read without KiCad. The complete schematic is also in
 [`schematic.pdf`](schematic.pdf).
 
 Draft A2 is a review draft. Its schematic passes the electrical rules check
-of KiCad, and its netlist was checked independently against datasheets.
-The parts are candidates, no component check is closed, and nothing was
-built or measured: every figure below is a datasheet value, a calculation, a
-simulation or an estimate, as marked. The board is an autorouted draft that
-needs a layout review before fabrication. The status and the open work are
-in the [hardware README](../README.md); the reasons behind every value are
-in the [specification](../../docs/specification.md), whose sections are
-named with each sheet.
+of KiCad with no errors and no warnings, and its netlist was checked
+independently against datasheets. The parts are candidates, no component
+check is closed, and nothing was built or measured: every figure below is a
+datasheet value, a calculation, a simulation or an estimate, as marked. The
+files of the simulations are not in the repository yet. The board is an
+autorouted draft: it passes the design rules check with no violation, 28 of
+its 984 connections are open, and it needs a layout review before
+fabrication. The status and the open work, with the open connections one
+by one, are in the [hardware README](../README.md); the reasons behind
+every value are in the [specification](../../docs/specification.md), whose
+sections are named with each sheet.
+
+The pages, the PDF and the pictures of the board are plotted from the
+files as they are now: the fifteen pages and the PDF on 2026-10-09, after
+the notes of the sheets were compared with the specification, and the
+pictures of the board on 2026-10-10. The text of each section below was
+read against its picture, notes included.
 
 ## Schematic
 
@@ -43,8 +52,9 @@ monitor has one output, `PWR_GOOD`.
 ### 2. Controller
 
 The Raspberry Pi Pico 2 (U1) on its two sockets (MP1, MP2), the
-only programmable part of the instrument. Sections 4.11 and 5 of the
-specification describe it.
+only programmable part of the instrument. An RP2350 of stepping A3 or A4 is
+preferred (decision D-82). Sections 4.11 and 5 of the specification
+describe it.
 
 - Left side of the module: the console header J1 on GP0 and GP1, the
   reset button SW1 on the RUN pin, and the lines of the range sequencer,
@@ -76,8 +86,12 @@ and address lines are on the sheets of their receivers.
 The series resistors limit what a pin can push into an input whose supply
 is absent: 1.39 mA into a slow SPI input and 1.90 mA into the select of the
 DAC at the tolerance limits, against a rating of 2 mA (calculated; datasheet
-value). R1 and R4 keep the two status lines true if a pin is set as
-an output by mistake.
+value). The slow SPI bus runs at 500 kHz or less. R1 and R4 keep the two
+status lines true if a pin is set as an output by mistake: the detector
+line then moves by 0.14 V at the most, and `PWR_GOOD` carries 3.3 mA at the
+most, against 25 mA that the comparators driving it are rated for
+(calculated; datasheet value). Firmware never sets GP1, GP8 to GP12, GP16,
+GP17 or GP28 as an output (rule F-4).
 
 ![Controller](images/schematic-02-controller.png)
 
@@ -93,20 +107,24 @@ connects one of them to the 5 V rail (section 4.1, decision D-47).
   the limit to 2.0 A, 1.81 A to 2.17 A with the tolerances (calculated).
   With an input above 5.54 V to 5.83 V it clamps its output at 5.28 V to
   5.61 V (datasheet values; R12 selects that level), and C4 sets the
-  ramp of its output. TP3 shows the input current, 0.297 V per ampere
+  ramp of its output to 13 V/ms after a turn-on delay of about 0.25 ms
+  (datasheet, typical). TP3 shows the input current, 0.297 V per ampere
   (calculated).
 - Behind the limiter: the damper R20, C9, C10 and C7, which
   take the ring of a contact that closes, and the Schottky diode D4
   across the limiter, which returns their charge when the plug is pulled.
 - Middle: the two CC lines with their 5.1 kΩ pull-downs (R7, R11) and
   the ESD array U2. They leave the sheet to the monitor converter, where
-  firmware reads what the source offers.
+  firmware reads what the source offers: below 0.61 V a default USB port,
+  0.70 V to 1.16 V a source of 1.5 A, 1.31 V to 2.04 V a source of 3 A.
 - Bottom row: `PICO_5V`, the USB voltage of the controller module, with the
   second limiter U3. It is the same circuit with a limit of 0.76 A,
   0.67 A to 0.85 A with the tolerances (calculated, R13), and without a
-  ramp capacitor. R17 defines its output while the jumper is open. The
-  crossed parts R14 and C5 are a position for a second damper, to be
-  fitted if the bench shows the need (decision D-84).
+  ramp capacitor: its turn-on delay is about 0.08 ms (datasheet, typical).
+  R17 defines its output while the limiter is off or the jumper is open.
+  The crossed parts R14 and C5 are a position for a second damper, 0.33 Ω
+  and 10 µF, to be fitted if the bench shows more than 6.0 V at TP4 when
+  the data cable is plugged again (decision D-84).
 - Right: the multiplexer U5. It drives `+5V` from the USB-C limiter
   while that output is above 2.15 V to 2.59 V (calculated; R18, R19,
   delayed by C8), otherwise from the module input, and it blocks reverse
@@ -137,7 +155,9 @@ The supervisor of the 5 V rail and the two 3.3 V regulators that it enables
   (calculated from datasheet limits; R24 selects the delay).
 - `5V_OK` is the enable input of U7, which makes `+3V3_C` for the logic
   of the carrier, and of U8, which makes `+3V3_A` for the converter, the
-  comparators, the DAC and the reference. It leaves the sheet to the
+  comparators, the DAC, the monitor converter and the reference. The
+  driver of the converter is not on this rail: it runs from the driver
+  rail of the Signal Chain sheet. `5V_OK` leaves the sheet to the
   +12 V regulator, to the charge pump and to the transistor at the enable
   pin of the pre-regulator. The carrier therefore has one off state, which
   it reaches without firmware and in which only `+5V` and `+13V5` are up.
@@ -227,21 +247,24 @@ D-58).
   the 5 V rail, in forced PWM. Its enable pin has R53 to ground and gets
   the request `SMU_ON` of the controller through Q1, whose gate is
   `5V_OK`: the converter runs only while the controller asks for it and the
-  5 V rail is valid.
+  5 V rail is valid. With the rail at 4.25 V the pin still gets 2.36 V
+  (calculated; the gate threshold of Q1 is an estimate), against the 1.2 V
+  it needs (datasheet value).
 - Top right: the difference amplifier U19 with the 0.1 % resistors R63
   to R68 drives the feedback pin of the converter, so that
   `V_PRE` = 0.672 V + 0.956 × the output of the linear regulator
   (calculated). The pre-regulator follows the output, not the set-point,
   because the linear regulator cannot sink current: its input stays above
-  its output also when a DUT holds the output up. R65 with C55 is a
-  low-pass of 0.62 ms in the sense path, and one diode of D13 across
-  R65 lets a rise of the output through at once.
+  its output also when a DUT holds the output up. R65 and C55, loaded by
+  R64, are a low-pass of 0.62 ms in the sense path (calculated), and one
+  diode of D13 across R65 lets a rise of the output through at once.
 - `V_PRE` carries C42, C45 and C50 and the bleeder R62, which empties
   them while the converter is off. The bead FB1, C46 and the damper
   C43 with R59 filter it for the linear regulator.
 - Bottom right: the linear regulator U18. Its control pin is fed from
   `+13V5` through R61 and one diode of D10, with C47 at the pin.
-  D11 clamps its input to its output and D12 its output to ground.
+  D11 clamps its input to its output, and D12 keeps its output above
+  about −0.2 V (estimate).
   R69 to `-4V_A` is the minimum load, 3.7 mA at 0.8 V and 6.9 mA at 5.0 V
   (calculated); it sits ahead of the shunts and is not measured. C53 and
   C54 are the output capacitors.
@@ -249,9 +272,9 @@ D-58).
   input is half the reference, from R55 and R56. R54 with C41
   filters its output with 10 ms, and the amplifier U17 with a gain of
   2.1 (R57, R58) drives the SET pin of the regulator through R60.
-  The output is 0.01 V to 5.26 V in steps of 1.28 mV; no SPI frame can
-  command more than 5.26 V nominal and 5.39 V at the tolerance limits
-  (calculated).
+  The output is 0.01 V to 5.26 V in steps of 1.28 mV, before calibration
+  10 mV + code × 1.2817 mV; no SPI frame can command more than 5.26 V
+  nominal and 5.39 V at the tolerance limits (calculated).
 
 The source delivers 1.0 A up to 2.0 V, falling in a straight line to 0.6 A
 at 5.0 V (R-08; calculated, a design figure until it is measured on several
@@ -291,7 +314,8 @@ decisions D-60 to D-63).
   suppressor D14 and the detector U21. The detector compares VIN,
   divided by R73 and R74, with the reference; R76 gives the
   hysteresis and D15 clamps its input. It trips at 5.46 V, 5.41 V to
-  5.51 V with the tolerances, and releases at 5.35 V (calculated).
+  5.51 V with the tolerances, and releases at 5.35 V, 5.30 V to 5.40 V
+  (calculated). It is not latched.
 - Right: the supply node with C62 and the damped branch C63, R87,
   which take the current of the supply leads when the over-current trip
   opens the output.
@@ -322,13 +346,18 @@ shunts (sections 4.3 and 4.4, decisions D-66 to D-68).
 - Top left: the gate drivers U22 and U23 on `+12V_A`. Each input has
   1 kΩ to ground and 1 kΩ in series, so that every switch is open without
   the controller and a line that is high without `+12V_A` feeds 2.7 mA into
-  an input (calculated). Each range gate has 100 kΩ to ground (R103, R106
-  and R109) and no resistor to its source, which would bypass a shunt. The
-  second half of U22 drives the output switch of the next sheet.
+  an input, 2.9 mA at the tolerance limits (calculated). Each range gate
+  has 100 kΩ to ground (R103, R106 and R109) and no resistor to its
+  source, which would bypass a shunt. The second half of U22 drives the
+  output switch of the next sheet.
 - Left: the ladder clamp Q10, Q11, two MOSFETs with gate and drain on
   the supply node and the source on the node after the shunts. Below their
   threshold they are off; in a hot plug or a short circuit they carry the
-  surge until range 3 conducts and bound the ladder at about 4 V. R90,
+  surge until range 3 conducts and bound the ladder at about 4 V: 8.8 A in
+  each, 14.2 A in one part with the thresholds at opposite limits
+  (simulated), against a pulsed rating of 21 A (datasheet value). A charged
+  DUT on a lower output discharges through their body diodes with 12.5 A
+  each at the most (estimate). R90,
   100 kΩ from the supply node to ground, sets the idle level and is the
   bias return of the amplifier.
 - Right: the dual multiplexer U24 takes both sense taps of the active
@@ -339,10 +368,14 @@ shunts (sections 4.3 and 4.4, decisions D-66 to D-68).
   supply.
 
 The range state lives in the controller as a PIO state machine; this sheet
-is what it drives. The leakage across the ladder has a budget of 100 nA at
-100 mV and 40 °C, which no datasheet figure bounds: it is an open check,
-and the clamp type stays a candidate until it is closed. Test points TP34
-to TP36 are on the three range gates.
+is what it drives. On a jump, range 3 conducts 0.35 µs after the threshold
+(simulated, typical), and on a step from 1 µA to 500 mA the voltage from
+the supply node to VOUT drops by 312 mV with 1 µF at the DUT and by 169 mV
+with 10 µF (simulated, nominal), against limits of 0.5 V and 0.25 V (R-07).
+The leakage across the ladder has a budget of 100 nA at 100 mV and 40 °C,
+which no datasheet figure bounds: it is an open check, and the clamp type
+stays a candidate until it is closed. Test points TP34 to TP36 are on the
+three range gates.
 
 ![Shunt ladder](images/schematic-09-shunt-ladder.png)
 
@@ -370,7 +403,10 @@ D-72).
   Behind R119 its output is `VOUT_BUF`, which drives the guard ring and
   the VOUT channel of the monitor. Behind R118 it is `VCCB_SRC`, the
   supply of the DUT side of the level translator, so that this current does
-  not come from the DUT.
+  not come from the DUT. Two Schottky diodes on the Digital Inputs sheet
+  hold that supply between −0.40 V (simulated) and 6.0 V (calculated) with
+  the buffer at either of its rails, inside the −0.5 V and 6.5 V that the
+  translator allows (datasheet value).
 
 For 250 ms after the switch closes, the charging current of its gate lowers
 the reading, by 0.5 µA at 30 ms and 4 nA at 200 ms (simulated); the host
@@ -398,15 +434,19 @@ From the sense taps of the active shunt to the 16-bit converter (sections
   two-pole filter at 40 kHz.
 - Top: the driver rail `VDRV`. The buffer U28 with R127 and R124
   makes 1.091 × the reference, 2.73 V, and feeds the driver and the cathode
-  of the clamp through R129. While the buffer is supplied the converter
+  of the clamp through R129, behind which the rail stands at about 2.68 V
+  (calculated; TP42). While the buffer is supplied the converter
   input cannot pass the reference by more than 0.25 V, against a rating of
   0.3 V, and no clamp current flows into the reference (calculated;
   datasheet value).
 - Right: the converter U30 with the input network R130, C90 and one
   reference capacitor, C89, behind R131. RN5 puts 220 Ω in its
-  clock, data and convert-start lines. A PIO state machine of the
-  controller makes the convert-start pulse and the 16 clock pulses of every
-  sample; the rising edge of convert-start is the sampling instant.
+  clock, data and convert-start lines, which keeps the current into the
+  supply pin at 6 mA to 10 mA peak, 11.3 mA at the tolerance limits, when
+  the controller drives the lines while `+3V3_C` is off (calculated). A PIO
+  state machine of the controller makes the convert-start pulse and the 16
+  clock pulses of every sample; the rising edge of convert-start is the
+  sampling instant.
 - Top right: the frame SH1 and the cover MP3 of the shield can over
   the multiplexer, the amplifier, the converter and the shunts of ranges 0
   to 2.
@@ -526,8 +566,16 @@ resistor and 100 nF at its pin.
 The scale factors are calculated from the nominal resistor values. Channel 2
 also tells which input supplies the rail: the status output of the input
 multiplexer switches R143 into the divider while the module input
-supplies, and firmware separates the two bands at 1.67 V (calculated). No
-channel reads a 3.3 V rail.
+supplies, and firmware separates the two bands at 1.67 V (calculated). On
+channel 1 one count is 27 mV of VIN, and a reversed supply reads below
+0.13 V (calculated). No channel reads a 3.3 V rail.
+
+Firmware converts every channel at 100 SPS, because a faster scan loads
+the dividers of channels 0, 2 and 7: 0.97 count of error at 100 SPS and
+4.9 counts at 1 kSPS (calculated). There is one exception: in source mode
+with the output on, channel 0 is also read as often as the reaction of
+0.5 ms to 5.3 V on VOUT asks, and those readings serve that comparison
+alone (rule F-10).
 
 ![Monitors](images/schematic-15-monitors.png)
 
@@ -535,14 +583,21 @@ channel reads a 3.3 V rail.
 
 Outline 150 mm × 100 mm, four copper layers, four M3 holes. All 425
 footprints are on the top side, placed by a script inside the areas of
-their functional blocks, and the tracks are drawn by an autorouter. It is a
-draft that needs a layout review before fabrication: the
-[hardware README](../README.md) describes how it was made and what the
-review still has to do.
+their functional blocks, and the tracks are drawn by an autorouter. The
+design rules check of KiCad reports no rule violation and no difference
+between board and schematic, and 28 unconnected items. It is a draft that
+needs a layout review before fabrication: the
+[hardware README](../README.md) describes how it was made, lists the 28
+open connections one by one and says what the review still has to do.
+Nobody has reviewed the placement or the tracks by hand, and the project
+has not been opened in the KiCad editor.
 
-![Perspective view of the board](images/board-3d.jpg)
+The two views below are renderings from the board file, with the Pico 2 on
+its sockets. They are not photographs: no board has been built.
 
-![Top view of the board](images/board-top.jpg)
+![Rendered perspective view of the board](images/board-3d.jpg)
+
+![Rendered top view of the board](images/board-top.jpg)
 
 The areas of the sixteen blocks, as drawn on the `Dwgs.User` layer. The back
 of the instrument is the left edge: the Raspberry Pi Pico 2 lies along the
@@ -556,15 +611,29 @@ pads only.
 
 ![Placement of the functional blocks](images/board-placement.png)
 
-The three routing layers of the board: the top layer with all parts, the
-inner layer for power and signals, and the bottom layer. The ground plane
-on `In1.Cu` is solid and is left out of the picture, because it would
-cover the others.
+The three routing layers of the board: the top layer `F.Cu` with all parts
+in red, the inner layer `In2.Cu` for power and signals in orange, and the
+bottom layer `B.Cu` in blue. The ground plane on `In1.Cu` is solid and is
+left out of the picture, because it would cover the others. The picture
+shows what the review has to change: the power nets are thin tracks where
+section 10 of the specification asks for pours, and no guard ring
+surrounds the measured node inside the dashed frame of the shield can.
 
 ![The three routing layers](images/board-copper.png)
 
 956 of the 984 connections are routed, with 7.83 m of track and 499 vias;
-28 connections are open and are listed by the design rules check.
+28 connections are open and are listed by the design rules check. The
+copper picture does not show them: it draws copper, not the missing
+links. The next picture does. Every open connection is a link between its
+two ends over the pale copper, with the number it has in the table of the
+[hardware README](../README.md#still-to-do), which gives the net, both
+ends, the place and the effect of each.
+
+![The 28 open connections of the board](images/board-open-connections.png)
+
+25 of them break a function while they are open: the 5 V rail is in
+pieces, neither the source path nor the ampere path is complete, and one
+of the two Kelvin sense lines of the 0.1 Ω shunt has no track.
 
 ## Making the Pictures Again
 
@@ -580,6 +649,13 @@ kicad-cli pcb export svg --output board-copper.svg --layers F.Cu,In2.Cu,B.Cu,Edg
 
 The page images are the pages of the PDF at 160 dpi, for example from
 `pdftoppm -r 160 -png`, named after their sheets. The placement drawing is
-the exported SVG converted to PNG, and so is the copper drawing. The
+the exported SVG converted to PNG and cropped to the board, and so is the
+copper drawing. The bill of materials, [`bom.csv`](bom.csv), is exported
+with the command given in the [hardware README](../README.md). The
 pictures here were plotted with KiCad set to English: on the root page the
 label "File:" of every sheet follows the language of KiCad.
+
+The picture of the open connections is the copper drawing made pale, with
+one link for each unconnected item of the design rules report. It is made
+again whenever the report changes, and it goes away when the last
+connection is closed.

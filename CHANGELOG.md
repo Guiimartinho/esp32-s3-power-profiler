@@ -79,6 +79,18 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
 - **docs:** one list of the firmware rules that guard hardware, in section
   6.6 of the specification, with the hardware watchdog of the controller as
   the last line of defense (D-81).
+- **docs:** the README states where every area of the project stands and
+  the next steps in their order, and shows the routed layers, the open
+  connections, the placement and the check results of draft A2.
+- **hardware:** the bill of materials of draft A2 is filed as
+  `hardware/doc/bom.csv`: 151 lines, each with a part number and a maker.
+- **docs:** the hardware guide lists the 28 open connections of the
+  board one by one, with what each breaks while it is open and a map of
+  them, and the simulations whose files have to be filed.
+- **docs:** the firmware, host and protocol guides compare the code with
+  what the specification of draft A2 asks, item by item, and give the next
+  steps of each area; the pages on calibration, tools and test reports say
+  what the specification defines today and what is not written.
 
 ### Changed
 
@@ -168,8 +180,15 @@ Each entry starts with the area it affects: **firmware**, **hardware**,
   and the reference designators are numbered anew for it by the rule of
   D-45.
 - **docs:** the table of open component checks follows section 16 of the
-  specification for draft A2, and the README states the status and the
-  roadmap of that draft.
+  specification for draft A2, and the documentation index gives the state
+  of every document and the work that comes next.
+- **docs:** section 16 of the specification lists the points of its
+  sections 6 to 8 that are not decided yet: how the calibration record
+  travels, reports without a place in the protocol, where three stored
+  constants live, the evaluation step of two firmware rules and a fault
+  during start-up.
+- **repo:** the contributing guide and the issue and pull request forms
+  follow the present state: the Pico 2, draft A2, checks started by hand.
 
 ### Removed
 

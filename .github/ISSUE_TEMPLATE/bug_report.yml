@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem in the firmware, hardware, host software or documentation.
+description: Report a problem in the firmware, hardware design, host software, protocol or documentation.
 labels: ["bug"]
 body:
   - type: markdown
@@ -7,6 +7,13 @@ body:
       value: |
         Thanks for taking the time to report a problem. Please search the
         existing issues first to avoid duplicates.
+
+        The project is in early development. The carrier board exists as
+        draft A2, a review draft that has not been built, and the firmware
+        is not ported to the Raspberry Pi Pico 2 yet. A report today is
+        most likely about the design files (schematic, board), the
+        specification, the firmware core and its unit tests, the protocol
+        definition, or the host package with its simulated instrument.
   - type: dropdown
     id: area
     attributes:
@@ -15,8 +22,9 @@ body:
         - Firmware
         - Hardware
         - Host software
+        - Protocol
         - Tools
-        - Documentation
+        - Documentation or specification
     validations:
       required: true
   - type: textarea
@@ -30,7 +38,11 @@ body:
     id: reproduce
     attributes:
       label: Steps to reproduce
-      description: The setup and the exact steps that show the problem.
+      description: >-
+        The setup and the exact steps that show the problem. For a problem
+        in the design files, name the schematic sheet and the reference
+        designator, or the section, requirement (R-xx), decision (D-xx) or
+        firmware rule (F-xx) of docs/specification.md.
       placeholder: |
         1.
         2.
@@ -42,14 +54,21 @@ body:
     attributes:
       label: Versions and setup
       description: >-
-        Firmware version or commit, hardware revision, host software version,
-        operating system, and the device under test if it matters.
+        Commit of the repository; draft or revision of the carrier board
+        (for example draft A2); host software version, Python version and
+        operating system; KiCad version for a problem in the design files.
+        With hardware on the bench: the Pico 2 and the stepping of its
+        RP2350, the firmware commit, and the device under test if it
+        matters.
     validations:
       required: false
   - type: textarea
     id: evidence
     attributes:
       label: Logs, captures or measurements
-      description: Paste logs, or attach capture files and oscilloscope screenshots.
+      description: >-
+        Paste logs or the output of a failing check, or attach capture
+        files and oscilloscope screenshots. For a figure, say whether it is
+        measured, simulated, calculated or taken from a datasheet.
     validations:
       required: false

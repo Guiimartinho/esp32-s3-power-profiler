@@ -10,8 +10,9 @@ body:
         - Firmware
         - Hardware
         - Host software
+        - Protocol
         - Tools
-        - Documentation
+        - Documentation or specification
         - Several areas
     validations:
       required: true
@@ -26,7 +27,11 @@ body:
     id: proposal
     attributes:
       label: Proposed change
-      description: What should change, in as much detail as you have.
+      description: >-
+        What should change, in as much detail as you have. For a part of
+        the carrier board, name the schematic sheet and the reference
+        designator of draft A2. Give the source of every figure: a
+        datasheet, a calculation, a simulation or a measurement.
     validations:
       required: true
   - type: textarea
@@ -34,8 +39,11 @@ body:
     attributes:
       label: Impact on the specification
       description: >-
-        Sections, requirements (R-xx) or decisions (D-xx) of
-        docs/specification.md that would change. Leave empty if there are none.
+        Sections, requirements (R-xx), decisions (D-xx) or firmware rules
+        (F-xx) of docs/specification.md that would change, and whether the
+        change touches the host protocol, the pin map of the Pico 2 or the
+        calibration format, which makes it a breaking change. Leave empty
+        if there are none.
     validations:
       required: false
   - type: textarea
