@@ -1,0 +1,336 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "detector",
+ "title": "The over-voltage detector of VIN: levels with tolerances and reaction time",
+ "covers": "section 4.9 (over-voltage detector, D-60, D-43), requirement R-09, section 16",
+ "summary": "VIN ramps slowly through the two levels of the detector, then steps above them. The slow ramp, 5 V/s up and down, gives the level at which the output VIN_OV rises and the one at which it falls. It is run with nominal parts and with four sets of tolerances: the divider resistors at 0.1 %, the feedback resistor at 1 %, the reference at 0.1 %, the offset of the comparator at 10 mV either way, its own hysteresis at 1 mV and 5 mV, and the 3.3 V rail, which is the high level of the output, at 3 %. The steps show how long the detector needs: its input has a filter of 53 us, so the time depends on how far the step passes the level. The ampere request is high in the step runs, with nothing connected behind the pair.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "trip",
+   "label": "VIN at which the detector output rises, nominal parts",
+   "value": 5.464589,
+   "unit": "V",
+   "expected": 5.46,
+   "low": 5.41,
+   "high": 5.51,
+   "source": "section 4.9: 5.46 V (5.41 V to 5.51 V), calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "release",
+   "label": "VIN at which the detector output falls, nominal parts",
+   "value": 5.344542,
+   "unit": "V",
+   "expected": 5.35,
+   "low": 5.3,
+   "high": 5.4,
+   "source": "section 4.9: 5.35 V (5.30 V to 5.40 V), calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis",
+   "label": "Hysteresis at the terminal, nominal parts",
+   "value": 0.1200468,
+   "unit": "V",
+   "expected": 0.11,
+   "low": null,
+   "high": null,
+   "source": "section 4.9: 5.46 V less 5.35 V",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_high",
+   "label": "Highest trip level with the tolerances",
+   "value": 5.500837,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.51,
+   "source": "section 4.9: 5.51 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_low",
+   "label": "Lowest trip level with the tolerances",
+   "value": 5.428845,
+   "unit": "V",
+   "expected": null,
+   "low": 5.41,
+   "high": null,
+   "source": "section 4.9: 5.41 V at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "release_high",
+   "label": "Highest release level with the tolerances",
+   "value": 5.383292,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.4,
+   "source": "section 4.9: 5.40 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "release_low",
+   "label": "Lowest release level with the tolerances",
+   "value": 5.305789,
+   "unit": "V",
+   "expected": null,
+   "low": 5.3,
+   "high": null,
+   "source": "section 4.9: 5.30 V at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_least",
+   "label": "Smallest hysteresis at the terminal with the tolerances",
+   "value": 0.1118013,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "the detector must not chatter",
+   "verdict": "pass"
+  },
+  {
+   "key": "reports_5p6v",
+   "label": "Step to 5.6 V: output high after the terminal passes the trip level",
+   "value": 8.179094e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_5p6v",
+   "label": "Step to 5.6 V: gate-source voltage of the ampere pair below 1.5 V after",
+   "value": 8.181147e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "fail"
+  },
+  {
+   "key": "reports_6v",
+   "label": "Step to 6 V: output high after the terminal passes the trip level",
+   "value": 3.427386e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_6v",
+   "label": "Step to 6 V: gate-source voltage of the ampere pair below 1.5 V after",
+   "value": 3.43362e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "reports_8v",
+   "label": "Step to 8 V: output high after the terminal passes the trip level",
+   "value": 9.706133e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_8v",
+   "label": "Step to 8 V: gate-source voltage of the ampere pair below 1.5 V after",
+   "value": 9.76235e-06,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "reports_12v",
+   "label": "Step to 12 V: output high after the terminal passes the trip level",
+   "value": 4.322871e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_12v",
+   "label": "Step to 12 V: gate-source voltage of the ampere pair below 1.5 V after",
+   "value": 4.357315e-06,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "reports_20v",
+   "label": "Step to 20 V: output high after the terminal passes the trip level",
+   "value": 2.283275e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opens_20v",
+   "label": "Step to 20 V: gate-source voltage of the ampere pair below 1.5 V after",
+   "value": 2.319811e-06,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "fail"
+  },
+  {
+   "key": "clamp_current",
+   "label": "Step to 20 V: current of the clamp D15 into 3V3_A at the end",
+   "value": 9.894795e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.000175,
+   "source": "section 4.9: 0.17 mA at 20 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_high",
+   "label": "Step to 20 V: detector input above 3V3_A at the most",
+   "value": 0.6984587,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "rating of the comparator input, supply plus 1.0 V (Microchip DS20002139E, page 3)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The comparator is a behavioral model with a delay of 47 ns whatever the overdrive; its offset and its hysteresis are set to the limits of its datasheet in the tolerance runs. Drift with temperature is not in them.",
+  "The tolerance of the 3.3 V rail, 3 %, is an assumption; it moves the release level by 3.5 mV. The reference is taken at 0.1 %.",
+  "The reaction time is set by the filter at the detector input (53 us with the divider) and by how far the step passes the level. The specification states 4 us to 45 us without the step it holds for: a step to 5.6 V takes longer, a step to 20 V less. The 45 us hold for steps to about 5.8 V or more. Neither end is a hazard by itself: the slow case is the one that passes the level by little. In these runs nothing is connected behind the pair and the supply has no leads; the bench overvoltage shows what reaches a load.",
+  "The clamp current is the current in the diode toward 3V3_A; the rest of the 0.14 mA that R73 carries at 20 V flows through R74."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP6561",
+   "vendor"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

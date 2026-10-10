@@ -1,0 +1,16 @@
+* IRLML0030: gate charge
+.include "../../models/mosfets.lib"
+MQ12 d g s IRLML0030
+* the load is a current source clamped to the drain supply, as in the
+* gate charge test of a datasheet
+.model DCLAMP D(IS=1e-9 N=1 RS=5m CJO=20p)
+Vs s 0 0
+Vdd dd 0 15
+Iload dd d 4
+Dclamp d dd DCLAMP
+Ig 0 g PULSE(0 0.001 1u 1n 1n 1 2)
+Rg g 0 1e9
+.control
+tran 2.85e-09 1.14e-05
+.endc
+.end

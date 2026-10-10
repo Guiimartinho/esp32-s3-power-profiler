@@ -1,0 +1,172 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "enable",
+ "title": "The enable pin of the pre-regulator behind Q1, over the 5 V rail",
+ "covers": "section 4.2 (enable), decision D-48",
+ "summary": "Q1 with its resistors is taken alone and the 5 V rail is swept from 0 V to 5.5 V. The gate of Q1 is the line 5V_OK, which R25 pulls up to the rail against the divider of the charge pump and the enable inputs of the two 3.3 V regulators. The controller holds SMU_ON at 3.3 V. The sweep gives the voltage of the enable pin at the nominal rail, at 4.25 V and at the lowest threshold of the supervisor, with a typical transistor and with the threshold at both limits of its datasheet. One more sweep holds SMU_ON low.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "gate_share",
+   "label": "Line 5V_OK as a share of the 5 V rail, at 5 V",
+   "value": 94.33962,
+   "unit": "%",
+   "expected": 94.34,
+   "low": 93.0,
+   "high": 95.5,
+   "source": "calculated from R25, R27, R28 and the two pull-downs of 1 Mohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_5v_typical",
+   "label": "Enable pin at 5 V on the rail, typical threshold of Q1",
+   "value": 3.15739,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_5v_low",
+   "label": "Enable pin at 5 V on the rail, low threshold of Q1",
+   "value": 3.176292,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_5v_high",
+   "label": "Enable pin at 5 V on the rail, high threshold of Q1",
+   "value": 3.057567,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_4p25v_typical",
+   "label": "Enable pin at 4.25 V on the rail, typical threshold of Q1",
+   "value": 2.776455,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_4p25v_low",
+   "label": "Enable pin at 4.25 V on the rail, low threshold of Q1",
+   "value": 3.146936,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_4p25v_high",
+   "label": "Enable pin at 4.25 V on the rail, high threshold of Q1",
+   "value": 2.380601,
+   "unit": "V",
+   "expected": 2.36,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_3p83v_typical",
+   "label": "Enable pin at 3.83 V on the rail, typical threshold of Q1",
+   "value": 2.393882,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_3p83v_low",
+   "label": "Enable pin at 3.83 V on the rail, low threshold of Q1",
+   "value": 2.963865,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_3p83v_high",
+   "label": "Enable pin at 3.83 V on the rail, high threshold of Q1",
+   "value": 1.999156,
+   "unit": "V",
+   "expected": 1.96,
+   "low": 1.2,
+   "high": null,
+   "source": "section 4.2: 2.36 V at 4.25 V and 1.96 V at the lowest supervisor threshold (calculated, with an estimate of the gate threshold), against 1.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "enable_off",
+   "label": "Enable pin with SMU_ON low, rail at 5 V",
+   "value": 0.0,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.4,
+   "source": "SLVS916I, page 6: low below 0.4 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "pin_current",
+   "label": "Current that the pin SMU_ON delivers, rail at 5 V, typical transistor",
+   "value": 0.00315739,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The supervisor is not in this circuit: its output is released for the whole sweep, so the curve shows what Q1 passes, not when the supervisor lets it. Below its threshold the supervisor pulls 5V_OK low and the pin is at 0 V.",
+  "The converter takes no current at its enable pin that counts (0.1 uA at the most, datasheet) and is left out; R53 is the load.",
+  "The three models of Q1 differ in the threshold alone: 0.5 V, typical and 1.5 V at 250 uA (datasheet limits at 25 C). The pin of the controller is 3.3 V behind 33 ohm (assumption)."
+ ],
+ "models": [
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138_HI",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138_LO",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

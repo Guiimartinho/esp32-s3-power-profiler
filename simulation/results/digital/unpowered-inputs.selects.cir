@@ -1,0 +1,62 @@
+* Both selects driven high into a dead analog rail
+.include "../../models/digital.lib"
+R3 dac_cs_mid c_dac_cs 1500
+XU8 v5 v3a 0 DIGITAL_LP5907_OFF
+C17 v3a 0 1e-06
+RRN1_1 gp12 c_miso 2200
+RRN1_2 gp13 c_mon_cs 2200
+RRN1_3 gp14 c_sck 2200
+RRN1_4 gp15 c_mosi 2200
+RRN2_1 c_miso 0 4700
+RRN2_2 gp13 v3a 4700
+RRN2_3 gp14 0 4700
+RRN2_4 gp15 0 4700
+RRN3_1 gp19 0 4700
+RRN3_2 gp20 0 4700
+RRN3_3 gp21 0 4700
+RRN3_4 gp22 v3a 4700
+RRN4_1 gp19 adc_sck 47
+RRN4_2 gp20 adc_cnv 47
+RRN4_3 gp21 side_load 47
+RRN4_4 gp22 dac_cs_mid 47
+XU15_1 c_dac_cs v3a 0 DIGITAL_INPUT_PIN
+XU15_2 c_sck v3a 0 DIGITAL_INPUT_PIN
+XU15_3 c_mosi v3a 0 DIGITAL_INPUT_PIN
+XU40 ch0 ch1 ch2 ch3 ch4 ch5 ch6 ch7 0 c_mon_cs c_mosi c_miso c_sck 0 vref v3a DIGITAL_MCP3208
+C102 v3a 0 1e-07
+C111 v3a 0 1e-07
+C112 v3a 0 1e-06
+* the 3.3 V rail of the module, an ideal source
+Viovdd iovdd 0 3.3
+* the 5 V rail stands; the analog rail and the reference have no supply
+Vrail v5 0 5
+Vref vref 0 0
+* pads of the controller: driven high at 20 us, or held low
+Xgp13 gp13 gp13_ctl gp13_oe iovdd 0 DIGITAL_RP2350_PAD roh=30 rol=30 cpad=5e-12 e9=0
+Vgp13_ctl gp13_ctl 0 PWL(0 0 2e-05 0 2.001e-05 1)
+Vgp13_oe gp13_oe 0 1
+Xgp22 gp22 gp22_ctl gp22_oe iovdd 0 DIGITAL_RP2350_PAD roh=30 rol=30 cpad=5e-12 e9=0
+Vgp22_ctl gp22_ctl 0 PWL(0 0 2e-05 0 2.001e-05 1)
+Vgp22_oe gp22_oe 0 1
+Xgp14 gp14 gp14_ctl gp14_oe iovdd 0 DIGITAL_RP2350_PAD roh=30 rol=30 cpad=5e-12 e9=0
+Vgp14_ctl gp14_ctl 0 0
+Vgp14_oe gp14_oe 0 1
+Xgp15 gp15 gp15_ctl gp15_oe iovdd 0 DIGITAL_RP2350_PAD roh=30 rol=30 cpad=5e-12 e9=0
+Vgp15_ctl gp15_ctl 0 0
+Vgp15_oe gp15_oe 0 1
+Xgp12 gp12 gp12_ctl gp12_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp12_ctl gp12_ctl 0 0
+Vgp12_oe gp12_oe 0 0
+Xgp19 gp19 gp19_ctl gp19_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp19_ctl gp19_ctl 0 0
+Vgp19_oe gp19_oe 0 0
+Xgp20 gp20 gp20_ctl gp20_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp20_ctl gp20_ctl 0 0
+Vgp20_oe gp20_oe 0 0
+Xgp21 gp21 gp21_ctl gp21_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp21_ctl gp21_ctl 0 0
+Vgp21_oe gp21_oe 0 0
+.control
+tran 20n 5m 0 5u
+.endc
+.end

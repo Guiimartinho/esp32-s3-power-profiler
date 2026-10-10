@@ -1,0 +1,13 @@
+* Regulator: supply rejection
+.include "../../models/power_input.lib"
+XU8 in 0 en out PWRIN_LP5907
+Cout out 0 1u
+Vin in 0 DC 4.3 AC 1
+Ren in en 1k
+Iload out 0 20m
+.nodeset v(out)=3.3 v(en)=4.3 v(xu8.r)=3.3 v(xu8.se)=1
+.control
+op
+ac dec 10 10 1meg
+.endc
+.end

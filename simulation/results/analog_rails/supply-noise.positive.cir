@@ -1,0 +1,69 @@
+* +12V_A: operating point, noise and rejection of +13V5
+.include "../../models/analog_rails.lib"
+DD9 0 p12v_a B0530W
+XC29 ldo_in 0 RAILS_MLCC c=10u v0=20.4
+XC30 set12 0 RAILS_MLCC c=4.7u v0=8
+XC31 p12v_a 0 RAILS_MLCC c=10u v0=20.4
+C44 p12v_a 0 1e-07
+C56 p12v_a 0 1e-06
+C57 p12v_a 0 1e-07
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C70 p12v_a 0 1e-07
+C79 p12v_a 0 1e-07
+C80 p12v_a 0 1e-07
+C83 p12v_a 0 1e-06
+R37 p13v5 ldo_in 0.47
+R38 set12 0 120000
+R39 p12v_a pgfb 442000
+R40 pgfb 0 12400
+XU13 ldo_in ok5v nc_u13_pg_pad4 0 pgfb set12 0 p12v_a p12v_a LT3042
+* +13V5 as a source with a test signal, the regulator enabled, its load a sink
+V13 p13v5 0 DC 13.53 AC 1
+Vok ok5v 0 4.7
+Iload p12v_a 0 0.00656
+* start of the operating point: the end of a settled transient run
+.nodeset v(ldo_in)=13.525843
+.nodeset v(nc_u13_pg_pad4)=0
+.nodeset v(ok5v)=4.7
+.nodeset v(p12v_a)=11.7848446
+.nodeset v(p13v5)=13.53
+.nodeset v(pgfb)=0.32129193
+.nodeset v(set12)=11.7848255
+.nodeset v(xc29.uc)=0.585481741
+.nodeset v(xc30.uc)=0.974413948
+.nodeset v(xc31.uc)=0.523852379
+.nodeset v(xu13.c1)=11.7848446
+.nodeset v(xu13.c2)=11.7848255
+.nodeset v(xu13.enr)=1.155
+.nodeset v(xu13.eon)=1
+.nodeset v(xu13.er)=3.59007579e-09
+.nodeset v(xu13.fs)=1
+.nodeset v(xu13.fsd)=1
+.nodeset v(xu13.ia)=3.06199692
+.nodeset v(xu13.il)=0.3
+.nodeset v(xu13.io)=0.00667765392
+.nodeset v(xu13.na)=0
+.nodeset v(xu13.ni)=0
+.nodeset v(xu13.on)=1
+.nodeset v(xu13.ond)=1
+.nodeset v(xu13.pgok)=1
+.nodeset v(xu13.pgr)=0.2965
+.nodeset v(xu13.ps1)=0.00160145982
+.nodeset v(xu13.ps2)=1.90649978e-05
+.nodeset v(xu13.ref)=11.7848446
+.nodeset v(xu13.uok)=1
+.nodeset v(xu13.uvr)=1.7425
+.nodeset v(xu13.x)=0.00667754801
+.nodeset v(xu13.xen.x)=1
+.nodeset v(xu13.xpg.x)=1
+.nodeset v(xu13.xuv.x)=1
+.control
+op
+noise v(p12v_a) V13 dec 30 1 10meg
+ac dec 30 1 10meg
+.endc
+.end

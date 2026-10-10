@@ -1,0 +1,75 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-detector",
+ "title": "803-type voltage detector model against its datasheet",
+ "covers": "the model of the voltage detector at the position U9, which is not fitted",
+ "summary": "The supply of the detector rises, dips for 10 us, dips for 100 us and falls. The output is pulled up to the supply through 51 kohm, as R29 does on the board. The run gives the threshold, the time the output stays low after the supply has returned, and shows that a dip shorter than the 20 us of the datasheet is passed over while a longer one starts the time again.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "timeout",
+   "label": "Output released after the supply has passed 3.08 V",
+   "value": 0.2470053,
+   "unit": "s",
+   "expected": 0.24,
+   "low": 0.228,
+   "high": 0.252,
+   "source": "datasheet DS39161 page 3: 240 ms typical (140 ms to 280 ms)",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_dip",
+   "label": "Output during a dip of 10 us to 2.9 V: lowest level",
+   "value": 2.894544,
+   "unit": "V",
+   "expected": null,
+   "low": 2.5,
+   "high": null,
+   "source": "datasheet DS39161 page 3: the part takes 20 us to answer, so the output only follows its pull-up down to 2.9 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "restart",
+   "label": "Output released again after a dip of 100 us",
+   "value": 0.2479649,
+   "unit": "s",
+   "expected": 0.24,
+   "low": 0.228,
+   "high": 0.252,
+   "source": "datasheet DS39161 page 3: the timer starts again",
+   "verdict": "pass"
+  },
+  {
+   "key": "threshold",
+   "label": "Supply at which the output falls",
+   "value": 3.079772,
+   "unit": "V",
+   "expected": 3.08,
+   "low": 3.0492,
+   "high": 3.1108,
+   "source": "datasheet DS39161 page 3: 3.08 V (3.04 V to 3.13 V)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "sequence",
+   "803-type detector: supply and open-drain output with 51 kohm to the supply",
+   "analog-rails-detector.sequence.png"
+  ]
+ ],
+ "notes": [
+  "The figures are those of the APX803S-31; the schematic names the position \"803 type, 3.08 V\" without a part number.",
+  "The 20 us are taken for any depth of a dip; the datasheet gives them for a step to 100 mV below the threshold."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-detector.sequence.cir"
+ ],
+ "format": 1
+}

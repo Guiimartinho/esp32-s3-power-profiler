@@ -1,0 +1,285 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "external",
+ "title": "A device above the set-point: current drawn from it, clamps, the 5 V rail",
+ "covers": "sections 4.2 and 4.9 (external voltage on the source output), rules F-31 and F-33",
+ "summary": "The source stands at 0.80 V and a device lifts its output from outside. In the first runs a source behind 50 mohm is connected at the terminal in range 3, raised slowly to 5.0 V, held there for 15 ms and raised to 6.5 V. They give the current that the instrument takes from a device at rest at 5.0 V, the current through the clamp of the SET pin, the IN pin against the output, and the voltage at which the pre-regulator starts to return current to the 5 V rail, with the over-voltage level of the converter model and with the lowest one of its datasheet. In the last runs a capacitor of 100 uF charged to 5.0 V is connected to the live output at once, through leads of two lengths.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "drawn",
+   "label": "Current that the instrument takes from a device at rest at 5.0 V, set-point 0.80 V",
+   "value": 0.01010753,
+   "unit": "A",
+   "expected": 0.011,
+   "low": 0.009,
+   "high": 0.014,
+   "source": "section 4.9: about 11 mA, up to 14 mA warm (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "drawn_moved",
+   "label": "The same current while the device rises through 4.9 V with 0.14 V/ms",
+   "value": 0.01385987,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drawn_rest",
+   "label": "Movement of that current in the last 2 ms of the rest at 5.0 V",
+   "value": 1.333643e-08,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "limit of this bench: the current counts as at rest below 10 uA",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp",
+   "label": "In that state: current through the clamp of the SET pin into R60",
+   "value": 0.003452534,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "LT3080 Rev. E, page 2: 10 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "set_volts",
+   "label": "In that state: output above the SET pin",
+   "value": 0.755943,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pre",
+   "label": "In that state: pre-regulator output",
+   "value": 5.450414,
+   "unit": "V",
+   "expected": 5.452,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "in_pin",
+   "label": "Slow rise up to 5.3 V: lowest voltage of the IN pin relative to the output",
+   "value": 0.3684583,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57); rule F-33 opens the output at 5.3 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "returned",
+   "label": "Slow rise up to 5.3 V: most power returned to the 5 V rail",
+   "value": -0.08532152,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 0.25,
+   "source": "section 4.2 and section 16: less than the instrument takes from the rail, for which 0.25 W is the condition",
+   "verdict": "pass"
+  },
+  {
+   "key": "pump",
+   "label": "Outside voltage at which the 5 V rail takes current back, model of the converter",
+   "value": 6.452276,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pump_least",
+   "label": "The same with the lowest over-voltage level of the converter, 5.5 V",
+   "value": 5.747507,
+   "unit": "V",
+   "expected": 5.7,
+   "low": 5.3,
+   "high": null,
+   "source": "rule F-33: above about 5.7 V (estimate); the output opens at 5.3 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "plug_in_200nh",
+   "label": "Charged 100 uF connected, leads of 0.2 uH and 20 mohm: lowest voltage of the IN pin relative to the output",
+   "value": -1.040408,
+   "unit": "V",
+   "expected": -0.63,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2: not more than 0.3 V below the output; section 4.9: 0.32 V to 0.94 V below for 3 us to 21 us (simulated), which no part covers",
+   "verdict": "fail"
+  },
+  {
+   "key": "plug_time_200nh",
+   "label": "Charged 100 uF connected, leads of 0.2 uH and 20 mohm: time the IN pin spends more than 0.3 V below the output",
+   "value": 2.282368e-05,
+   "unit": "s",
+   "expected": 1.2e-05,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plug_surge_200nh",
+   "label": "Charged 100 uF connected, leads of 0.2 uH and 20 mohm: highest current into the terminal",
+   "value": 17.53424,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plug_output_200nh",
+   "label": "Charged 100 uF connected, leads of 0.2 uH and 20 mohm: highest regulator output",
+   "value": 3.493234,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plug_in_1000nh",
+   "label": "Charged 100 uF connected, leads of 1 uH and 50 mohm: lowest voltage of the IN pin relative to the output",
+   "value": -1.013477,
+   "unit": "V",
+   "expected": -0.63,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2: not more than 0.3 V below the output; section 4.9: 0.32 V to 0.94 V below for 3 us to 21 us (simulated), which no part covers",
+   "verdict": "fail"
+  },
+  {
+   "key": "plug_time_1000nh",
+   "label": "Charged 100 uF connected, leads of 1 uH and 50 mohm: time the IN pin spends more than 0.3 V below the output",
+   "value": 2.471604e-05,
+   "unit": "s",
+   "expected": 1.2e-05,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plug_surge_1000nh",
+   "label": "Charged 100 uF connected, leads of 1 uH and 50 mohm: highest current into the terminal",
+   "value": 11.10772,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plug_output_1000nh",
+   "label": "Charged 100 uF connected, leads of 1 uH and 50 mohm: highest regulator output",
+   "value": 3.56788,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "Nothing reacts in these runs: rules F-31 and F-33 are firmware, and the output switch, the range logic and the over-current trip belong to other blocks. The path from the terminal to the regulator output is three resistors, 145 mohm in range 3, without the inductance of the board.",
+  "At rest at 5.0 V the device feeds the minimum load R69, 6.9 mA, and the clamp between OUT and SET of the regulator, which carries 3.5 mA into R60, less the 0.3 mA that the regulator delivers itself. While the device rises it also charges the capacitors at the output, 28 uF at the capacitance that these runs take at 0.8 V: 3.5 mA more at 0.14 V/ms.",
+  "The voltage at which the converter starts to return current depends on its over-voltage level, which the datasheet gives as 5.5 V to 7 V: the model has 6.2 V, and one run takes 5.5 V. The rail is an ideal source, so it shows the current and not what the rail does with it.",
+  "The hot-plug runs fail the rating of the IN pin, as section 4.9 says they would: the specification states that no part covers a charged device connected to the live output. The figures depend on the leads of the capacitor, which are assumptions, on the diode model of D11 and on the capacitors of the filter, which have no series inductance here.",
+  "The diode D11 is the typical model at 27 C; the regulator model has no junction from the output to the IN pin other than its pass transistor, whose reverse behavior is an assumption."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

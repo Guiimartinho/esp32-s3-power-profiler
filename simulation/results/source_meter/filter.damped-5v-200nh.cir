@@ -1,0 +1,18 @@
+* Impedance at the IN pin of the regulator
+.include "../../models/source_meter.lib"
+C42 v_pre 0 1.27649e-05
+C43 ldo_in damper 1.27649e-05
+C45 v_pre 0 1.27649e-05
+C46 ldo_in 0 4.5632e-06
+C50 v_pre 0 1.27649e-05
+XFB1 v_pre ldo_in BLM31SN500 lb=2e-07
+R59 damper 0 0.33
+R62 v_pre 0 1000
+* 1 A of test current into the IN pin node; the converter is left out, so
+* its output node is held by its capacitors alone
+Itest 0 ldo_in dc 0 ac 1
+Rdc ldo_in 0 1e6
+.control
+ac dec 100 1k 30meg
+.endc
+.end

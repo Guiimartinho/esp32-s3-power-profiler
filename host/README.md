@@ -126,6 +126,18 @@ together with the constants:
 - `test_nominal_offset_is_the_pedestal_in_codes` expects about 1300 codes;
   section 4.5 says about 1313.
 
+The circuit simulations of 2026-10-10 give the values of draft A2 again,
+from the netlist of the schematic: a gain of 19.93, a code of 1313 at zero
+current, and 1.914 nA, 59.91 nA, 1.916 µA and 19.14 µA for one code in
+ranges 0 to 3 (simulated;
+[`signal_chain/transfer`](../simulation/results/signal_chain/README.md#signal_chaintransfer)).
+With the whole path as one circuit the values are the same within the
+last digit, 59.92 nA in range 1
+([`system/accuracy`](../simulation/results/system/README.md#systemaccuracy)).
+The simulations do not run this package: a bench converts codes with
+arithmetic of its own and the nominal values of the specification, so its
+result says nothing about `capture/calibration.py`.
+
 ### Calibration Record
 
 Section 8 defines what an instrument stores in the flash of its module, and
@@ -217,6 +229,20 @@ magic word, the CRC check and gap detection from the sample index
 Samples with the fault bit are counted and kept in the statistics
 (`fault_samples`). The specification does not say whether they count; that
 is settled when the fault causes below reach the protocol.
+
+Two things that the circuit simulations of 2026-10-10 show concern what the
+host presents to a user. Both are simulated, and neither is in section 9
+([simulation guide](../simulation/README.md#what-the-runs-show-about-the-instrument)):
+
+- The reading of range 0 follows the load with the time constant of shunt
+  and capacitor: 100 µs with the 100 nF of the instrument alone, and
+  1.1 ms with 1 µF beside the load. A sample taken after the settling
+  window is valid and can still be on its way to the load current.
+- After a fast step with a capacitor beside the load the instrument can
+  rest one range above the one that the current asks for, and it stays
+  there: the step down from range 3 comes only below 60 mA (the table of
+  section 4.3). 80 mA is then read in range 3, where one code is 19.14 µA
+  in place of the 1.916 µA of range 2.
 
 ### Protocol Items
 

@@ -1,0 +1,420 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "converter-lines",
+ "title": "Converter lines: edges behind 47 ohm and 220 ohm, cost in timing, reading window",
+ "covers": "section 4.6 (D-75, D-40), section 4.7, rules F-5 and F-34",
+ "summary": "Three pads of the controller run the frame of rule F-34 on the converter. Convert-start is high for 108 system clocks; then 16 clock pulses shift the result out, with 16 system clocks per bit (9.375 MHz) and with 10 (15 MHz). The edges are read at the pins of the converter behind 47 ohm and 220 ohm and at the pad that reads the data behind 220 ohm. Each rate is run on a board with the weakest pad of the 4 mA setting and long tracks and on a board with a strong pad and short tracks, with the delays of the converter and of the registers at the limits of their datasheets. The reading window of a board is the time in which converter data and side data are both valid; the window that one fixed reading instant has on every board is the part that the two boards share.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "clock_cost_weak",
+   "label": "weak pad, long tracks: clock edge valid at the converter pin after the pad command",
+   "value": 1.256526e-08,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.6: about 1 ns on the two inputs (estimate)",
+   "verdict": "info"
+  },
+  {
+   "key": "clock_edge_weak",
+   "label": "weak pad, long tracks: rise time of the clock at the converter pin, 10 % to 90 %",
+   "value": 2.149907e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.6: the resistors damp the edges",
+   "verdict": "info"
+  },
+  {
+   "key": "convert_high_weak",
+   "label": "weak pad, long tracks: convert-start above its high level at the converter pin for",
+   "value": 7.139702e-07,
+   "unit": "s",
+   "expected": null,
+   "low": 7.1e-07,
+   "high": null,
+   "source": "section 4.6 and rule F-34: 710 ns at the least (datasheet), 108 clocks",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_high_level_weak",
+   "label": "weak pad, long tracks: high level of the clock at the converter pin",
+   "value": 3.178155,
+   "unit": "V",
+   "expected": null,
+   "low": 2.31,
+   "high": null,
+   "source": "TI SBAS569B, page 7: 0.7 of the digital supply at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_cost_strong",
+   "label": "strong pad, short tracks: clock edge valid at the converter pin after the pad command",
+   "value": 2.250509e-09,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.6: about 1 ns on the two inputs (estimate)",
+   "verdict": "info"
+  },
+  {
+   "key": "clock_edge_strong",
+   "label": "strong pad, short tracks: rise time of the clock at the converter pin, 10 % to 90 %",
+   "value": 2.90573e-09,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.6: the resistors damp the edges",
+   "verdict": "info"
+  },
+  {
+   "key": "convert_high_strong",
+   "label": "strong pad, short tracks: convert-start above its high level at the converter pin for",
+   "value": 7.190944e-07,
+   "unit": "s",
+   "expected": null,
+   "low": 7.1e-07,
+   "high": null,
+   "source": "section 4.6 and rule F-34: 710 ns at the least (datasheet), 108 clocks",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_high_level_strong",
+   "label": "strong pad, short tracks: high level of the clock at the converter pin",
+   "value": 3.27907,
+   "unit": "V",
+   "expected": null,
+   "low": 2.31,
+   "high": null,
+   "source": "TI SBAS569B, page 7: 0.7 of the digital supply at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "data_cost_weak",
+   "label": "Weak pad, long tracks: converter data valid at the pad later than the 13.4 ns of the datasheet by",
+   "value": 1.15027e-08,
+   "unit": "s",
+   "expected": 4e-09,
+   "low": null,
+   "high": null,
+   "source": "sections 4.6 and 4.7: about 1 ns on the clock, 3 ns on the data (estimates)",
+   "verdict": "info"
+  },
+  {
+   "key": "data_cost_typical",
+   "label": "Middle case: converter data valid at the pad later than the converter alone gives by",
+   "value": 5.015469e-09,
+   "unit": "s",
+   "expected": 4e-09,
+   "low": null,
+   "high": null,
+   "source": "sections 4.6 and 4.7: about 1 ns on the clock, 3 ns on the data (estimates)",
+   "verdict": "info"
+  },
+  {
+   "key": "window_weak_9p375mhz",
+   "label": "9.375 MHz, weak pad of the 4 mA setting, long tracks: window of the board",
+   "value": 3.514e-08,
+   "unit": "s",
+   "expected": 3.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "sections 4.6 and 4.7 and rule F-34: against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_opens_weak_9p375mhz",
+   "label": "9.375 MHz, weak pad of the 4 mA setting, long tracks: the window opens after the falling clock by",
+   "value": 2.49027e-08,
+   "unit": "s",
+   "expected": 1.74e-08,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: 13.4 ns of the converter and 4 ns of the resistors",
+   "verdict": "info"
+  },
+  {
+   "key": "window_closes_weak_9p375mhz",
+   "label": "9.375 MHz, weak pad of the 4 mA setting, long tracks: the window closes after the next rising clock by",
+   "value": 6.709367e-09,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: the smallest delay of the register, 1 ns (datasheet)",
+   "verdict": "info"
+  },
+  {
+   "key": "window_strong_9p375mhz",
+   "label": "9.375 MHz, strong pad, short tracks: window of the board",
+   "value": 3.951752e-08,
+   "unit": "s",
+   "expected": 3.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "sections 4.6 and 4.7 and rule F-34: against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_opens_strong_9p375mhz",
+   "label": "9.375 MHz, strong pad, short tracks: the window opens after the falling clock by",
+   "value": 1.51338e-08,
+   "unit": "s",
+   "expected": 1.74e-08,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: 13.4 ns of the converter and 4 ns of the resistors",
+   "verdict": "info"
+  },
+  {
+   "key": "window_closes_strong_9p375mhz",
+   "label": "9.375 MHz, strong pad, short tracks: the window closes after the next rising clock by",
+   "value": 1.317987e-09,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: the smallest delay of the register, 1 ns (datasheet)",
+   "verdict": "info"
+  },
+  {
+   "key": "window_shared_long_9p375mhz",
+   "label": "9.375 MHz, long tracks: window that one reading instant has with a weak and with a strong pad, 4 mA setting",
+   "value": 3.115221e-08,
+   "unit": "s",
+   "expected": 3.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "rule F-34: the program reads at one fixed instant; against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_shared_12ma_9p375mhz",
+   "label": "9.375 MHz, long tracks: the same with the weakest 12 mA pad",
+   "value": 3.315221e-08,
+   "unit": "s",
+   "expected": 3.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "rule F-34: against two system clocks, 13.3 ns; rule F-5 sets 4 mA on these pads",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_shared_short_9p375mhz",
+   "label": "9.375 MHz, short tracks: window that one reading instant has with a weak and with a strong pad, 4 mA setting",
+   "value": 3.849224e-08,
+   "unit": "s",
+   "expected": 3.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "rule F-34: the program reads at one fixed instant; against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "side_valid_9p375mhz",
+   "label": "9.375 MHz, weak pad: side data valid at the pad after the rising clock",
+   "value": 2.559504e-08,
+   "unit": "s",
+   "expected": 1.8e-08,
+   "low": null,
+   "high": 7.823603e-08,
+   "source": "section 4.7: 18 ns at the most (datasheet); it has to be valid when the window opens",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_weak_15mhz",
+   "label": "15 MHz, weak pad of the 4 mA setting, long tracks: window of the board",
+   "value": 1.534204e-08,
+   "unit": "s",
+   "expected": 1.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "sections 4.6 and 4.7 and rule F-34: against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_opens_weak_15mhz",
+   "label": "15 MHz, weak pad of the 4 mA setting, long tracks: the window opens after the falling clock by",
+   "value": 2.465269e-08,
+   "unit": "s",
+   "expected": 1.74e-08,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: 13.4 ns of the converter and 4 ns of the resistors",
+   "verdict": "info"
+  },
+  {
+   "key": "window_closes_weak_15mhz",
+   "label": "15 MHz, weak pad of the 4 mA setting, long tracks: the window closes after the next rising clock by",
+   "value": 6.661402e-09,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: the smallest delay of the register, 1 ns (datasheet)",
+   "verdict": "info"
+  },
+  {
+   "key": "window_strong_15mhz",
+   "label": "15 MHz, strong pad, short tracks: window of the board",
+   "value": 1.951752e-08,
+   "unit": "s",
+   "expected": 1.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "sections 4.6 and 4.7 and rule F-34: against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_opens_strong_15mhz",
+   "label": "15 MHz, strong pad, short tracks: the window opens after the falling clock by",
+   "value": 1.51338e-08,
+   "unit": "s",
+   "expected": 1.74e-08,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: 13.4 ns of the converter and 4 ns of the resistors",
+   "verdict": "info"
+  },
+  {
+   "key": "window_closes_strong_15mhz",
+   "label": "15 MHz, strong pad, short tracks: the window closes after the next rising clock by",
+   "value": 1.317987e-09,
+   "unit": "s",
+   "expected": 1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.7: the smallest delay of the register, 1 ns (datasheet)",
+   "verdict": "info"
+  },
+  {
+   "key": "window_shared_long_15mhz",
+   "label": "15 MHz, long tracks: window that one reading instant has with a weak and with a strong pad, 4 mA setting",
+   "value": 1.142693e-08,
+   "unit": "s",
+   "expected": 1.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "rule F-34: the program reads at one fixed instant; against two system clocks, 13.3 ns",
+   "verdict": "fail"
+  },
+  {
+   "key": "window_shared_12ma_15mhz",
+   "label": "15 MHz, long tracks: the same with the weakest 12 mA pad",
+   "value": 1.317693e-08,
+   "unit": "s",
+   "expected": 1.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "rule F-34: against two system clocks, 13.3 ns; rule F-5 sets 4 mA on these pads",
+   "verdict": "fail"
+  },
+  {
+   "key": "window_shared_short_15mhz",
+   "label": "15 MHz, short tracks: window that one reading instant has with a weak and with a strong pad, 4 mA setting",
+   "value": 1.849224e-08,
+   "unit": "s",
+   "expected": 1.69e-08,
+   "low": 1.333333e-08,
+   "high": null,
+   "source": "rule F-34: the program reads at one fixed instant; against two system clocks, 13.3 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "side_valid_15mhz",
+   "label": "15 MHz, weak pad: side data valid at the pad after the rising clock",
+   "value": 2.555256e-08,
+   "unit": "s",
+   "expected": 1.8e-08,
+   "low": null,
+   "high": 5.798603e-08,
+   "source": "section 4.7: 18 ns at the most (datasheet); it has to be valid when the window opens",
+   "verdict": "pass"
+  },
+  {
+   "key": "first_bit_weak",
+   "label": "Second frame, weak pad: first converter bit valid at the pad after convert-start fell",
+   "value": 1.959108e-08,
+   "unit": "s",
+   "expected": 1.23e-08,
+   "low": null,
+   "high": 3.333333e-08,
+   "source": "rule F-34 at 15 MHz: the first rising clock command comes 5 system clocks later; TI SBAS569B, page 8: 12.3 ns at the converter",
+   "verdict": "pass"
+  },
+  {
+   "key": "quiet_time",
+   "label": "500 kSPS: last falling clock edge to the next rising convert-start, at the converter",
+   "value": 2.075293e-07,
+   "unit": "s",
+   "expected": null,
+   "low": 2e-08,
+   "high": null,
+   "source": "section 4.6 and rule F-34: 20 ns of quiet at the least (datasheet), 4 clocks",
+   "verdict": "pass"
+  },
+  {
+   "key": "open_line",
+   "label": "Converter data line between the frames, at the pad: level it is left at",
+   "value": 0.03819773,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 5: the line is open between frames and has no pull resistor",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "edges",
+   "Start of the read-out at 9.375 MHz, middle case: pads and converter pins",
+   "converter-lines.edges.png"
+  ],
+  [
+   "spread",
+   "One clock period at 9.375 MHz on a weak pad with long tracks and on a strong pad",
+   "converter-lines.spread.png"
+  ]
+ ],
+ "notes": [
+  "The frame is the one rule F-34 describes, written as ideal commands to three pad models; no program of the controller exists yet. Convert-start falls before the clocks: the converter puts its data out only while that line is low (datasheet, page 22), not while it is high as section 4.6 says.",
+  "The estimates of the specification, 1 ns on the inputs and 3 ns on the data line, hold for the series resistors alone. The pad adds its own resistance, up to 170 ohm at the 4 mA setting that rule F-5 gives these pads (datasheet limit), into the registers, the converter pin and the track: a clock edge then reaches the converter up to 12 ns late.",
+  "On one board the window keeps about the width that the specification calculates, because a late clock moves its opening and its closing alike. Its position moves with the output resistance of the pad, which differs from part to part: one reading instant that has to fit a weak and a strong pad on the same board has less. The figures give that shared window for a board with long tracks and for one with short tracks.",
+  "Assumptions: the capacitance of the tracks (2 pF to 10 pF, twice that on the clock), of the converter pins (3 pF to 8 pF) and of the pads (3 pF to 8 pF), the output resistance of the converter (40 ohm) and the strong pad of 30 ohm. The datasheets give none of them, and the weak pad is the limit of its datasheet, not a typical part. No inductance and no reflection is in the circuit.",
+  "Between two frames nothing drives the converter data line; the pad sees the level of the last bit on its capacitance. The specification gives that line no pull resistor."
+ ],
+ "models": [
+  [
+   "U30",
+   "DIGITAL_ADS8860_IO",
+   "written here"
+  ],
+  [
+   "U33",
+   "DIGITAL_LV165A",
+   "written here"
+  ],
+  [
+   "U34",
+   "DIGITAL_LV165A",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "converter-lines.two-frames.cir",
+  "converter-lines.typical-16.cir",
+  "converter-lines.weak-a-10.cir"
+ ],
+ "format": 1
+}

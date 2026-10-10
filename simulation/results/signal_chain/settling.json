@@ -1,0 +1,420 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "settling",
+ "title": "Settling of the chain after a range change",
+ "covers": "section 4.5 (settling, D-76), rule F-35 and section 8 (settling window), requirement R-05",
+ "summary": "A range change is a change of the multiplexer address between two held voltages. Each sense tap of the multiplexer holds the voltage of its shunt; the address lines change at one instant, and the converter input is followed until it rests. The time counts from the edge of the address lines. In the jump cases the old range stands in overload (0.6 V across its shunt, the amplifier at its positive limit, the limiter at work); the other cases stay inside the linear range. Every case gives the time to 0.1 % of the converter range and to one code, and what a sample taken 70 us and 80 us after the change still carries: the first valid sample falls between the two.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "tenth_percent_jump_15mv",
+   "label": "jump to range 3 from an overload, 15 mV after it: within 0.1 % of the range after",
+   "value": 4.536581e-05,
+   "unit": "s",
+   "expected": 4.5e-05,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_jump_15mv",
+   "label": "jump to range 3 from an overload, 15 mV after it: within one code after",
+   "value": 6.521822e-05,
+   "unit": "s",
+   "expected": 6.5e-05,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_jump_5mv",
+   "label": "jump from an overload, 5 mV after it: within 0.1 % of the range after",
+   "value": 4.547859e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_jump_5mv",
+   "label": "jump from an overload, 5 mV after it: within one code after",
+   "value": 6.526041e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_jump_50mv",
+   "label": "jump from an overload, 50 mV after it: within 0.1 % of the range after",
+   "value": 4.526774e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_jump_50mv",
+   "label": "jump from an overload, 50 mV after it: within one code after",
+   "value": 6.575908e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_jump_100mv",
+   "label": "jump from an overload, 100 mV after it: within 0.1 % of the range after",
+   "value": 3.733034e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_jump_100mv",
+   "label": "jump from an overload, 100 mV after it: within one code after",
+   "value": 6.774961e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_diode_slow",
+   "label": "jump from an overload, diodes at 0.9 V and 3 us of recovery: within 0.1 % of the range after",
+   "value": 4.919607e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_diode_slow",
+   "label": "jump from an overload, diodes at 0.9 V and 3 us of recovery: within one code after",
+   "value": 6.904545e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_diode_low",
+   "label": "jump from an overload, diodes at 0.7 V: within 0.1 % of the range after",
+   "value": 4.51084e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_diode_low",
+   "label": "jump from an overload, diodes at 0.7 V: within one code after",
+   "value": 6.496776e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_mux_125r",
+   "label": "jump from an overload, 125 ohm: within 0.1 % of the range after",
+   "value": 4.534351e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_mux_125r",
+   "label": "jump from an overload, 125 ohm: within one code after",
+   "value": 6.524708e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_mux_430r",
+   "label": "jump from an overload, 430 ohm: within 0.1 % of the range after",
+   "value": 4.545411e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_mux_430r",
+   "label": "jump from an overload, 430 ohm: within one code after",
+   "value": 6.527594e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_overload_2us",
+   "label": "jump after 2 us of overload: within 0.1 % of the range after",
+   "value": 4.432417e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_overload_2us",
+   "label": "jump after 2 us of overload: within one code after",
+   "value": 6.427809e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_overload_5us",
+   "label": "jump after 5 us of overload: within 0.1 % of the range after",
+   "value": 4.483462e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_overload_5us",
+   "label": "jump after 5 us of overload: within one code after",
+   "value": 6.467228e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_ladder_3v",
+   "label": "jump with 3 V across the ladder before it: within 0.1 % of the range after",
+   "value": 4.555469e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_ladder_3v",
+   "label": "jump with 3 V across the ladder before it: within one code after",
+   "value": 6.540706e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_step_up",
+   "label": "step up at 91 mV, range 0 to range 1: within 0.1 % of the range after",
+   "value": 4.016424e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_step_up",
+   "label": "step up at 91 mV, range 0 to range 1: within one code after",
+   "value": 6.068594e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_step_down",
+   "label": "step down at 60 uA, range 1 to range 0: within 0.1 % of the range after",
+   "value": 3.818678e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_step_down",
+   "label": "step down at 60 uA, range 1 to range 0: within one code after",
+   "value": 5.97832e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_full_swing",
+   "label": "120 mV to 1.2 mV, range 2 to range 3: within 0.1 % of the range after",
+   "value": 4.24743e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 4.5: about 45 us, 37 us to 50 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_code_full_swing",
+   "label": "120 mV to 1.2 mV, range 2 to range 3: within one code after",
+   "value": 6.349614e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "section 4.5: about 65 us, 64 us to 70 us over the simulated cases",
+   "verdict": "pass"
+  },
+  {
+   "key": "sample_at_70us",
+   "label": "Largest error of a sample taken 70 us after the change, any case",
+   "value": 0.64413,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 65.536,
+   "source": "requirement R-05: 0.1 % of range, 65.5 codes",
+   "verdict": "pass"
+  },
+  {
+   "key": "sample_at_80us",
+   "label": "Largest error of a sample taken 80 us after the change, any case",
+   "value": 0.3949452,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 65.536,
+   "source": "requirement R-05: 0.1 % of range, 65.5 codes",
+   "verdict": "pass"
+  },
+  {
+   "key": "tenth_percent_longest",
+   "label": "Longest time to 0.1 % of the range, any case",
+   "value": 4.919607e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-05,
+   "source": "rule F-35: seven samples are flagged, the eighth is taken after 70 us",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "waveforms",
+   "Jump to range 3 out of an overload: 0.6 V at the old shunt, 15 mV at the new",
+   "settling.waveforms.png"
+  ],
+  [
+   "errors",
+   "Distance of the converter input from its final value, every case",
+   "settling.errors.png"
+  ]
+ ],
+ "notes": [
+  "The ladder is not in this circuit. Each sense tap is an ideal source, so the new shunt voltage stands at once: the time that the load and its capacitor need to reach the new voltage across the shunt (benches of the ladder) is not in these figures.",
+  "The amplifier model leaves an overload as fast as it slews: its datasheet states no recovery time. The 5 us that section 4.5 allows for it are not in these figures and would add to every jump case.",
+  "The multiplexer model has a fixed resistance per channel and no charge injection; the diode models carry the recovery time of their datasheet.",
+  "One code is 15 ppm of the range. No model here resolves such a tail (thermal effects of the amplifier, dielectric absorption): the time to one code is what the two poles of the filter give, not a prediction of the board."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199_LO",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "settling.jump-15mv.cir"
+ ],
+ "format": 1
+}

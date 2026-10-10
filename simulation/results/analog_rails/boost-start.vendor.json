@@ -1,0 +1,19 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "boost-start",
+ "title": "Boost converter as drawn: its start on a source limited to 0.67 A to 0.85 A",
+ "covers": "section 4.1 (no lock-out, no soft start), section 16 and the risk register (start on the data cable alone), decision D-51",
+ "summary": "The 5 V rail is brought up through a current limit and the converter starts by itself. The circuit is the converter as drawn: the position of the voltage detector U9 is empty and the enable pin is on the rail through R29. The converter is taken cycle by cycle. The source is limited to 0.67 A, 0.76 A and 0.85 A, the span of the limiter on the input of the controller module, and to 2.0 A, the USB-C input. The rail carries its capacitors and the 25 mA of the controller module. Three more runs on the 0.76 A source change one assumption about the converter each: an error amplifier that lets go of the full current earlier, the least current limit of the datasheet, and a converter that works only from the 2.7 V at which its datasheet begins. A last run of a second with the averaged model counts the starts.",
+ "status": "error",
+ "error": "boost-start.0p67a: the run failed: Error on line 1 or its substitute:; unknown device type - error ; Simulation interrupted due to error!",
+ "tier": "vendor",
+ "engine": "",
+ "library_sha256": "",
+ "figures": [],
+ "graphs": [],
+ "notes": [],
+ "models": [],
+ "decks": [],
+ "format": 1
+}

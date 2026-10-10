@@ -1,0 +1,19 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "landing",
+ "title": "Load steps with a capacitor at the load: the range reached and the time to a true reading",
+ "covers": "sections 4.3 and 4.4 (step up, blanking, jump), requirement R-07",
+ "summary": "The load steps from 1 uA to 150 uA, 5 mA and 80 mA beside a capacitor. A capacitor at the load supplies a step at first, and the ladder sees the voltage by which that capacitor has sagged, not the load current times a shunt. The sequencer therefore acts on the sag. The runs take 100 nF, 1 uF, 10 uF and 100 uF and read which ranges the sequencer passes, where it stays, and how long it takes until the current that the amplifier output stands for is the load current within 1 %. No request to step down is made: what firmware does afterwards is not in these runs.",
+ "status": "error",
+ "error": "landing.150ua-100uf: the run failed: doAnalyses: TRAN:  Timestep too small; time = 0.0930094, timestep = 2.5e-18: trouble with irlml0030_clamp-instance mq10; tran simulation(s) aborted",
+ "tier": "vendor",
+ "engine": "",
+ "library_sha256": "",
+ "figures": [],
+ "graphs": [],
+ "notes": [],
+ "models": [],
+ "decks": [],
+ "format": 1
+}

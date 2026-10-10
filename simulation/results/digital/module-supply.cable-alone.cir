@@ -1,0 +1,18 @@
+* Cable of the module alone: the rail voltage stepped around the cable voltage
+.include "../../models/digital.lib"
+C1 pico_5v 0 1e-07
+XD1 v5 vsys DIGITAL_1N5819HW
+R5 pico_5v n_u3_en_uvlo 4530
+R6 n_u3_en_uvlo 0 3010
+XU1 vbus vsys 0 DIGITAL_PICO2_SUPPLY
+RJP1 vbus pico_5v 0.001
+R23 v5 0 10000
+* 5 V at VBUS behind the cable; the rail as an ideal source that is stepped:
+* the limiter and the multiplexer between the jumper and the rail are not here
+Vcable cable 0 5
+Rcable cable vbus 0.2
+Vrail v5 0 4.9
+.control
+dc Vrail 4.0 5.5 0.01
+.endc
+.end

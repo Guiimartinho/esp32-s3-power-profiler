@@ -1,0 +1,50 @@
+* Pre-regulator with its tracking amplifier at 5 V: start and load step
+.include "../../models/source_meter.lib"
+.include "../../models/diodes.lib"
+.include "../../models/opamps.lib"
+XL2 sw_l1 sw_l2 XFL4020_152
+C37 vina 0 1e-07
+C39 p5v 0 4.97e-06
+C40 p5v 0 4.97e-06
+C42 v_pre 0 1.27649e-05
+C43 ldo_in damper 1.27649e-05
+C45 v_pre 0 1.27649e-05
+C46 ldo_in 0 4.5632e-06
+C50 v_pre 0 1.27649e-05
+C51 p3v3_a 0 1e-07
+C52 trk_n pre_fb 1e-11
+C55 trk_sense 0 1e-07
+DD13_1 ldo_out trk_sense BAV199
+DD13_2 trk_sense trk_sense BAV199
+XFB1 v_pre ldo_in BLM31SN500
+R59 damper 0 0.33
+R62 v_pre 0 1000
+R63 trk_n pre_fb 19100
+R64 trk_sense trk_n 93100
+R65 ldo_out trk_sense 6650
+R66 trk_p 0 23700
+R67 v_pre trk_p 100000
+R68 vref trk_p 137000
+XU16 p5v vina smu_en vina pre_fb v_pre sw_l1 sw_l2 pg_open 0 0 TPS63020_AVG
+XU19 trk_p trk_n p3v3_a 0 pre_fb OPA365
+* the regulator output held by a source, the IN pin loaded by a current sink
+Vldo ldo_out 0 5
+* a resistor carries the idle current, so that the start has a load that
+* falls with the voltage; the step is a current
+Rin ldo_in 0 545.2
+Iin ldo_in 0 PULSE(0 0.59 0.0009 1u 1u 0.0003 1)
+* rails present from the start, the enable pin raised after them
+Vp5 p5v 0 PWL(0 0 5u 5)
+Vp3v3a p3v3_a 0 PWL(0 0 5u 3.3)
+Vref vref 0 PWL(0 0 5u 2.5)
+Ven smu_en 0 PWL(0 0 2e-05 0 2.1e-05 3.3)
+* the sense capacitor of the tracking starts at the voltage it rests at
+.ic v(trk_sense)=4.74821
+* the capacitors of the pre-regulator start charged; the node between C43
+* and R59 starts at 0 V, so that C43 holds that voltage too
+.ic v(v_pre)=5.452 v(ldo_in)=5.452
+.control
+save v_pre ldo_in pre_fb trk_sense l.xl2.l1#branch vp5#branch
+tran 0.2u 0.0015 0 0.2u uic
+.endc
+.end

@@ -1,0 +1,327 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "released-pins",
+ "title": "Lines of the controller with its pins released, and the two status lines",
+ "covers": "section 4.11 (D-67, D-77, D-78), section 5, section 4.7, rules F-4 and F-5",
+ "summary": "Every line that the controller drives is left to its resistors. The circuit is the pull resistor and the series resistor of each line, with pad models of the controller in place of the module. First 120 uA is forced out of every released pad, the current of erratum E9 as the specification takes it, and the level at each receiver is read. Then pads of stepping A2 are driven high and released, and the lines are followed as their resistors pull them through the range in which that current flows. The two selects are read against the strongest pull-down of a pad with the analog rail at its lower limit. PWR_GOOD is read at the register and at the pad, and two pads that rule F-4 keeps as inputs are driven by mistake.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "forced_gate_r1",
+   "label": "GATE_R1 with 120 uA out of the released pad: level at the receiver",
+   "value": 0.12,
+   "unit": "V",
+   "expected": 0.12,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_gate_r2",
+   "label": "GATE_R2 with 120 uA out of the released pad: level at the receiver",
+   "value": 0.12,
+   "unit": "V",
+   "expected": 0.12,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_gate_r3",
+   "label": "GATE_R3 with 120 uA out of the released pad: level at the receiver",
+   "value": 0.12,
+   "unit": "V",
+   "expected": 0.12,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_gate_out",
+   "label": "GATE_OUT with 120 uA out of the released pad: level at the receiver",
+   "value": 0.12,
+   "unit": "V",
+   "expected": 0.12,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_gate_src",
+   "label": "GATE_SRC with 120 uA out of the released pad: level at the receiver",
+   "value": 0.12,
+   "unit": "V",
+   "expected": 0.12,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_gate_amp",
+   "label": "GATE_AMP with 120 uA out of the released pad: level at the receiver",
+   "value": 0.564,
+   "unit": "V",
+   "expected": 0.56,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_mux_a0",
+   "label": "MUX_A0 with 120 uA out of the released pad: level at the receiver",
+   "value": 0.612,
+   "unit": "V",
+   "expected": 0.61,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_mux_a1",
+   "label": "MUX_A1 with 120 uA out of the released pad: level at the receiver",
+   "value": 0.612,
+   "unit": "V",
+   "expected": 0.61,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_adc_sck",
+   "label": "ADC_SCK with 120 uA out of the released pad: level at the receiver",
+   "value": 0.564,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.99,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_adc_cnv",
+   "label": "ADC_CNV with 120 uA out of the released pad: level at the receiver",
+   "value": 0.564,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.99,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_side_load",
+   "label": "SIDE_LOAD with 120 uA out of the released pad: level at the receiver",
+   "value": 0.564,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.99,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_spi_sck",
+   "label": "SPI_SCK with 120 uA out of the released pad: level at the receiver",
+   "value": 0.564,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.66,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_spi_mosi",
+   "label": "SPI_MOSI with 120 uA out of the released pad: level at the receiver",
+   "value": 0.564,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.66,
+   "source": "section 5: still low for the receiver (calculated); the limit is the highest low level of its datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "forced_miso",
+   "label": "SPI_MISO with 120 uA out of the released pad: level at the pad",
+   "value": 0.828,
+   "unit": "V",
+   "expected": 0.83,
+   "low": null,
+   "high": null,
+   "source": "section 5: the pad sees 6.9 kohm, inside the 8.2 kohm of the erratum",
+   "verdict": "info"
+  },
+  {
+   "key": "released_highest",
+   "label": "Stepping A2, pads released from high: highest level at a receiver (MUX_A0)",
+   "value": 1.610322e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 5: the gate, address and clock lines stand at 0 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_slowest",
+   "label": "Stepping A2, pads released from high: slowest line is below its low level after",
+   "value": 4.796582e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "RP2350 datasheet, erratum E9: 8.2 kohm or less overcomes the current",
+   "verdict": "info"
+  },
+  {
+   "key": "released_miso",
+   "label": "Stepping A2, SPI_MISO released from high: level left at the pad",
+   "value": 2.145963e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.8,
+   "source": "section 5: 6.9 kohm from the pad to ground, inside the 8.2 kohm of the erratum",
+   "verdict": "pass"
+  },
+  {
+   "key": "select_monitor",
+   "label": "Select of the monitor converter, pad pull-down 36 kohm, rail at its lower limit",
+   "value": 2.860541,
+   "unit": "V",
+   "expected": 2.8,
+   "low": 2.8,
+   "high": null,
+   "source": "sections 4.11 and 5: 2.80 V or more against the strongest pad pull-down",
+   "verdict": "pass"
+  },
+  {
+   "key": "select_dac",
+   "label": "Select of the DAC, pad pull-down 36 kohm, rail at its lower limit",
+   "value": 2.860541,
+   "unit": "V",
+   "expected": 2.8,
+   "low": 2.8,
+   "high": null,
+   "source": "sections 4.11 and 5: 2.80 V or more against the strongest pad pull-down",
+   "verdict": "pass"
+  },
+  {
+   "key": "select_margin",
+   "label": "The same select against the high level that the converters ask for",
+   "value": 0.5967405,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 5: the converters need 0.7 of their supply (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "flag_ratio",
+   "label": "PWR_GOOD high, pad pull-down off: level at the register over the 3.3 V rail",
+   "value": 0.8192771,
+   "unit": "",
+   "expected": 0.82,
+   "low": 0.7,
+   "high": null,
+   "source": "section 4.7: 0.82 of the rail against the 0.7 that the register needs",
+   "verdict": "pass"
+  },
+  {
+   "key": "flag_ratio_pulled",
+   "label": "PWR_GOOD high, pad pull-down of 36 kohm on: level at the register over the rail",
+   "value": 0.7929404,
+   "unit": "",
+   "expected": 0.79,
+   "low": 0.7,
+   "high": null,
+   "source": "section 4.7: 0.79 with the pad pull-down of GP28 on",
+   "verdict": "pass"
+  },
+  {
+   "key": "flag_at_pad",
+   "label": "PWR_GOOD high, pull-down on, rail at 3.234 V: level at the pad GP28",
+   "value": 2.495062,
+   "unit": "V",
+   "expected": 2.5,
+   "low": 2.0,
+   "high": null,
+   "source": "sections 4.7 and 4.11: 2.50 V at the pin against the 2.0 V it needs",
+   "verdict": "pass"
+  },
+  {
+   "key": "flag_driven",
+   "label": "GP28 driven high by mistake while the flag is low: current through R4",
+   "value": 0.002820513,
+   "unit": "A",
+   "expected": 0.0033,
+   "low": null,
+   "high": 0.025,
+   "source": "section 4.7 and rule F-4: 3.3 mA against 25 mA at the comparator outputs",
+   "verdict": "pass"
+  },
+  {
+   "key": "interlock_low",
+   "label": "GP11 driven high against a low detector: the interlock node rises to",
+   "value": 0.06639839,
+   "unit": "V",
+   "expected": 0.14,
+   "low": null,
+   "high": 0.14,
+   "source": "section 4.7 and rule F-4: a pin moves the node by 0.14 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "interlock_high",
+   "label": "GP11 driven low against a high detector: the interlock node falls by",
+   "value": 0.06700508,
+   "unit": "V",
+   "expected": 0.14,
+   "low": null,
+   "high": 0.14,
+   "source": "section 4.7 and rule F-4: a pin moves the node by 0.14 V at the most",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "release",
+   "Pads of stepping A2, driven high and released at 2 us: lines at the pads",
+   "released-pins.release.png"
+  ]
+ ],
+ "notes": [
+  "The receivers are not in this circuit: the gate drivers, the multiplexer, the converters and the registers take 1 uA to 10 uA at an input by their datasheets, which adds millivolts to the levels.",
+  "The 120 uA of the first run is the worst case of the specification: the current flows at any pad voltage. The figure of the datasheet shows it only between 1.2 V and 2.4 V; with that curve a line that is released from high is pulled through the range and rests at 0 V, as the second run shows.",
+  "The pad capacitance of 5 pF and the output resistance of the detector (100 ohm in the comparator model of this repository) are assumptions.",
+  "SMU_ON has no resistor on the controller side of its transistor and is not in this bench; the console lines have none either."
+ ],
+ "models": [
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "released-pins.forced.cir",
+  "released-pins.mistake.cir",
+  "released-pins.released.cir"
+ ],
+ "format": 1
+}

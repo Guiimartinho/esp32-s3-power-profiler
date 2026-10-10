@@ -1,0 +1,22 @@
+* Diode models written for this project. None of these is a model of a
+* manufacturer. Every figure is from the datasheet named beside it.
+
+* ---------------------------------------------------------------------
+* BAV199, one diode of the pair (D10, D13, D15 to D20, D22, D23). Nexperia
+* datasheet BAV199 of 1 April 2023, table 7, page 3: forward voltage at most
+* 900 mV at 1 mA, 1.0 V at 10 mA, 1.1 V at 50 mA; reverse current 3 pA
+* typical and 5 nA at most at 75 V and 25 C; capacitance 2 pF typical at 0 V;
+* reverse recovery 0.8 us typical and 3 us at most.
+*   The slope of the curve of the maximum, 100 mV per decade, gives N = 1.69.
+*   The typical forward curve is not in the table, so three variants exist:
+*   BAV199     0.80 V at 1 mA (assumed typical), recovery 0.8 us
+*   BAV199_HI  0.90 V at 1 mA (datasheet maximum), recovery 3 us
+*   BAV199_LO  0.70 V at 1 mA (assumed low end), recovery 0.8 us
+*   The part of the schematic is the BAV199-7-F of Diodes Incorporated.
+*   The figures above are those of the Nexperia datasheet of the same
+*   type; the two were not compared line by line.
+*   The reverse current of these models is far below the 3 pA of the
+*   datasheet: no leakage figure may be taken from them.
+.model BAV199    D(IS=1.14e-11 N=1.69 RS=1.0 CJO=2p VJ=0.6 M=0.33 TT=1.05u BV=85)
+.model BAV199_HI D(IS=1.16e-12 N=1.69 RS=1.0 CJO=2p VJ=0.6 M=0.33 TT=4.15u BV=85)
+.model BAV199_LO D(IS=1.12e-10 N=1.69 RS=1.0 CJO=2p VJ=0.6 M=0.33 TT=1.07u BV=85)

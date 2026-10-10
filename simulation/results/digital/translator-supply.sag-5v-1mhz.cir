@@ -1,0 +1,43 @@
+* Translator supply: eight lines at 1 MHz from 5 V
+.include "../../models/digital.lib"
+DD24_1 0 vccb_src DIGITAL_BAT54S
+DD24_2 vccb_src v5 DIGITAL_BAT54S
+RJP2 vccb_src vccb 0.001
+RRN8_1 j_d0 b_d0 330
+RRN8_2 j_d1 b_d1 330
+RRN8_3 j_d2 b_d2 330
+RRN8_4 j_d3 b_d3 330
+RRN9_1 j_d4 b_d4 330
+RRN9_2 j_d5 b_d5 330
+RRN9_3 j_d6 b_d6 330
+RRN9_4 j_d7 b_d7 330
+XU38 v3c 0 din0 din1 din2 din3 din4 din5 din6 din7 0 0 0 b_d7 b_d6 b_d5 b_d4 b_d3 b_d2 b_d1 b_d0 0 vccb vccb DIGITAL_LVC8T245 cpd=3e-12
+C100 vccb 0 5e-09
+C101 v3c 0 1e-07
+R118 buf_out vccb_src 1000
+RRN10_1 b_d4 0 470000
+RRN10_2 b_d5 0 470000
+RRN10_3 b_d6 0 470000
+RRN10_4 b_d7 0 470000
+RRN11_1 b_d0 0 470000
+RRN11_2 b_d1 0 470000
+RRN11_3 b_d2 0 470000
+RRN11_4 b_d3 0 470000
+* the buffer holds the output voltage; the device under test drives all
+* eight lines with a square wave from that voltage, the lines in step
+Vbuf buf_out 0 5
+Vrail v5 0 5
+Vlogic v3c 0 3.3
+Vd0 j_d0 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd1 j_d1 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd2 j_d2 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd3 j_d3 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd4 j_d4 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd5 j_d5 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd6 j_d6 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+Vd7 j_d7 0 PULSE(0 5 2u 2n 2n 4.98e-07 1e-06)
+.control
+save vccb buf_out j_d0 din0
+tran 0.5n 4e-05 0 2n
+.endc
+.end

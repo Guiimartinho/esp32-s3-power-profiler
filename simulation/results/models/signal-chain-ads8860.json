@@ -1,0 +1,122 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "signal-chain-ads8860",
+ "title": "ADS8860 analog input and reference pin: model against the datasheet",
+ "covers": "the model of the analog side of the converter U30",
+ "summary": "The input model samples 1 V from a source of 1 kohm, with a reference of 5 V. One conversion is run. The time for which the sampling switch is open is the conversion time; the current of the reference pin in that time is the reference current of the datasheet; after it the sampling capacitor, which the model empties, charges again through the source and the switch. A small-signal run with the converter acquiring gives the input capacitance, an operating point the leakage of the reference pin and the current of a protection diode with the input 0.3 V above the reference.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "capacitance",
+   "label": "Input capacitance while the converter acquires",
+   "value": 5.9e-11,
+   "unit": "F",
+   "expected": 5.9e-11,
+   "low": 5.723e-11,
+   "high": 6.077e-11,
+   "source": "TI SBAS569B, page 6; figure 45 on page 20: 4 pF and 55 pF",
+   "verdict": "pass"
+  },
+  {
+   "key": "sampled",
+   "label": "Voltage on the sampling capacitor when the switch opens",
+   "value": 1.0,
+   "unit": "V",
+   "expected": 1.0,
+   "low": 0.999,
+   "high": 1.001,
+   "source": "the input voltage",
+   "verdict": "pass"
+  },
+  {
+   "key": "conversion",
+   "label": "Time for which the sampling switch is open",
+   "value": 7.102158e-07,
+   "unit": "s",
+   "expected": 7.1e-07,
+   "low": 6.958e-07,
+   "high": 7.242e-07,
+   "source": "TI SBAS569B, page 6: 710 ns at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "residue",
+   "label": "Part of its voltage that the sampling capacitor keeps over a conversion",
+   "value": 0.00990099,
+   "unit": "",
+   "expected": 0.00990099,
+   "low": null,
+   "high": 0.02,
+   "source": "the model: charge shared with 5.5 nF, the bounding case of an empty capacitor",
+   "verdict": "pass"
+  },
+  {
+   "key": "recharge",
+   "label": "Sampling capacitor back to 63 % of the step through 1 kohm and the switch",
+   "value": 6.092807e-08,
+   "unit": "s",
+   "expected": 6.428e-08,
+   "low": 5.7852e-08,
+   "high": 7.0708e-08,
+   "source": "TI SBAS569B, figure 45: 96 ohm, 55 pF and 4 pF, calculated here",
+   "verdict": "pass"
+  },
+  {
+   "key": "reference_current",
+   "label": "Current of the reference pin during the conversion, reference at 5 V",
+   "value": 0.00030025,
+   "unit": "A",
+   "expected": 0.0003,
+   "low": 0.000291,
+   "high": 0.000309,
+   "source": "TI SBAS569B, page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "reference_leakage",
+   "label": "Current of the reference pin while the converter acquires",
+   "value": 2.50009e-07,
+   "unit": "A",
+   "expected": 2.5e-07,
+   "low": 2.425e-07,
+   "high": 2.575e-07,
+   "source": "TI SBAS569B, page 6",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode",
+   "label": "Current of the protection diode with the input 0.3 V above the reference",
+   "value": 1.100485e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "conversion",
+   "ADS8860 input model: one conversion, 1 V behind 1 kohm",
+   "signal-chain-ads8860.conversion.png"
+  ]
+ ],
+ "notes": [
+  "The model is the equivalent circuit of the datasheet with the timing of the three-wire mode. It does not convert: no code comes out of it.",
+  "What the sampling capacitor keeps over a conversion is not in the datasheet. The model empties it, the bounding case for the kick at the input.",
+  "The reference current is a constant current during the conversion, in proportion to the reference voltage (assumption); the datasheet states it at 5 V and mid-code. The real current comes as one packet per bit.",
+  "The protection diodes are an assumed junction: the datasheet gives the rating of 0.3 V beyond the reference and no curve. The figure of the diode current is not a figure to rely on."
+ ],
+ "models": [],
+ "decks": [
+  "signal-chain-ads8860.acquiring.cir",
+  "signal-chain-ads8860.conversion.cir"
+ ],
+ "format": 1
+}

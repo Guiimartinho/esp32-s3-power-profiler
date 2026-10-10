@@ -32,16 +32,35 @@ tests show that the calculation does what it says, not that a board
 behaves so. The figures are not evidence for a criterion, and no report
 cites them as a result.
 
+The circuits of the draft were simulated on 2026-10-10, from the netlist
+of the schematic, and the results are filed in
+[`simulation/results/`](../../simulation/results/README.md). Their pages
+have a column "Verdict". A "pass" there says that a simulated circuit
+keeps its limit with models written from datasheets: a limit of the
+specification, a rating of a datasheet, or a limit that the bench sets
+and names. It is not evidence for a criterion either, no report cites it
+as a result, and it closes no phase. What the simulations give a report
+is the figure to compare a measurement with, and a list of what only a
+measurement can settle
+([simulation guide](../../simulation/README.md#what-stays-for-the-bench)).
+Three things that the simulations take as an input or leave open belong
+to phase 1: the reaction time of the range sequencer, which every
+simulation of the range logic takes as an input; the loop of the
+pre-regulator at its low end; and the start of the boost converter from
+a supply limited to 0.7 A, which decision D-97 leaves as the test that
+says whether a remedy is needed at the position U9.
+
 Phases 1 to 4 come before a carrier board is built: phase 1 runs on
 evaluation modules and phase 2 on a test board, and the specification does
 not name the hardware of phases 3 and 4 yet. The first report on a carrier
 board belongs to revision A in phase 5. The layout review with scripts is
 done, and the seven points in which the drawn board deviates from the
 earlier text of section 10 of the specification are recorded as decisions
-D-87 to D-93. What still precedes fabrication is a review of the board by a
-person in the KiCad editor, the open items of the layout that need a part
-moved, the silkscreen and test point items, and the open checks (section 13
-and section 16 of the specification). The
+D-87 to D-93. What still precedes fabrication is the drawing of the
+decisions that followed the circuit simulations (D-95, D-96 and D-98), a
+review of the board by a person in the KiCad editor, the open items of the
+layout that need a part moved, the silkscreen and test point items, and
+the open checks (section 13 and section 16 of the specification). The
 [hardware guide](../../hardware/README.md) lists them.
 
 One measurement on that first board is already named: the temperature rise

@@ -1,0 +1,212 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "unpowered-inputs",
+ "title": "Controller lines driven high into parts that have no supply",
+ "covers": "sections 4.6, 4.11 and 5 (D-75, D-77), rules F-2 and F-7",
+ "summary": "Pads of the controller are driven high while the supervisor holds the carrier off. Three circuits. In the first the clock, convert-start and load lines go high into the converter and the registers; the logic rail has only the discharge of its regulator and its capacitors. In the second the two selects, and then also the clock and the data line of the slow SPI bus, go high into the monitor converter and the DAC with the analog rail dead. In the third a gate line and an address line go high with +12 V_A at 0 V. Each is run with nominal values and at the tolerance limits that the specification calculates with.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "clock_pin_peak_weak",
+   "label": "weakest pad of the 4 mA setting: current into the clock pin of the converter, rail still empty",
+   "value": 0.00573553,
+   "unit": "A",
+   "expected": 0.006,
+   "low": null,
+   "high": 0.0113,
+   "source": "sections 4.6 and 5: 6 mA to 10 mA with nominal values, 11.3 mA at the tolerance limits (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_pin_settled_weak",
+   "label": "weakest pad of the 4 mA setting: current into the clock pin once the rail has risen",
+   "value": 0.002877456,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "rule F-7: the series resistors bound the state",
+   "verdict": "info"
+  },
+  {
+   "key": "convert_pin_peak",
+   "label": "weakest pad of the 4 mA setting: current into the convert-start pin, rail still empty",
+   "value": 0.005735515,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.0113,
+   "source": "section 5: the two clock inputs of the converter",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_pin_peak_strong",
+   "label": "strong pad: current into the clock pin of the converter, rail still empty",
+   "value": 0.008504309,
+   "unit": "A",
+   "expected": 0.01,
+   "low": null,
+   "high": 0.0113,
+   "source": "sections 4.6 and 5: 6 mA to 10 mA with nominal values, 11.3 mA at the tolerance limits (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_pin_settled_strong",
+   "label": "strong pad: current into the clock pin once the rail has risen",
+   "value": 0.003507699,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "rule F-7: the series resistors bound the state",
+   "verdict": "info"
+  },
+  {
+   "key": "clock_pin_peak_limit",
+   "label": "pad without resistance, resistors 5 % low, 3.366 V: current into the clock pin of the converter, rail still empty",
+   "value": 0.01019383,
+   "unit": "A",
+   "expected": 0.0113,
+   "low": null,
+   "high": 0.0113,
+   "source": "sections 4.6 and 5: 6 mA to 10 mA with nominal values, 11.3 mA at the tolerance limits (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_lifted",
+   "label": "pad without resistance, resistors 5 % low, 3.366 V: level to which the two lines lift the logic rail",
+   "value": 1.718257,
+   "unit": "V",
+   "expected": 1.6,
+   "low": 1.2,
+   "high": 2.0,
+   "source": "rule F-2: 3V3_C lifted to about 1.6 V (calculated); within 25 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "analog_rail_selects",
+   "label": "Both selects driven high: level at which they hold the dead analog rail",
+   "value": 0.730123,
+   "unit": "V",
+   "expected": 0.76,
+   "low": 0.68,
+   "high": 0.84,
+   "source": "rule F-7: 0.76 V, above the 0.7 V the converter needs before it is powered again (calculated); within 10 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "slow_line_peak",
+   "label": "Clock of the slow bus high, tolerance limits: current through 2.2 kohm, rail empty",
+   "value": 0.00133807,
+   "unit": "A",
+   "expected": 0.00139,
+   "low": null,
+   "high": 0.00139,
+   "source": "sections 4.11 and 5 and rule F-2: 1.39 mA into a slow SPI input (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "dac_select_peak",
+   "label": "Select of the DAC high, tolerance limits: current into its pin, rail still empty",
+   "value": 0.001795634,
+   "unit": "A",
+   "expected": 0.0019,
+   "low": null,
+   "high": 0.002,
+   "source": "section 5 and rule F-2: 1.90 mA against the 2 mA of the datasheet",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_inputs_nominal",
+   "label": "Gate and address line high, nominal values: current into the two inputs together",
+   "value": 0.005294999,
+   "unit": "A",
+   "expected": 0.0054,
+   "low": null,
+   "high": 0.0058,
+   "source": "sections 4.11 and 5: 2.7 mA per input, 2.9 mA at the limits (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_inputs_limit",
+   "label": "Gate and address line high, limit values: current into the two inputs together",
+   "value": 0.005478159,
+   "unit": "A",
+   "expected": 0.0058,
+   "low": null,
+   "high": 0.0058,
+   "source": "sections 4.11 and 5: 2.7 mA per input, 2.9 mA at the limits (calculated)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "logic",
+   "Clock, convert-start and load high at 20 us into a dead logic rail, weakest pad",
+   "unpowered-inputs.logic.png"
+  ]
+ ],
+ "notes": [
+  "The inputs of the converter, of the monitor converter, of the DAC, of the gate driver and of the multiplexer are a capacitance and a diode to each rail, 0.6 V at 1 mA: their datasheets rate the pins a few tenths of a volt beyond the supply and give no curve. The specification calculates with 0.5 V to 0.6 V; a softer diode gives less current.",
+  "A rail without supply is the discharge of its regulator, 230 ohm (datasheet), its capacitors and, on the logic rail, the divider of PWR_GOOD. Every other load of the rails is left out, so the rails rise higher here than on the board. The registers take no current: their inputs have no diode to the supply.",
+  "The first values are read 2 us after the pads went high, when the pin capacitances are charged and the capacitors of the rail are still empty; after about a millisecond the rail has risen and the currents are lower.",
+  "These states are the ones rules F-2 and F-7 forbid; the bench shows what the resistors leave if firmware fails to keep them."
+ ],
+ "models": [
+  [
+   "U15",
+   "DIGITAL_INPUT_PIN",
+   "written here"
+  ],
+  [
+   "U23",
+   "DIGITAL_INPUT_PIN",
+   "written here"
+  ],
+  [
+   "U24",
+   "DIGITAL_INPUT_PIN",
+   "written here"
+  ],
+  [
+   "U30",
+   "DIGITAL_ADS8860_IO",
+   "written here"
+  ],
+  [
+   "U33",
+   "DIGITAL_LV165A",
+   "written here"
+  ],
+  [
+   "U34",
+   "DIGITAL_LV165A",
+   "written here"
+  ],
+  [
+   "U40",
+   "DIGITAL_MCP3208",
+   "written here"
+  ],
+  [
+   "U7",
+   "DIGITAL_LP5907_OFF",
+   "written here"
+  ],
+  [
+   "U8",
+   "DIGITAL_LP5907_OFF",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "unpowered-inputs.logic-weak.cir",
+  "unpowered-inputs.selects.cir"
+ ],
+ "format": 1
+}

@@ -8,8 +8,26 @@ Draft A2 is a review draft. Its schematic passes the electrical rules check
 of KiCad with no errors and no warnings, and its netlist was checked
 independently against datasheets. The parts are candidates, no component
 check is closed, and nothing was built or measured: every figure below is a
-datasheet value, a calculation, a simulation or an estimate, as marked. The
-files of the simulations are not in the repository yet.
+datasheet value, a calculation, a simulation or an estimate, as marked.
+
+A figure marked "simulated" on this page is the one that the specification
+states. On 2026-10-10 the circuits were simulated again, from the netlist
+of this schematic, and those simulations are filed in
+[`../../simulation/`](../../simulation/README.md). They give most of the
+figures quoted here again. In some places they do not, among them the
+opening time of the output switch at a low output voltage, the current in
+the ladder clamp in a short circuit and the times at power-off; the
+[simulation guide](../../simulation/README.md#where-the-simulation-and-the-text-differ)
+lists them. The figures on this page follow the specification, which is
+unchanged in those places until the project owner decides.
+
+Four decisions followed the simulations on 2026-10-10: D-95 to D-98 of the
+specification. Three of them change this schematic and are not drawn yet.
+The pictures, the PDF and the bill of materials of this page show the
+state before them: 1 nF at C32 to C34 of the rail monitor, no position
+for a capacitor at the buffer U28, and R14 and C5 crossed as positions
+without parts. The text under a sheet says where a decision differs from
+its drawing.
 
 The board was an autorouted draft with 28 of its 984 connections open. On
 2026-10-10 its layout was reviewed: the open connections were closed and the
@@ -139,9 +157,10 @@ connects one of them to the 5 V rail (section 4.1, decision D-47).
   0.67 A to 0.85 A with the tolerances (calculated, R13), and without a
   ramp capacitor: its turn-on delay is about 0.08 ms (datasheet, typical).
   R17 defines its output while the limiter is off or the jumper is open.
-  The crossed parts R14 and C5 are a position for a second damper, 0.33 Ω
-  and 10 µF, to be fitted if the bench shows more than 6.0 V at TP4 when
-  the data cable is plugged again (decision D-84).
+  The crossed parts R14 and C5 are a second damper, 0.33 Ω and 10 µF,
+  against more than 6.0 V at TP4 when the data cable is plugged again.
+  The drawing shows them as a position without parts (decision D-84).
+  Decision D-98 fits them; that is not drawn yet.
 - Right: the multiplexer U5. It drives `+5V` from the USB-C limiter
   while that output is above 2.15 V to 2.59 V (calculated; R18, R19,
   delayed by C8), otherwise from the module input, and it blocks reverse
@@ -198,10 +217,13 @@ to D-53).
   13.0 V to 14.1 V with the tolerances (calculated; feedback R32,
   R33). Its enable pin is pulled up to `+5V` by R29: it is not gated
   by `5V_OK` and runs whenever the rail is present. The crossed part U9
-  is a position for a 3.08 V voltage detector at that pin. The converter has
-  no under-voltage lock-out and no soft start (datasheet); the detector is
-  the remedy if it does not start from the current-limited module input,
-  which is a bench item (decision D-84).
+  is a position for a voltage detector at that pin, drawn for a 3.08 V
+  part of the 803 type (decision D-84). The converter has no
+  under-voltage lock-out and no soft start (datasheet); whether it starts
+  from the current-limited module input is a bench item. By decision D-97
+  the position stays without a part, and the 803 type with its time-out
+  of 0.24 s is no longer the part meant for it: a remedy, if the bench
+  asks for one, is a detector with a time-out of milliseconds.
 - Top right: R37, 0.47 Ω, and C29 filter the boost output for the
   low-noise regulator U13, which makes `+12V_A`. R38 sets 12.0 V and
   C30 at the same pin sets the noise and the slow approach of the last
@@ -244,7 +266,8 @@ present (section 3, decision D-54).
   level is 0.82 of the rail, and the line is low without supply.
 - C32, C33 and C34 at the comparator inputs keep an edge of the
   flag from moving its own thresholds: in the package every output pin is
-  the neighbor of an inverting input.
+  the neighbor of an inverting input. The drawing shows 1 nF. Decision
+  D-95 makes them 10 nF; that is not drawn yet.
 
 The flag reports that the rails are present, not that they are in
 tolerance, and it cannot see a `+3V3_C` that stands low; firmware checks the
@@ -455,7 +478,9 @@ From the sense taps of the active shunt to the 16-bit converter (sections
   (calculated; TP42). While the buffer is supplied the converter
   input cannot pass the reference by more than 0.25 V, against a rating of
   0.3 V, and no clamp current flows into the reference (calculated;
-  datasheet value).
+  datasheet value). Decision D-96 adds a position for a capacitor from
+  the non-inverting input of U28 to ground; it is not on this drawing
+  yet.
 - Right: the converter U30 with the input network R130, C90 and one
   reference capacitor, C89, behind R131. RN5 puts 220 Ω in its
   clock, data and convert-start lines, which keeps the current into the
@@ -626,7 +651,7 @@ and gives the resistance of the 1 A path in squares and milliohms, the
 lengths of the Kelvin pairs, the surface leakage into the measured node and
 the count of sense and guarded nets without a via. On the board in the
 repository it gives the figures of this guide. The scripts that drew the
-layout and the files of the simulations are not in the repository.
+layout are not in the repository.
 
 ### Renderings
 
@@ -845,8 +870,9 @@ What these blocks do not keep is in the list of open items below.
 The drawn board differs in seven points from what section 10 of the
 specification asked before the review. The owner accepted all seven on
 2026-10-10. They are decisions D-87 to D-93 of the
-[decision log](../../docs/specification.md#15-decision-log), which now ends
-at D-93, and section 10 of the specification describes the board as drawn.
+[decision log](../../docs/specification.md#15-decision-log), and section 10
+of the specification describes the board as drawn. The log goes on to
+D-98; the later entries are not of the layout.
 
 | Decision | What it records |
 | --- | --- |
@@ -908,7 +934,9 @@ Not touched by the review, as on the autorouted board:
 - The two resistor pairs of the set-point path do not stand side by side
   (section 10.1).
 
-What comes next for the board, in order: a person opens the board in KiCad
+What comes next for the board, in order: the decisions that follow the
+circuit simulations are drawn (D-95, D-96 and D-98), of which the position
+for a capacitor at U28 adds a footprint; a person opens the board in KiCad
 and reviews it; the open items that need parts moved are a placement change
 with a local redraw; then the silkscreen and test point items; the
 temperature rise of the linear regulator (D-93) is read on the first board.

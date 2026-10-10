@@ -1,0 +1,19 @@
+{
+ "block": "ladder",
+ "block_title": "Shunt Ladder",
+ "bench": "ranges",
+ "title": "The four ranges at rest: shunt seen by the amplifier and burden voltage",
+ "covers": "section 4.3 (range table, Kelvin sensing, one-hot selection), section 8 (shunt values)",
+ "summary": "Each range is held and the load current is stepped from 100 nA to 1.2 A. The voltage between the two outputs of the multiplexer is read. Its slope is the shunt that the amplifier sees; the voltage from the supply node to the node after the shunts is the burden. The run is repeated with the supply node at 0.8 V and at 5 V, because the gate drive of the range switches depends on it.",
+ "status": "error",
+ "error": "ranges.r0-5v: the run failed: Warning: source stepping failed; Note: Transient op started; Warning: source stepping failed; Note: Transient op started; Warning: source stepping failed; Note: Transient op started",
+ "tier": "vendor",
+ "engine": "",
+ "library_sha256": "",
+ "figures": [],
+ "graphs": [],
+ "notes": [],
+ "models": [],
+ "decks": [],
+ "format": 1
+}

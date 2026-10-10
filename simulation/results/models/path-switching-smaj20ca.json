@@ -1,0 +1,148 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "path-switching-smaj20ca",
+ "title": "SMAJ20CA model against its datasheet",
+ "covers": "the model of the suppressor D14 of the VIN terminal",
+ "summary": "The suppressor D14 of the schematic carries a forced current in both directions. The run is made with the three variants of the model: the middle of the breakdown voltage and its two limits. The voltage at 1 mA is the breakdown voltage and the voltage at 12.3 A the clamping voltage of the datasheet. A second run holds the stand-off voltage of 20 V and reads the capacitance.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "breakdown_typical",
+   "label": "Breakdown voltage at 1 mA, typical variant",
+   "value": 23.3563,
+   "unit": "V",
+   "expected": 23.35,
+   "low": 22.15,
+   "high": 24.55,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 22.2 V to 24.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_typical",
+   "label": "Clamping voltage at 12.3 A, typical variant",
+   "value": 31.25471,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 32.45,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 32.4 V at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "symmetry",
+   "label": "Difference between the two directions at 12.3 A",
+   "value": 2.368572e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "Vishay 88390 of 09-Jan-2024, page 1: the characteristics apply in both directions",
+   "verdict": "pass"
+  },
+  {
+   "key": "breakdown_low",
+   "label": "Breakdown voltage at 1 mA, low variant",
+   "value": 22.2063,
+   "unit": "V",
+   "expected": 22.2,
+   "low": 22.15,
+   "high": 24.55,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 22.2 V to 24.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_low",
+   "label": "Clamping voltage at 12.3 A, low variant",
+   "value": 30.10471,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 32.45,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 32.4 V at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "breakdown_high",
+   "label": "Breakdown voltage at 1 mA, high variant",
+   "value": 24.5063,
+   "unit": "V",
+   "expected": 24.5,
+   "low": 22.15,
+   "high": 24.55,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 22.2 V to 24.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_high",
+   "label": "Clamping voltage at 12.3 A, high variant",
+   "value": 32.40471,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 32.45,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 32.4 V at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "standoff_current",
+   "label": "Current at the stand-off voltage of 20 V",
+   "value": 1.980653e-08,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "Vishay 88390 of 09-Jan-2024, page 2: 1 uA at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "capacitance",
+   "label": "Capacitance at 20 V and 1 MHz",
+   "value": 3.116729e-10,
+   "unit": "F",
+   "expected": 3e-10,
+   "low": 2.25e-10,
+   "high": 3.75e-10,
+   "source": "Vishay 88390 of 09-Jan-2024, page 4, figure 4, read from the curve; 25 % asked of the fit",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "curve",
+   "SMAJ20CA: current against voltage, three breakdown voltages",
+   "path-switching-smaj20ca.curve.png"
+  ]
+ ],
+ "notes": [
+  "The datasheet states the clamping voltage as a maximum after a pulse of a millisecond, which heats the part. Every variant rises by the same 7.9 V from 1 mA to 12.3 A, so the variant with the highest breakdown voltage clamps at the datasheet maximum; in a pulse of microseconds a real part clamps lower than these models.",
+  "The current at the stand-off voltage is set by two resistors that keep the middle node of the model defined: it is no leakage figure.",
+  "The models have no heating and no limit of pulse power; the benches compare the simulated pulses with figure 1 of the datasheet."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_HI",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_LO",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "path-switching-smaj20ca.curve-typical.cir",
+  "path-switching-smaj20ca.standoff.cir"
+ ],
+ "format": 1
+}

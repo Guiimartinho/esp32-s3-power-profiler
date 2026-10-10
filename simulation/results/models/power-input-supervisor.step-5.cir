@@ -1,0 +1,13 @@
+* Supervisor: step of 5 % below the threshold
+.include "../../models/power_input.lib"
+XU6 reset 0 mr ct sense vdd PWRIN_TPS3808G01
+Vdd vdd 0 PWL(0 0 1m 3.3)
+Rpull reset vdd 100k
+Cload reset 0 50p
+Rmr mr vdd 1e9
+Vs sense 0 PWL(0 0 10u 0.42525 30m 0.42525 30.0001m 0.38475)
+Rct ct 0 1e12
+.control
+tran 2e-07 0.0302 0.0299 2e-07 uic
+.endc
+.end

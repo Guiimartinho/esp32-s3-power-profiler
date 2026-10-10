@@ -1,0 +1,504 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "interlock",
+ "title": "The interlock of the two mode pairs and a change of mode",
+ "covers": "sections 4.2 and 4.9 (interlock, D-62), rule F-23, the open check of section 16",
+ "summary": "Both supplies are present, at different voltages, and the requests change. The external supply stands at 5 V and the stand-in for the regulator at 3.3 V, so that a current between the two would show at once. In the first runs both requests end high: together from idle, with the interlock transistor at its highest threshold, and with the source request added while ampere mode runs. In the others the mode changes in either direction, without dead time and with the 5 ms of rule F-23. A pair counts as conducting above 10 mA. The output pair is open in every run, as rule F-23 orders it for a change of mode.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "input_both",
+   "label": "Input of the ampere driver at the most, 1 us after the edge: both requests raised together from idle",
+   "value": 0.01111434,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 16: input of the ampere driver below 0.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "glitch_both",
+   "label": "Input of the ampere driver at the most, at the edge: both requests raised together from idle",
+   "value": 0.2075417,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.8,
+   "source": "the driver reads 0.8 V or less as low (Microchip DS20001422G, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_both",
+   "label": "Gate-source voltage of the ampere pair at the most, 10 us after the edge: both requests raised together from idle",
+   "value": -0.0001490894,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "lowest threshold of the transistors, 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_both",
+   "label": "Current at the VIN terminal at the most, 5 ms after the edge: both requests raised together from idle",
+   "value": 3.505628e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 16: less than 50 uA at the VIN terminal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_both",
+   "label": "Supply node at the end, which follows the regulator at 3.3 V: both requests raised together from idle",
+   "value": 3.299999,
+   "unit": "V",
+   "expected": null,
+   "low": 3.28,
+   "high": 3.32,
+   "source": "section 4.9: with both requests high the source pair is closed; within 20 mV asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_both_weak",
+   "label": "Input of the ampere driver at the most, 1 us after the edge: both requests raised together, interlock transistor with the highest threshold",
+   "value": 0.01312187,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 16: input of the ampere driver below 0.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "glitch_both_weak",
+   "label": "Input of the ampere driver at the most, at the edge: both requests raised together, interlock transistor with the highest threshold",
+   "value": 0.2739922,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.8,
+   "source": "the driver reads 0.8 V or less as low (Microchip DS20001422G, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_both_weak",
+   "label": "Gate-source voltage of the ampere pair at the most, 10 us after the edge: both requests raised together, interlock transistor with the highest threshold",
+   "value": -0.0001490854,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "lowest threshold of the transistors, 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_both_weak",
+   "label": "Current at the VIN terminal at the most, 5 ms after the edge: both requests raised together, interlock transistor with the highest threshold",
+   "value": 3.500373e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 16: less than 50 uA at the VIN terminal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_both_weak",
+   "label": "Supply node at the end, which follows the regulator at 3.3 V: both requests raised together, interlock transistor with the highest threshold",
+   "value": 3.299999,
+   "unit": "V",
+   "expected": null,
+   "low": 3.28,
+   "high": 3.32,
+   "source": "section 4.9: with both requests high the source pair is closed; within 20 mV asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_added",
+   "label": "Input of the ampere driver at the most, 1 us after the edge: ampere mode running, source request added",
+   "value": 0.01111418,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 16: input of the ampere driver below 0.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "glitch_added",
+   "label": "Input of the ampere driver at the most, at the edge: ampere mode running, source request added",
+   "value": 3.39545,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "gate_added",
+   "label": "Gate-source voltage of the ampere pair at the most, 10 us after the edge: ampere mode running, source request added",
+   "value": 0.6452832,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.1,
+   "source": "lowest threshold of the transistors, 1.1 V (TI SLPS515A, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_added",
+   "label": "Current at the VIN terminal at the most, 5 ms after the edge: ampere mode running, source request added",
+   "value": 3.575663e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "section 16: less than 50 uA at the VIN terminal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_added",
+   "label": "Supply node at the end, which follows the regulator at 3.3 V: ampere mode running, source request added",
+   "value": 3.299999,
+   "unit": "V",
+   "expected": null,
+   "low": 3.28,
+   "high": 3.32,
+   "source": "section 4.9: with both requests high the source pair is closed; within 20 mV asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "overlap_added",
+   "label": "Time with both pairs conducting: ampere mode running, source request added",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.9: no time with both pairs conducting, also with no dead time",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_added",
+   "label": "Old pair below 2 V of gate-source voltage after the edge: ampere mode running, source request added",
+   "value": 1.378492e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: a pair opens within 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "break_added",
+   "label": "From there to the lowest threshold at the gate of the new pair: ampere mode running, source request added",
+   "value": 0.004276436,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2: break-before-make from the slow closing and the fast opening",
+   "verdict": "pass"
+  },
+  {
+   "key": "overlap_to_source",
+   "label": "Time with both pairs conducting: ampere to source with no dead time",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.9: no time with both pairs conducting, also with no dead time",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_to_source",
+   "label": "Old pair below 2 V of gate-source voltage after the edge: ampere to source with no dead time",
+   "value": 1.373787e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: a pair opens within 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "break_to_source",
+   "label": "From there to the lowest threshold at the gate of the new pair: ampere to source with no dead time",
+   "value": 0.004276317,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2: break-before-make from the slow closing and the fast opening",
+   "verdict": "pass"
+  },
+  {
+   "key": "overlap_to_source_5ms",
+   "label": "Time with both pairs conducting: ampere to source with 5 ms of dead time",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.9: no time with both pairs conducting, also with no dead time",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_to_source_5ms",
+   "label": "Old pair below 2 V of gate-source voltage after the edge: ampere to source with 5 ms of dead time",
+   "value": 1.974527e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: a pair opens within 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "break_to_source_5ms",
+   "label": "From there to the lowest threshold at the gate of the new pair: ampere to source with 5 ms of dead time",
+   "value": 0.009276422,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2: break-before-make from the slow closing and the fast opening",
+   "verdict": "pass"
+  },
+  {
+   "key": "overlap_to_ampere",
+   "label": "Time with both pairs conducting: source to ampere with no dead time",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.9: no time with both pairs conducting, also with no dead time",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_to_ampere",
+   "label": "Old pair below 2 V of gate-source voltage after the edge: source to ampere with no dead time",
+   "value": 1.782225e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: a pair opens within 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "break_to_ampere",
+   "label": "From there to the lowest threshold at the gate of the new pair: source to ampere with no dead time",
+   "value": 0.004234705,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2: break-before-make from the slow closing and the fast opening",
+   "verdict": "pass"
+  },
+  {
+   "key": "overlap_to_ampere_5ms",
+   "label": "Time with both pairs conducting: source to ampere with 5 ms of dead time",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.9: no time with both pairs conducting, also with no dead time",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_to_ampere_5ms",
+   "label": "Old pair below 2 V of gate-source voltage after the edge: source to ampere with 5 ms of dead time",
+   "value": 1.778613e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: a pair opens within 1 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "break_to_ampere_5ms",
+   "label": "From there to the lowest threshold at the gate of the new pair: source to ampere with 5 ms of dead time",
+   "value": 0.009195643,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.2: break-before-make from the slow closing and the fast opening",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "both",
+   "Both requests raised together: the source pair closes, VIN stays isolated",
+   "interlock.both.png"
+  ],
+  [
+   "added",
+   "Ampere mode running and the source request is added: the first 0.6 us",
+   "interlock.added.png"
+  ],
+  [
+   "to-source",
+   "Ampere at 5 V to source at 3.3 V with no dead time",
+   "interlock.to-source.png"
+  ]
+ ],
+ "notes": [
+  "The requests are pins behind 33 ohm with edges of 10 ns that arrive together; a request at a level between the logic levels is not covered, as the specification says.",
+  "The driver is a behavioral model with a threshold of 1.5 V and no input current. The interlock transistors carry the largest capacitances of their datasheet, which delays the input of the ampere driver by about 40 ns.",
+  "The regulator is a voltage source that also takes current. After a change to a lower voltage the charge of the supply node flows back through the new pair, at the pace of its gate ramp: some milliamperes, shown as a negative current. What a regulator that cannot take current does with it is the matter of the bench hand-over.",
+  "With no dead time the new pair begins to carry current about 4 ms after the old pair has opened: its gate has to pass the voltage of its supply first. The pair that opened rests near its lowest threshold for about 3 ms (bench open), without a path to conduct into."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138_HI",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "interlock.both.cir"
+ ],
+ "format": 1
+}

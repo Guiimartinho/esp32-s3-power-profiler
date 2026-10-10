@@ -1,0 +1,41 @@
+* Difference amplifier of the tracking
+.include "../../models/diodes.lib"
+.include "../../models/opamps.lib"
+C51 p3v3_a 0 1e-07
+C52 trk_n pre_fb 1e-11
+C55 trk_sense 0 1e-07
+DD13_1 ldo_out trk_sense BAV199
+DD13_2 trk_sense trk_sense BAV199
+R63 trk_n pre_fb 19100
+R64 trk_sense trk_n 93100
+R65 ldo_out trk_sense 6650
+R66 trk_p 0 23700
+R67 v_pre trk_p 100000
+R68 vref trk_p 137000
+XU19 trk_p trk_n p3v3_a 0 pre_fb OPA365
+* the three inputs of the difference amplifier, one moved at a time
+Vpre v_pre 0 3.827
+Vldo ldo_out 0 3.3
+Vref vref 0 2.5
+Vp3v3a p3v3_a 0 3.3
+Rfb pre_fb 0 1e9
+.nodeset v(ldo_out)=3.3
+.nodeset v(v_pre)=3.8268
+.nodeset v(pre_fb)=0.5
+.nodeset v(trk_p)=0.949958
+.nodeset v(trk_n)=0.949958
+.nodeset v(trk_sense)=3.3
+.nodeset v(xu19.x1.x)=0.5
+.nodeset v(xu19.x1.y)=0.5
+.control
+op
+alter Vpre dc = 3.927
+op
+alter Vpre dc = 3.827
+alter Vldo dc = 3.4
+op
+alter Vldo dc = 3.3
+alter Vref dc = 2.6
+op
+.endc
+.end

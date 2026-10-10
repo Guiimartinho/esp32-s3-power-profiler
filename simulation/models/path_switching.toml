@@ -1,0 +1,65 @@
+# Model map of the path switching sheet: the two mode pairs, their gate
+# networks, the interlock, the over-voltage detector of VIN, the fuse and the
+# suppressor of the VIN terminal. The models are in path_switching.lib.
+#
+# The mode pairs (CSD17577Q3A), the diode pairs (BAV199), the gate driver
+# (TC4427) and the comparator (MCP6561) take their models from models.toml.
+
+# ---- Hold-off transistors Q6, Q7 --------------------------------------
+# SOT-23: pin 1 base, pin 2 emitter, pin 3 collector. The element wants
+# collector, base, emitter.
+[part."BC847B-7-F"]
+kind = "device"
+letter = "Q"
+name = "PATH_BC847B"
+ports = ["3", "1", "2"]
+library = "path_switching.lib"
+origin = "written here"
+
+# ---- Suppressor of the VIN terminal D14 --------------------------------
+# Bidirectional: the two pins are alike.
+[part."SMAJ20CA-E3/61"]
+kind = "subckt"
+name = "PATH_SMAJ20CA"
+ports = ["1", "2"]
+library = "path_switching.lib"
+origin = "written here"
+
+# ---- Interlock transistors Q2, Q3 --------------------------------------
+# The BSS138 sits on the source meter sheet as well (Q1), so the two parts
+# of this sheet are named by designator. SOT-23: pin 1 gate, pin 2 source,
+# pin 3 drain. The element wants drain, gate, source.
+[ref.Q2]
+kind = "device"
+letter = "M"
+name = "PATH_BSS138"
+ports = ["3", "1", "2"]
+library = "path_switching.lib"
+origin = "written here"
+
+[ref.Q3]
+kind = "device"
+letter = "M"
+name = "PATH_BSS138"
+ports = ["3", "1", "2"]
+library = "path_switching.lib"
+origin = "written here"
+
+# ---- Fuse of the VIN terminal F1 ---------------------------------------
+[ref.F1]
+kind = "subckt"
+name = "PATH_FUSE_0466004"
+ports = ["1", "2"]
+library = "path_switching.lib"
+origin = "written here"
+
+# ---- Models of the manufacturers (vendor tier; files not versioned) ----
+# Diodes Incorporated publishes a plain model of the BC847B: collector,
+# base, emitter.
+[vendor."BC847B-7-F"]
+kind = "device"
+letter = "Q"
+name = "DI_BC847B"
+ports = ["3", "1", "2"]
+library = "vendor/diodes-BC847B-BC847B.spice.txt"
+origin = "vendor"

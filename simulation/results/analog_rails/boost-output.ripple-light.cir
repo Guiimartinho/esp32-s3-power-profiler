@@ -1,0 +1,30 @@
+* Boost output, cycle by cycle, 10 mA, R37 as drawn
+.include "../../models/analog_rails.lib"
+.include "../../models/power_input.lib"
+DD6 sw p13v5 B0530W
+XL1 p5v sw L_74438357100
+XC11 p5v 0 PWRIN_WCAP_47U c=47u esr=0.44
+C13 p5v 0 1e-07
+C14 p5v 0 1e-06
+C15 p5v 0 1e-06
+C18 p5v 0 3.37978e-06
+C23 p13v5 fb_boost 2.2e-10
+C25 p13v5 0 1e-07
+C27 p13v5 0 6.95443e-06
+C29 ldo_in 0 6.95443e-06
+C39 p5v 0 4.96991e-06
+C40 p5v 0 4.96991e-06
+R29 p5v en_boost 51000
+R32 p13v5 fb_boost 133000
+R33 fb_boost 0 13300
+R37 p13v5 ldo_in 0.47
+XU10 sw 0 fb_boost en_boost p5v LMR62014
+* the 5 V rail behind the resistance of its source
+Vsrc src 0 PWL(0 0 0.2m 5)
+Rsrc src p5v 0.2
+Bload ldo_in 0 I = 0.01*tanh(max(v(ldo_in), 0)/2)
+.control
+save p5v p13v5 ldo_in sw @l.xl1.l1[i]
+tran 5n 0.007 0.0065 20n
+.endc
+.end

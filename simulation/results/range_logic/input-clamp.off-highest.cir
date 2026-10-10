@@ -1,0 +1,35 @@
+* Comparator inputs, 3V3_A at 0 V, clamp diode highest
+.include "../../models/diodes.lib"
+.include "../../models/logic.lib"
+C93 th_jump 0 1e-07
+C94 th_oc 0 1e-07
+C95 th_up 0 1e-07
+C96 p3v3_a 0 1e-07
+C97 p3v3_a 0 1e-07
+DD23_1 0 cmp_in BAV199_HI
+DD23_2 cmp_in p3v3_a BAV199_HI
+XU31_1 cmp_in th_jump cmp_jump p3v3_a 0 MCP656X
+XU31_2 cmp_in th_oc cmp_oc p3v3_a 0 MCP656X
+XU32 cmp_in th_up cmp_up p3v3_a 0 MCP656X
+R132 vref th_jump 34800
+R133 th_jump th_oc 3600
+R134 th_oc th_up 2400
+R135 th_up 0 9310
+R136 amp_raw cmp_in 3010
+R137 cmp_in 0 1000
+* the rail of the comparators and the reference, which is supplied from it
+Vp3v3a p3v3_a 0 0
+Vref vref 0 0
+* the amplifier output as a source that rises to the positive rail
+Vamp amp_raw 0 PWL(0 0 1e-05 0 0.00101 12)
+* the run starts at rest
+.ic v(xu31_1.h)=0 v(xu31_2.h)=0 v(xu32.h)=0
+.options method=gear
+.options trtol=1
+.options itl4=100
+.options abstol=1e-9
+.control
+save amp_raw cmp_in p3v3_a cmp_up cmp_oc cmp_jump @r136[i] @r137[i] @dd23_1[id] @dd23_2[id]
+tran 5e-07 0.00101
+.endc
+.end

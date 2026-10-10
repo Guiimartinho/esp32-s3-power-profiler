@@ -44,7 +44,7 @@ fp-info-cache
 _autosave-*
 *-bak
 
-# Simulation outputs (hardware/simulation/)
+# Simulation outputs (simulation/)
 *.raw
 *.log
 

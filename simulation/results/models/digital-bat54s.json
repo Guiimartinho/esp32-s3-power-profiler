@@ -1,0 +1,197 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-bat54s",
+ "title": "BAT54S model against its datasheet",
+ "covers": "the model of the clamp D24 of the translator supply",
+ "summary": "A voltage is stepped across one diode of each variant of the model. The forward voltage at the currents of the datasheet table is read from the typical variant and from the variant fitted to the maxima. The run is repeated at -40 C and at 85 C, where the datasheet gives a curve and no table. The reverse current at 25 V and the capacitance at 1 V are read at 27 C.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "typical_0p1ma",
+   "label": "Typical variant: forward voltage at 0.1 mA",
+   "value": 0.2204217,
+   "unit": "V",
+   "expected": 0.22,
+   "low": 0.2024,
+   "high": 0.2376,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_1ma",
+   "label": "Typical variant: forward voltage at 1 mA",
+   "value": 0.281054,
+   "unit": "V",
+   "expected": 0.29,
+   "low": 0.2668,
+   "high": 0.3132,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_10ma",
+   "label": "Typical variant: forward voltage at 10 mA",
+   "value": 0.3514124,
+   "unit": "V",
+   "expected": 0.35,
+   "low": 0.322,
+   "high": 0.378,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_30ma",
+   "label": "Typical variant: forward voltage at 30 mA",
+   "value": 0.4038259,
+   "unit": "V",
+   "expected": 0.41,
+   "low": 0.3772,
+   "high": 0.4428,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "typical_100ma",
+   "label": "Typical variant: forward voltage at 100 mA",
+   "value": 0.5189678,
+   "unit": "V",
+   "expected": 0.52,
+   "low": 0.4784,
+   "high": 0.5616,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "maximum_0p1ma",
+   "label": "Variant at the maximum: forward voltage at 0.1 mA",
+   "value": 0.2497682,
+   "unit": "V",
+   "expected": 0.24,
+   "low": 0.22,
+   "high": 0.252,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, maximum; between typical and 5 % above it",
+   "verdict": "pass"
+  },
+  {
+   "key": "maximum_1ma",
+   "label": "Variant at the maximum: forward voltage at 1 mA",
+   "value": 0.3200459,
+   "unit": "V",
+   "expected": 0.32,
+   "low": 0.29,
+   "high": 0.336,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, maximum; between typical and 5 % above it",
+   "verdict": "pass"
+  },
+  {
+   "key": "maximum_10ma",
+   "label": "Variant at the maximum: forward voltage at 10 mA",
+   "value": 0.4000497,
+   "unit": "V",
+   "expected": 0.4,
+   "low": 0.35,
+   "high": 0.42,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, maximum; between typical and 5 % above it",
+   "verdict": "pass"
+  },
+  {
+   "key": "maximum_30ma",
+   "label": "Variant at the maximum: forward voltage at 30 mA",
+   "value": 0.4570723,
+   "unit": "V",
+   "expected": 0.5,
+   "low": 0.41,
+   "high": 0.525,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, maximum; between typical and 5 % above it",
+   "verdict": "pass"
+  },
+  {
+   "key": "maximum_100ma",
+   "label": "Variant at the maximum: forward voltage at 100 mA",
+   "value": 0.5772561,
+   "unit": "V",
+   "expected": 0.8,
+   "low": 0.52,
+   "high": 0.84,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, maximum; between typical and 5 % above it",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_typical",
+   "label": "Typical variant: reverse current at 25 V",
+   "value": 2.000002e-08,
+   "unit": "A",
+   "expected": 1.5e-07,
+   "low": null,
+   "high": 2e-06,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2: 0.15 uA typical, 2 uA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_leaky",
+   "label": "Leaky variant: reverse current at 25 V",
+   "value": 2e-06,
+   "unit": "A",
+   "expected": 2e-06,
+   "low": 1.8e-06,
+   "high": 2.2e-06,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "capacitance_1v",
+   "label": "Capacitance at 1 V and 1 MHz",
+   "value": 7.620319e-12,
+   "unit": "F",
+   "expected": 7.6e-12,
+   "low": 6.84e-12,
+   "high": 8.36e-12,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_m40c",
+   "label": "Typical variant: forward voltage at 0.1 mA and -40 C",
+   "value": 0.3354148,
+   "unit": "V",
+   "expected": 0.335,
+   "low": 0.3015,
+   "high": 0.3685,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 3, figure 2 (read from the graph)",
+   "verdict": "pass"
+  },
+  {
+   "key": "forward_85c",
+   "label": "Typical variant: forward voltage at 0.1 mA and 85 C",
+   "value": 0.1194017,
+   "unit": "V",
+   "expected": 0.125,
+   "low": 0.1125,
+   "high": 0.1375,
+   "source": "onsemi BAT54SLT1/D rev. 18, page 3, figure 2 (read from the graph)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "forward",
+   "BAT54S: forward current of the model against its voltage",
+   "digital-bat54s.forward.png"
+  ]
+ ],
+ "notes": [
+  "The limits of the typical variant are the fit this project asks of a model, 8 % of the forward voltage; they are not datasheet limits.",
+  "The variant at the maximum is fitted to the largest forward voltage at 1 mA and 10 mA, the range in which the clamp works. At 30 mA and 100 mA it stays below the maximum of the datasheet.",
+  "The reverse current of the typical variant is its saturation current and does not rise with the voltage as the datasheet curve does: 20 nA against 0.15 uA at 25 V. The leaky variant carries the maximum of 2 uA; its forward voltage is too low and is not used."
+ ],
+ "models": [],
+ "decks": [
+  "digital-bat54s.27c.cir"
+ ],
+ "format": 1
+}

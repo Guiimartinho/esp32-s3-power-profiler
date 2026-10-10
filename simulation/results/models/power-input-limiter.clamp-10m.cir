@@ -1,0 +1,16 @@
+* Limiter: clamp with 0.01 A
+.include "../../models/power_input.lib"
+XU4 in out en ovcsel ilm dvdt flt 0 PWRIN_TPS259621
+Rflt flt 0 1e9
+Rdv dvdt 0 1e12
+Vin in 0 PWL(0 0 100u 5 2m 5 6m 7)
+Ven en 0 PWL(0 0 200u 0 201u 3.3)
+Rilm ilm 0 453
+Rsel ovcsel 0 400k
+Cout out 0 1u
+Rout out 0 10k
+Iload out 0 PWL(0 0 1m 0 1.1m 0.01)
+.control
+tran 2e-06 0.0065 0 2e-06 uic
+.endc
+.end

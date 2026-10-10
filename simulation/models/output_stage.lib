@@ -1,0 +1,93 @@
+* Models of the output stage, written for this project. None of these is a
+* model of a manufacturer. Every figure is from the datasheet named beside
+* it; a figure that is an assumption says so. The qualification benches of
+* the block "models" (output-stage-...) compare each model with the figures
+* of its datasheet.
+
+* ---------------------------------------------------------------------
+* PTVS15VS1UR, the suppressor of the output terminal (D21). Nexperia
+* datasheet PTVSxS1UR series, product data sheet of 1 December 2025.
+*   Table 8, page 4: stand-off voltage 15 V; breakdown voltage 16.70 V,
+*   17.60 V and 18.50 V (least, typical, most) at 1 mA; reverse current at
+*   15 V 0.001 uA typical and 0.1 uA at most; clamping voltage at most
+*   24.4 V at 16.4 A (10/1000 us pulse).
+*   Table 5, page 3: forward surge current 50 A (half sine, 8.3 ms); 400 W.
+* Pins: anode, cathode.
+*   vbr   breakdown voltage at 1 mA, V (17.6 typical; 16.7 and 18.5 limits)
+*   rsf   series resistance in the forward direction, ohm (assumption)
+* Avalanche path: a junction in series with a source and 0.344 ohm. It gives
+* vbr at 1 mA and vbr + 5.9 V at 16.4 A, which is the 24.4 V of the table
+* for a part at the upper limit of the breakdown voltage. The table gives
+* that clamping voltage for a pulse of a millisecond, in which the part
+* heats; for microseconds the model therefore clamps too high.
+* Assumptions, because the datasheet has no forward curve and no
+* capacitance: forward voltage 0.75 V at 0.1 A with an emission coefficient
+* of 1.1; forward series resistance 0.03 ohm (the benches also run
+* 0.15 ohm); capacitance 800 pF at 0 V, the size that suppressors of this
+* power class show.
+* The leakage resistor gives the typical 1 nA at 15 V. It is linear and has
+* no temperature: no leakage figure may be taken from this model.
+* Not modelled: self-heating, the temperature coefficient of the breakdown
+* voltage, reverse recovery, the inductance of the package.
+.subckt OUTPUT_PTVS15V a k params: vbr=17.6 rsf=0.03
+Df a f OUTPUT_PTVS_FWD
+Rf f k {rsf}
+Dz k z OUTPUT_PTVS_AVAL
+Vz z y {vbr - 0.656}
+Rz y a 0.344
+Rleak a k 15g
+.ends OUTPUT_PTVS15V
+.model OUTPUT_PTVS_FWD D(IS=3.9e-13 N=1.1 CJO=800p VJ=0.7 M=0.35)
+.model OUTPUT_PTVS_AVAL D(IS=1e-14 N=1)
+
+* ---------------------------------------------------------------------
+* CSD17577Q3A at the limits of its datasheet (Q15, Q16). Texas Instruments
+* datasheet SLPS515A, page 3: gate threshold 1.1 V, 1.4 V and 1.8 V (least,
+* typical, most) at 250 uA; on-resistance 5.3 mohm typical and 6.4 mohm at
+* most at 4.5 V, 4.0 mohm typical and 4.8 mohm at most at 10 V.
+*   The typical part is the model CSD17577Q3A of mosfets.lib. These three
+*   are that model with one property moved; when that model changes they
+*   have to follow it.
+*   _LO and _HI: the threshold moved by -0.3 V and +0.4 V.
+*   _RMAX: the on-resistance at its upper limit, which is 1.2 times the
+*   series resistance and 1.23 times the channel resistance of the typical
+*   part.
+.model OUTPUT_CSD17577_LO VDMOS (VTO=2.0 KP=128 MTRIODE=1.95 RD=2.4m RS=1.08m
++ RG=1 RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p IS=5e-11 N=1.05
++ LAMBDA=0.01 KSUBTHRES=0.2)
+.model OUTPUT_CSD17577_HI VDMOS (VTO=2.7 KP=128 MTRIODE=1.95 RD=2.4m RS=1.08m
++ RG=1 RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p IS=5e-11 N=1.05
++ LAMBDA=0.01 KSUBTHRES=0.2)
+.model OUTPUT_CSD17577_RMAX VDMOS (VTO=2.3 KP=104 MTRIODE=1.95 RD=2.88m
++ RS=1.296m RG=1 RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p
++ IS=5e-11 N=1.05 LAMBDA=0.01 KSUBTHRES=0.2)
+
+* ---------------------------------------------------------------------
+* The guard buffer (U25) with the sources that measure its loop. The
+* amplifier is the model OPA197 of opamps.lib, unchanged; this wrapper puts
+* a voltage source in series with its output and a current source from
+* ground to the output pin, and a second voltage source in series with its
+* inverting input. With every amplitude at 0 the wrapper is the amplifier.
+*   Pins: non-inverting input, inverting input, positive supply, negative
+*   supply, output.
+*   vac   amplitude of the voltage injected in series with the output
+*   iac   amplitude of the current injected into the output pin
+*   vfb   amplitude of the voltage injected in series with the inverting input
+* The node "amp" is the output of the amplifier ahead of the injection and
+* "fb" its inverting input behind it.
+.subckt OUTPUT_OPA197_PROBE inp inn vp vn out params: vac=0 iac=0 vfb=0 vos=0 ib=5p
+X1 inp fb vp vn amp OPA197 vos={vos} ib={ib}
+Vser amp out dc 0 ac {vac}
+Ishunt 0 out dc 0 ac {iac}
+Vfb inn fb dc 0 ac {vfb}
+.ends OUTPUT_OPA197_PROBE
+
+* The same wrapper around the model of the manufacturer, for the vendor
+* tier. It needs the file of Texas Instruments beside it and is not used
+* without that file.
+.subckt OUTPUT_OPAX197_PROBE inp inn vp vn out params: vac=0 iac=0 vfb=0
+X1 inp fb vp vn amp OPAx197
+Vser amp out dc 0 ac {vac}
+Ishunt 0 out dc 0 ac {iac}
+Vfb inn fb dc 0 ac {vfb}
+.ends OUTPUT_OPAX197_PROBE

@@ -1,0 +1,57 @@
+* Logic input D0 with 3.3 V on the user side of the translator
+.include "../../models/digital.lib"
+C98 v3c 0 1e-07
+RRN6_1 din0 0 100000
+RRN6_2 din1 0 100000
+RRN6_3 din2 0 100000
+RRN6_4 din3 0 100000
+RRN7_1 din4 0 100000
+RRN7_2 din5 0 100000
+RRN7_3 din6 0 100000
+RRN7_4 din7 0 100000
+RRN8_1 j_d0 b_d0 330
+RRN8_2 j_d1 b_d1 330
+RRN8_3 j_d2 b_d2 330
+RRN8_4 j_d3 b_d3 330
+RRN9_1 j_d4 b_d4 330
+RRN9_2 j_d5 b_d5 330
+RRN9_3 j_d6 b_d6 330
+RRN9_4 j_d7 b_d7 330
+XU33 side_load adc_sck din4 din5 din6 din7 nc_u33_q7_pad7 0 q33 v3c din0 din1 din2 din3 0 v3c DIGITAL_LV165A
+XU36 j_d0 j_d1 j_d2 j_d3 0 DIGITAL_TPD4E1U06
+XU37 j_d4 j_d5 j_d6 j_d7 0 DIGITAL_TPD4E1U06
+XU38 v3c 0 din0 din1 din2 din3 din4 din5 din6 din7 0 0 0 b_d7 b_d6 b_d5 b_d4 b_d3 b_d2 b_d1 b_d0 0 vccb vccb DIGITAL_LVC8T245 cio=1e-11 tpd=6.1e-09
+C100 vccb 0 1e-07
+C101 v3c 0 1e-07
+RRN10_1 b_d4 0 470000
+RRN10_2 b_d5 0 470000
+RRN10_3 b_d6 0 470000
+RRN10_4 b_d7 0 470000
+RRN11_1 b_d0 0 470000
+RRN11_2 b_d1 0 470000
+RRN11_3 b_d2 0 470000
+RRN11_4 b_d3 0 470000
+* the translator supply and the 3.3 V rail as ideal sources; the register
+* is held loading, as with the pins of the controller released
+Vccb vccb 0 3.3
+Vlogic v3c 0 3.3
+Vload side_load 0 0
+Vclock adc_sck 0 0
+* D0: an edge of the device under test, an ideal source at the connector
+Vd0 j_d0 0 PWL(0 0 2e-08 0 2.05e-08 3.3 2e-07 3.3 2.005e-07 0)
+* D1 and D2: nothing connected; the translator pin leaks into the line at
+* the limit of its datasheet at 25 C and at the limit over temperature
+Ileak1 0 b_d1 1u
+Ileak2 0 b_d2 2u
+* D3: held high by the device under test, whose current is read
+Vd3 j_d3 0 3.3
+* D4 to D7: held low
+Vd4 j_d4 0 0
+Vd5 j_d5 0 0
+Vd6 j_d6 0 0
+Vd7 j_d7 0 0
+.options gmin=1e-14
+.control
+tran 0.05n 4e-07 0 0.5n
+.endc
+.end

@@ -1,0 +1,358 @@
+{
+ "block": "output_stage",
+ "block_title": "Output Stage",
+ "bench": "guard",
+ "title": "The guard buffer: stability with the guard ring, static error, range change, output off",
+ "covers": "sections 4.3, 4.8 and 10.3 (node after the shunts, buffer, guard ring), D-32 and D-72",
+ "summary": "The buffer copies the node after the shunts onto the guard ring through R119. The loop gain of the buffer is taken by double injection at the output of the amplifier, with the measured node behind the 1 kohm of range 0 and C71, which is its highest impedance: without a ring, with the ring assumed for the board, with ten times that ring, with C73 at half its value and with C73 left out. One injection at the inverting input checks the method. A small-signal run gives the frequency up to which the guard follows the node. Then the node is driven: a step of 100 mV as a range change gives it, a dip to 1.1 V for 15 us as a short circuit gives it, and a fall to 0 V at 0.8 V/ms as a released output gives it; and it rests at 5 V and at 0.8 V, where the difference that is left between guard and node is read.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "margin_bare",
+   "label": "Phase margin, no ring capacitance",
+   "value": 92.05973,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "limit set here: 45 degrees; the specification states none",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_bare",
+   "label": "Crossover, no ring capacitance",
+   "value": 1157498.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_assumed",
+   "label": "Phase margin, assumed ring: 100 pF, 10 pF, 2 pF",
+   "value": 92.7218,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "limit set here: 45 degrees; the specification states none",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_assumed",
+   "label": "Crossover, assumed ring: 100 pF, 10 pF, 2 pF",
+   "value": 1147126.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_large",
+   "label": "Phase margin, ten times the assumed ring",
+   "value": 96.84448,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "limit set here: 45 degrees; the specification states none",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_large",
+   "label": "Crossover, ten times the assumed ring",
+   "value": 1147231.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_half",
+   "label": "Phase margin, assumed ring, C73 at half its value",
+   "value": 91.35544,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "limit set here: 45 degrees; the specification states none",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_half",
+   "label": "Crossover, assumed ring, C73 at half its value",
+   "value": 1143997.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_missing",
+   "label": "Phase margin, assumed ring, C73 not fitted",
+   "value": 55.61385,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_missing",
+   "label": "Crossover, assumed ring, C73 not fitted",
+   "value": 3959913.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "method",
+   "label": "Assumed ring: phase margin by one injection at the inverting input, less the one by double injection",
+   "value": -0.1480661,
+   "unit": "deg",
+   "expected": null,
+   "low": -3.0,
+   "high": 3.0,
+   "source": "check of the method; limit set here",
+   "verdict": "pass"
+  },
+  {
+   "key": "follow_corner",
+   "label": "Frequency up to which the guard follows the node within 3 dB",
+   "value": 34733.36,
+   "unit": "Hz",
+   "expected": 33828.92,
+   "low": 30446.03,
+   "high": 37211.82,
+   "source": "R119 with C73 and the ring, calculated here; limit 10 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "follow_peaking",
+   "label": "Peaking of the guard over the node",
+   "value": 0.0,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "limit set here",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_5v",
+   "label": "Node at 5 V and at rest: guard less node",
+   "value": -0.001069006,
+   "unit": "V",
+   "expected": -0.001067954,
+   "low": -0.001281544,
+   "high": -0.0008543629,
+   "source": "the current of the monitor divider in R119, calculated here; limit 20 % around it; the amplifier model has no offset",
+   "verdict": "pass"
+  },
+  {
+   "key": "translator_5v",
+   "label": "Node at 5 V and at rest: translator supply less node",
+   "value": -0.00800106,
+   "unit": "V",
+   "expected": null,
+   "low": -0.01,
+   "high": null,
+   "source": "section 4.8: up to 10 mV below the output voltage at rest",
+   "verdict": "pass"
+  },
+  {
+   "key": "error_0p8v",
+   "label": "Node at 0.8 V and at rest: guard less node",
+   "value": -0.0001710834,
+   "unit": "V",
+   "expected": -0.0001708726,
+   "low": -0.0002050471,
+   "high": -0.0001366981,
+   "source": "the current of the monitor divider in R119, calculated here; limit 20 % around it; the amplifier model has no offset",
+   "verdict": "pass"
+  },
+  {
+   "key": "translator_0p8v",
+   "label": "Node at 0.8 V and at rest: translator supply less node",
+   "value": -0.008000219,
+   "unit": "V",
+   "expected": null,
+   "low": -0.01,
+   "high": null,
+   "source": "section 4.8: up to 10 mV below the output voltage at rest",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_overshoot",
+   "label": "Step of 100 mV: overshoot at the output of the amplifier",
+   "value": 2.461861,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 25.0,
+   "source": "limit set here: the overshoot that goes with 45 degrees",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_guard_overshoot",
+   "label": "Step of 100 mV: overshoot at the guard",
+   "value": 0.0,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "step_settled",
+   "label": "Step of 100 mV: guard within 1 mV of its final value after",
+   "value": 2.117669e-05,
+   "unit": "s",
+   "expected": 2.166594e-05,
+   "low": null,
+   "high": null,
+   "source": "4.6 time constants of R119 with C73, calculated here",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_error",
+   "label": "Dip to 1.1 V for 15 us: largest distance of the guard from the node",
+   "value": 3.898151,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_left",
+   "label": "Dip to 1.1 V: distance of the guard from the node at the end of the dip",
+   "value": 0.1826811,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_back",
+   "label": "Dip to 1.1 V: guard within 10 mV of the node after the node is back",
+   "value": 2.767053e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_current",
+   "label": "Dip to 1.1 V: largest current of the amplifier into R119",
+   "value": 0.06580691,
+   "unit": "A",
+   "expected": 0.065,
+   "low": null,
+   "high": null,
+   "source": "TI SBOS737C, page 8: short-circuit current 65 mA, which the amplifier may deliver without a time limit (page 5)",
+   "verdict": "info"
+  },
+  {
+   "key": "dip_input",
+   "label": "Dip to 1.1 V: lowest voltage at the input of the buffer",
+   "value": 1.046218,
+   "unit": "V",
+   "expected": null,
+   "low": -4.5,
+   "high": null,
+   "source": "TI SBOS737C, page 5: inputs to 0.5 V beyond the rails",
+   "verdict": "pass"
+  },
+  {
+   "key": "release_error",
+   "label": "Released output, 5 V to 0 V at 0.8 V/ms: largest distance of the guard",
+   "value": 0.004343219,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "off_error",
+   "label": "Node at 0 V with the output off: guard less node",
+   "value": -1.938606e-08,
+   "unit": "V",
+   "expected": null,
+   "low": -0.001,
+   "high": 0.001,
+   "source": "limit set here: 1 mV, the size of the error at 5 V",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "loop",
+   "Guard buffer: loop gain by double injection at the amplifier output",
+   "guard.loop.png"
+  ],
+  [
+   "events",
+   "Guard buffer: a range change and a short circuit seen at the node",
+   "guard.events.png"
+  ],
+  [
+   "follow",
+   "Guard over node after the shunts, assumed ring",
+   "guard.follow.png"
+  ]
+ ],
+ "notes": [
+  "The ring is an assumption: 100 pF from the guard copper to the ground plane, 10 pF to the measured node and 2 pF to the input of the buffer. C73, 100 nF behind R119, holds the guard still above 34 kHz, so the ring cannot feed the buffer back at the frequencies at which its loop closes; ten times the ring changes nothing.",
+  "The margin rests on the output impedance of the amplifier model. Against table 3 of its datasheet that model is close where the table gives 45 degrees and 15 to 30 degrees too optimistic where it gives 60 degrees (bench output-stage-buffer of the model block), so the margins here are too high by about that much. The table itself gives 60 degrees for 100 nF behind 15.8 ohm; the board has three times that resistance.",
+  "One injection at the inverting input agrees with the double injection at the crossover and above. Below about 10 kHz it does not: the ring also feeds the non-inverting input, and an injection in one branch leaves that path closed. The double injection at the amplifier output cuts both.",
+  "The guard follows the node up to 34 kHz. A faster change of the node leaves the guard behind for some microseconds; what flows through the ring capacitance then is charge of picocoulombs beside the 100 nF of C71.",
+  "In the dip the amplifier model delivers about 25 mA at most, because its output resistance stands between its rails and its output at every level; the datasheet gives 65 mA, and the model of the manufacturer delivers that in the vendor tier. The guard of the board comes back faster than the model written here shows.",
+  "The static difference is the current of the monitor divider (R140, R149) in R119. The model has no offset voltage; the datasheet gives 25 uV typical and 100 uV at most, which adds to it.",
+  "The clamp D24 of the translator supply is left out: it does not conduct between 0 V and the 5 V rail. The translator takes 8 uA. Its branch belongs to the digital inputs block.",
+  "The input bias current of the buffer flows out of the measured node. The model has 5 pA; no leakage figure may be taken from it."
+ ],
+ "models": [
+  [
+   "U25",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U25",
+   "OUTPUT_OPA197_PROBE",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "guard.dip.cir",
+  "guard.series-assumed.cir",
+  "guard.shunt-assumed.cir",
+  "guard.step.cir"
+ ],
+ "format": 1
+}

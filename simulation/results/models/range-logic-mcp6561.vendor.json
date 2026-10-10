@@ -1,0 +1,141 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "range-logic-mcp6561",
+ "title": "MCP6561 model against its datasheet: thresholds, hysteresis and delay",
+ "covers": "the model of the comparators U21, U31 and U32",
+ "summary": "The comparator of the schematic is put on a bench of its own. One input rests at 0.5 V. The other is moved slowly through it and back, which gives the two thresholds, their middle as the offset and their distance as the hysteresis. Then it is stepped from 100 mV below to 5 mV, 20 mV and 100 mV above, with an edge of 1 ns, and the delay to the middle of the output edge is read for the rising and for the falling output. The benches of the range control logic use this model for all three comparators.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "hysteresis",
+   "label": "Hysteresis: distance of the two thresholds",
+   "value": 0.0004229165,
+   "unit": "V",
+   "expected": 0.003,
+   "low": 0.001,
+   "high": 0.005,
+   "source": "1 mV to 5 mV; datasheet figure as the head of the model in logic.lib quotes it (Microchip DS20002139E, pages 3 and 4)",
+   "verdict": "fail"
+  },
+  {
+   "key": "offset",
+   "label": "Offset: middle of the two thresholds",
+   "value": 0.002703006,
+   "unit": "V",
+   "expected": null,
+   "low": -0.01,
+   "high": 0.01,
+   "source": "10 mV at the most; datasheet figure as the head of the model in logic.lib quotes it (Microchip DS20002139E, pages 3 and 4)",
+   "verdict": "pass"
+  },
+  {
+   "key": "high_level",
+   "label": "Output high without load",
+   "value": 3.301189,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "low_level",
+   "label": "Output low without load",
+   "value": 0.0002881654,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "delay_up_5mv",
+   "label": "Delay to a rising output, 5 mV of overdrive",
+   "value": 3.732759e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "delay_down_5mv",
+   "label": "Delay to a falling output after 5 mV of overdrive",
+   "value": 2.80463e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "delay_up_20mv",
+   "label": "Delay to a rising output, 20 mV of overdrive",
+   "value": 5.025335e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "delay_down_20mv",
+   "label": "Delay to a falling output after 20 mV of overdrive",
+   "value": 2.814447e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "delay_up_100mv",
+   "label": "Delay to a rising output, 100 mV of overdrive",
+   "value": 1.434062e-08,
+   "unit": "s",
+   "expected": 4.7e-08,
+   "low": null,
+   "high": 8e-08,
+   "source": "47 ns typical, 80 ns at the most; datasheet figure as the head of the model in logic.lib quotes it (Microchip DS20002139E, pages 3 and 4)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_down_100mv",
+   "label": "Delay to a falling output after 100 mV of overdrive",
+   "value": 2.833471e-08,
+   "unit": "s",
+   "expected": 4.7e-08,
+   "low": null,
+   "high": 8e-08,
+   "source": "47 ns typical, 80 ns at the most; datasheet figure as the head of the model in logic.lib quotes it (Microchip DS20002139E, pages 3 and 4)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The datasheet figures are the ones the head of the model in logic.lib quotes; the datasheet was not read again for this bench.",
+  "The model written here has one delay for every overdrive and no offset unless a bench gives it one. Its hysteresis parameter is 3 mV; the thresholds lie 2.1 mV apart, because the switching curve of the model is 0.2 mV wide and rounds the corners of the loop.",
+  "The delay is counted from the middle of an input edge of 1 ns to the middle of the output edge.",
+  "In the vendor tier the same bench runs the model of the manufacturer, which the benches of the range control logic do not use: it shows how the delay of that model grows at small overdrive."
+ ],
+ "models": [
+  [
+   "U32",
+   "MCP6561",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

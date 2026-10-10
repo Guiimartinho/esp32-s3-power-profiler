@@ -1,0 +1,64 @@
+* MUX509 dual 4:1 analog multiplexer (U24), behavioral, written for this
+* project. Not a model of the manufacturer, who publishes none for this part.
+*   On-resistance: the datasheet gives 125 ohm typical with +/-15 V and
+*   235 ohm typical, 340 ohm at most with a single 12 V supply; with +12 V
+*   and -4 V it gives nothing. The parameter ron is 250 ohm by default
+*   (estimate) and the benches sweep 125 ohm to 430 ohm (specification,
+*   section 4.3).
+*   Capacitance of a drain with its channel on: 6.7 pF (datasheet).
+*   Transition time from address to the new channel: 92 ns typical
+*   (datasheet, page 1). The old channel opens first: 50 ns is an
+*   assumption, the part breaks before it makes.
+*   Logic threshold of the address and enable inputs: 1.4 V (assumption
+*   between the usual limits of 0.8 V and 2.0 V).
+*   Not modelled: leakage, charge injection, the capacitance of an open
+*   channel, the dependence of the on-resistance on the signal level.
+* Pins in the order of the package: A0 EN VSS S1A S2A S3A S4A DA DB S4B S3B
+* S2B S1B VDD GND A1.
+.subckt MUX509 a0 en vss s1a s2a s3a s4a da db s4b s3b s2b s1b vdd gnd a1
++ params: ron=250 roff=1e12 cdon=6.7p ttran=92n toff=50n vth=1.4
+* ngspice puts the text of a brace expression into a behavioral source as it
+* is, so a sum has to be a parameter of its own before it is multiplied.
+.param goff={1/roff}
+.param gadd={1/ron - 1/roff}
+Ba0 b0 0 V = 0.5*(1 + tanh((v(a0,gnd) - {vth})/0.05))
+Ba1 b1 0 V = 0.5*(1 + tanh((v(a1,gnd) - {vth})/0.05))
+Ben be 0 V = 0.5*(1 + tanh((v(en,gnd) - {vth})/0.05))
+Bs1 q1 0 V = v(be)*(1 - v(b1))*(1 - v(b0))
+Bs2 q2 0 V = v(be)*(1 - v(b1))*v(b0)
+Bs3 q3 0 V = v(be)*v(b1)*(1 - v(b0))
+Bs4 q4 0 V = v(be)*v(b1)*v(b0)
+Xc1 q1 c1 MUX509_CTL ttran={ttran} toff={toff}
+Xc2 q2 c2 MUX509_CTL ttran={ttran} toff={toff}
+Xc3 q3 c3 MUX509_CTL ttran={ttran} toff={toff}
+Xc4 q4 c4 MUX509_CTL ttran={ttran} toff={toff}
+Bw1a s1a da I = v(s1a,da)*({goff} + {gadd}*v(c1))
+Bw2a s2a da I = v(s2a,da)*({goff} + {gadd}*v(c2))
+Bw3a s3a da I = v(s3a,da)*({goff} + {gadd}*v(c3))
+Bw4a s4a da I = v(s4a,da)*({goff} + {gadd}*v(c4))
+Bw1b s1b db I = v(s1b,db)*({goff} + {gadd}*v(c1))
+Bw2b s2b db I = v(s2b,db)*({goff} + {gadd}*v(c2))
+Bw3b s3b db I = v(s3b,db)*({goff} + {gadd}*v(c3))
+Bw4b s4b db I = v(s4b,db)*({goff} + {gadd}*v(c4))
+Cda da gnd {cdon}
+Cdb db gnd {cdon}
+* While the part breaks before it makes, both outputs float. These two
+* resistors keep the matrix of the solver regular; they draw 50 pA at 5 V
+* and are no statement about the leakage of the part.
+Rda da gnd 1e11
+Rdb db gnd 1e11
+Rvd vdd gnd 1e9
+Rvs vss gnd 1e9
+.ends MUX509
+
+* Control of one channel: closes ttran after its selection, opens toff after
+* the selection ends.
+* The product of the two delayed copies is their logical and, without the
+* corners of a min or a max, at which the solver can stop.
+.subckt MUX509_CTL q c params: ttran=92n toff=50n
+Rq q qf 1k
+Cq qf 0 2p
+Xon qf xon DLY td={ttran}
+Xoff qf xoff DLY td={toff}
+Bc c 0 V = v(xon)*v(xoff)
+.ends MUX509_CTL

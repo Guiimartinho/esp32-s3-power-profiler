@@ -1,0 +1,291 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "common-mode",
+ "title": "Offset and gain of the chain against the output voltage",
+ "covers": "section 4.5 (supplies and common mode of U27), section 8 (zero calibration), section 4.10 (zero of R0), requirement R-05",
+ "summary": "The node after the shunts is swept from 0 V to 5.5 V with the shunt voltage held. That node is the output voltage of the instrument and the common mode of the amplifier. With 0 V across the shunt the converter input shows how the zero moves with the output voltage; with 100 mV it shows the gain. The run is made with the typical amplifier model, which has no common-mode error, and with the rejection of the amplifier at the limit of its datasheet (86 dB at a gain of 1, which is 112 dB at this gain), once with each sign. The shift from 0 V is what a zero taken with the ladder at 0 V does not remove; a zero taken with the ladder at its working voltage (section 4.2, D-29) leaves the slope times the change of the output voltage since that zero. A small-signal run gives the same rejection over frequency.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "typical_5v",
+   "label": "Typical model: the zero at 5 V against the zero at 0 V, at the shunt",
+   "value": 9.655633e-10,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shift_0p8v",
+   "label": "Rejection at its limit: the zero at 0.8 V against the zero at 0 V",
+   "value": 1.051143,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 65.536,
+   "source": "requirement R-05: 0.1 % of range, 65.5 codes",
+   "verdict": "pass"
+  },
+  {
+   "key": "shift_r0_0p8v",
+   "label": "The same as a current in range 0, at 0.8 V",
+   "value": 2.012014e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shift_3p3v",
+   "label": "Rejection at its limit: the zero at 3.3 V against the zero at 0 V",
+   "value": 4.335966,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 65.536,
+   "source": "requirement R-05: 0.1 % of range, 65.5 codes",
+   "verdict": "pass"
+  },
+  {
+   "key": "shift_r0_3p3v",
+   "label": "The same as a current in range 0, at 3.3 V",
+   "value": 8.299557e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shift_5v",
+   "label": "Rejection at its limit: the zero at 5 V against the zero at 0 V",
+   "value": 6.569646,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 65.536,
+   "source": "requirement R-05: 0.1 % of range, 65.5 codes",
+   "verdict": "pass"
+  },
+  {
+   "key": "shift_r0_5v",
+   "label": "The same as a current in range 0, at 5 V",
+   "value": 1.257509e-08,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "slope",
+   "label": "Rejection at its limit: the zero moves with the output voltage by, at the shunt",
+   "value": 2.515017e-06,
+   "unit": "V",
+   "expected": 2.5e-06,
+   "low": null,
+   "high": null,
+   "source": "AD8421 datasheet, page 3: 86 dB at G = 1, divided by the gain, per volt",
+   "verdict": "info"
+  },
+  {
+   "key": "slope_r0",
+   "label": "The same as a current in range 0, for each volt of output voltage",
+   "value": 2.515017e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "symmetric",
+   "label": "The other sign gives the opposite shift at 5 V: sum of the two",
+   "value": 0.0009826821,
+   "unit": "codes",
+   "expected": null,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "check of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "shift_r1_5v",
+   "label": "The shift at 5 V as a current in range 1",
+   "value": 3.935864e-07,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shift_r2_5v",
+   "label": "The shift at 5 V as a current in range 2",
+   "value": 1.258767e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shift_r3_5v",
+   "label": "The shift at 5 V as a current in range 3",
+   "value": 0.0001257509,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "gain_0v8",
+   "label": "Gain at 0.8 V of output voltage",
+   "value": 19.92923,
+   "unit": "",
+   "expected": 19.92925,
+   "low": 19.92726,
+   "high": 19.93125,
+   "source": "section 4.5: the common mode of 0.8 V to 5 V stays inside the input range",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_5v",
+   "label": "Gain at 5 V of output voltage",
+   "value": 19.92923,
+   "unit": "",
+   "expected": 19.92925,
+   "low": 19.92726,
+   "high": 19.93125,
+   "source": "section 4.5: the common mode of 0.8 V to 5 V stays inside the input range",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_change",
+   "label": "Change of the gain from 0.8 V to 5 V of output voltage",
+   "value": 3.415668e-05,
+   "unit": "ppm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rejection_50",
+   "label": "Rejection at its limit: common-mode rejection of the chain at 50 Hz",
+   "value": 111.989,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rejection_1000",
+   "label": "Rejection at its limit: common-mode rejection of the chain at 1 kHz",
+   "value": 111.9248,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rejection_20000",
+   "label": "Rejection at its limit: common-mode rejection of the chain at 20 kHz",
+   "value": 103.6589,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "typical_rejection_1k",
+   "label": "Typical model with nominal parts: what reaches the converter at 1 kHz, of 1 V",
+   "value": 1.704013e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "zero",
+   "Zero and gain of the chain against the output voltage",
+   "common-mode.zero.png"
+  ],
+  [
+   "rejection",
+   "Common-mode rejection of the chain, amplifier at the limit of its datasheet",
+   "common-mode.rejection.png"
+  ]
+ ],
+ "notes": [
+  "The datasheet of the amplifier states the rejection as a least value and gives no typical one; the limit of the A grade is used with either sign. A part can sit anywhere between the two lines of the graph.",
+  "The model makes the error in the output stage of the amplifier, as a straight line over the common mode. A real part can bend; the figures say how large the term is, not its shape.",
+  "The amplifier model has no term that changes its gain with the common mode, and its datasheet states none. The gain figures show that the chain stays inside its linear range from 0.8 V to 5 V, nothing more.",
+  "The ladder is not in this circuit, so the bias current of the amplifier inputs flows in ideal sources. On the board the current of the inverting input flows through the shunt in use: 2 nA at the most in every range, which the zero calibration removes, and its change with the common mode (30 Gohm) is 0.14 nA from 0.8 V to 5 V.",
+  "Leakage of the multiplexer against the common mode adds to this on the board; no model here gives a believable figure for it.",
+  "The closed-switch zero of section 8 is taken at 5.0 V and at the working voltage and so contains this term at those voltages. For the open-switch zero section 8 does not say where the ladder stands. Section 4.2 (D-29) lets it run with the mode pair closed, the ladder at its working voltage: the term is then in the zero for that voltage, and a later change of the set-point or of the supply of the user brings it back with the slope above. A zero taken in the reset state, or after the output was switched off (the ladder rests at 0 V and falls there with 0.57 s), does not contain it."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "common-mode.zero-plus.cir"
+ ],
+ "format": 1
+}

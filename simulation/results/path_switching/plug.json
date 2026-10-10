@@ -1,0 +1,746 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "plug",
+ "title": "A supply of +20 V or -20 V is plugged into VIN with the ampere pair open",
+ "covers": "requirement R-09, section 4.9 (VIN, D-60: plug-in edge, suppressor and fuse)",
+ "summary": "A supply is plugged into the VIN terminal within 100 ns while the ampere pair is open. The supply stands behind 0.2 uH or 1 uH of leads, so the line rings against its own capacitance until the suppressor or the losses stop it. The instrument is idle, or source mode runs at the highest output the set-point path can command; in that state the transistor on the ladder side blocks the sum of both voltages. A last run takes the terminal slowly from 20 V to 26 V and shows what the suppressor and the fuse carry there.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "across_minus20v_0p2uh_source",
+   "label": "Largest voltage across the transistor on the ladder side: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "value": 28.5119,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_minus20v_0p2uh_source",
+   "label": "Time above 27 V across that transistor: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "value": 1.802993e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_minus20v_0p2uh_source",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "value": 23.74962,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_minus20v_0p2uh_source",
+   "label": "Largest gate-source voltage of the ampere pair: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "value": 0.5586104,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_minus20v_0p2uh_source",
+   "label": "Largest change of the supply node: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "value": 0.002084786,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_minus20v_0p2uh_source",
+   "label": "Largest current in the suppressor: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "value": 0.2715364,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_minus20v_0p2uh",
+   "label": "Largest voltage across the transistor on the ladder side: -20 V behind 0.2 uH, idle",
+   "value": 23.27026,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_minus20v_0p2uh",
+   "label": "Time above 27 V across that transistor: -20 V behind 0.2 uH, idle",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_minus20v_0p2uh",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: -20 V behind 0.2 uH, idle",
+   "value": 23.77963,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_minus20v_0p2uh",
+   "label": "Largest gate-source voltage of the ampere pair: -20 V behind 0.2 uH, idle",
+   "value": 0.7815919,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_minus20v_0p2uh",
+   "label": "Largest change of the supply node: -20 V behind 0.2 uH, idle",
+   "value": 0.006369206,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_minus20v_0p2uh",
+   "label": "Largest current in the suppressor: -20 V behind 0.2 uH, idle",
+   "value": 0.3072106,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_minus20v_1uh",
+   "label": "Largest voltage across the transistor on the ladder side: -20 V behind 1 uH, idle",
+   "value": 23.55048,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_minus20v_1uh",
+   "label": "Time above 27 V across that transistor: -20 V behind 1 uH, idle",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_minus20v_1uh",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: -20 V behind 1 uH, idle",
+   "value": 24.05238,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_minus20v_1uh",
+   "label": "Largest gate-source voltage of the ampere pair: -20 V behind 1 uH, idle",
+   "value": 0.8062251,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_minus20v_1uh",
+   "label": "Largest change of the supply node: -20 V behind 1 uH, idle",
+   "value": 0.00698011,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_minus20v_1uh",
+   "label": "Largest current in the suppressor: -20 V behind 1 uH, idle",
+   "value": 0.3835429,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_minus20v_1uh_source",
+   "label": "Largest voltage across the transistor on the ladder side: -20 V behind 1 uH, source mode at 5.26 V",
+   "value": 28.7694,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_minus20v_1uh_source",
+   "label": "Time above 27 V across that transistor: -20 V behind 1 uH, source mode at 5.26 V",
+   "value": 5.547239e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_minus20v_1uh_source",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: -20 V behind 1 uH, source mode at 5.26 V",
+   "value": 24.00672,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_minus20v_1uh_source",
+   "label": "Largest gate-source voltage of the ampere pair: -20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.5653354,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_minus20v_1uh_source",
+   "label": "Largest change of the supply node: -20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.00229824,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_minus20v_1uh_source",
+   "label": "Largest current in the suppressor: -20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.3250812,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_minus20v_1uh_source_clamp",
+   "label": "Largest voltage across the transistor on the ladder side: -20 V behind 1 uH, source mode at 5.26 V, suppressor at its upper limit",
+   "value": 29.88904,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_minus20v_1uh_source_clamp",
+   "label": "Time above 27 V across that transistor: -20 V behind 1 uH, source mode at 5.26 V, suppressor at its upper limit",
+   "value": 8.142755e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_minus20v_1uh_source_clamp",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: -20 V behind 1 uH, source mode at 5.26 V, suppressor at its upper limit",
+   "value": 25.12739,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_minus20v_1uh_source_clamp",
+   "label": "Largest gate-source voltage of the ampere pair: -20 V behind 1 uH, source mode at 5.26 V, suppressor at its upper limit",
+   "value": 0.5875955,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_minus20v_1uh_source_clamp",
+   "label": "Largest change of the supply node: -20 V behind 1 uH, source mode at 5.26 V, suppressor at its upper limit",
+   "value": 0.002451046,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_minus20v_1uh_source_clamp",
+   "label": "Largest current in the suppressor: -20 V behind 1 uH, source mode at 5.26 V, suppressor at its upper limit",
+   "value": 0.3162981,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_plus20v_0p2uh",
+   "label": "Largest voltage across the transistor on the supply side: +20 V behind 0.2 uH, idle",
+   "value": 23.30079,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_plus20v_0p2uh",
+   "label": "Time above 27 V across that transistor: +20 V behind 0.2 uH, idle",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_plus20v_0p2uh",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: +20 V behind 0.2 uH, idle",
+   "value": 23.76551,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_plus20v_0p2uh",
+   "label": "Largest gate-source voltage of the ampere pair: +20 V behind 0.2 uH, idle",
+   "value": 0.7353524,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_plus20v_0p2uh",
+   "label": "Largest change of the supply node: +20 V behind 0.2 uH, idle",
+   "value": 0.006033536,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_plus20v_0p2uh",
+   "label": "Largest current in the suppressor: +20 V behind 0.2 uH, idle",
+   "value": 0.3063785,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_plus20v_1uh",
+   "label": "Largest voltage across the transistor on the supply side: +20 V behind 1 uH, idle",
+   "value": 23.68576,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_plus20v_1uh",
+   "label": "Time above 27 V across that transistor: +20 V behind 1 uH, idle",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_plus20v_1uh",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: +20 V behind 1 uH, idle",
+   "value": 24.05785,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_plus20v_1uh",
+   "label": "Largest gate-source voltage of the ampere pair: +20 V behind 1 uH, idle",
+   "value": 0.7476571,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_plus20v_1uh",
+   "label": "Largest change of the supply node: +20 V behind 1 uH, idle",
+   "value": 0.006598644,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_plus20v_1uh",
+   "label": "Largest current in the suppressor: +20 V behind 1 uH, idle",
+   "value": 0.3922849,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "across_plus20v_1uh_source",
+   "label": "Largest voltage across the transistor on the supply side: +20 V behind 1 uH, source mode at 5.26 V",
+   "value": 21.64905,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1); section 4.9 states that it is reached for tens of nanoseconds at the plug-in edge",
+   "verdict": "pass"
+  },
+  {
+   "key": "near_rating_plus20v_1uh_source",
+   "label": "Time above 27 V across that transistor: +20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_plus20v_1uh_source",
+   "label": "Largest voltage on VIN behind the fuse, as a magnitude: +20 V behind 1 uH, source mode at 5.26 V",
+   "value": 24.01764,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_plus20v_1uh_source",
+   "label": "Largest gate-source voltage of the ampere pair: +20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.001385099,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V",
+   "verdict": "info"
+  },
+  {
+   "key": "node_plus20v_1uh_source",
+   "label": "Largest change of the supply node: +20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.0009667265,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 11: TP33 unchanged (limit of this bench: 0.1 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_plus20v_1uh_source",
+   "label": "Largest current in the suppressor: +20 V behind 1 uH, source mode at 5.26 V",
+   "value": 0.3323922,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "over_amps_lowest",
+   "label": "Current of a steady 24 V supply into the terminal, suppressor with its lowest breakdown voltage",
+   "value": 1.786091,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "over_watts_lowest",
+   "label": "Power in the suppressor at a steady 24 V, lowest breakdown voltage",
+   "value": 42.86618,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the SMAJ20CA bears 3.3 W on an infinite heat sink (Vishay 88390, page 1)",
+   "verdict": "info"
+  },
+  {
+   "key": "over_amps_typical",
+   "label": "Current of a steady 24 V supply into the terminal, suppressor with its typical breakdown voltage",
+   "value": 0.1752622,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "over_watts_typical",
+   "label": "Power in the suppressor at a steady 24 V, typical breakdown voltage",
+   "value": 4.206292,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the SMAJ20CA bears 3.3 W on an infinite heat sink (Vishay 88390, page 1)",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "reverse",
+   "Plug-in edge: -20 V behind 0.2 uH, source mode at 5.26 V",
+   "plug.reverse.png"
+  ],
+  [
+   "above-20v",
+   "A steady voltage above 20 V on VIN: the current the suppressor takes",
+   "plug.above-20v.png"
+  ]
+ ],
+ "notes": [
+  "The supply is a voltage source that rises within 100 ns behind 20 mohm and its leads; the line rings against the capacitance of the suppressor and of the transistor, about 1 nF in the models. A plug with bouncing contacts is not simulated. The current of the suppressor at these edges is mostly the current of its own capacitance.",
+  "At the negative edge the common source of the pair follows the terminal through the body diode of the transistor on the supply side, and the gate follows it through the gate capacitance before the hold-off transistor conducts. The figure for the gate-source voltage shows how far the gate lags; the change of the supply node shows what that costs.",
+  "The transistor models have no avalanche: a voltage above 30 V in a figure is the voltage the part would have to block and does not.",
+  "Above its breakdown voltage the suppressor takes amperes from a steady supply: tens of watts in a part made for 3.3 W, at a current below the 4 A of the fuse, which therefore does not open. This is what the specification says: 24 V destroys the suppressor and the fuse does not protect it."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_HI",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_LO",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "plug.minus20v_0p2uh_source.cir"
+ ],
+ "format": 1
+}

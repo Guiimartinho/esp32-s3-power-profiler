@@ -1,0 +1,435 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "power-down",
+ "title": "Power-off and supervisor trip: the order in which the rails fall",
+ "covers": "section 3 (power-off), section 4.6 (D-53), section 4.11, rule F-7, decisions D-48 and D-52",
+ "summary": "The rails run, then the 5 V source is removed, or lowered for 3 ms. The circuit and the loads are those of the power-up bench. The supervisor has a release delay of 20 ms here, so that the rails are up and +12V_A has settled when the event comes at 0.6 s. In the first run the source disappears and the 5 V rail falls under its loads until the supervisor trips. In the second the source falls to 3.4 V for 3 ms and returns: the supervisor trips, the rails fall, and the carrier starts again.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "off_trip",
+   "label": "Source removed: the supervisor falls after the event",
+   "value": 0.001152569,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the rail falls through 3.91 V under its loads",
+   "verdict": "info"
+  },
+  {
+   "key": "off_3v3c",
+   "label": "Source removed: 3V3_C below 3.0 V after the supervisor fell",
+   "value": 4.571827e-05,
+   "unit": "s",
+   "expected": 2e-05,
+   "low": null,
+   "high": 3e-05,
+   "source": "section 3: 0.02 ms (taken as at most 0.03 ms)",
+   "verdict": "fail"
+  },
+  {
+   "key": "off_good_2v",
+   "label": "Source removed: PWR_GOOD below 2.0 V at the controller pin after the supervisor fell",
+   "value": 0.0001451479,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": 7e-05,
+   "source": "rule F-7: 0.05 ms to 0.07 ms after the rails begin to fall, not before them",
+   "verdict": "fail"
+  },
+  {
+   "key": "off_good_0v8",
+   "label": "Source removed: PWR_GOOD below 0.8 V at the controller pin after the supervisor fell",
+   "value": 0.0006044932,
+   "unit": "s",
+   "expected": 0.0003,
+   "low": null,
+   "high": 0.0004,
+   "source": "section 3: 0.3 ms (taken as at most 0.4 ms)",
+   "verdict": "fail"
+  },
+  {
+   "key": "off_3v3a",
+   "label": "Source removed: 3V3_A below 1.0 V after the supervisor fell",
+   "value": 0.003583833,
+   "unit": "s",
+   "expected": null,
+   "low": 0.004,
+   "high": 0.006,
+   "source": "section 3: 4 ms to 6 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "off_12v",
+   "label": "Source removed: +12V_A below 3.6 V after the supervisor fell",
+   "value": 0.02031132,
+   "unit": "s",
+   "expected": 0.014,
+   "low": 0.0098,
+   "high": 0.0182,
+   "source": "section 3: about 14 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "off_window",
+   "label": "Source removed: time with +12V_A above 3.6 V and 3V3_A below 1.0 V",
+   "value": 0.01672749,
+   "unit": "s",
+   "expected": 0.01,
+   "low": 0.006,
+   "high": 0.014,
+   "source": "section 3: about 10 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "off_vref_above",
+   "label": "Source removed: VREF above 3V3_A at the most",
+   "value": 0.2677666,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.6,
+   "source": "section 4.6 and D-53: at most a diode drop; the monitor converter is rated for its supply plus 0.6 V (datasheet), the lowest rating on the line",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_d7_amps",
+   "label": "Source removed: largest current through D7",
+   "value": 0.01492207,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "datasheet of the diode: 0.5 A average",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_m4_high",
+   "label": "Source removed: -4V_A at its highest while the rails fall",
+   "value": 0.2302716,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.24,
+   "source": "section 3 and D-52: below +0.24 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_12v_low",
+   "label": "Source removed: +12V_A at its lowest while the rails fall",
+   "value": 0.01537495,
+   "unit": "V",
+   "expected": null,
+   "low": -0.23,
+   "high": null,
+   "source": "section 3 and D-52: above -0.23 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_trip",
+   "label": "Dip to 3.4 V: the supervisor falls after the event",
+   "value": 0.001152553,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the rail falls through 3.91 V under its loads",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_3v3c",
+   "label": "Dip to 3.4 V: 3V3_C below 3.0 V after the supervisor fell",
+   "value": 4.571826e-05,
+   "unit": "s",
+   "expected": 2e-05,
+   "low": null,
+   "high": 3e-05,
+   "source": "section 3: 0.02 ms (taken as at most 0.03 ms)",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_good_2v",
+   "label": "Dip to 3.4 V: PWR_GOOD below 2.0 V at the controller pin after the supervisor fell",
+   "value": 0.0001451479,
+   "unit": "s",
+   "expected": null,
+   "low": 0.0,
+   "high": 7e-05,
+   "source": "rule F-7: 0.05 ms to 0.07 ms after the rails begin to fall, not before them",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_good_0v8",
+   "label": "Dip to 3.4 V: PWR_GOOD below 0.8 V at the controller pin after the supervisor fell",
+   "value": 0.0006044918,
+   "unit": "s",
+   "expected": 0.0003,
+   "low": null,
+   "high": 0.0004,
+   "source": "section 3: 0.3 ms (taken as at most 0.4 ms)",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_3v3a",
+   "label": "Dip to 3.4 V: 3V3_A below 1.0 V after the supervisor fell",
+   "value": 0.003583853,
+   "unit": "s",
+   "expected": null,
+   "low": 0.004,
+   "high": 0.006,
+   "source": "section 3: 4 ms to 6 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_12v",
+   "label": "Dip to 3.4 V: +12V_A below 3.6 V after the supervisor fell",
+   "value": 0.02031132,
+   "unit": "s",
+   "expected": 0.014,
+   "low": 0.0098,
+   "high": 0.0182,
+   "source": "section 3: about 14 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_window",
+   "label": "Dip to 3.4 V: time with +12V_A above 3.6 V and 3V3_A below 1.0 V",
+   "value": 0.01672747,
+   "unit": "s",
+   "expected": 0.01,
+   "low": 0.006,
+   "high": 0.014,
+   "source": "section 3: about 10 ms",
+   "verdict": "fail"
+  },
+  {
+   "key": "trip_vref_above",
+   "label": "Dip to 3.4 V: VREF above 3V3_A at the most",
+   "value": 0.2677665,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.6,
+   "source": "section 4.6 and D-53: at most a diode drop; the monitor converter is rated for its supply plus 0.6 V (datasheet), the lowest rating on the line",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_d7_amps",
+   "label": "Dip to 3.4 V: largest current through D7",
+   "value": 0.01492201,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "datasheet of the diode: 0.5 A average",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_m4_high",
+   "label": "Dip to 3.4 V: -4V_A at its highest while the rails fall",
+   "value": 0.2302526,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.24,
+   "source": "section 3 and D-52: below +0.24 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_12v_low",
+   "label": "Dip to 3.4 V: +12V_A at its lowest while the rails fall",
+   "value": 3.130553,
+   "unit": "V",
+   "expected": null,
+   "low": -0.23,
+   "high": null,
+   "source": "section 3 and D-52: above -0.23 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_good_again",
+   "label": "Dip to 3.4 V: PWR_GOOD returns after the supervisor has released again",
+   "value": 0.02243589,
+   "unit": "s",
+   "expected": 0.024,
+   "low": 0.0168,
+   "high": 0.0312,
+   "source": "section 3, step 8: about 24 ms after 5V_OK, also after a trip",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_level",
+   "label": "+12V_A when the event comes",
+   "value": 11.95514,
+   "unit": "V",
+   "expected": null,
+   "low": 11.9,
+   "high": 12.1,
+   "source": "the rail has settled: within 0.1 V of 12 V (limit of this bench)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "off",
+   "Source removed: every rail on one time axis",
+   "power-down.off.png"
+  ],
+  [
+   "trip",
+   "Dip to 3.4 V: every rail on one time axis",
+   "power-down.trip.png"
+  ],
+  [
+   "edge",
+   "Dip to 3.4 V: the first millisecond after the supervisor fell",
+   "power-down.edge.png"
+  ]
+ ],
+ "notes": [
+  "Source, loads and models are those of the power-up bench. The times of the two 3.3 V rails and of PWR_GOOD follow from the discharge of 230 ohm of the regulators and from the loads assumed here: 0.5 mA and the LED on 3V3_C, 10 mA on 3V3_A. The flag has no edge of its own: its thresholds and its pull-up fall with 3V3_C, so it falls as 0.82 times that rail.",
+  "3V3_C and the flag fall about half as fast as the specification says. The rail carries 2.4 uF in the netlist (C16 and C92 of 1 uF, four capacitors of 0.1 uF) and is emptied by the 230 ohm of its regulator and about 2 mA of load: 2.4 uF times 0.3 V over 15.6 mA is the 46 us of the figure. The 0.02 ms of the specification fit a rail of 1 uF, the capacitor at the regulator alone. The flag still does not lead the rails.",
+  "+12V_A carries 10 uF at the regulator and 4.8 uF at the supply pins, and the loads assumed here take 6.6 mA from it; that is the 20 ms of the figure. The capacitors of 1 uF have no bias curve in the model and stay at their value; at 12 V they hold less, so the rail of the board falls somewhat faster.",
+  "The clamp diodes are the typical variant of the model (0.335 V at 0.1 A, an assumption); the bench of the clamps has the datasheet maximum.",
+  "The +12V_A regulator has no discharge in shutdown in its model, and its SET capacitor empties into the output through the clamp of the part: both are readings of the datasheet, not statements of it."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "C18",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C20",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C21",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C22",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C27",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C28",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C29",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C30",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C31",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C39",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C40",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "D7",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "D8",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "D9",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "U10",
+   "LMR62014_AVG",
+   "written here"
+  ],
+  [
+   "U11",
+   "LM27761_AVG",
+   "written here"
+  ],
+  [
+   "U12",
+   "REF5025AID",
+   "written here"
+  ],
+  [
+   "U13",
+   "LT3042",
+   "written here"
+  ],
+  [
+   "U14",
+   "MCP6569_OD",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "power-down.off.cir",
+  "power-down.trip.cir"
+ ],
+ "format": 1
+}

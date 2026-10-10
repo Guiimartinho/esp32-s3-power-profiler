@@ -1,0 +1,464 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "signal-chain-ad8421",
+ "title": "AD8421 model against its datasheet",
+ "covers": "the model of the instrumentation amplifier U27",
+ "summary": "The model is put in the test circuits of its datasheet. On +/-15 V with 2 kohm at the output, as the tables of the datasheet are taken, the model runs at gains of 1, 10, 100 and 1000: response, noise density and noise from 0.1 Hz to 10 Hz, common-mode rejection with the parameter at the limit of the A grade. Operating points give the offsets, the bias currents, the reference pin, the supply current, the input current with 6 V between the inputs and the short-circuit current. Sweeps give the output swing and the common mode at which the first stage leaves its range, and a step of 10 V the slew rate and the settling time.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "gain_g1",
+   "label": "G = 1: gain at 10 Hz",
+   "value": 0.9999753,
+   "unit": "",
+   "expected": 1.0,
+   "low": 0.9995,
+   "high": 1.0005,
+   "source": "Analog Devices AD8421 Rev. A, page 22: G = 1 + 9.9 kohm / RG",
+   "verdict": "pass"
+  },
+  {
+   "key": "bandwidth_g1",
+   "label": "G = 1: small-signal bandwidth",
+   "value": 9950505.0,
+   "unit": "Hz",
+   "expected": 10000000.0,
+   "low": 8000000.0,
+   "high": 12000000.0,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_g1",
+   "label": "G = 1: voltage noise at 1 kHz, referred to the input",
+   "value": 6.023283e-08,
+   "unit": "V/√Hz",
+   "expected": 6.01e-08,
+   "low": 5.409e-08,
+   "high": 6.611e-08,
+   "source": "Analog Devices AD8421 Rev. A, pages 3 and 26",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_frequency_g1",
+   "label": "G = 1: noise from 0.1 Hz to 10 Hz, peak to peak, referred to the input",
+   "value": 2.271736e-06,
+   "unit": "V",
+   "expected": 2e-06,
+   "low": 1.5e-06,
+   "high": 2.5e-06,
+   "source": "Analog Devices AD8421 Rev. A, page 3",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_g10",
+   "label": "G = 10: gain at 10 Hz",
+   "value": 9.999745,
+   "unit": "",
+   "expected": 10.0,
+   "low": 9.995,
+   "high": 10.005,
+   "source": "Analog Devices AD8421 Rev. A, page 22: G = 1 + 9.9 kohm / RG",
+   "verdict": "pass"
+  },
+  {
+   "key": "bandwidth_g10",
+   "label": "G = 10: small-signal bandwidth",
+   "value": 8356663.0,
+   "unit": "Hz",
+   "expected": 10000000.0,
+   "low": 8000000.0,
+   "high": 12000000.0,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_g10",
+   "label": "G = 10: voltage noise at 1 kHz, referred to the input",
+   "value": 7.744258e-09,
+   "unit": "V/√Hz",
+   "expected": 8e-09,
+   "low": 7.2e-09,
+   "high": 8.8e-09,
+   "source": "Analog Devices AD8421 Rev. A, pages 3 and 26",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_frequency_g10",
+   "label": "G = 10: noise from 0.1 Hz to 10 Hz, peak to peak, referred to the input",
+   "value": 2.539565e-07,
+   "unit": "V",
+   "expected": 5e-07,
+   "low": 3.75e-07,
+   "high": 6.25e-07,
+   "source": "Analog Devices AD8421 Rev. A, page 3",
+   "verdict": "fail"
+  },
+  {
+   "key": "gain_g100",
+   "label": "G = 100: gain at 10 Hz",
+   "value": 99.99674,
+   "unit": "",
+   "expected": 100.0,
+   "low": 99.95,
+   "high": 100.05,
+   "source": "Analog Devices AD8421 Rev. A, page 22: G = 1 + 9.9 kohm / RG",
+   "verdict": "pass"
+  },
+  {
+   "key": "bandwidth_g100",
+   "label": "G = 100: small-signal bandwidth",
+   "value": 1922650.0,
+   "unit": "Hz",
+   "expected": 2000000.0,
+   "low": 1600000.0,
+   "high": 2400000.0,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_g100",
+   "label": "G = 100: voltage noise at 1 kHz, referred to the input",
+   "value": 3.316766e-09,
+   "unit": "V/√Hz",
+   "expected": 3.5e-09,
+   "low": 3.15e-09,
+   "high": 3.85e-09,
+   "source": "Analog Devices AD8421 Rev. A, pages 3 and 26",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_g1000",
+   "label": "G = 1000: gain at 10 Hz",
+   "value": 999.8958,
+   "unit": "",
+   "expected": 1000.0,
+   "low": 999.5,
+   "high": 1000.5,
+   "source": "Analog Devices AD8421 Rev. A, page 22: G = 1 + 9.9 kohm / RG",
+   "verdict": "pass"
+  },
+  {
+   "key": "bandwidth_g1000",
+   "label": "G = 1000: small-signal bandwidth",
+   "value": 199456.9,
+   "unit": "Hz",
+   "expected": 200000.0,
+   "low": 160000.0,
+   "high": 240000.0,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_g1000",
+   "label": "G = 1000: voltage noise at 1 kHz, referred to the input",
+   "value": 3.030177e-09,
+   "unit": "V/√Hz",
+   "expected": 3e-09,
+   "low": 2.7e-09,
+   "high": 3.3e-09,
+   "source": "Analog Devices AD8421 Rev. A, pages 3 and 26",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_frequency_g1000",
+   "label": "G = 1000: noise from 0.1 Hz to 10 Hz, peak to peak, referred to the input",
+   "value": 8.159945e-08,
+   "unit": "V",
+   "expected": 7e-08,
+   "low": 5.25e-08,
+   "high": 8.75e-08,
+   "source": "Analog Devices AD8421 Rev. A, page 3",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_noise",
+   "label": "Current noise of an input at 1 kHz",
+   "value": 2.040516e-13,
+   "unit": "A/√Hz",
+   "expected": 2e-13,
+   "low": 1.8e-13,
+   "high": 2.2e-13,
+   "source": "Analog Devices AD8421 Rev. A, page 3",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_noise_low",
+   "label": "Current noise of an input from 0.1 Hz to 10 Hz, peak to peak",
+   "value": 1.846468e-11,
+   "unit": "A",
+   "expected": 1.8e-11,
+   "low": 1.35e-11,
+   "high": 2.25e-11,
+   "source": "Analog Devices AD8421 Rev. A, page 3",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_g1",
+   "label": "G = 1: common-mode rejection at 1 Hz with the parameter at 86 dB",
+   "value": 86.00021,
+   "unit": "dB",
+   "expected": 86.0,
+   "low": 85.14,
+   "high": 86.86,
+   "source": "Analog Devices AD8421 Rev. A, page 3: limit of the A grade",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_20khz",
+   "label": "G = 1: common-mode rejection at 20 kHz with the parameter at 86 dB",
+   "value": 79.87957,
+   "unit": "dB",
+   "expected": 80.0,
+   "low": 78.4,
+   "high": 81.6,
+   "source": "Analog Devices AD8421 Rev. A, page 3: limit of the A grade",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_g10",
+   "label": "G = 10: common-mode rejection at 1 Hz with the parameter at 86 dB",
+   "value": 106.0002,
+   "unit": "dB",
+   "expected": 106.0,
+   "low": 104.94,
+   "high": 107.06,
+   "source": "Analog Devices AD8421 Rev. A, page 3: limit of the A grade",
+   "verdict": "pass"
+  },
+  {
+   "key": "rejection_20khz_g10",
+   "label": "G = 10: common-mode rejection at 20 kHz with the parameter at 86 dB",
+   "value": 99.87957,
+   "unit": "dB",
+   "expected": 90.0,
+   "low": null,
+   "high": null,
+   "source": "Analog Devices AD8421 Rev. A, page 3: 90 dB at the least; the model does not have this fall",
+   "verdict": "info"
+  },
+  {
+   "key": "rejection_g100",
+   "label": "G = 100: common-mode rejection at 1 Hz with the parameter at 86 dB",
+   "value": 126.0002,
+   "unit": "dB",
+   "expected": 126.0,
+   "low": 124.74,
+   "high": 127.26,
+   "source": "Analog Devices AD8421 Rev. A, page 3: limit of the A grade",
+   "verdict": "pass"
+  },
+  {
+   "key": "offset",
+   "label": "G = 100 with vosi at -60 uV and voso at 350 uV: output",
+   "value": 0.006349794,
+   "unit": "V",
+   "expected": 0.00635,
+   "low": 0.0062865,
+   "high": 0.0064135,
+   "source": "Analog Devices AD8421 Rev. A, page 5: input offset times the gain plus output offset; a positive vosi lowers the output of this model, a positive voso raises it",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_positive",
+   "label": "Bias 1 nA, offset current 0.5 nA: current into the positive input",
+   "value": 1.2504e-09,
+   "unit": "A",
+   "expected": 1.25e-09,
+   "low": 1.225e-09,
+   "high": 1.275e-09,
+   "source": "definition of the parameters ib and ios",
+   "verdict": "pass"
+  },
+  {
+   "key": "bias_negative",
+   "label": "Bias 1 nA, offset current 0.5 nA: current into the negative input",
+   "value": 7.504e-10,
+   "unit": "A",
+   "expected": 7.5e-10,
+   "low": 7.35e-10,
+   "high": 7.65e-10,
+   "source": "definition of the parameters ib and ios",
+   "verdict": "pass"
+  },
+  {
+   "key": "reference_current",
+   "label": "Current of the reference pin with all inputs at 0 V",
+   "value": 2e-05,
+   "unit": "A",
+   "expected": 2e-05,
+   "low": null,
+   "high": 2.4e-05,
+   "source": "Analog Devices AD8421 Rev. A, page 4: 20 uA, 24 uA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "reference_resistance",
+   "label": "Input resistance of the reference pin",
+   "value": 20000.0,
+   "unit": "ohm",
+   "expected": 20000.0,
+   "low": 19600.0,
+   "high": 20400.0,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Supply current without load",
+   "value": 0.002,
+   "unit": "A",
+   "expected": 0.002,
+   "low": null,
+   "high": 0.0023,
+   "source": "Analog Devices AD8421 Rev. A, page 5: 2 mA, 2.3 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "overdrive_6v",
+   "label": "G = 100, 6 V between the inputs: current into the positive input",
+   "value": 0.01079424,
+   "unit": "A",
+   "expected": 0.01,
+   "low": 0.007,
+   "high": 0.013,
+   "source": "Analog Devices AD8421 Rev. A, page 14, figure 18 (read from the curve)",
+   "verdict": "pass"
+  },
+  {
+   "key": "overdrive_1v",
+   "label": "G = 100, 1 V between the inputs: current into the positive input",
+   "value": 7.086396e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "Analog Devices AD8421 Rev. A, page 14, figure 18: no visible current below about 2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_circuit",
+   "label": "Current into a short circuit at the output",
+   "value": 0.07,
+   "unit": "A",
+   "expected": 0.065,
+   "low": 0.0585,
+   "high": 0.0715,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_high",
+   "label": "Output swing into 2 kohm on +/-15 V: highest output",
+   "value": 13.59966,
+   "unit": "V",
+   "expected": 13.6,
+   "low": 13.4,
+   "high": null,
+   "source": "Analog Devices AD8421 Rev. A, page 4: +Vs - 1.6 V at the least; figure 36: +Vs - 1.4 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_low",
+   "label": "Output swing into 2 kohm on +/-15 V: lowest output",
+   "value": -13.89965,
+   "unit": "V",
+   "expected": -13.9,
+   "low": null,
+   "high": -13.8,
+   "source": "Analog Devices AD8421 Rev. A, page 4: -Vs + 1.2 V at the least; figure 36: -Vs + 1.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "range_g100_0v",
+   "label": "G = 100 on +/-15 V, output near 0 V: lowest common mode",
+   "value": -12.96,
+   "unit": "V",
+   "expected": -13.0,
+   "low": -13.3,
+   "high": -12.7,
+   "source": "Analog Devices AD8421 Rev. A, page 13, figure 13 (read from the curve)",
+   "verdict": "pass"
+  },
+  {
+   "key": "range_g100_10v",
+   "label": "G = 100 on +/-15 V, output at 10 V: lowest common mode",
+   "value": -8.04,
+   "unit": "V",
+   "expected": -8.0,
+   "low": -8.5,
+   "high": -7.5,
+   "source": "Analog Devices AD8421 Rev. A, page 13, figure 13 (read from the curve)",
+   "verdict": "pass"
+  },
+  {
+   "key": "range_g1_5v",
+   "label": "G = 1 on +/-5 V, output near 0 V: lowest common mode",
+   "value": -3.02,
+   "unit": "V",
+   "expected": -2.7,
+   "low": -3.0,
+   "high": -2.4,
+   "source": "Analog Devices AD8421 Rev. A, page 4: -Vs + 2.3 V; page 13, figure 12",
+   "verdict": "fail"
+  },
+  {
+   "key": "slew_rate",
+   "label": "Slew rate, step of 10 V at G = 1",
+   "value": 35.00854,
+   "unit": "V/us",
+   "expected": 35.0,
+   "low": 31.5,
+   "high": 38.5,
+   "source": "Analog Devices AD8421 Rev. A, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "settling_g10",
+   "label": "G = 10, step of 10 V: within 0.01 % after",
+   "value": 3.712697e-07,
+   "unit": "s",
+   "expected": 4e-07,
+   "low": null,
+   "high": 8e-07,
+   "source": "Analog Devices AD8421 Rev. A, page 4: 0.4 us typical; twice that is the fit asked here",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "response",
+   "AD8421 model: gain against frequency",
+   "signal-chain-ad8421.response.png"
+  ],
+  [
+   "noise",
+   "AD8421 model: voltage noise referred to the input",
+   "signal-chain-ad8421.noise.png"
+  ],
+  [
+   "step",
+   "AD8421 model: step of 10 V at the output",
+   "signal-chain-ad8421.step.png"
+  ]
+ ],
+ "notes": [
+  "The limits of the dynamic figures are the fit this project asks of a model: 20 % on a bandwidth, 10 % on a noise density, 25 % on the noise from 0.1 Hz to 10 Hz. They are not datasheet limits.",
+  "The model is a typical part at 25 C. Its offsets, its bias currents and its common-mode error are parameters that are zero unless a bench sets them; the figures here show that a parameter gives what the datasheet defines.",
+  "The model has no peaking: the datasheet shows 8 dB near 8 MHz at a gain of 1 (figure 22). The rejection at 20 kHz is right at a gain of 1 only.",
+  "At low gain the table limits the inputs to -Vs + 2.3 V; the model only has the limit of its first-stage outputs, which lies 0.3 V lower. On this board the inputs stay 4 V above the negative supply.",
+  "The input current in overdrive is a fit to one figure at a gain of 100.",
+  "The noise from 0.1 Hz to 10 Hz at a gain of 10 fails and stays failed. The model has the two sources of the datasheet, one at the input and one at the output, fitted to the table at a gain of 1 (2 uV peak to peak) and at a gain of 100 and more (0.07 uV). The two together give 0.21 uV at a gain of 10 (calculated), where the table states 0.5 uV: that value does not follow from the other two, and the model was not bent to it. This board works at a gain of 19.93. If the table is right, the amplifier has up to twice the noise of the model below 10 Hz."
+ ],
+ "models": [],
+ "decks": [
+  "signal-chain-ad8421.response-g10.cir",
+  "signal-chain-ad8421.static.cir"
+ ],
+ "format": 1
+}

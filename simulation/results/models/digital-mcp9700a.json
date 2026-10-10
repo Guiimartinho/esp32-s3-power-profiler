@@ -1,0 +1,97 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-mcp9700a",
+ "title": "MCP9700A model against its datasheet",
+ "covers": "the model of the board temperature sensor U39",
+ "summary": "The sensor is run at eight temperatures between -40 C and 125 C. The output without load gives the offset and the slope, the output with 100 uA drawn from it the output impedance, and the supply current is read at 25 C. A third sensor has no supply.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "offset",
+   "label": "Output at 0 C",
+   "value": 0.5,
+   "unit": "V",
+   "expected": 0.5,
+   "low": 0.495,
+   "high": 0.505,
+   "source": "Microchip DS20001942L, pages 3 and 4: 500 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "slope",
+   "label": "Slope of the output",
+   "value": 0.01,
+   "unit": "V",
+   "expected": 0.01,
+   "low": 0.0099,
+   "high": 0.0101,
+   "source": "Microchip DS20001942L, pages 3 and 4: 10.0 mV/K",
+   "verdict": "pass"
+  },
+  {
+   "key": "room",
+   "label": "Output at 25 C",
+   "value": 0.75,
+   "unit": "V",
+   "expected": 0.75,
+   "low": 0.7425,
+   "high": 0.7575,
+   "source": "Microchip DS20001942L, pages 3 and 4: 500 mV and 10.0 mV/K",
+   "verdict": "pass"
+  },
+  {
+   "key": "impedance",
+   "label": "Output impedance, from the drop with 100 uA",
+   "value": 19.99985,
+   "unit": "ohm",
+   "expected": 20.0,
+   "low": 19.0,
+   "high": 21.0,
+   "source": "Microchip DS20001942L, pages 3 and 4: 20 ohm typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Supply current of one sensor at 25 C",
+   "value": 6e-06,
+   "unit": "A",
+   "expected": 6e-06,
+   "low": 5e-06,
+   "high": 1.2e-05,
+   "source": "Microchip DS20001942L, pages 3 and 4: 6 uA typical, 12 uA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "without_supply",
+   "label": "Output without supply",
+   "value": 0.0,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "a sensor without supply gives no voltage",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "output",
+   "MCP9700A: output of the model against the temperature",
+   "digital-mcp9700a.output.png"
+  ]
+ ],
+ "notes": [
+  "The model is the straight line of the datasheet. The accuracy of the part, +/-2 C at the most from 0 C to 70 C, is a parameter that the benches of the monitors set.",
+  "The marks at 0.3 V and 1.5 V are the limits of rule F-12 of the specification for this channel: -20 C and 100 C."
+ ],
+ "models": [],
+ "decks": [
+  "digital-mcp9700a.25c.cir"
+ ],
+ "format": 1
+}

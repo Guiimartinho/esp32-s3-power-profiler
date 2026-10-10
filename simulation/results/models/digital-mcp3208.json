@@ -1,0 +1,110 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "digital-mcp3208",
+ "title": "MCP3208 inputs: model against the datasheet",
+ "covers": "the model of the monitor converter U40",
+ "summary": "Nine frames select the eight channels in turn and channel 7 once more. Channels 0 to 6 stand at different voltages on stiff sources, so the voltage on the sampling capacitor shows which channel a frame selects and when. Channel 7 is a capacitor of 100 nF without a source: what a sample takes from it is the charge of the sampling capacitor. A second deck forces 1 mA through the diodes of a pin.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "selection",
+   "label": "Channels 0 to 6: largest distance of the held voltage from its channel",
+   "value": 2.111032e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "Microchip DS21298E, page 19: channel bits D2, D1, D0",
+   "verdict": "pass"
+  },
+  {
+   "key": "window_start",
+   "label": "Sampling starts after the first rising clock edge of the frame by",
+   "value": 4.009203e-06,
+   "unit": "s",
+   "expected": 4e-06,
+   "low": 4e-06,
+   "high": 4.03e-06,
+   "source": "Microchip DS21298E, page 19: at the fourth rising edge after the start bit",
+   "verdict": "pass"
+  },
+  {
+   "key": "switch_and_capacitor",
+   "label": "Time constant of the sampling, from the 10 % to 90 % time",
+   "value": 2.020125e-08,
+   "unit": "s",
+   "expected": 2e-08,
+   "low": 1.7e-08,
+   "high": 2.3e-08,
+   "source": "Microchip DS21298E, page 18: 1 kohm and 20 pF",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_step",
+   "label": "Step of a 100 nF capacitor at 2.5 V when it is sampled after channel 6",
+   "value": 7.994377e-05,
+   "unit": "V",
+   "expected": 7.997846e-05,
+   "low": 7.75791e-05,
+   "high": 8.237781e-05,
+   "source": "Microchip DS21298E, page 18: 20 pF charged from 2.1 V to 2.5 V out of 100 nF",
+   "verdict": "pass"
+  },
+  {
+   "key": "second_sample",
+   "label": "Step of the same capacitor at the next sample of the same channel",
+   "value": 3.686904e-10,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 1.599569e-06,
+   "source": "the sampling capacitor keeps its voltage between samples (assumption)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_up",
+   "label": "Analog pin above the supply with 1 mA into it",
+   "value": 0.6103811,
+   "unit": "V",
+   "expected": 0.6,
+   "low": 0.57,
+   "high": 0.63,
+   "source": "Microchip DS21298E, page 18: diode threshold 0.6 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_down",
+   "label": "Analog pin below ground with 1 mA out of it",
+   "value": 0.6103811,
+   "unit": "V",
+   "expected": 0.6,
+   "low": 0.57,
+   "high": 0.63,
+   "source": "Microchip DS21298E, page 18: diode threshold 0.6 V",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "frame",
+   "MCP3208 inputs: the frame that selects channel 3, at 1 MHz",
+   "digital-mcp3208.frame.png"
+  ]
+ ],
+ "notes": [
+  "The model samples and holds; the conversion, the data output and the errors of the converter (offset 3 LSB, gain 5 LSB, linearity 1 LSB at the most) are not in it.",
+  "The sampling capacitor keeps the voltage of the channel before: an assumption about the capacitor array, which the datasheet does not describe. The benches of the monitors also run the case of a capacitor that starts 2.5 V away.",
+  "The diode drop of 0.6 V at 1 mA is the threshold that the datasheet draws; the current is an assumption."
+ ],
+ "models": [],
+ "decks": [
+  "digital-mcp3208.clamp.cir",
+  "digital-mcp3208.frames.cir"
+ ],
+ "format": 1
+}

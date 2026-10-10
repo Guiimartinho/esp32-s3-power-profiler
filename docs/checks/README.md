@@ -22,27 +22,42 @@ block and the controller module, D-85).
 
 Where an item says "calculated" or "simulated", that part of the question
 has a figure, and its measurement is what stays open. Nothing in the tables
-is measured. The files of the simulations are not in the repository yet;
-the [hardware guide](../../hardware/README.md) lists, block by block, which
-figures rest on a simulation. The scripts behind the figures calculated
-from the board are filed in `tools/board/`, with a
+is measured. A figure marked "simulated" in an item is the one of the
+specification, taken from simulations made while draft A2 was designed,
+whose files are not filed. The circuits were simulated again on 2026-10-10
+from the final netlist, and those simulations are filed: the
+[simulation guide](../../simulation/README.md) says what they reproduce
+and where they differ. The scripts behind the figures calculated from the
+board are filed in `tools/board/`, with a
 [guide](../../tools/board/README.md). Test points are named by their
 reference on the drawings of draft A2.
 
-State on 2026-10-10: 31 items under "Parts and Blocks", 7 before the board
-is ordered and 4 before a DUT is connected; 42 open, none closed, no record
+State on 2026-10-10: 31 items under "Parts and Blocks", 8 before the board
+is ordered and 4 before a DUT is connected; 43 open, none closed, no record
 filed. The item of the LT3080 (U18) gained a question on that day: the
 temperature rise of U18 at its full dissipation on the island of copper of
-draft A2 (D-93), read on the first board.
+draft A2 (D-93), read on the first board. On the same day section 16
+gained a fourth list, the
+[open points of the circuit simulations](#open-points-of-the-circuit-simulations):
+14 places where the simulation and the text differ, none decided. They
+are closed by a decision of the project owner, not by a record. The list
+also held four points for a decision before boards are ordered. The
+project owner decided them the same day, as decisions D-95 to D-98, and
+they left the list. What those decisions leave to check is in four items
+of the first table, and drawing them is the new first item before the
+board is ordered: the schematic, the board and the bill of materials
+still hold the state before them.
 
 What comes next: no check is started. The questions that a datasheet
 answers can be worked on now, part by part, as described under
 [Writing a Record](#writing-a-record). The questions that ask for a
 measurement wait for loose parts, for the prototypes of phase 1 or for the
 first board, as the three lists say. In the order of work of the project
-the checks come behind three things: the rest of the board step (the
-review by a person, the open items of the layout, the silkscreen and the
-test points), the software step, and the filing of the simulations. The
+the checks come behind four things: the drawing of the decisions D-95,
+D-96 and D-98, which is itself the first item before the board is
+ordered; the decisions of the project owner that are still open; the rest
+of the board step (the review by a person, the open items of the layout,
+the silkscreen and the test points); and the software step. The
 [hardware guide](../../hardware/README.md) has that order with its lists.
 
 The layout review of 2026-10-10 closed no item of these tables. It drew
@@ -54,12 +69,27 @@ decision is not a check either, and D-93 opens one: the island of copper
 under U18 is smaller on the top layer than the copper the datasheet figure
 is given for.
 
+The circuit simulations of 2026-10-10 closed no item of these tables
+either. A simulation runs on models written from datasheets: it is neither
+a record with datasheet values nor a measurement. Where an item asks for a
+figure to be measured and the simulation gives that figure again, the
+measurement stays open. Where the simulation does not give it, the point
+is in the fourth list, and the item here keeps the wording of section 16
+until the project owner decides. Several items are touched in this way,
+among them the check on TP33 under "Mode switches" and the in-rush on a
+hub port and the dip of the 5 V rail under "Input stage". Four items
+changed with the decisions D-95 to D-98: the edges of PWR_GOOD under
+"Rail monitor", the step response of the driver rail under "ADS8860", the
+start of the boost converter under "Analog rails" and the data cable
+plugged again under "Input stage". A decision closes none of them either:
+each still asks for a measurement.
+
 ### Parts and Blocks
 
 | Subject | Questions | Record | Status |
 | --- | --- | --- | --- |
 | AD8421 (U27) | Common-mode range with +12 V / −4 V, settling time and noise at G = 19.93, bias current against the leakage budget; linear range near full scale with the output below 0.2 V; overload recovery and output polarity after an overdrive of up to 3.9 V for 1 µs; offset with a transmitting DUT on its cable | — | Open |
-| ADS8860 (U30) | Convert-start and data timing against the acquisition program at 100 kSPS and 500 kSPS, with convert-start still high at the end of the conversion; input driver and reference drive; operation at a 2.5 V reference, where the datasheet gives typical figures only; noise with R131 at 0 Ω, 0.22 Ω and 0.47 Ω (D-75); driver rail (D-73) of about 2.68 V at TP42 and 2.73 V at the output of its buffer (calculated), and its step response; TP43 never above VREF + 0.25 V in overload, at power-up, at power-down and while 3V3_A is between 1 V and 2.2 V | — | Open |
+| ADS8860 (U30) | Convert-start and data timing against the acquisition program at 100 kSPS and 500 kSPS, with convert-start still high at the end of the conversion; input driver and reference drive; operation at a 2.5 V reference, where the datasheet gives typical figures only; noise with R131 at 0 Ω, 0.22 Ω and 0.47 Ω (D-75); driver rail (D-73) of about 2.68 V at TP42 and 2.73 V at the output of its buffer (calculated), and its step response, with the position of D-96 empty and with a capacitor in it, whose value is chosen there; TP43 never above VREF + 0.25 V in overload, at power-up, at power-down and while 3V3_A is between 1 V and 2.2 V | — | Open |
 | RP2350 PIO | Size of the acquisition program and of the range sequencer against 32 instructions, reaction time from the jump comparator to the gate line of range 3 of 100 ns or less (20 ns to 80 ns, estimate), blanking of 2 µs (F-17) and trip qualification of 12 µs (F-18) as programs, DMA pacing | — | Open |
 | LT3080 (U18) | Dropout on both supply pins on the R-08 curve (calculated, margin 2 mV at 5.0 V; measurement on several warm units open), minimum load of 3.7 mA to 6.9 mA through R69 (calculated), output noise with that load, operation from the control pin alone, thermal resistance of the package on the planned copper; temperature rise at its full dissipation (1.02 W at the limits, 1.5 W to 2.0 W in a sustained short circuit, calculated) on the island of draft A2, 291 mm² on the bottom layer joined by 22 vias to 102 mm² on the top layer (D-93): the datasheet figure of 65 K/W is for 225 mm² of top copper and does not describe that island, so the rise is read on the first board | — | Open |
 | Pre-regulator (TPS63020, U16) | Stability with the difference amplifier U19 in the feedback path over 1.2 V to 5.5 V and the charge returned to the 5 V rail (behavioral model only; phase 1 prototype); power taken from the 5 V rail in source mode without load, 0.25 W or more (0.54 W to 0.60 W estimated); behavior below 1.2 V and at the 5.5 V end against its over-voltage protection; ripple after the filter; land pattern (lead pads agree with the drawing of the manufacturer, center pad 1.7 mm × 3.3 mm against 1.58 mm × 2.85 mm accepted, with a via array); inductor L2 (saturation current of 4.6 A at 30 % drop, datasheet value, against the current limit of the converter; no stock on 2026-10-09, second source on the same pads); bead FB1 (inductance below 1 MHz) | — | Open |
@@ -72,12 +102,12 @@ is given for.
 | VIN protection (D-60) | Detector U21 trips between 5.41 V and 5.51 V and releases between 5.30 V and 5.40 V (calculated); TP30 steady high with +20 V on VIN and power on; the input pin of the detector above −1.0 V with −20 V; TP33 and TP27 at a short circuit in ampere mode from a 10 A supply through 0.5 m and 2 m leads (expected 8 V to 11 V and below 34 V); short-pulse rating of D14 (up to 16.9 A for microseconds simulated, against 12.3 A for the 10/1000 µs wave of the datasheet) | — | Open |
 | Reverse current (D-69) | With the range gates held low, 1 A, 1.5 A and 2 A for 60 s and 4 A for 100 ms: temperatures of both clamps and of Q14, and whether the clamps stay within 10 °C of each other | — | Open |
 | Comparators (U31, U32) | Propagation delay and input range; hysteresis and offset at 0.46 V to 0.76 V of common mode; inputs with 3V3_A off and the amplifier output at +10 V. Thresholds and tolerances are calculated: 87.5 mV to 94.4 mV, 111.4 mV to 118.7 mV, 147.2 mV to 155.1 mV at the shunt | — | Open |
-| Rail monitor (MCP6569, U14, D-54) | Trip level of each comparator at TP17, edges of PWR_GOOD at start and stop with C32 to C34 fitted, rise time of PWR_GOOD against the slowest edge the shift register accepts | — | Open |
+| Rail monitor (MCP6569, U14, D-54, D-95) | Trip level of each comparator at TP17, edges of PWR_GOOD at start and stop with C32 to C34 fitted at 10 nF, rise time of PWR_GOOD against the slowest edge the shift register accepts. Open after D-95: with 10 nF one crossing was simulated, at 2 V/s; the crossings at 20 V/s and at 400 V/s, where 1 nF gave bursts of edges, and the edges of PWR_GOOD at power-up and at power-off are simulated with 10 nF when the change is drawn | — | Open |
 | Shift registers (SN74LV165A) | Timing of the load pulse against the convert-start edge, maximum clock at 3.3 V against the 500 kSPS option | — | Open |
 | Interlock transistors (BSS138: Q3, Q2, and Q1 at the enable of the pre-regulator) | Threshold and on-resistance with 3.3 V at the gate | — | Open |
 | Gate drivers (TC4427) | Input thresholds with 3.3 V logic behind 1 kΩ, propagation delay, supply current, output state without supply and with a supply below 4.5 V | — | Open |
-| Analog rails | Load of each rail against the converters (LMR62014, LT3042, LM27761), start-up order (simulated) and the order at power-off, start current of the boost converter and its start from a supply limited to 0.7 A, the −4 V rail at 4.25 V on the 5 V rail, noise of the boost converter after the +12 V_A regulator with 0.47 Ω, 0 Ω and a bead in R37, clamp levels at power-off at TP12 and TP16 | — | Open |
-| Input stage (D-47, D-48) | Current limiters TPS259621 (U4, U3), multiplexer TPS2116 (U5), supervisor TPS3808G01 (U6); every figure is from behavioral models with typical delays. Hot plug into USB-C (TP1 below 12.5 V; nothing behind the limiter more than 0.1 V above the source), contact interrupted for 20 µs to 20 ms (TP2 below 5.8 V), data cable plugged again with a short cable (TP4 below 6.0 V), in-rush on a hub port (0.9 A or less after the spike of the module; 0.71 A to 0.87 A simulated), supervisor at 3.83 V to 4.00 V with a release after 0.18 s to 0.42 s, 3V3_A (TP10) from below 0.7 V at a re-plug, the multiplexer when its priority input falls with the other input absent, a supply raised from 5 V to 10 V (TP6 at 5.28 V to 5.61 V; the input of the charge pump at C21 against its 5.8 V rating), USB-C plugged while the module input supplies (4.0 V to 4.5 V simulated, against 4.00 V) and pulled with both cables in (TP5) | — | Open |
+| Analog rails | Load of each rail against the converters (LMR62014, LT3042, LM27761), start-up order (simulated) and the order at power-off, start current of the boost converter and its start from a supply limited to 0.7 A (the position U9 stays without a part, and a remedy, if that start asks for one, is a detector with a time-out of milliseconds, D-97), the −4 V rail at 4.25 V on the 5 V rail, noise of the boost converter after the +12 V_A regulator with 0.47 Ω, 0 Ω and a bead in R37, clamp levels at power-off at TP12 and TP16 | — | Open |
+| Input stage (D-47, D-48) | Current limiters TPS259621 (U4, U3), multiplexer TPS2116 (U5), supervisor TPS3808G01 (U6); every figure is from behavioral models with typical delays. Hot plug into USB-C (TP1 below 12.5 V; nothing behind the limiter more than 0.1 V above the source), contact interrupted for 20 µs to 20 ms (TP2 below 5.8 V), data cable plugged again with a short cable, with the damper R14 and C5 fitted (D-98; TP4 below 6.0 V), also with the longer gaps in which the damped input has fallen as far as the undamped one does in 2 ms to 2.6 ms, which were not simulated, and the recharge pulse at a change of input with that damper, which was not simulated either (4.103 A through the multiplexer without it, against a pulse rating of 4 A, simulated on 2026-10-10), in-rush on a hub port (0.9 A or less after the spike of the module; 0.71 A to 0.87 A simulated), supervisor at 3.83 V to 4.00 V with a release after 0.18 s to 0.42 s, 3V3_A (TP10) from below 0.7 V at a re-plug, the multiplexer when its priority input falls with the other input absent, a supply raised from 5 V to 10 V (TP6 at 5.28 V to 5.61 V; the input of the charge pump at C21 against its 5.8 V rating), USB-C plugged while the module input supplies (4.0 V to 4.5 V simulated, against 4.00 V) and pulled with both cables in (TP5) | — | Open |
 | Level translator | Supply current drawn from the buffer through R118, clamp levels of D24, behavior with the DUT-side supply between 0.1 V and 1.65 V, level of an open logic input at 25 °C and 40 °C (confirms 470 kΩ), sag of the DUT-side supply at TP48 with eight lines at 1 MHz and at 10 MHz | — | Open |
 | ESD arrays (TPD4E1U06: U2, U36, U37, U35, D-50) | Leakage of a logic line and of the VCC pin at 1.8 V, 3.3 V, 5.0 V and 5.5 V at 25 °C and 40 °C; 0.5 µA or less at 5.0 V, else the alternate part | — | Open |
 | USB-C | CC thresholds and behavior on 500 mA, 1.5 A and 3 A sources; a source on a C-to-C cable plugged after the cable of the module | — | Open |
@@ -98,12 +128,13 @@ read on the first board.
 
 | Item | Record | Status |
 | --- | --- | --- |
+| The decisions that follow the circuit simulations, which are not drawn yet: C32 to C34 at 10 nF (D-95); a position for a capacitor from the non-inverting input of U28 to ground (D-96); R14 and C5 fitted, with part numbers (D-98); and the text of the position U9, which still reads "803 type, 3.08 V" in the schematic and on the board (D-97), with the notes of the three sheets that state the earlier design. Then the electrical rules check and the design rules check with schematic parity, the bill of materials and the pictures exported again, the netlist snapshot of the simulations written again and the benches of the blocks that the change touches run again: the rail monitor with the power-up and the power-off, the driver rail, and the input from the module. Until then the drawings, the bill of materials and the results of the simulations describe the earlier state | — | Open |
 | The risk prototypes of phase 1 that concern the carrier: reaction of the sequencer, pre-regulator with its tracking amplifier, start of the boost converter from 0.7 A | — | Open |
 | Linear range of the AD8421 near full scale with the output below 0.2 V, on the test board of phase 2. Until the result exists, range 3 above 1 A, the trip level and the jump level are specified for output voltages of 0.2 V or more | — | Open |
 | On loose parts: leakage of the suppressor PTVS15VS1UR at 5 V and at 40 °C to 50 °C; leakage of the IRLML0030 at 100 mV and 40 °C; on-resistance of the MUX509 at +12 V / −4 V | — | Open |
 | Review of the routed board (D-86) against the rules of section 10, with the resistance of the 1 A path and of the copper from the pre-regulator to FB1 (15 mΩ or less). Done on 2026-10-10 with scripts and checked by independent calculation: 19.5 squares in source mode and 23.3 squares in ampere mode against 30, and 7.1 mΩ to FB1 (calculated from the drawn copper, section 10.8). Open: a person opens the board in the KiCad editor and reviews it, and the rest of the exit check of section 10.8 | — | Open |
 | The open items of section 10.8 that need parts moved or another footprint: which of them are closed before the order, by a change of placement with a local redraw | — | Open |
-| Files that have to be in the repository so that a figure can be repeated: the simulation files in `hardware/simulation/`, which are not filed yet. The figures calculated from the board (resistance of a pour in squares, path on one layer, surface leakage into the measured node, lengths of the pairs) are produced by the scripts in [`tools/board/`](../../tools/board/) | — | Open |
+| Files that have to be in the repository so that a figure can be repeated. The circuit simulations are in [`simulation/`](../../simulation/) since 2026-10-10 (D-94): benches that take the parts of their circuits from a snapshot of the netlist and run in the ngspice library of KiCad 10, with their results. They are new simulations; the files of the earlier ones, from which the figures marked "simulated" in the specification were taken, are not filed. The figures calculated from the board (resistance of a pour in squares, path on one layer, surface leakage into the measured node, lengths of the pairs) are produced by the scripts in [`tools/board/`](../../tools/board/). Open: the simulations ran on one machine and with one version of the simulator, and the points in which they differ from the specification are in the fourth list | — | Open |
 | Stock of the parts that had none on 2026-10-09 (L2, 10 µF and 22 µF 25 V X5R), and the order of the parts with long lead times | — | Open |
 
 ### Before a DUT Is Connected to a Board
@@ -161,6 +192,60 @@ the open items of the layout one by one. The review of the
 layout is not a component check either: every part on the board is still a
 candidate, and a closed record can change a footprint and with it the
 copper around it.
+
+### Open Points of the Circuit Simulations
+
+Section 16 of the specification ends with this list since 2026-10-10
+(D-94). The simulations in [`simulation/`](../../simulation/README.md)
+give the central design figures of the specification again, block by
+block. They raised four points for a decision before boards are ordered.
+The project owner decided them on 2026-10-10, and they are no longer in
+this list: the capacitors of the rail monitor (D-95), the position for a
+capacitor at the buffer of the driver rail (D-96), the detector position
+at the boost converter (D-97) and the damper on the module input (D-98).
+What those decisions leave to check stands in the tables above.
+
+In the places below the simulations differ from the text or show
+something that the text does not state. Each one waits for the project
+owner, and until it is decided the passages that it concerns are
+unchanged; decisions D-95 to D-98 changed other passages of some of the
+same sections. The figures are simulated, with models written from
+datasheets, unless a row says otherwise; none is measured, and "proposed"
+is what the simulation round proposes. The column "Bench" names the bench
+that shows the place; the
+[simulation guide](../../simulation/README.md#what-the-simulations-say) has
+the whole account, with the assumptions of each place.
+
+Places where the simulation and the text differ:
+
+| Place | What the simulation shows | Bench | Status |
+| --- | --- | --- | --- |
+| Over-current qualification (section 4.4, F-18, section 11) | The comparator is high for up to 12.83 µs while a large capacitor recharges after a step to 1.0 A, of which 8.174 µs at the most in R3; the text has up to 8.6 µs with 56 µF. The worst capacitor is near 82 µF. Proposed: the rule says that the 12 µs count in R3 | [`range_logic/trip`](../../simulation/results/range_logic/README.md#range_logictrip) | Open |
+| Ladder clamp in a short circuit (section 4.3) | "Above 5 A for at most 0.54 µs" holds for the hot plug. In a short circuit from a supply that holds its voltage, a clamp transistor with a low threshold carries more than 5 A for 14.79 µs and up to 19.26 A (rating 21 A), and R3 carries 29.52 A, or 32.33 A with a short across the terminals, not "up to 27 A". The spread of the clamp at amperes is an assumption | [`range_logic/hot-plug`](../../simulation/results/range_logic/README.md#range_logichot-plug), [`output_stage/short-circuit`](../../simulation/results/output_stage/README.md#output_stageshort-circuit) | Open |
+| Capacitor at the VIN terminals (sections 4.4, 4.9 and 11) | With 100 µF there the current stays above the trip level for 32.75 µs, not 2.1 µs, when the capacitor at the DUT is as large and the leads have little resistance, and 2 of 8 runs trip, where section 11 asks for none. Proposed: the advice asks for a capacitor several times the one at the DUT, or a lossy one | [`range_logic/supply-leads`](../../simulation/results/range_logic/README.md#range_logicsupply-leads) | Open |
+| Power-off and power-up (section 3, F-7) | 3V3_C is below 3.0 V after 45.72 µs, not 0.02 ms; PWR_GOOD is below 2.0 V after 145.1 µs and below 0.8 V after 604.5 µs, not 0.05 ms to 0.07 ms and 0.3 ms; 3V3_A is below 1.0 V after 3.584 ms, not 4 ms to 6 ms; +12 V_A is below 3.6 V after 20.31 ms, not about 14 ms, and stands above 3.6 V with 3V3_A below 1 V for 16.73 ms, not about 10 ms; −4 V_A arrives 434.9 µs after 5V_OK, not 0.3 ms. The times follow from the loads that the bench assumes | [`analog_rails/power-down`](../../simulation/results/analog_rails/README.md#analog_railspower-down), [`analog_rails/power-up`](../../simulation/results/analog_rails/README.md#analog_railspower-up) | Open |
+| Output switch (section 4.2, D-71, F-8, F-24) | The gate is below 2 V within 7 µs at 5 V; at 0.8 V it takes 7.274 µs to 7.448 µs, and 8.109 µs in the slow corner. With 100 µF the DUT voltage is at 10 % after 6.458 ms at 5 V and after 5.381 ms at 0.8 V, and over the corners its start spans from 3.888 ms (the first 50 mV at 0.8 V) to 10.03 ms (10 % at 5 V into 2200 µF), not 6 ms to 7 ms | [`output_stage/turn-off`](../../simulation/results/output_stage/README.md#output_stageturn-off), [`output_stage/turn-on`](../../simulation/results/output_stage/README.md#output_stageturn-on) | Open |
+| Suppressor of VOUT (section 4.9) | It carries up to 14.37 A forward at a trip, not "at most 11.6 A", and with 0.15 Ω of forward resistance the terminal goes to −1.807 V, not −0.8 V to −1.7 V; a positive strike beyond +15 V on the open output is limited by the suppressor, not by the avalanche of the output transistor | [`output_stage/short-circuit`](../../simulation/results/output_stage/README.md#output_stageshort-circuit), [`output_stage/terminal`](../../simulation/results/output_stage/README.md#output_stageterminal) | Open |
+| Mode switches (section 4.9, F-23) | The opening kick on VIN is 16.01 V to 25.12 V, not 20 V to 24 V; the gate-source voltage is 6.122 V at 5 V and 5.739 V at 5.4 V with +12 V_A at 11.4 V, not "at least 6.2 V"; the detector opens the switch after 2.199 µs to 78.34 µs, not 4 µs to 45 µs | [`path_switching/open`](../../simulation/results/path_switching/README.md#path_switchingopen), [`path_switching/drop`](../../simulation/results/path_switching/README.md#path_switchingdrop), [`path_switching/detector`](../../simulation/results/path_switching/README.md#path_switchingdetector), [`path_switching/overvoltage`](../../simulation/results/path_switching/README.md#path_switchingovervoltage) | Open |
+| Check of section 16 on TP33 (item "Mode switches" above) | With −5 V from a supply limited to 1 A and the request high, TP33 is at −2.556 V after 35 µs, not above −0.1 V, in the one run made, with a source that has no output capacitor | [`path_switching/reversal`](../../simulation/results/path_switching/README.md#path_switchingreversal) | Open |
+| Noise budget (section 4.10) | The total stands, the list of its terms does not: the ADC is 1.629 µV RMS at the shunt by its datasheet at a reference of 2.5 V, not about 1.0 µV, and the multiplexer channels (620.2 nV) and the filter with its driver (325.7 nV) are missing | [`signal_chain/noise`](../../simulation/results/signal_chain/README.md#signal_chainnoise) | Open |
+| Converter interface (section 4.6) | By its datasheet the ADC shifts its result out after convert-start falls, not "while that line is still high" (a reading of the datasheet, not a simulated figure); the estimates of about 1 ns on the clock and 3 ns to 4 ns on the data line leave out the resistance of the pads (2.251 ns to 12.57 ns on the clock, 5.015 ns to 11.5 ns on the data, with assumed capacitances) | [`digital/converter-lines`](../../simulation/results/digital/README.md#digitalconverter-lines) | Open |
+| Slow monitors (section 4.2) | The input leakage of the monitor converter, 1 µA at the most (datasheet value), is not in the text; at that maximum channel 0 is off by 120 mV, where F-28 allows 100 mV, and channel 1 by 430 mV, where F-26 allows 130 mV. Channel 2 is at full scale with the rail at 5.50 V and the resistors at their limits | [`digital/monitor-channels`](../../simulation/results/digital/README.md#digitalmonitor-channels) | Open |
+| Source meter (sections 4.2 and 4.9) | Code 0 gives 30.96 mV, not 0.01 V; an overload into 5 Ω rests at 4.729 V, not 4.48 V; the role of R60 as the limit of the clamp current between SET and OUT is not stated; a charged capacitor of 100 µF plugged into the output takes the IN pin 1.013 V to 1.04 V below the output for 22.82 µs to 24.72 µs, not 0.32 V to 0.94 V for 3 µs to 21 µs | [`source_meter/setpoint`](../../simulation/results/source_meter/README.md#source_metersetpoint), [`source_meter/tracking`](../../simulation/results/source_meter/README.md#source_metertracking), [`source_meter/external`](../../simulation/results/source_meter/README.md#source_meterexternal) | Open |
+| Power input (sections 3 and 4.1, F-35, item "Input stage" above) | On a computer port the in-rush shows a peak of 1.018 A to 1.275 A for 16.3 µs to 33.04 µs when the boost converter starts, not 0.9 A or less; the port falls to 4.883 V to 4.935 V in it, not 4.94 V or above, and the charge above 100 mA is 1.179 mC to 1.193 mC, not 0.44 mC to 0.96 mC; the converter is a stand-in load in these runs. The margin to the 6 V rating is that of input 2 of the multiplexer only: input 1 stays at 5.5 V. The dip at a change to USB-C is 4.867 V and 4.808 V at idle and 4.652 V and 4.507 V with 0.45 A of load, not 4.54 V and 4.28 V, with both sources at 5.0 V. The rail starts 1.318 ms after the limiter, not about 1 ms. A load step of 1 A moves the rail by 282.3 mV behind a cable of 0.15 Ω, close to the 0.3 V of F-35. A short circuit of the 5 V rail, with up to 30.5 A through the multiplexer against a pulse rating of 4 A, is not in the text | [`power_input/plug-module`](../../simulation/results/power_input/README.md#power_inputplug-module), [`power_input/contact-bounce`](../../simulation/results/power_input/README.md#power_inputcontact-bounce), [`power_input/switch-over`](../../simulation/results/power_input/README.md#power_inputswitch-over), [`power_input/plug-usbc`](../../simulation/results/power_input/README.md#power_inputplug-usbc), [`power_input/load-step`](../../simulation/results/power_input/README.md#power_inputload-step), [`power_input/current-limit`](../../simulation/results/power_input/README.md#power_inputcurrent-limit) | Open |
+| Logic inputs (section 4.8) | +12 V at a line leaves 6.588 V to 8.562 V at the translator pin behind 1 kΩ, against a rating of 6.5 V; the text states no range that a line withstands. Proposed: the text gives the range of a line as 0 V to 5.5 V | [`digital/logic-abuse`](../../simulation/results/digital/README.md#digitallogic-abuse) | Open |
+
+The list is not every difference. The result pages show the
+distance from the value that the specification states beside every
+figure, and the
+[simulation guide](../../simulation/README.md#where-the-simulation-and-the-text-differ)
+names the further figures that fail against a rating of a datasheet or
+against another figure of the text.
+
+A place of this list is closed when the project owner has decided it. A
+decision that changes the specification is an entry in its decision log,
+and the item of the lists above that it touches changes with it, as the
+four decisions D-95 to D-98 did.
 
 ## Writing a Record
 

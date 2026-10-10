@@ -1,0 +1,17 @@
+* LT3080: output noise
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080
+* SET by 100 kohm with 0.1 uF, 1.1 A of load
+Vin in 0 dc 3 ac 1
+Rjoin in vctl 1m
+Rset set 0 100k
+Cset set 0 0.1u
+Cout out out_c 10u
+Resr out_c 0 0.005
+Iload out 0 1.1
+* start values: the search begins near the state with 1 V at the output
+.nodeset v(out)=1 v(set)=1 v(xu18.x)=1.95 v(xu18.cmd)=1.95 v(xu18.b)=1.9
+.control
+noise v(out) Vin dec 30 10 100k
+.endc
+.end

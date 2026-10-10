@@ -1,0 +1,316 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "jump",
+ "title": "The jump path: from the jump threshold at the ladder to range 3 conducting",
+ "covers": "section 4.4 (jump up, reaction time), rule F-16, requirement R-07",
+ "summary": "A load steps from 1 uA to 500 mA in range 0 with 1 uF at the terminals. The capacitor supplies the step, so the ladder voltage rises at about 0.45 V per microsecond. The run measures the time from the instant the ladder voltage passes the jump threshold, 151 mV, to the instant the 0.1 ohm branch carries 50 mA. The loop is closed through the real comparators and the model of the sequencer. The delays on the way are varied one at a time and together: the on-resistance of the multiplexer, which with the capacitors at the amplifier inputs delays the sense voltage, the delay of the comparators, the reaction of the sequencer, and the delay and output resistance of the gate driver.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "delay_nominal",
+   "label": "Threshold to conducting branch, nominal delays",
+   "value": 3.62039e-07,
+   "unit": "s",
+   "expected": 3.5e-07,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_best",
+   "label": "Threshold to conducting branch, best delays",
+   "value": 2.170657e-07,
+   "unit": "s",
+   "expected": 2e-07,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_worst",
+   "label": "Threshold to conducting branch, worst delays",
+   "value": 4.81774e-07,
+   "unit": "s",
+   "expected": 5.1e-07,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_nominal_0v8",
+   "label": "The same at 0.8 V, nominal delays",
+   "value": 3.39621e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_worst_0v8",
+   "label": "The same at 0.8 V, worst delays",
+   "value": 4.563652e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_mux_125",
+   "label": "Multiplexer at 125 ohm, the rest nominal",
+   "value": 3.050467e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_mux_430",
+   "label": "Multiplexer at 430 ohm, the rest nominal",
+   "value": 4.344064e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_comparator_80n",
+   "label": "Comparators at 80 ns, the rest nominal",
+   "value": 3.947524e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_sequencer_20n",
+   "label": "Sequencer at 20 ns, the rest nominal",
+   "value": 2.858979e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_driver_20n",
+   "label": "Gate driver at 20 ns, the rest nominal",
+   "value": 3.520355e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_driver_40n",
+   "label": "Gate driver at 40 ns and 10 ohm, the rest nominal",
+   "value": 3.764078e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 5.5e-07,
+   "source": "section 4.4, simulated; target 0.55 us at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_worst_slow_amplifier",
+   "label": "Worst delays and the amplifier at half the bandwidth of its model",
+   "value": 5.129645e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "no limit: the datasheet of the amplifier gives no spread of its bandwidth",
+   "verdict": "info"
+  },
+  {
+   "key": "part_filter_amplifier",
+   "label": "Nominal, of which: input filter and amplifier",
+   "value": 1.481284e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "part_comparator",
+   "label": "Nominal, of which: divider and comparator",
+   "value": 5.012907e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "part_sequencer",
+   "label": "Nominal, of which: sequencer",
+   "value": 1.033631e-07,
+   "unit": "s",
+   "expected": 1e-07,
+   "low": null,
+   "high": 1.1e-07,
+   "source": "rule F-16: within 100 ns; a parameter of the model, read between the middles of two edges, hence 10 % of allowance",
+   "verdict": "pass"
+  },
+  {
+   "key": "part_driver",
+   "label": "Nominal, of which: driver, gate resistor and switch",
+   "value": 6.041852e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ladder_at_conduction",
+   "label": "Nominal: ladder voltage when the branch conducts",
+   "value": 0.3046513,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The branch counts as conducting from 50 mA, the level of the earlier simulations of the design; the specification names none. The charging current of the gate of the range 3 switch flows through the same shunt, about 0.6 A for 30 ns, before the channel conducts; it is taken out of the branch current with the current of the gate resistor. Counted in, the branch would seem to conduct about 30 ns earlier.",
+  "Nominal: multiplexer 250 ohm, comparators 47 ns, sequencer 100 ns, driver 30 ns and 7 ohm. Best: 125 ohm, 47 ns, 20 ns, 20 ns. Worst: 430 ohm, 80 ns, 100 ns, 40 ns and 10 ohm. The driver figures are the limits of its datasheet at 18 V; at 12 V with a 3.3 V input it is slower by an amount the datasheet shows in a curve only.",
+  "The sequencer is the model of rule F-16 with its reaction time as a parameter: the 100 ns are an input of this bench, not a result.",
+  "The comparator model has one delay whatever the overdrive. Here the input rises by about 2.2 V per microsecond, so the overdrive passes 100 mV, the condition of the datasheet figure, within 45 ns.",
+  "The amplifier model has 6.4 MHz of bandwidth at this gain and no spread; the last delay figure halves it to show what a slower part would cost.",
+  "The source is 5 V or 0.8 V behind 20 mohm and holds its voltage; the load is a current sink with an edge of 10 ns beside 1 uF with 5 mohm.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

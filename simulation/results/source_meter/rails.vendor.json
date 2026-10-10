@@ -1,0 +1,275 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "rails",
+ "title": "A missing or falling rail, the minimum load and the set-point filter in a hold-off",
+ "covers": "section 4.2 (clamps, minimum load, set-point filter), decision D-57, rules F-3 and F-7",
+ "summary": "The source is brought to rest with one rail absent, and then every rail falls. Without -4 V_A the minimum load R69 ends on a rail at 0 V: runs with the typical quiescent current of the regulator and with the two values that section 4.2 calculates with give the output at a set-point of 0.80 V. Without the boost output the regulator has no control supply and R69 pulls its output below ground, where D12 holds it. A run with 2 mA forced into the output stands for the leakage of a hot D11. Two power-off runs let the 5 V rail and the boost output fall within 1 ms and within 10 ms and show the VCONTROL pin against the output. One run of the DAC with its filter alone shows what C41 holds during a hold-off of the supervisor.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "minimum_low",
+   "label": "Current of the minimum load R69 at 0.80 V",
+   "value": 0.003691924,
+   "unit": "A",
+   "expected": 0.0037,
+   "low": 0.0036,
+   "high": 0.0038,
+   "source": "section 4.2: 3.7 mA at 0.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "minimum_high",
+   "label": "Current of the minimum load R69 at 5.00 V",
+   "value": 0.006922857,
+   "unit": "A",
+   "expected": 0.0069,
+   "low": 0.0068,
+   "high": 0.007,
+   "source": "section 4.2: 6.9 mA at 5.0 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "no_m4_typical",
+   "label": "Without -4 V_A, typical regulator: output at a set-point of 0.80 V",
+   "value": 0.7996198,
+   "unit": "V",
+   "expected": 0.8,
+   "low": 0.79,
+   "high": 0.81,
+   "source": "section 4.2: 0.8 V with a typical regulator",
+   "verdict": "pass"
+  },
+  {
+   "key": "no_m4_low",
+   "label": "Without -4 V_A, quiescent current of 0.67 mA: output",
+   "value": 0.8473907,
+   "unit": "V",
+   "expected": 0.87,
+   "low": 0.82,
+   "high": 0.92,
+   "source": "section 4.2: 0.87 V to 1.17 V at the limits",
+   "verdict": "pass"
+  },
+  {
+   "key": "no_m4_high",
+   "label": "Without -4 V_A, quiescent current of 0.90 mA: output",
+   "value": 1.136671,
+   "unit": "V",
+   "expected": 1.17,
+   "low": 1.12,
+   "high": 1.22,
+   "source": "section 4.2: 0.87 V to 1.17 V at the limits",
+   "verdict": "pass"
+  },
+  {
+   "key": "no_boost",
+   "label": "Without the boost output, -4 V_A present: regulator output",
+   "value": -0.1761312,
+   "unit": "V",
+   "expected": -0.2,
+   "low": -0.3,
+   "high": 0.0,
+   "source": "section 4.2: D12 holds the output at about -0.2 V (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "no_boost_set",
+   "label": "In that state: SET pin above the output",
+   "value": 0.633278,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "leakage",
+   "label": "2 mA into the output at 0.80 V: rise of the output",
+   "value": 4.224562e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.2: the minimum load absorbs the leakage of D11, up to 2 mA at 100 C; 1 mV is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest",
+   "label": "Largest movement of output and pre-regulator in the last 2 ms of these runs",
+   "value": 2.406317e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "limit of this bench: a run counts as at rest below 0.1 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_control_1ms",
+   "label": "Power-off in 1 ms: lowest voltage of VCONTROL above the output",
+   "value": 0.5489861,
+   "unit": "V",
+   "expected": 0.88,
+   "low": -0.3,
+   "high": null,
+   "source": "section 4.2: at least 0.88 V (simulated); the limit is the rating of the pin, 0.3 V below the output",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_in_1ms",
+   "label": "Power-off in 1 ms: lowest voltage of the IN pin above the output",
+   "value": 0.4399453,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_output_1ms",
+   "label": "Power-off in 1 ms: lowest regulator output",
+   "value": 0.1758267,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "section 4.2: D12 holds the output at about -0.2 V; 0.3 V is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_control_10ms",
+   "label": "Power-off in 10 ms: lowest voltage of VCONTROL above the output",
+   "value": 0.5489835,
+   "unit": "V",
+   "expected": 0.88,
+   "low": -0.3,
+   "high": null,
+   "source": "section 4.2: at least 0.88 V (simulated); the limit is the rating of the pin, 0.3 V below the output",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_in_10ms",
+   "label": "Power-off in 10 ms: lowest voltage of the IN pin above the output",
+   "value": 0.440334,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LT3080 Rev. E, page 2 (D-57)",
+   "verdict": "pass"
+  },
+  {
+   "key": "off_output_10ms",
+   "label": "Power-off in 10 ms: lowest regulator output",
+   "value": 0.1762491,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "section 4.2: D12 holds the output at about -0.2 V; 0.3 V is the limit of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "hold_180ms",
+   "label": "Set-point filter 180 ms after the DAC lost its supply: share of the last value",
+   "value": 69.12231,
+   "unit": "%",
+   "expected": 70.0,
+   "low": 67.0,
+   "high": 73.0,
+   "source": "section 4.2: C41 still holds 44 % to 70 % of the last value",
+   "verdict": "pass"
+  },
+  {
+   "key": "hold_420ms",
+   "label": "Set-point filter 420 ms after the DAC lost its supply: share of the last value",
+   "value": 42.29989,
+   "unit": "%",
+   "expected": 44.0,
+   "low": 41.0,
+   "high": 47.0,
+   "source": "section 4.2: C41 still holds 44 % to 70 % of the last value",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "A missing rail is a source at 0 V: -4 V_A with its clamp D8 and the boost output with its loads belong to another block, and how far below 0 V or above it such a rail rests is not simulated here.",
+  "The two quiescent currents of the regulator, 0.67 mA and 0.90 mA, are the values behind the 0.87 V and 1.17 V of section 4.2. The datasheet guarantees 0.5 mA at 10 V and 1 mA at 25 V between the supply pins and the output.",
+  "The diode model for D11 and D12 leaks 4 uA; the leakage of a hot D11 is a current source of 2 mA into the output here.",
+  "The fall times of the rails at power-off are assumptions: the 5 V rail and the boost output together in 1 ms or in 10 ms, 3V3_A, -4 V_A and the reference in 5 ms, +12 V_A in 14 ms (section 3 gives 14 ms for +12 V_A and 4 ms to 6 ms for 3V3_A). The paths to the device are open and the output carries only its minimum load.",
+  "At power-off the diode D10 blocks, and the capacitors of the VCONTROL pin can only empty into the output through the regulator. They stop doing so where the model ends its quiescent current, near 0.55 V between the two pins, and that is the lowest value read here: a property of the model, as the 0.88 V of section 4.2 is one of the model used there. What the run shows is the sign: VCONTROL follows the output down from above and does not cross it.",
+  "The DAC without supply is its model after power-on, 500 kohm to ground (datasheet value for the state after a reset)."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

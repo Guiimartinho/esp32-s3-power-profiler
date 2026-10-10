@@ -1,0 +1,526 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "thresholds",
+ "title": "The three comparator thresholds, with tolerances, and their hysteresis",
+ "covers": "section 4.4 (table of the thresholds, over-current level), decisions D-28 and D-74",
+ "summary": "Range 3 is held and the load current is ramped from 0.8 A to 1.6 A and back. The shunt voltage passes all three thresholds twice, slowly. For each comparator the run reads the shunt voltage and the voltage at its own input at the instants its output rises and falls: their middle is the threshold, their distance the hysteresis. The same ramp tells at which shunt voltage the input of the converter reaches full scale. The run is repeated with every part at the end of its tolerance that moves one threshold furthest, first with what the specification names (the six resistors of the string and the divider, the gain resistor, 10 mV of comparator offset), then with what it does not name as well (gain error and offsets of the amplifier, the pedestal, the reference), and with 120 boards drawn at random.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "input_up",
+   "label": "Step up: threshold at the comparator input",
+   "value": 0.4644903,
+   "unit": "V",
+   "expected": 0.464,
+   "low": 0.4635,
+   "high": 0.4645,
+   "source": "table of section 4.4, to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_up",
+   "label": "Step up: threshold at the shunt",
+   "value": 0.09094939,
+   "unit": "V",
+   "expected": 0.091,
+   "low": 0.0905,
+   "high": 0.0915,
+   "source": "table of section 4.4, to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_up",
+   "label": "Step up: hysteresis at the comparator input",
+   "value": 0.002124028,
+   "unit": "V",
+   "expected": null,
+   "low": 0.001,
+   "high": 0.005,
+   "source": "datasheet range of 1 mV to 5 mV (section 3); the model is set to 3 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_shunt_up",
+   "label": "Step up: hysteresis referred to the shunt",
+   "value": 0.0004300378,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "input_oc",
+   "label": "Over-current: threshold at the comparator input",
+   "value": 0.5842582,
+   "unit": "V",
+   "expected": 0.584,
+   "low": 0.5835,
+   "high": 0.5845,
+   "source": "table of section 4.4, to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_oc",
+   "label": "Over-current: threshold at the shunt",
+   "value": 0.1150484,
+   "unit": "V",
+   "expected": 0.115,
+   "low": 0.1145,
+   "high": 0.1155,
+   "source": "table of section 4.4, to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_oc",
+   "label": "Over-current: hysteresis at the comparator input",
+   "value": 0.002061767,
+   "unit": "V",
+   "expected": null,
+   "low": 0.001,
+   "high": 0.005,
+   "source": "datasheet range of 1 mV to 5 mV (section 3); the model is set to 3 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_shunt_oc",
+   "label": "Over-current: hysteresis referred to the shunt",
+   "value": 0.0004175135,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "input_jump",
+   "label": "Jump: threshold at the comparator input",
+   "value": 0.7638642,
+   "unit": "V",
+   "expected": 0.764,
+   "low": 0.7635,
+   "high": 0.7645,
+   "source": "table of section 4.4, to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_jump",
+   "label": "Jump: threshold at the shunt",
+   "value": 0.1511876,
+   "unit": "V",
+   "expected": 0.151,
+   "low": 0.1505,
+   "high": 0.1515,
+   "source": "table of section 4.4, to its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_jump",
+   "label": "Jump: hysteresis at the comparator input",
+   "value": 0.002066736,
+   "unit": "V",
+   "expected": null,
+   "low": 0.001,
+   "high": 0.005,
+   "source": "datasheet range of 1 mV to 5 mV (section 3); the model is set to 3 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "hysteresis_shunt_jump",
+   "label": "Jump: hysteresis referred to the shunt",
+   "value": 0.0004185466,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_current",
+   "label": "Load current at the over-current threshold in range 3",
+   "value": 1.150484,
+   "unit": "A",
+   "expected": 1.15,
+   "low": 1.114,
+   "high": 1.187,
+   "source": "section 4.4: 1.15 A, 1.114 A to 1.187 A with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_named_up_low",
+   "label": "Step up: lowest threshold at the shunt, tolerances the specification names",
+   "value": 0.08857077,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0875,
+   "high": 0.0944,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_named_up_high",
+   "label": "Step up: highest threshold at the shunt, tolerances the specification names",
+   "value": 0.09335266,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0875,
+   "high": 0.0944,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_named_oc_low",
+   "label": "Over-current: lowest threshold at the shunt, tolerances the specification names",
+   "value": 0.11257,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_named_oc_high",
+   "label": "Over-current: highest threshold at the shunt, tolerances the specification names",
+   "value": 0.1175271,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_named_jump_low",
+   "label": "Jump: lowest threshold at the shunt, tolerances the specification names",
+   "value": 0.1485869,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_named_jump_high",
+   "label": "Jump: highest threshold at the shunt, tolerances the specification names",
+   "value": 0.1537858,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_all_up_low",
+   "label": "Step up: lowest threshold at the shunt, every tolerance",
+   "value": 0.0881195,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0875,
+   "high": 0.0944,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_all_up_high",
+   "label": "Step up: highest threshold at the shunt, every tolerance",
+   "value": 0.09380442,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0875,
+   "high": 0.0944,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_all_oc_low",
+   "label": "Over-current: lowest threshold at the shunt, every tolerance",
+   "value": 0.1120336,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_all_oc_high",
+   "label": "Over-current: highest threshold at the shunt, every tolerance",
+   "value": 0.1180823,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_all_jump_low",
+   "label": "Jump: lowest threshold at the shunt, every tolerance",
+   "value": 0.1479036,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "corner_all_jump_high",
+   "label": "Jump: highest threshold at the shunt, every tolerance",
+   "value": 0.154492,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "draws_up_low",
+   "label": "Step up: lowest of 120 random boards",
+   "value": 0.08892007,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0875,
+   "high": 0.0944,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "draws_up_high",
+   "label": "Step up: highest of 120 random boards",
+   "value": 0.09306562,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0875,
+   "high": 0.0944,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "draws_oc_low",
+   "label": "Over-current: lowest of 120 random boards",
+   "value": 0.1130105,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "draws_oc_high",
+   "label": "Over-current: highest of 120 random boards",
+   "value": 0.1171377,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1114,
+   "high": 0.1187,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "draws_jump_low",
+   "label": "Jump: lowest of 120 random boards",
+   "value": 0.1492123,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "draws_jump_high",
+   "label": "Jump: highest of 120 random boards",
+   "value": 0.1533306,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1472,
+   "high": 0.1551,
+   "source": "table of section 4.4, with tolerances",
+   "verdict": "pass"
+  },
+  {
+   "key": "full_scale",
+   "label": "Shunt voltage at which the converter input is at full scale",
+   "value": 0.1229327,
+   "unit": "V",
+   "expected": 0.1229,
+   "low": 0.1222855,
+   "high": 0.1235145,
+   "source": "section 4.3: 122.9 mV, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_nominal",
+   "label": "Full scale of the converter above the over-current threshold, nominal",
+   "value": 0.007884346,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_draws",
+   "label": "The same, least of 120 random boards",
+   "value": 0.005761178,
+   "unit": "V",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.4: the level lies below the full scale on every board",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_corner",
+   "label": "The same with the over-current threshold at its highest, every tolerance",
+   "value": 0.005420783,
+   "unit": "V",
+   "expected": 0.0036,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.4: 3.6 mV to spare in the worst case, calculated",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "ramp",
+   "Range 3 held, the load ramped from 0.8 A to 1.6 A and back: nominal circuit",
+   "thresholds.ramp.png"
+  ],
+  [
+   "spread",
+   "The three thresholds on 120 random boards, around their nominal values",
+   "thresholds.spread.png"
+  ]
+ ],
+ "notes": [
+  "A threshold is the middle of the two shunt voltages at which the comparator output rises and falls on a slow ramp; the delay of the chain shifts both by the same amount in opposite directions and drops out.",
+  "The hysteresis of 3 mV is a parameter of the comparator model, inside the 1 mV to 5 mV of the datasheet: the figure shows that the circuit passes it on unchanged, not what a part has. It moves the threshold for a rising voltage by half of it, 0.3 mV at the shunt, 0.5 mV for a part at 5 mV.",
+  "Tolerances the specification names: the 0.1 % of R132 to R137 and of the gain resistor R123, and 10 mV of comparator offset. Every tolerance adds 0.3 % of gain error and 60 uV and 350 uV of offset of the amplifier (datasheet limits of the A grade), 0.1 % on the two pedestal resistors, 100 uV of the pedestal buffer and 0.1 % of the reference. The 0.1 % of the reference is an assumption.",
+  "Random boards: the seven resistors uniform inside 0.1 % and the three offsets uniform inside 10 mV, each comparator with its own. Uniform is the cautious reading of an offset limit; real parts cluster near the typical 3 mV.",
+  "The drift with temperature is not in these runs: 25 ppm/K on the resistors moves a threshold by less than 0.01 mV over 20 K.",
+  "The margin to full scale is taken at the input of the converter in the same run; the converter itself is not in the circuit."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "thresholds.nominal.cir"
+ ],
+ "format": 1
+}

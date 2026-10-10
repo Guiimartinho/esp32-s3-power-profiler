@@ -1,0 +1,148 @@
+name: Simulation
+
+# Runs on demand only for now (decision D-22 of the specification). Start
+# it from the Actions tab or with "gh workflow run simulation.yml". To run
+# it on every change again, restore the triggers kept below as comments.
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "simulation/**"
+  #     - "ruff.toml"
+  #     - ".github/workflows/simulation.yml"
+  # pull_request:
+  #   paths:
+  #     - "simulation/**"
+  #     - "ruff.toml"
+  #     - ".github/workflows/simulation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install the simulation package with its development tools
+        run: python -m pip install -e "simulation[dev]"
+
+      - name: Lint
+        run: ruff check simulation
+
+      - name: Check the formatting
+        run: ruff format --check simulation
+
+      - name: Type check
+        working-directory: simulation
+        run: mypy
+
+  test:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # The oldest and the newest supported Python on every system. No
+        # ngspice is installed here: the tests that run a deck are skipped,
+        # and the job below runs them.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.14"]
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install the simulation package with its development tools
+        run: python -m pip install -e "simulation[dev]"
+
+      - name: Run the tests with coverage
+        working-directory: simulation
+        run: python -m pytest --cov --cov-report=term-missing --cov-report=xml
+
+      - name: Add the coverage summary to the job summary
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        working-directory: simulation
+        shell: bash
+        run: |
+          {
+            echo '### Simulation package coverage'
+            echo
+            python -m coverage report --format=markdown
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the coverage report
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.14'
+        uses: actions/upload-artifact@v7
+        with:
+          name: simulation-coverage
+          path: simulation/coverage.xml
+          if-no-files-found: warn
+
+  engine:
+    name: Tests with ngspice
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      # The shared library of the distribution. Its version is not the one
+      # that the filed results name, so this job runs the tests of the
+      # engine only, not the benches and not a comparison with the filed
+      # figures.
+      - name: Install the ngspice shared library
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libngspice0 ngspice-codemodel
+
+      - name: Install the simulation package with its development tools
+        run: python -m pip install -e "simulation[dev]"
+
+      - name: Run the tests that need ngspice
+        working-directory: simulation
+        run: python -m pytest -m needs_ngspice -rs --no-cov
+
+  package:
+    name: Build the package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Build the wheel and the source distribution
+        run: |
+          python -m pip install build
+          python -m build simulation
+
+      - name: Install the wheel in a clean environment and run the command
+        run: |
+          python -m venv /tmp/wheel-check
+          /tmp/wheel-check/bin/python -m pip install simulation/dist/*.whl
+          /tmp/wheel-check/bin/circuit-sim --version

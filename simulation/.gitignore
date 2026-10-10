@@ -1,0 +1,5 @@
+# Scratch folder of the runs: decks and raw vectors of every bench.
+.work/
+# Model files of the manufacturers. Their licenses do not allow a copy in
+# this repository; see the README for where each one comes from.
+models/vendor/

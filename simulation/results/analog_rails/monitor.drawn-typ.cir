@@ -1,0 +1,41 @@
+* Rail monitor: crossing at 2 V/s, hysteresis 3.5 mV, 0.5 pF between pins, capacitors times 1
+.include "../../models/analog_rails.lib"
+R4 pwr_good gp28 1000
+C32 th_high 0 1e-09
+C33 th_low 0 1e-09
+C34 sense_m4 0 1e-09
+C35 p3v3_c 0 1e-07
+R41 p3v3_c th_high 10000
+R42 p3v3_a sense_3v3a 100000
+R43 th_high th_low 40200
+R44 th_low 0 49900
+R45 p12v_a sense_p12 249000
+R46 sense_p12 0 49900
+R47 p3v3_c sense_m4 49900
+R48 sense_m4 m4v_a 127000
+R49 vref sense_vref 36500
+R50 sense_vref 0 100000
+R51 p3v3_c pwr_good 1500
+R52 pwr_good 0 6800
+XU14_1 sense_p12 th_low pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+XU14_2 th_low sense_m4 pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+XU14_3 sense_3v3a th_high pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+XU14_4 sense_vref th_low pwr_good p3v3_c 0 MCP6569_OD vhy=0.0035 vos=0
+* every rail good, +12V_A rising through its threshold
+V3c p3v3_c 0 PWL(0 0 1m 3.3)
+V3a p3v3_a 0 PWL(0 0 1m 3.3)
+Vm4 m4v_a 0 PWL(0 0 1m -4)
+Vref vref 0 PWL(0 0 1m 2.5)
+V12 p12v_a 0 PWL(0 0 1m 9.824 3m 9.824 0.033 9.884)
+* capacitance between each output pin and the inverting input beside it:
+* pins 1 and 2, 7 and 6, 8 and 9, 14 and 13 of the package
+Cpin12 pwr_good th_low 5e-13
+Cpin76 pwr_good sense_m4 5e-13
+Cpin89 pwr_good th_high 5e-13
+Cpin1413 pwr_good th_low 5e-13
+Cgp28 gp28 0 5p
+.control
+save p12v_a pwr_good th_low sense_p12
+tran 1u 0.033 0 5e-06
+.endc
+.end

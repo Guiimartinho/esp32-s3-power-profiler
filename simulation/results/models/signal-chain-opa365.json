@@ -1,0 +1,236 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "signal-chain-opa365",
+ "title": "OPA365 model against its datasheet",
+ "covers": "the model of the rail buffer U28 and of the converter driver U29 (and of U19)",
+ "summary": "The model is put in the test circuits of its datasheet, on 5 V. An open-loop run gives the gain, the gain-bandwidth product, the phase margin and the noise; a current into the output gives the open-loop output impedance. Followers driven beyond the rails give the output swing into 10 kohm, others the supply current, the short-circuit current and the input capacitances. Steps of a follower give the slew rate, the settling time and the overshoot with a capacitive load.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "gain",
+   "label": "Open-loop gain at 0.1 Hz into 10 kohm",
+   "value": 119.9959,
+   "unit": "dB",
+   "expected": 120.0,
+   "low": 100.0,
+   "high": 130.0,
+   "source": "TI SBOS365G: typical value and least value",
+   "verdict": "pass"
+  },
+  {
+   "key": "bandwidth",
+   "label": "Gain-bandwidth product, from the gain at a hundredth of it",
+   "value": 49849300.0,
+   "unit": "Hz",
+   "expected": 50000000.0,
+   "low": 42500000.0,
+   "high": 57500000.0,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover",
+   "label": "Frequency at which the open-loop gain falls through 1",
+   "value": 42587230.0,
+   "unit": "Hz",
+   "expected": 50000000.0,
+   "low": 40000000.0,
+   "high": 60000000.0,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin",
+   "label": "Phase margin of a follower",
+   "value": 58.68363,
+   "unit": "deg",
+   "expected": 50.0,
+   "low": 40.0,
+   "high": 60.0,
+   "source": "TI SBOS365G: read from the open-loop curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_1000",
+   "label": "Voltage noise at 1000 Hz",
+   "value": 1.221738e-08,
+   "unit": "V/√Hz",
+   "expected": 1.3e-08,
+   "low": 1.144e-08,
+   "high": 1.456e-08,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "density_100000",
+   "label": "Voltage noise at 100000 Hz",
+   "value": 4.484951e-09,
+   "unit": "V/√Hz",
+   "expected": 4.5e-09,
+   "low": 3.96e-09,
+   "high": 5.04e-09,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_frequency",
+   "label": "Noise from 0.1 Hz to 10 Hz, peak to peak",
+   "value": 4.973178e-06,
+   "unit": "V",
+   "expected": 5e-06,
+   "low": 3.75e-06,
+   "high": 6.25e-06,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_impedance",
+   "label": "Open-loop output impedance at 1 MHz",
+   "value": 29.9991,
+   "unit": "ohm",
+   "expected": 30.0,
+   "low": 27.0,
+   "high": 33.0,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_high_0",
+   "label": "Output into 10 kohm: distance from the positive supply",
+   "value": 0.009214154,
+   "unit": "V",
+   "expected": 0.01,
+   "low": null,
+   "high": 0.02,
+   "source": "TI SBOS365G: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "swing_low_0",
+   "label": "Output into 10 kohm: distance from the negative supply",
+   "value": 0.009214153,
+   "unit": "V",
+   "expected": 0.01,
+   "low": null,
+   "high": 0.02,
+   "source": "TI SBOS365G: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "supply_current",
+   "label": "Supply current without load",
+   "value": 0.0046,
+   "unit": "A",
+   "expected": 0.0046,
+   "low": 0.00414,
+   "high": 0.005,
+   "source": "TI SBOS365G: typical value and limit",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_circuit",
+   "label": "Current into a short circuit at the output",
+   "value": 0.06500475,
+   "unit": "A",
+   "expected": 0.065,
+   "low": 0.0585,
+   "high": 0.0715,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "without_supply",
+   "label": "Output of a follower on 1 V of supply with 0.5 V at its input",
+   "value": 0.01002448,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.02,
+   "source": "the model: no output below 1.5 V of supply (assumption)",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_common",
+   "label": "Input capacitance from each input",
+   "value": 2e-12,
+   "unit": "F",
+   "expected": 2e-12,
+   "low": 1.9e-12,
+   "high": 2.1e-12,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "input_between",
+   "label": "Input capacitance between the inputs",
+   "value": 6e-12,
+   "unit": "F",
+   "expected": 6e-12,
+   "low": 5.7e-12,
+   "high": 6.3e-12,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "slew_rate",
+   "label": "Slew rate, step of 4 V",
+   "value": 24.92444,
+   "unit": "V/us",
+   "expected": 25.0,
+   "low": 22.5,
+   "high": 27.5,
+   "source": "TI SBOS365G",
+   "verdict": "pass"
+  },
+  {
+   "key": "settling",
+   "label": "Step of 4 V: within 0.01 % after",
+   "value": 1.826884e-07,
+   "unit": "s",
+   "expected": 3e-07,
+   "low": null,
+   "high": 6e-07,
+   "source": "TI SBOS365G: typical value; twice that is the fit asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "overshoot_100p",
+   "label": "Follower with 100 pF: overshoot of a 100 mV step",
+   "value": 43.34205,
+   "unit": "%",
+   "expected": 30.0,
+   "low": null,
+   "high": null,
+   "source": "TI SBOS365G: read from the overshoot curve",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "open-loop",
+   "OPA365 model: open-loop gain and phase",
+   "signal-chain-opa365.open-loop.png"
+  ],
+  [
+   "step",
+   "OPA365 model: follower steps",
+   "signal-chain-opa365.step.png"
+  ]
+ ],
+ "notes": [
+  "The limits of the dynamic figures are the fit this project asks of a model: 15 % on the gain-bandwidth product, 20 % on the crossover, 10 degrees on the phase margin, 12 % on a noise density, 25 % on the noise from 0.1 Hz to 10 Hz. They are not datasheet limits.",
+  "The model is a typical part at 25 C without offset; the offset and the bias current are parameters.",
+  "The overshoot with a capacitive load carries no limit: the open-loop output impedance of the model is a resistance, with a capacitor across it for the OPA197, and the real parts differ from that above 1 MHz."
+ ],
+ "models": [],
+ "decks": [
+  "signal-chain-opa365.open-loop.cir",
+  "signal-chain-opa365.static.cir"
+ ],
+ "format": 1
+}

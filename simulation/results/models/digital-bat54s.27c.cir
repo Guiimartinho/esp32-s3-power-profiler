@@ -1,0 +1,22 @@
+* BAT54S: forward curve, reverse current and capacitance at 27 C
+.include "../../models/digital.lib"
+* one diode of each variant, each behind a 0 V source that reads its current
+Vd a 0 0
+Vt a t 0
+Dt t 0 DIGITAL_BAT54S
+Vh a h 0
+Dh h 0 DIGITAL_BAT54S_HI
+* the reverse current at 25 V and the capacitance at 1 V
+Vr r 0 25
+Dr 0 r DIGITAL_BAT54S
+Vl l 0 25
+Dl 0 l DIGITAL_BAT54S_LEAKY
+Vc c 0 DC 1 AC 1
+Dc 0 c DIGITAL_BAT54S
+.options temp=27
+.options gmin=1e-15
+.control
+dc Vd 0 0.7 0.002
+ac lin 1 1e6 1e6
+.endc
+.end

@@ -1,0 +1,379 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "switch-over",
+ "title": "USB-C plugged while the module input supplies: the change of input and the dip of the rail",
+ "covers": "section 4.1 (when a cable is pulled or plugged), section 16, rule F-35",
+ "summary": "The carrier runs from the cable of the module when a USB-C source is plugged in. The limiter of the USB-C input starts and ramps its output up; when the priority input of the multiplexer has followed, the multiplexer opens the module input and closes USB-C as soon as the rail is no higher than that input. The rail is without supply in between. Four runs: at idle and with the input current that firmware allows on the module input, each with a typical limiter and with the slowest output ramp inside its datasheet limits.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "rail_low_idle",
+   "label": "Idle, typical ramp: lowest level of the rail during the change",
+   "value": 4.866693,
+   "unit": "V",
+   "expected": 4.54,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: 4.0 V to 4.5 V (simulated), against the highest supervisor threshold of 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_before_idle",
+   "label": "Idle, typical ramp: rail before the plug",
+   "value": 4.944598,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_low_idle",
+   "label": "Idle, typical ramp: lowest level of 5V_OK during the change",
+   "value": 4.591215,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "the carrier keeps running (section 4.1); 1.2 V is the enable level of the regulators",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_idle",
+   "label": "Idle, typical ramp: lowest level of 3V3_A during the change",
+   "value": 3.299299,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_idle_slow",
+   "label": "Idle, slowest ramp: lowest level of the rail during the change",
+   "value": 4.807904,
+   "unit": "V",
+   "expected": 4.28,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: 4.0 V to 4.5 V (simulated), against the highest supervisor threshold of 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_before_idle_slow",
+   "label": "Idle, slowest ramp: rail before the plug",
+   "value": 4.944598,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_low_idle_slow",
+   "label": "Idle, slowest ramp: lowest level of 5V_OK during the change",
+   "value": 4.535754,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "the carrier keeps running (section 4.1); 1.2 V is the enable level of the regulators",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_idle_slow",
+   "label": "Idle, slowest ramp: lowest level of 3V3_A during the change",
+   "value": 3.299283,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_budget",
+   "label": "0.45 A, typical ramp: lowest level of the rail during the change",
+   "value": 4.651843,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: 4.0 V to 4.5 V (simulated), against the highest supervisor threshold of 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_before_budget",
+   "label": "0.45 A, typical ramp: rail before the plug",
+   "value": 4.818107,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_low_budget",
+   "label": "0.45 A, typical ramp: lowest level of 5V_OK during the change",
+   "value": 4.388527,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "the carrier keeps running (section 4.1); 1.2 V is the enable level of the regulators",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_budget",
+   "label": "0.45 A, typical ramp: lowest level of 3V3_A during the change",
+   "value": 3.299231,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_budget_slow",
+   "label": "0.45 A, slowest ramp: lowest level of the rail during the change",
+   "value": 4.507196,
+   "unit": "V",
+   "expected": null,
+   "low": 4.0,
+   "high": null,
+   "source": "section 4.1: 4.0 V to 4.5 V (simulated), against the highest supervisor threshold of 4.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_before_budget_slow",
+   "label": "0.45 A, slowest ramp: rail before the plug",
+   "value": 4.818107,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ok_low_budget_slow",
+   "label": "0.45 A, slowest ramp: lowest level of 5V_OK during the change",
+   "value": 4.252067,
+   "unit": "V",
+   "expected": null,
+   "low": 1.2,
+   "high": null,
+   "source": "the carrier keeps running (section 4.1); 1.2 V is the enable level of the regulators",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_budget_slow",
+   "label": "0.45 A, slowest ramp: lowest level of 3V3_A during the change",
+   "value": 3.299231,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "change_after",
+   "label": "Idle, typical ramp: the multiplexer opens the module input after the plug",
+   "value": 0.0005570865,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "gap",
+   "label": "Idle, typical ramp: time without a closed channel",
+   "value": 2.854503e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "input1_at_change",
+   "label": "Idle, typical ramp: input 1 when the module input opens",
+   "value": 4.516512,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "port_ring",
+   "label": "Idle, typical ramp: largest current back into the port of the module while its cable rings",
+   "value": 0.07064969,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "port_after",
+   "label": "Idle, typical ramp: mean current of the port of the module after the change",
+   "value": 0.001325099,
+   "unit": "A",
+   "expected": null,
+   "low": 0.0,
+   "high": null,
+   "source": "section 4.11: neither connector feeds the other one back",
+   "verdict": "pass"
+  },
+  {
+   "key": "usbc_back",
+   "label": "Idle, typical ramp: largest current back into the USB-C source after its first 0.1 ms",
+   "value": -0.0008730115,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "section 4.11: neither connector feeds the other one back",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_usbc",
+   "label": "Idle, typical ramp: largest current of the USB-C source after its first 0.1 ms",
+   "value": 0.4177931,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.81,
+   "source": "section 4.1: least current limit of the USB-C input, 1.81 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "status_before",
+   "label": "SRC_ST while the module input supplies",
+   "value": 0.001423489,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "section 4.1: low while the input of the module supplies",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "change",
+   "USB-C plugged at 7 ms while the module input supplies the idle carrier",
+   "switch-over.change.png"
+  ]
+ ],
+ "notes": [
+  "Both sources are stiff: 5.0 V behind their cables (assumptions: 0.15 ohm and 0.5 uH on USB-C, 0.25 ohm and 0.8 uH on the module input). A higher voltage on the module port than on USB-C makes the dip deeper by the difference.",
+  "The dip is set by where the output of the USB-C limiter stands when the priority input, behind R18, R19 and C8, passes 1.0 V: the rail falls to that level. The slower the ramp of the limiter, the lower that level.",
+  "The multiplexer is a typical part: reference 1.0 V, 8 us without a channel. Its reference has a tolerance of 8 %, which moves the level at which it changes.",
+  "The aluminum capacitor has the series resistance of its datasheet maximum at 20 C; the ceramic capacitors have the capacitance they keep at 5 V. The run with a ramp slower than the datasheet allows and a cold capacitor, which the specification quotes with 4.02 V, was not repeated: neither is a datasheet value.",
+  "The supervisor has its release delay shortened to 1 ms; its trip level and its filter are the ones of the model and of the schematic."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "switch-over.idle.cir"
+ ],
+ "format": 1
+}

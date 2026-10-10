@@ -1,0 +1,581 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "plug-module",
+ "title": "Plugging the cable of the controller module: in-rush on the port of a computer",
+ "covers": "section 4.1 (limits of the input: in-rush on a computer port, start of the boost converter), section 14, section 16",
+ "summary": "The cable of the controller module is plugged into the port of a computer. Nothing is plugged into the USB-C receptacle. The port is a 5 V supply behind a power switch that limits at 1 A, with 120 uF. The module takes its own spike through its diode; the carrier follows through the jumper, the limiter of 0.76 A and the multiplexer. The boost converter starts as soon as the rail allows it and asks for more than the limiter gives. The run is repeated with the limiter at the two ends of its tolerance, with the boost converter taking 2 A, and with the jumper open, which leaves the module alone.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "carrier_amps_typical",
+   "label": "Largest port current after the spike of the module, typical limiter, 0.76 A",
+   "value": 1.143769,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "fail"
+  },
+  {
+   "key": "carrier_time_typical",
+   "label": "Time the port current is above 0.9 A after the spike, typical limiter, 0.76 A",
+   "value": 2.417506e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plateau_amps_typical",
+   "label": "Port current while the limiter limits, typical limiter, 0.76 A",
+   "value": 0.7760837,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "pass"
+  },
+  {
+   "key": "port_low_typical",
+   "label": "Lowest voltage of the port after the spike, typical limiter, 0.76 A",
+   "value": 4.920835,
+   "unit": "V",
+   "expected": null,
+   "low": 4.94,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "plateau_volts_typical",
+   "label": "Voltage of the port while the limiter limits, typical limiter, 0.76 A",
+   "value": 4.943938,
+   "unit": "V",
+   "expected": 4.94,
+   "low": 4.935,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated); the limit is that figure less half its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_typical",
+   "label": "Charge above 100 mA, typical limiter, 0.76 A",
+   "value": 0.001188908,
+   "unit": "C",
+   "expected": null,
+   "low": 0.00044,
+   "high": 0.00096,
+   "source": "section 4.1: 0.44 mC to 0.96 mC (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "boost_up_typical",
+   "label": "Output of the boost converter at 13.4 V after the plug, typical limiter, 0.76 A",
+   "value": 0.002969117,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0078,
+   "source": "the converter has to start on this input (section 4.1: an open check)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_end_typical",
+   "label": "Rail at the end of the run, typical limiter, 0.76 A",
+   "value": 4.989396,
+   "unit": "V",
+   "expected": null,
+   "low": 4.12,
+   "high": null,
+   "source": "section 4.1: highest release level of the supervisor, 4.12 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "carrier_amps_least",
+   "label": "Largest port current after the spike of the module, limiter at 0.67 A",
+   "value": 1.018181,
+   "unit": "A",
+   "expected": null,
+   "low": 0.71,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "fail"
+  },
+  {
+   "key": "carrier_time_least",
+   "label": "Time the port current is above 0.9 A after the spike, limiter at 0.67 A",
+   "value": 1.629894e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plateau_amps_least",
+   "label": "Port current while the limiter limits, limiter at 0.67 A",
+   "value": 0.6906924,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "pass"
+  },
+  {
+   "key": "port_low_least",
+   "label": "Lowest voltage of the port after the spike, limiter at 0.67 A",
+   "value": 4.934753,
+   "unit": "V",
+   "expected": null,
+   "low": 4.94,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "plateau_volts_least",
+   "label": "Voltage of the port while the limiter limits, limiter at 0.67 A",
+   "value": 4.950607,
+   "unit": "V",
+   "expected": 4.94,
+   "low": 4.935,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated); the limit is that figure less half its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_least",
+   "label": "Charge above 100 mA, limiter at 0.67 A",
+   "value": 0.001179163,
+   "unit": "C",
+   "expected": null,
+   "low": 0.00044,
+   "high": 0.00096,
+   "source": "section 4.1: 0.44 mC to 0.96 mC (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "boost_up_least",
+   "label": "Output of the boost converter at 13.4 V after the plug, limiter at 0.67 A",
+   "value": 0.003084848,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0078,
+   "source": "the converter has to start on this input (section 4.1: an open check)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_end_least",
+   "label": "Rail at the end of the run, limiter at 0.67 A",
+   "value": 4.989393,
+   "unit": "V",
+   "expected": null,
+   "low": 4.12,
+   "high": null,
+   "source": "section 4.1: highest release level of the supervisor, 4.12 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "carrier_amps_most",
+   "label": "Largest port current after the spike of the module, limiter at 0.85 A",
+   "value": 1.27522,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "fail"
+  },
+  {
+   "key": "carrier_time_most",
+   "label": "Time the port current is above 0.9 A after the spike, limiter at 0.85 A",
+   "value": 3.304448e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plateau_amps_most",
+   "label": "Port current while the limiter limits, limiter at 0.85 A",
+   "value": 0.8653041,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "pass"
+  },
+  {
+   "key": "port_low_most",
+   "label": "Lowest voltage of the port after the spike, limiter at 0.85 A",
+   "value": 4.883441,
+   "unit": "V",
+   "expected": null,
+   "low": 4.94,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "plateau_volts_most",
+   "label": "Voltage of the port while the limiter limits, limiter at 0.85 A",
+   "value": 4.93643,
+   "unit": "V",
+   "expected": 4.94,
+   "low": 4.935,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated); the limit is that figure less half its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_most",
+   "label": "Charge above 100 mA, limiter at 0.85 A",
+   "value": 0.001193084,
+   "unit": "C",
+   "expected": null,
+   "low": 0.00044,
+   "high": 0.00096,
+   "source": "section 4.1: 0.44 mC to 0.96 mC (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "boost_up_most",
+   "label": "Output of the boost converter at 13.4 V after the plug, limiter at 0.85 A",
+   "value": 0.00287271,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0078,
+   "source": "the converter has to start on this input (section 4.1: an open check)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_end_most",
+   "label": "Rail at the end of the run, limiter at 0.85 A",
+   "value": 4.989398,
+   "unit": "V",
+   "expected": null,
+   "low": 4.12,
+   "high": null,
+   "source": "section 4.1: highest release level of the supervisor, 4.12 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "carrier_amps_boost-2a",
+   "label": "Largest port current after the spike of the module, typical limiter, boost converter takes 2 A",
+   "value": 1.165184,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "fail"
+  },
+  {
+   "key": "carrier_time_boost-2a",
+   "label": "Time the port current is above 0.9 A after the spike, typical limiter, boost converter takes 2 A",
+   "value": 2.073749e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plateau_amps_boost-2a",
+   "label": "Port current while the limiter limits, typical limiter, boost converter takes 2 A",
+   "value": 0.7759542,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.9,
+   "source": "section 4.1: 0.71 A to 0.87 A (simulated); section 16: 0.9 A or less",
+   "verdict": "pass"
+  },
+  {
+   "key": "port_low_boost-2a",
+   "label": "Lowest voltage of the port after the spike, typical limiter, boost converter takes 2 A",
+   "value": 4.922945,
+   "unit": "V",
+   "expected": null,
+   "low": 4.94,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "plateau_volts_boost-2a",
+   "label": "Voltage of the port while the limiter limits, typical limiter, boost converter takes 2 A",
+   "value": 4.943938,
+   "unit": "V",
+   "expected": 4.94,
+   "low": 4.935,
+   "high": null,
+   "source": "section 4.1: the port stays at 4.94 V or above (simulated); the limit is that figure less half its last digit",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_boost-2a",
+   "label": "Charge above 100 mA, typical limiter, boost converter takes 2 A",
+   "value": 0.001191997,
+   "unit": "C",
+   "expected": null,
+   "low": 0.00044,
+   "high": 0.00096,
+   "source": "section 4.1: 0.44 mC to 0.96 mC (simulated)",
+   "verdict": "fail"
+  },
+  {
+   "key": "boost_up_boost-2a",
+   "label": "Output of the boost converter at 13.4 V after the plug, typical limiter, boost converter takes 2 A",
+   "value": 0.002971023,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0078,
+   "source": "the converter has to start on this input (section 4.1: an open check)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_end_boost-2a",
+   "label": "Rail at the end of the run, typical limiter, boost converter takes 2 A",
+   "value": 4.989396,
+   "unit": "V",
+   "expected": null,
+   "low": 4.12,
+   "high": null,
+   "source": "section 4.1: highest release level of the supervisor, 4.12 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_fall_back",
+   "label": "Typical limiter: largest fall-back of the rail during its rise",
+   "value": 0.04006561,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limiter_input_low",
+   "label": "Typical limiter: lowest voltage at the input of the limiter after the spike",
+   "value": 4.497369,
+   "unit": "V",
+   "expected": null,
+   "low": 3.09,
+   "high": null,
+   "source": "section 4.1: a limiter turns off at 2.67 V to 2.87 V and on at up to 3.09 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "limiter_watts",
+   "label": "Typical limiter: largest dissipation of the limiter while it limits",
+   "value": 2.204519,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "module_charge",
+   "label": "Charge above 100 mA with the jumper open (the module alone)",
+   "value": 0.0001922362,
+   "unit": "C",
+   "expected": 0.00012,
+   "low": null,
+   "high": null,
+   "source": "section 4.1: the module alone draws 0.12 mC (simulated)",
+   "verdict": "info"
+  },
+  {
+   "key": "usb_inrush",
+   "label": "Charge above 100 mA against the USB in-rush test, typical limiter",
+   "value": 0.001188908,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": 5e-05,
+   "source": "the 50 uC of the USB in-rush test (section 4.1 states that it is not met)",
+   "verdict": "fail"
+  },
+  {
+   "key": "module_spike",
+   "label": "Peak of the port current in the spike of the module",
+   "value": 8.565523,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "start",
+   "Module cable plugged at 0.2 ms into a port behind a 1 A switch",
+   "plug-module.start.png"
+  ]
+ ],
+ "notes": [
+  "The port, its switch (70 mohm, 1 A) and its 120 uF are assumptions, the ones of the earlier estimate of the specification; so is the cable of 0.25 ohm and 0.8 uH.",
+  "The module is the model of the digital block: its diode, 47 uF at their nominal value on VSYS and a load of 0.1 W. The real capacitor has less under bias, so the spike and the charge of the module are upper bounds.",
+  "The boost converter is a load that takes 1.5 A (2 A in one run) from 2.7 V on the rail until its output is at 13.5 V: an assumption. With the limiter giving less, the rail stops rising near 2.7 V until the converter has charged its output. A real converter at the edge of its input range can behave less evenly than this load: the run shows that the energy balance allows the start, not how the converter behaves while it starves.",
+  "The fold-back of the limiter does not act here, because its output stays above 1 V; with a fold-back over the whole output range (the datasheet gives no curve) the limiter would give less at 2.7 V and the start would take longer.",
+  "The supervisor holds the carrier off during these runs.",
+  "The charge above 100 mA is larger than the 0.44 mC to 0.96 mC of the specification because the limiter holds the rail near 2.7 V while the boost converter charges its output: the energy of that output is then taken at 2.7 V and not at 5 V, for about 0.9 ms at the limit. The figure rests on the load that stands for the converter. The lowest voltage of the port belongs to the short peak; while the limiter holds its limit the port is at 4.94 V.",
+  "The largest port current after the spike is a peak of some tens of microseconds at the moment the boost converter starts: the limiter needs its reaction time (87 us typical for an overload below 1.5 times the limit, datasheet) to find its limit, and passes up to 1.5 times the limit until then. The current while it holds the limit is the second figure. The earlier simulation of the specification had a limiter without that reaction time."
+ ],
+ "models": [
+  [
+   "C10",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "C18",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C2",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C21",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C27",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C29",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C39",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C40",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "C9",
+   "PWRIN_MLCC",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "plug-module.module-alone.cir",
+  "plug-module.typical.cir"
+ ],
+ "format": 1
+}

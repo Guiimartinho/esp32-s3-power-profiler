@@ -1,0 +1,18 @@
+* LM27761 (LM27761_AVG): start, load steps, shutdown
+.include "../../models/analog_rails.lib"
+* SNVSA85D page 1: C1 1 uF, C2 4.7 uF, C3 4.7 uF, C4 2.2 uF; -1.8 V of output
+Vin vin 0 PWL(0 0 50u 5)
+Ven en 0 PWL(0 0 100u 0 101u 3 4m 3 4.001m 0)
+Cin vin 0 4.7u
+X1 vin 0 cpo out fb en cn cp LM27761_AVG
+Cfly cp cn 1u
+Ccp cpo 0 4.7u
+Cout out 0 2.2u
+R1 fb out 237k
+R2 fb 0 500k
+Iload 0 out PWL(0 0 1m 0 1.01m 10m 2m 10m 2.01m 100m 3m 100m 3.01m 200m 4m 200m 4.001m 0)
+.control
+save out cpo vin en
+tran 2u 7m 0 2u
+.endc
+.end

@@ -1,0 +1,71 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "path-switching-fuse",
+ "title": "Model of the fuse 0466004.NR against its datasheet",
+ "covers": "the model of the fuse F1 of the VIN terminal",
+ "summary": "The fuse F1 of the schematic carries a current from zero to its rated 4 A. The model is the cold resistance of the datasheet and nothing else, so the run shows where it agrees with the datasheet and where it does not.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "cold_resistance",
+   "label": "Resistance at 10 % of the rated current",
+   "value": 0.014,
+   "unit": "ohm",
+   "expected": 0.014,
+   "low": 0.0139,
+   "high": 0.0141,
+   "source": "Littelfuse 466 series, revised 05/18/15, page 1: nominal cold resistance",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_1a",
+   "label": "Voltage drop at 1 A, the largest current of the instrument",
+   "value": 0.014,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drop_rated",
+   "label": "Voltage drop at the rated current of 4 A",
+   "value": 0.056,
+   "unit": "V",
+   "expected": 0.0745,
+   "low": null,
+   "high": null,
+   "source": "Littelfuse 466 series, revised 05/18/15, page 1: nominal voltage drop, with the fuse warm",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "drop",
+   "0466004.NR: voltage drop of the model against current",
+   "path-switching-fuse.drop.png"
+  ]
+ ],
+ "notes": [
+  "The figures were read in the copy of the datasheet that a distributor holds; the site of the manufacturer did not answer.",
+  "The model does not heat: at the rated current it reads a quarter less than the datasheet. At 1 A the heating is one sixteenth of that at 4 A, so the cold resistance is the right figure for the path drop of this instrument.",
+  "The datasheet states no tolerance of the resistance, and the model does not open: the benches compare the simulated I2t with the melting figure of 1.764 A2s."
+ ],
+ "models": [
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "path-switching-fuse.drop.cir"
+ ],
+ "format": 1
+}

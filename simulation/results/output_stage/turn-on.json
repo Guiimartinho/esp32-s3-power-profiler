@@ -1,0 +1,504 @@
+{
+ "block": "output_stage",
+ "block_title": "Output Stage",
+ "bench": "turn-on",
+ "title": "The output switch closes: gate ramp, output ramp and in-rush into a capacitor",
+ "covers": "section 4.2 (output switch, D-71), section 4.4 (trip at power on), rules F-19, F-24 and F-36, section 10.6 (dissipation of Q15)",
+ "summary": "The output is switched on into a capacitor that starts empty, behind the ladder in range 3. The pair closes as a source follower behind R117 and C74, so the output follows the gate and the capacitor of the device takes a current that the slope of the gate sets. The capacitance is swept and the largest current in the 0.1 ohm shunt is compared with the over-current level; the sweep is repeated for the corner in which the in-rush is highest: R117 and C74 at their lower limits, +12 V_A at the upper end of its window and both transistors at their lowest threshold. A long run follows the gate to its rest and reads the current that charges it, which reaches the device without passing the shunts. Two runs with the model of the sequencer show a start into a short circuit and a start into a capacitor that is too large.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "start_5v",
+   "label": "5 V, 100 uF: command to 10 % of the voltage at the device",
+   "value": 0.006457893,
+   "unit": "s",
+   "expected": null,
+   "low": 0.006,
+   "high": 0.007,
+   "source": "section 4.2 and rule F-24: starts to rise 6 ms to 7 ms after the request",
+   "verdict": "pass"
+  },
+  {
+   "key": "first_5v",
+   "label": "5 V, 100 uF: command to the first 50 mV at the device",
+   "value": 0.00505247,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "start_0v8",
+   "label": "0.8 V, 100 uF: command to 10 % of the voltage at the device",
+   "value": 0.005381268,
+   "unit": "s",
+   "expected": null,
+   "low": 0.006,
+   "high": 0.007,
+   "source": "section 4.2 and rule F-24: starts to rise 6 ms to 7 ms after the request",
+   "verdict": "fail"
+  },
+  {
+   "key": "start_earliest",
+   "label": "0.8 V, 100 uF, fast corner: command to the first 50 mV at the device",
+   "value": 0.003887969,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "start_latest",
+   "label": "5 V, 2200 uF, slow corner: command to 10 % of the voltage at the device",
+   "value": 0.01002785,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "slope_first",
+   "label": "5 V, 100 uF: largest slope of the output",
+   "value": 420.3473,
+   "unit": "V/s",
+   "expected": 440.0,
+   "low": 396.0,
+   "high": 484.0,
+   "source": "section 4.2: 0.44 V/ms; limit set here, 10 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "slope_late",
+   "label": "5 V, 100 uF: slope of the output at 98 % of 5 V",
+   "value": 229.343,
+   "unit": "V/s",
+   "expected": 210.0,
+   "low": 180.0,
+   "high": 240.0,
+   "source": "section 4.2: 0.21 V/ms near 5 V; limit set here, 15 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "ninety_100u",
+   "label": "5 V, 100 uF: command to 90 % of the voltage at the device",
+   "value": 0.01856021,
+   "unit": "s",
+   "expected": 0.02,
+   "low": 0.017,
+   "high": 0.023,
+   "source": "section 4.2 and D-71: about 20 ms; limit set here, 15 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "ninety_2200u",
+   "label": "5 V, 2200 uF: command to 90 % of the voltage at the device",
+   "value": 0.02052256,
+   "unit": "s",
+   "expected": 0.02,
+   "low": 0.017,
+   "high": 0.023,
+   "source": "section 4.2 and D-71: about 20 ms; limit set here, 15 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "ninety_slow",
+   "label": "5 V, 2200 uF, slow corner: command to 90 % of the voltage at the device",
+   "value": 0.02578308,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.05,
+   "source": "rule F-24: the output counts as on 50 ms after GATE_OUT",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_1000u",
+   "label": "5 V, 1000 uF: largest current in the 0.1 ohm shunt",
+   "value": 0.4007862,
+   "unit": "A",
+   "expected": 0.39,
+   "low": null,
+   "high": 1.114,
+   "source": "section 4.2: 0.39 A; limit: lowest trip level, section 4.4",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_2200u",
+   "label": "5 V, 2200 uF: largest current in the 0.1 ohm shunt",
+   "value": 0.8560851,
+   "unit": "A",
+   "expected": 0.85,
+   "low": null,
+   "high": 1.114,
+   "source": "section 4.2: 0.85 A; limit: lowest trip level, section 4.4",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_2200u_fast",
+   "label": "5 V, 2200 uF, fast corner: largest current in the 0.1 ohm shunt",
+   "value": 0.9940161,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.114,
+   "source": "sections 4.2 and 4.4: about 2200 uF starts without a trip",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_0v8",
+   "label": "0.8 V, 2200 uF: largest current in the 0.1 ohm shunt",
+   "value": 0.7955776,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.114,
+   "source": "lowest trip level, section 4.4",
+   "verdict": "pass"
+  },
+  {
+   "key": "largest_nominal",
+   "label": "Largest capacitance below the trip level of 1.15 A, nominal parts",
+   "value": 0.003002866,
+   "unit": "F",
+   "expected": 0.0022,
+   "low": 0.0022,
+   "high": null,
+   "source": "sections 4.2 and 4.4, rule F-19: about 2200 uF nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "largest_fast",
+   "label": "Largest capacitance below the lowest trip level of 1.114 A, fast corner",
+   "value": 0.002480787,
+   "unit": "F",
+   "expected": 0.00216,
+   "low": 0.00216,
+   "high": null,
+   "source": "sections 4.2 and 11: 1800 uF with a capacitor 20 % high, which is 2160 uF",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_energy",
+   "label": "5 V, 2200 uF: energy in the transistor on the ladder side, Q15",
+   "value": 0.02577847,
+   "unit": "J",
+   "expected": 0.025,
+   "low": 0.02,
+   "high": 0.03,
+   "source": "section 10.6: about 25 mJ; limit set here, 20 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_power",
+   "label": "5 V, 2200 uF: largest power in Q15",
+   "value": 3.531055,
+   "unit": "W",
+   "expected": 3.5,
+   "low": 2.8,
+   "high": 4.2,
+   "source": "section 10.6: about 3.5 W; limit set here, 20 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_current_30ms",
+   "label": "Current into the two gates 30 ms after the command",
+   "value": 5.44738e-07,
+   "unit": "A",
+   "expected": 5e-07,
+   "low": 2.5e-07,
+   "high": 1e-06,
+   "source": "sections 4.2 and 4.10; limit set here, a factor of two around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_current_50ms",
+   "label": "Current into the two gates 50 ms after the command",
+   "value": 2.930611e-07,
+   "unit": "A",
+   "expected": 3e-07,
+   "low": 1.5e-07,
+   "high": 6e-07,
+   "source": "sections 4.2 and 4.10; limit set here, a factor of two around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_current_100ms",
+   "label": "Current into the two gates 100 ms after the command",
+   "value": 6.181707e-08,
+   "unit": "A",
+   "expected": 6e-08,
+   "low": 3e-08,
+   "high": 1.2e-07,
+   "source": "sections 4.2 and 4.10; limit set here, a factor of two around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_current_200ms",
+   "label": "Current into the two gates 200 ms after the command",
+   "value": 2.748307e-09,
+   "unit": "A",
+   "expected": 4e-09,
+   "low": 2e-09,
+   "high": 8e-09,
+   "source": "sections 4.2 and 4.10; limit set here, a factor of two around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_current_300ms",
+   "label": "Current into the two gates 300 ms after the command",
+   "value": 1.220815e-10,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.9e-09,
+   "source": "rule F-36: zero with the output on 300 ms after GATE_OUT; one code of range 0 is 1.9 nA (section 4.3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_tripped",
+   "label": "Start into a short circuit: the trip is latched at the end of the run (1 is yes)",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": 0.5,
+   "high": null,
+   "source": "rules F-18 and F-19",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_trip_time",
+   "label": "Start into a short circuit: command to the trip",
+   "value": 0.006791658,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_peak",
+   "label": "Start into a short circuit: largest current in the 0.1 ohm shunt",
+   "value": 1.169974,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_energy",
+   "label": "Start into a short circuit: energy in Q15",
+   "value": 0.002931781,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_after",
+   "label": "Start into a short circuit: current in the shunt 1 ms after the trip",
+   "value": 1.748113e-07,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "rule F-19: GATE_OUT stays low after a trip",
+   "verdict": "pass"
+  },
+  {
+   "key": "heavy_tripped",
+   "label": "Start into 4700 uF: the trip is latched at the end of the run (1 is yes)",
+   "value": 1.0,
+   "unit": "",
+   "expected": null,
+   "low": 0.5,
+   "high": null,
+   "source": "rules F-18 and F-19",
+   "verdict": "pass"
+  },
+  {
+   "key": "heavy_trip_time",
+   "label": "Start into 4700 uF: command to the trip",
+   "value": 0.007299011,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "heavy_peak",
+   "label": "Start into 4700 uF: largest current in the 0.1 ohm shunt",
+   "value": 1.157228,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "heavy_energy",
+   "label": "Start into 4700 uF: energy in Q15",
+   "value": 0.004579024,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "heavy_after",
+   "label": "Start into 4700 uF: current in the shunt 1 ms after the trip",
+   "value": 1.724243e-07,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.001,
+   "source": "rule F-19: GATE_OUT stays low after a trip",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "waveforms",
+   "Output switched on at 5 V: gate, output and in-rush",
+   "turn-on.waveforms.png"
+  ],
+  [
+   "inrush",
+   "In-rush against the capacitance of the device, 5 V",
+   "turn-on.inrush.png"
+  ],
+  [
+   "gate-current",
+   "Current that charges the gates after the switch has closed, 5 V",
+   "turn-on.gate-current.png"
+  ],
+  [
+   "faults",
+   "Starts that end in a trip: a short circuit and 4700 uF",
+   "turn-on.faults.png"
+  ]
+ ],
+ "notes": [
+  "An ideal source behind 10 mohm stands for the source meter and its closed mode pair, which belong to other blocks. The device under test is a capacitor with 20 mohm in series and 1 Mohm beside it, behind a cable of 50 mohm; these three values are assumptions.",
+  "The fast corner: R117 at -1 %, C74 at -5 % (its value string gives no tolerance; 5 % is the grade of its part number), +12 V_A at 12.6 V, both transistors with the threshold at the lower limit of the datasheet. The slow corner is the opposite. In the vendor tier the transistors stay typical in both corners.",
+  "Every run starts with all voltages at zero and its sources rising in 200 us; the command comes 100 ms later, when the charge that this rise leaves on the gate node has gone. On the board the mode pair closes 40 ms before the command (rule F-24), which leaves a quarter of that charge and moves the start by less than 0.1 ms.",
+  "The specification gives 6 ms to 7 ms from the command to the rise of the output. That holds at 5 V with a small capacitor and typical parts. The time follows the output voltage, the capacitance and the threshold of the transistors: 3.9 ms to the first 50 mV at 0.8 V in the fast corner, 10 ms to 10 % at 5 V with 2200 uF in the slow corner.",
+  "The in-rush is the slope of the gate times the capacitance, so it does not depend on the output voltage; the time to the first rise does, because the gate has less way to go at 0.8 V.",
+  "With nominal parts 3000 uF stay below the trip level of 1.15 A, and 2480 uF stay below its lowest value in the fast corner. The 2200 uF and the 1800 uF with a capacitor 20 % high of the specification are inside that.",
+  "The current into the gates is the current in R120. It reaches the device through the gate capacitances and is not measured by the shunts.",
+  "The two starts with a trip use the model of the sequencer with ideal comparators on the shunt voltage, 0.2 us of delay and 12 us of qualification, and 1 uH in the cable. No program of the controller exists yet.",
+  "The transistors are typical parts at 25 C; nothing here is thermal."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "OUTPUT_CSD17577_HI",
+   "written here"
+  ],
+  [
+   "Q15",
+   "OUTPUT_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "OUTPUT_CSD17577_HI",
+   "written here"
+  ],
+  [
+   "Q16",
+   "OUTPUT_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U25",
+   "OPA197",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "turn-on.5v-2200u.cir",
+  "turn-on.into-4700u.cir",
+  "turn-on.into-short.cir"
+ ],
+ "format": 1
+}

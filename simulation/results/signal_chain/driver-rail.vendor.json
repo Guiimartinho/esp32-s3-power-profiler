@@ -1,0 +1,285 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "driver-rail",
+ "title": "The driver rail: output of the buffer U28, the rail, and the stability of its loop",
+ "covers": "section 4.5 (driver rail D-73), section 16 (driver rail and its step response)",
+ "summary": "The buffer U28 with its network supplies the converter driver U29. The circuit holds the buffer, its gain resistors, the 10 ohm of R129, the 100 nF of C88 and the driver with its filter; the amplifier output is a source at 1 V. An operating point gives the voltages and the supply current. The loop gain of the buffer is taken by double injection at its output, with the feedback closed: as drawn, with C88 at 60 nF and at 110 nF (its value under bias and at its tolerance), with R126 at 100 ohm, which holds the non-inverting input, and with R129 reduced to 1 mohm, which stands for the buffer without it. A load step of 3 mA on the rail is then run with and without R129. Two more runs take the amplifier model alone and read its input capacitances and its open-loop output impedance against the datasheet: these three figures decide the loop, and the two tiers differ in them.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "buffer_output",
+   "label": "Output of the buffer U28",
+   "value": 2.727235,
+   "unit": "V",
+   "expected": 2.727,
+   "low": 2.718819,
+   "high": 2.735181,
+   "source": "section 4.5: 1.091 x VREF, 2.73 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail",
+   "label": "Driver rail at the test point TP42",
+   "value": 2.685401,
+   "unit": "V",
+   "expected": 2.68,
+   "low": 2.67,
+   "high": 2.69,
+   "source": "section 4.5: about 2.68 V after the drop in the 10 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "driver_current",
+   "label": "Current through R129, the supply current of the driver",
+   "value": 0.004183368,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "supply_current",
+   "label": "Current that buffer and driver take from 3V3_A together",
+   "value": 0.008696315,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "buffer_adds",
+   "label": "Of which the buffer adds (its own supply current and its gain resistors)",
+   "value": 0.004512947,
+   "unit": "A",
+   "expected": 0.0048,
+   "low": null,
+   "high": 0.0053,
+   "source": "section 4.5: 4.8 mA, 5.3 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin_drawn",
+   "label": "Phase margin of the loop, as drawn, 10 ohm and 100 nF",
+   "value": 68.99367,
+   "unit": "deg",
+   "expected": 54.0,
+   "low": 45.0,
+   "high": null,
+   "source": "section 4.5: 54 degrees with the 10 ohm; 45 degrees is the least this bench accepts",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_drawn",
+   "label": "Crossover of the loop, as drawn, 10 ohm and 100 nF",
+   "value": 8813639.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_c88_60n",
+   "label": "Phase margin of the loop, C88 at 60 nF",
+   "value": 68.44289,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "section 4.5: 54 degrees with the 10 ohm; 45 degrees is the least this bench accepts",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_c88_60n",
+   "label": "Crossover of the loop, C88 at 60 nF",
+   "value": 8815565.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_c88_110n",
+   "label": "Phase margin of the loop, C88 at 110 nF",
+   "value": 69.06867,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "section 4.5: 54 degrees with the 10 ohm; 45 degrees is the least this bench accepts",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_c88_110n",
+   "label": "Crossover of the loop, C88 at 110 nF",
+   "value": 8813464.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_r126_100r",
+   "label": "Phase margin of the loop, R126 at 100 ohm in place of 10 kohm",
+   "value": 68.83616,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "section 4.5: 54 degrees with the 10 ohm; 45 degrees is the least this bench accepts",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_r126_100r",
+   "label": "Crossover of the loop, R126 at 100 ohm in place of 10 kohm",
+   "value": 9231767.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_without",
+   "label": "Phase margin of the loop without R129",
+   "value": -2.650037,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.5: without the 10 ohm the loop is unstable",
+   "verdict": "pass"
+  },
+  {
+   "key": "crossover_without",
+   "label": "Crossover of the loop without R129",
+   "value": 1387975.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "step_drop",
+   "label": "Load step of 3 mA: the rail falls by",
+   "value": 0.02994181,
+   "unit": "V",
+   "expected": 0.03,
+   "low": null,
+   "high": null,
+   "source": "3 mA in the 10 ohm of R129, calculated here",
+   "verdict": "info"
+  },
+  {
+   "key": "step_undershoot",
+   "label": "Load step of 3 mA: the rail dips below its new level by",
+   "value": 5.230376e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "step_settles",
+   "label": "Load step of 3 mA: the rail is within 1 mV of its new level after",
+   "value": 3.364143e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ringing_without",
+   "label": "Without R129: swing of the rail in the last 10 us of the run",
+   "value": 0.08440307,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "model_between",
+   "label": "Amplifier model of this run: capacitance between its inputs",
+   "value": 3.500472e-13,
+   "unit": "F",
+   "expected": 6e-12,
+   "low": 4.5e-12,
+   "high": 7.5e-12,
+   "source": "OPA365 datasheet, page 6; 25 % is the fit this bench asks of a model",
+   "verdict": "fail"
+  },
+  {
+   "key": "model_common",
+   "label": "Amplifier model of this run: capacitance from each input",
+   "value": 6.000809e-12,
+   "unit": "F",
+   "expected": 2e-12,
+   "low": 1.5e-12,
+   "high": 2.5e-12,
+   "source": "OPA365 datasheet, page 6; 25 % is the fit this bench asks of a model",
+   "verdict": "fail"
+  },
+  {
+   "key": "model_output",
+   "label": "Amplifier model of this run: open-loop output impedance at 1 MHz",
+   "value": 55.88066,
+   "unit": "ohm",
+   "expected": 30.0,
+   "low": 22.5,
+   "high": 37.5,
+   "source": "OPA365 datasheet, page 7; 25 % is the fit this bench asks of a model",
+   "verdict": "fail"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The amplifier model has the gain-bandwidth product, the open-loop output impedance at 1 MHz (30 ohm) and the input capacitances of its datasheet, 6 pF between the inputs and 2 pF from each input; its second pole is fitted to the phase curve of the datasheet.",
+  "The margin as drawn is lower than the 54 degrees of the specification because of R126: with 10 kohm at the non-inverting input and no capacitor there, the 6 pF between the inputs let that input follow the inverting one, which lowers the crossover and costs about 36 degrees there. With R126 at 100 ohm the same model has the margin of the row above.",
+  "The model of the manufacturer, run in the vendor tier, shows no such effect and gives 69 degrees as drawn. The last three figures say why: that model has about 6 pF from each input and less than 1 pF between the inputs, the two values of the datasheet the other way round, and 56 ohm of output impedance where the datasheet states 30 ohm. In the figures that decide this loop it is not the part of the datasheet, so its margin does not speak against the lower one. A capacitor from the non-inverting input to ground would make the loop independent of the question.",
+  "C88 and the other capacitors are ideal: no series resistance, no inductance. The reference and 3V3_A are ideal sources.",
+  "The supply current of the two amplifiers follows the typical curve of the datasheet (4.3 mA at 3.3 V, 4.2 mA at 2.7 V), not the 4.6 mA of its table, which holds at 5 V. The figure that the buffer adds is therefore below the 4.8 mA of the specification.",
+  "The amplifier U27, its pedestal buffer and the multiplexer are not in this circuit: the amplifier output is an ideal source."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U28",
+   "SIGNAL_CHAIN_OPA365X_PROBE",
+   "vendor"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

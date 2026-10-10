@@ -1,0 +1,34 @@
+* -4V_A against the 5 V rail, reference 1.22 V, divider at +0 %, output at 0 V
+.include "../../models/analog_rails.lib"
+DD8 m4v_a 0 B0530W
+C19 cfly_p cfly_n 1e-06
+XC21 pump_in 0 RAILS_MLCC c=22u v0=7.39
+XC22 0 cpout RAILS_MLCC c=4.7u v0=8
+XC28 0 m4v_a RAILS_MLCC c=4.7u v0=8
+C48 0 m4v_a 1e-07
+C69 0 m4v_a 1e-07
+C72 0 m4v_a 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C84 0 m4v_a 1e-07
+R27 ok5v en_pump 100000
+R28 en_pump 0 150000
+R30 p5v pump_in 2.222
+R34 fb_pump m4v_a 226000
+R36 0 fb_pump 100000
+R69 ldo_out m4v_a 1300
+XU11 pump_in 0 cpout m4v_a fb_pump en_pump cfly_n cfly_p LM27761_AVG vfb=1.22
+* the 5 V rail as a source that comes up and then falls slowly; the enable
+* of the pump is held on, as the supervisor does above 4.0 V
+Vp5 p5v 0 PWL(0 0 1m 5.5 10m 5.5 0.2 3.6)
+Vok ok5v 0 PWL(0 0 2m 0 2.01m 4.7)
+* loads: the amplifiers between the rails as a sink, the source regulator at
+* an output of 0 V behind its minimum load R69
+Bamp 0 m4v_a I = 0.00506*tanh(max(-v(m4v_a), 0)/2)
+Vldo ldo_out 0 0
+.options method=gear
+.control
+save p5v m4v_a cpout pump_in i(Vp5)
+tran 50u 0.2 0 50u
+.endc
+.end

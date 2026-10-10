@@ -1,0 +1,50 @@
+* MOSFET models written for this project. None of these is a model of a
+* manufacturer. Every figure is from the datasheet named beside it; the
+* qualification benches of the block "models" compare each model with those
+* figures.
+
+* ---------------------------------------------------------------------
+* IRLML0030 as a switch (Q12, Q13). Infineon/IR datasheet PD-96278B, page 2:
+*   VGS(th) 1.3 / 1.7 / 2.3 V at 25 uA, RDS(on) 33 mohm typical at 4.5 V and
+*   22 mohm typical at 10 V, RG 2.3 ohm, Ciss 382 pF, Coss 84 pF, Crss 39 pF,
+*   Qg 2.6 nC.
+*   Fit: RD + RS = 14 mohm and KP = 18.8 give 33 mohm at 4.5 V and 20 mohm at
+*   10 V.
+.model IRLML0030 VDMOS (VTO=1.7 KP=18.8 RD=8m RS=6m RG=2.3 RB=10m
++ CGS=343p CGDMAX=150p CGDMIN=39p A=0.5 CJO=90p IS=1e-11 N=1.05 LAMBDA=0.01
++ KSUBTHRES=0.03)
+
+* ---------------------------------------------------------------------
+* IRLML0030 as a two-terminal clamp, gate tied to drain (Q10, Q11). Fit to
+* the same datasheet, page 3, figure 1 (typical output characteristics at
+* 25 C, read where VDS = VGS): 0.05 A at 2.25 V, 0.45 A at 2.5 V, about 4.2 A
+* at 3.0 V, about 7 A at 3.25 V, about 10 A at 3.5 V. Body diode fitted to
+* page 4, figure 7: 1 A at 0.78 V, 10 A at 0.92 V.
+*   _CLAMP: the curve of the figure. _CLAMP_LO and _CLAMP_HI: the threshold
+*   moved by the spread of VGS(th) on page 2, -0.4 V and +0.6 V.
+* One square law cannot follow both the threshold at 25 uA and the curve at
+* amperes, which is why the switch and the clamp take different fits.
+.model IRLML0030_CLAMP VDMOS (VTO=2.26 KP=15.2 RD=6m RS=8m RG=2.3 RB=12m
++ CGS=343p CGDMAX=150p CGDMIN=39p A=0.5 CJO=90p IS=2e-12 N=1.12 LAMBDA=0.01)
+.model IRLML0030_CLAMP_LO VDMOS (VTO=1.86 KP=15.2 RD=6m RS=8m RG=2.3 RB=12m
++ CGS=343p CGDMAX=150p CGDMIN=39p A=0.5 CJO=90p IS=2e-12 N=1.12 LAMBDA=0.01)
+.model IRLML0030_CLAMP_HI VDMOS (VTO=2.86 KP=15.2 RD=6m RS=8m RG=2.3 RB=12m
++ CGS=343p CGDMAX=150p CGDMIN=39p A=0.5 CJO=90p IS=2e-12 N=1.12 LAMBDA=0.01)
+
+* ---------------------------------------------------------------------
+* CSD17577Q3A (Q4, Q5, Q8, Q9, Q14, Q15, Q16). Texas Instruments datasheet
+* SLPS515A, page 1, typical values at 25 C: RDS(on) 5.3 mohm at VGS = 4.5 V
+* and 4.0 mohm at 10 V, Qg 12 nC at 4.5 V, Qgd 2.5 nC, VGS(th) 1.4 V; gate
+* charge curve of the same page (ID = 16 A, VDS = 15 V): plateau near 2.8 V,
+* 10 V at about 28 nC.
+*   Fit: the saturation law (VTO, KP) puts the plateau at 2.8 V and 16 A;
+*   MTRIODE and RD + RS = 3.48 mohm give the two on-resistances; CGS and the
+*   two limits of CGD follow the slopes of the gate charge curve.
+*   Gate resistance 1.4 ohm typical, 2.8 ohm at most (page 3). Page 3 gives
+*   the gate charge as 13 nC and 2.8 nC where page 1 gives 12 nC and
+*   2.5 nC; the fit follows page 1.
+*   The model has no breakdown: a drain voltage above the 30 V rating is
+*   a voltage the part would have to block, not one it can.
+.model CSD17577Q3A VDMOS (VTO=2.3 KP=128 MTRIODE=1.95 RD=2.4m RS=1.08m RG=1.4
++ RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p IS=5e-11 N=1.05
++ LAMBDA=0.01 KSUBTHRES=0.2)

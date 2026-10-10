@@ -1,0 +1,660 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "drop",
+ "title": "The two paths at rest: drop at 1 A, gate drive and current taken from VIN",
+ "covers": "requirement R-06 (D-64), sections 4.9 (gate drive, current of the terminal) and 11",
+ "summary": "Each mode is held with the output pair closed and the load is stepped to 1 A. The run gives the voltage from the feeding point, the VIN terminal or the regulator output, to the output terminal, and the share of each part of the path: fuse, mode pair, range 3 with its shunt, output pair. It is made with typical transistors and with every transistor of the path at its largest on-resistance while +12 V_A stands at its lower limit. The step without load gives the gate-source voltage of the pair and the current that the instrument itself takes from the VIN terminal.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "drop_ampere_5v",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: ampere mode at 5 V",
+   "value": 0.1357145,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_ampere_5v",
+   "label": "The same with the 20 mohm that the specification allows for copper and contacts: ampere mode at 5 V",
+   "value": 0.1557145,
+   "unit": "V",
+   "expected": 0.158,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A; 158 mV calculated at 50 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_ampere_5v",
+   "label": "Drop of the mode pair at 1 A: ampere mode at 5 V",
+   "value": 0.00877643,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_ampere_5v",
+   "label": "Gate-source voltage of the pair without load: ampere mode at 5 V",
+   "value": 6.695633,
+   "unit": "V",
+   "expected": 6.699,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_ampere_5v",
+   "label": "Drop of the fuse at 1 A: ampere mode at 5 V",
+   "value": 0.01400175,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "taken_ampere_5v",
+   "label": "Current the instrument takes from the terminal, pair closed, no load: ampere mode at 5 V",
+   "value": 0.0001252805,
+   "unit": "A",
+   "expected": 0.000125,
+   "low": 0.000115,
+   "high": 0.000135,
+   "source": "section 4.9: about 125 uA at 5 V, simulated; 8 % asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_ampere_5v_bounds",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: ampere mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 0.140964,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_ampere_5v_bounds",
+   "label": "The same with the 25 mohm that the specification allows for copper and contacts: ampere mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 0.165964,
+   "unit": "V",
+   "expected": 0.181,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A; 181 mV calculated at 50 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_ampere_5v_bounds",
+   "label": "Drop of the mode pair at 1 A: ampere mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 0.01092116,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_ampere_5v_bounds",
+   "label": "Gate-source voltage of the pair without load: ampere mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 6.121722,
+   "unit": "V",
+   "expected": null,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V, calculated",
+   "verdict": "fail"
+  },
+  {
+   "key": "drop_ampere_3p3v",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: ampere mode at 3.3 V",
+   "value": 0.1345685,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_ampere_3p3v",
+   "label": "The same with the 20 mohm that the specification allows for copper and contacts: ampere mode at 3.3 V",
+   "value": 0.1545685,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_ampere_3p3v",
+   "label": "Drop of the mode pair at 1 A: ampere mode at 3.3 V",
+   "value": 0.008287265,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "fuse_ampere_3p3v",
+   "label": "Drop of the fuse at 1 A: ampere mode at 3.3 V",
+   "value": 0.0140011,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "taken_ampere_3p3v",
+   "label": "Current the instrument takes from the terminal, pair closed, no load: ampere mode at 3.3 V",
+   "value": 7.887336e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drop_ampere_0p8v",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: ampere mode at 0.8 V",
+   "value": 0.1336764,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_ampere_0p8v",
+   "label": "The same with the 20 mohm that the specification allows for copper and contacts: ampere mode at 0.8 V",
+   "value": 0.1536764,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_ampere_0p8v",
+   "label": "Drop of the mode pair at 1 A: ampere mode at 0.8 V",
+   "value": 0.007910569,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "fuse_ampere_0p8v",
+   "label": "Drop of the fuse at 1 A: ampere mode at 0.8 V",
+   "value": 0.01400015,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "taken_ampere_0p8v",
+   "label": "Current the instrument takes from the terminal, pair closed, no load: ampere mode at 0.8 V",
+   "value": 1.132828e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drop_source_5v",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: source mode at 5 V",
+   "value": 0.1217256,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_source_5v",
+   "label": "The same with the 20 mohm that the specification allows for copper and contacts: source mode at 5 V",
+   "value": 0.1417256,
+   "unit": "V",
+   "expected": 0.144,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A; 144 mV calculated at 50 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_source_5v",
+   "label": "Drop of the mode pair at 1 A: source mode at 5 V",
+   "value": 0.008781959,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_source_5v",
+   "label": "Gate-source voltage of the pair without load: source mode at 5 V",
+   "value": 6.695631,
+   "unit": "V",
+   "expected": 6.699,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "drop_source_5v_bounds",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: source mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 0.126983,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_source_5v_bounds",
+   "label": "The same with the 25 mohm that the specification allows for copper and contacts: source mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 0.151983,
+   "unit": "V",
+   "expected": 0.161,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A; 161 mV calculated at 50 C",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_source_5v_bounds",
+   "label": "Drop of the mode pair at 1 A: source mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 0.01093015,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_source_5v_bounds",
+   "label": "Gate-source voltage of the pair without load: source mode at 5 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 6.12172,
+   "unit": "V",
+   "expected": null,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V, calculated",
+   "verdict": "fail"
+  },
+  {
+   "key": "drop_source_0p8v",
+   "label": "Drop at 1 A from the feeding point to the output terminal, parts alone: source mode at 0.8 V",
+   "value": 0.1196799,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "budget_source_0p8v",
+   "label": "The same with the 20 mohm that the specification allows for copper and contacts: source mode at 0.8 V",
+   "value": 0.1396799,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_source_0p8v",
+   "label": "Drop of the mode pair at 1 A: source mode at 0.8 V",
+   "value": 0.007912083,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "drive_ampere_5p4v",
+   "label": "Gate-source voltage of the pair without load: ampere mode at 5.4 V",
+   "value": 6.313026,
+   "unit": "V",
+   "expected": null,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: at least 6.2 V of gate-source voltage, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_ampere_5p4v_bounds",
+   "label": "Gate-source voltage of the pair without load: ampere mode at 5.4 V, largest on-resistance and +12 V_A at 11.4 V",
+   "value": 5.739115,
+   "unit": "V",
+   "expected": null,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: at least 6.2 V of gate-source voltage, calculated",
+   "verdict": "fail"
+  },
+  {
+   "key": "share_fuse",
+   "label": "Share of the 200 mV of requirement R-06 at 1 A, ampere mode at 5 V: fuse F1",
+   "value": 7.000873,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_ampere_pair",
+   "label": "Share of the 200 mV of requirement R-06 at 1 A, ampere mode at 5 V: ampere pair Q5, Q9",
+   "value": 4.388215,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_range_3",
+   "label": "Share of the 200 mV of requirement R-06 at 1 A, ampere mode at 5 V: range 3: Q14 and the 0.1 ohm shunt",
+   "value": 52.15868,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_output_pair",
+   "label": "Share of the 200 mV of requirement R-06 at 1 A, ampere mode at 5 V: output pair Q15, Q16",
+   "value": 4.309464,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "both_pairs",
+   "label": "Resistance of the two mode pairs in series at 5 V, from their drops at 1 A",
+   "value": 0.01755839,
+   "unit": "ohm",
+   "expected": 0.017,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-62: with both pairs on, VIN would be tied to the regulator output through 17 mohm, calculated",
+   "verdict": "info"
+  },
+  {
+   "key": "copper_left",
+   "label": "Copper and contacts that the 200 mV leave in ampere mode, parts at their largest on-resistance",
+   "value": 0.05903598,
+   "unit": "ohm",
+   "expected": 0.044,
+   "low": null,
+   "high": null,
+   "source": "section 11: the margin is lost if copper and contacts pass about 44 mohm, calculated at 50 C",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_5v",
+   "label": "Voltage at the output terminal with 5.0 V at the VIN terminal and 1 A, parts alone",
+   "value": 4.864286,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "taken_open",
+   "label": "Current the instrument takes from the terminal at 5 V, pair open",
+   "value": 3.494717e-05,
+   "unit": "A",
+   "expected": 3.5e-05,
+   "low": 3.3e-05,
+   "high": 3.7e-05,
+   "source": "section 4.9: 35 uA, calculated; 5 % asked here",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "drop",
+   "Drop from the feeding point to the output terminal against the load, parts alone",
+   "drop.drop.png"
+  ]
+ ],
+ "notes": [
+  "The circuit holds no copper and no contacts: the board is not in the netlist. The specification allows 20 mohm to 25 mohm for them, without a source; that allowance is added to the simulated drop before it is compared with requirement R-06. The layout calculation of the board gives 10.4 mohm and 12.3 mohm for the copper alone.",
+  "The transistors are typical parts at 25 C, or parts at the largest on-resistance of their datasheet at 25 C. The specification calculates with 50 C, where the on-resistance is about 9 % higher (datasheet curve), and with allowances for the fuse that this run does not have: its bounds are 15 mV higher than the ones here, and the copper that the budget leaves is 44 mohm in its calculation against 59 mohm here. The fuse is its cold resistance of 14 mohm; its datasheet states no tolerance.",
+  "The range 3 switch, the shunt and the output pair are parts of other sheets, taken from the netlist to close the path.",
+  "The detector comparator is left out and its output held low, because a comparator with hysteresis has two stable states inside its band. The runs at 5.4 V stand just below the lowest trip level of 5.41 V: there the pair has the least gate drive it can have while it is closed."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q14",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q4",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q8",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "PATH_CSD17577_RMAX",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "drop.ampere_5v.cir"
+ ],
+ "format": 1
+}

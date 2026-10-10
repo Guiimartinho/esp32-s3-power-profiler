@@ -1,0 +1,457 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "source-meter-lt3080",
+ "title": "LT3080 model of the source meter against its datasheet",
+ "covers": "the model of the linear regulator U18",
+ "summary": "The regulator U18 of the schematic is put in the test circuits of its datasheet. Static runs give the SET current, the offset over the load, the current of the VCONTROL pin, the dropout of both supply pins, the current limit and the output without load. Three load steps and the response from SET to OUT are the curves that the loop of the model was fitted to; the phase margin that follows from that fit is reported without a limit, because the datasheet states none.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "set_current",
+   "label": "SET current",
+   "value": 1e-05,
+   "unit": "A",
+   "expected": 1e-05,
+   "low": 9.9e-06,
+   "high": 1.01e-05,
+   "source": "Analog Devices LT3080 Rev. E, page 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_regulation",
+   "label": "Fall of the output from 1 mA to 1.1 A",
+   "value": 0.0006012103,
+   "unit": "V",
+   "expected": 0.0006,
+   "low": null,
+   "high": 0.0013,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 0.6 mV typical, 1.3 mV at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "control_100ma",
+   "label": "Current of the VCONTROL pin at 100 mA",
+   "value": 0.004015119,
+   "unit": "A",
+   "expected": 0.004,
+   "low": 0.0028,
+   "high": 0.006,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 4 mA typical, 6 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "control_1a1",
+   "label": "Current of the VCONTROL pin at 1.1 A",
+   "value": 0.01794703,
+   "unit": "A",
+   "expected": 0.017,
+   "low": 0.014,
+   "high": 0.03,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 17 mA typical, 30 mA at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "residual_1k",
+   "label": "Output with SET at 0 V and 1 kohm as the only load, 5 V in",
+   "value": 0.3229216,
+   "unit": "V",
+   "expected": 0.3,
+   "low": 0.2,
+   "high": 0.5,
+   "source": "Analog Devices LT3080 Rev. E, page 7, curve G21; page 4: 0.5 mA at the most at 10 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_100ma",
+   "label": "Dropout at the IN pin at 100 mA",
+   "value": 0.07573132,
+   "unit": "V",
+   "expected": 0.1,
+   "low": 0.06,
+   "high": 0.2,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 100 mV typical, 200 mV at the most; curve G10: 70 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_1a1",
+   "label": "Dropout at the IN pin at 1.1 A",
+   "value": 0.3487943,
+   "unit": "V",
+   "expected": 0.35,
+   "low": 0.3,
+   "high": 0.4,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 350 mV typical; curve G09: 318 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_limit_100ma",
+   "label": "Dropout at 100 mA with the parameters of the guaranteed limits",
+   "value": 0.1996286,
+   "unit": "V",
+   "expected": 0.2,
+   "low": 0.19,
+   "high": 0.21,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 200 mV at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_limit_1a1",
+   "label": "Dropout at 1.1 A with the parameters of the guaranteed limits",
+   "value": 0.496597,
+   "unit": "V",
+   "expected": 0.5,
+   "low": 0.475,
+   "high": 0.525,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 500 mV at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_limit_1a",
+   "label": "Dropout at 1.0 A with those parameters",
+   "value": 0.4654271,
+   "unit": "V",
+   "expected": 0.47,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 170 mV + 0.300 ohm x I, an estimate between the two limits",
+   "verdict": "info"
+  },
+  {
+   "key": "dropout_control_100ma",
+   "label": "Dropout at the VCONTROL pin at 100 mA",
+   "value": 1.199758,
+   "unit": "V",
+   "expected": 1.2,
+   "low": 1.1,
+   "high": 1.3,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 1.2 V typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "dropout_control_1a1",
+   "label": "Dropout at the VCONTROL pin at 1.1 A",
+   "value": 1.363107,
+   "unit": "V",
+   "expected": 1.35,
+   "low": 1.25,
+   "high": 1.6,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 1.35 V typical, 1.6 V at the most",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_limit",
+   "label": "Current limit, 5 V on both pins, output at -0.1 V",
+   "value": 1.396457,
+   "unit": "A",
+   "expected": 1.4,
+   "low": 1.3,
+   "high": 1.5,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 1.4 A typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_limit_least",
+   "label": "Current limit with the parameter of the least limit",
+   "value": 1.111553,
+   "unit": "A",
+   "expected": 1.1,
+   "low": 1.045,
+   "high": 1.155,
+   "source": "Analog Devices LT3080 Rev. E, page 4: 1.1 A at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_g16_dip",
+   "label": "Load step 0.1 A to 1.1 A with 10 uF: lowest point",
+   "value": -0.07933956,
+   "unit": "V",
+   "expected": -0.095,
+   "low": -0.1235,
+   "high": -0.0665,
+   "source": "Analog Devices LT3080 Rev. E, page 6, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_g16_peak",
+   "label": "Load step 0.1 A to 1.1 A with 10 uF: highest point after the release",
+   "value": 0.06106244,
+   "unit": "V",
+   "expected": 0.088,
+   "low": 0.0616,
+   "high": 0.1144,
+   "source": "Analog Devices LT3080 Rev. E, page 6, read from the curve",
+   "verdict": "fail"
+  },
+  {
+   "key": "step_g15_2u2_dip",
+   "label": "Load step 50 mA to 250 mA with 2.2 uF: lowest point",
+   "value": -0.0385742,
+   "unit": "V",
+   "expected": -0.048,
+   "low": -0.0624,
+   "high": -0.0336,
+   "source": "Analog Devices LT3080 Rev. E, page 6, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_g15_2u2_peak",
+   "label": "Load step 50 mA to 250 mA with 2.2 uF: highest point after the release",
+   "value": 0.03169676,
+   "unit": "V",
+   "expected": 0.038,
+   "low": 0.0266,
+   "high": 0.0494,
+   "source": "Analog Devices LT3080 Rev. E, page 6, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_g15_10u_dip",
+   "label": "Load step 50 mA to 250 mA with 10 uF: lowest point",
+   "value": -0.02211672,
+   "unit": "V",
+   "expected": -0.012,
+   "low": -0.0156,
+   "high": -0.0084,
+   "source": "Analog Devices LT3080 Rev. E, page 6, read from the curve",
+   "verdict": "fail"
+  },
+  {
+   "key": "step_g15_10u_peak",
+   "label": "Load step 50 mA to 250 mA with 10 uF: highest point after the release",
+   "value": 0.01794957,
+   "unit": "V",
+   "expected": 0.008,
+   "low": 0.0056,
+   "high": 0.0104,
+   "source": "Analog Devices LT3080 Rev. E, page 6, read from the curve",
+   "verdict": "fail"
+  },
+  {
+   "key": "response_peak_1p1a",
+   "label": "From SET to OUT at 1.1 A with 2.2 uF: peak above the level at 10 Hz",
+   "value": 2.045759,
+   "unit": "dB",
+   "expected": 3.0,
+   "low": null,
+   "high": null,
+   "source": "Analog Devices LT3080 Rev. E, page 8, curve G28; its capacitor is not stated",
+   "verdict": "info"
+  },
+  {
+   "key": "response_corner_1p1a",
+   "label": "From SET to OUT at 1.1 A with 2.2 uF: 3 dB below the level at 10 Hz",
+   "value": 700939.7,
+   "unit": "Hz",
+   "expected": 700000.0,
+   "low": null,
+   "high": null,
+   "source": "Analog Devices LT3080 Rev. E, page 8, curve G28; its capacitor is not stated",
+   "verdict": "info"
+  },
+  {
+   "key": "response_peak_0p1a",
+   "label": "From SET to OUT at 0.1 A with 2.2 uF: peak above the level at 10 Hz",
+   "value": 2.921208,
+   "unit": "dB",
+   "expected": 0.0,
+   "low": null,
+   "high": null,
+   "source": "Analog Devices LT3080 Rev. E, page 8, curve G28; its capacitor is not stated",
+   "verdict": "info"
+  },
+  {
+   "key": "response_corner_0p1a",
+   "label": "From SET to OUT at 0.1 A with 2.2 uF: 3 dB below the level at 10 Hz",
+   "value": 424255.6,
+   "unit": "Hz",
+   "expected": 300000.0,
+   "low": null,
+   "high": null,
+   "source": "Analog Devices LT3080 Rev. E, page 8, curve G28; its capacitor is not stated",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_4ma_22uf",
+   "label": "Phase margin of the model at 4 mA with 22 uF",
+   "value": 18.63034,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_4ma_22uf",
+   "label": "Crossover of the loop at 4 mA with 22 uF",
+   "value": 12027.51,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_100ma_2p2uf",
+   "label": "Phase margin of the model at 100 mA with 2.2 uF",
+   "value": 42.50867,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_100ma_2p2uf",
+   "label": "Crossover of the loop at 100 mA with 2.2 uF",
+   "value": 259437.1,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_100ma_22uf",
+   "label": "Phase margin of the model at 100 mA with 22 uF",
+   "value": 49.85526,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_100ma_22uf",
+   "label": "Crossover of the loop at 100 mA with 22 uF",
+   "value": 62720.19,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_1100ma_2p2uf",
+   "label": "Phase margin of the model at 1100 mA with 2.2 uF",
+   "value": 48.10558,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_1100ma_2p2uf",
+   "label": "Crossover of the loop at 1100 mA with 2.2 uF",
+   "value": 413243.3,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_1100ma_22uf",
+   "label": "Phase margin of the model at 1100 mA with 22 uF",
+   "value": 50.91354,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_1100ma_22uf",
+   "label": "Crossover of the loop at 1100 mA with 22 uF",
+   "value": 135072.7,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "noise_density",
+   "label": "Output noise density at 1 kHz",
+   "value": 1.250774e-07,
+   "unit": "V/√Hz",
+   "expected": 1.25e-07,
+   "low": 1.125e-07,
+   "high": 1.375e-07,
+   "source": "Analog Devices LT3080 Rev. E, page 7, curve G26",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_10hz_100khz",
+   "label": "Output noise from 10 Hz to 100 kHz, 1.1 A, 10 uF, 0.1 uF on SET",
+   "value": 3.830089e-05,
+   "unit": "V",
+   "expected": 4e-05,
+   "low": 3.4e-05,
+   "high": 4.6e-05,
+   "source": "Analog Devices LT3080 Rev. E, page 4",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "load-steps",
+   "LT3080 model: the three load steps of page 6 of the datasheet",
+   "source-meter-lt3080.load-steps.png"
+  ],
+  [
+   "dropout",
+   "LT3080 model: dropout of the two supply pins over the load current",
+   "source-meter-lt3080.dropout.png"
+  ],
+  [
+   "response",
+   "LT3080 model: response from SET to OUT and loop gain",
+   "source-meter-lt3080.response.png"
+  ]
+ ],
+ "notes": [
+  "The limits are the fit this project asks of the model, not datasheet limits, except where the source names a limit of the datasheet. A supply pin counts as in dropout when the output has fallen by 10 mV; the datasheet does not define it.",
+  "The loop of the model is a fit to the three load steps and to the response from SET to OUT. The step of 50 mA to 250 mA with 10 uF is not followed: the model dips about twice as far as the datasheet shows. The edge of the load steps (100 ns) and the capacitor of curve G28 (2.2 uF) are assumptions.",
+  "The phase margin is a property of that fit and not a datasheet value. The datasheet shows no load step below 50 mA and no capacitor above 10 uF; the low margin of the model at 4 mA with 22 uF is an extrapolation.",
+  "The model is a typical part at 27 C. It has no thermal limit, no fold-back of the current limit above 6 V and no fitted rejection of ripple on the IN pin."
+ ],
+ "models": [
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "source-meter-lt3080.dropout-in-limit.cir",
+  "source-meter-lt3080.dropout-in.cir",
+  "source-meter-lt3080.dropout-vcontrol.cir",
+  "source-meter-lt3080.limit-least.cir",
+  "source-meter-lt3080.limit.cir",
+  "source-meter-lt3080.noise.cir",
+  "source-meter-lt3080.response-0p1a.cir",
+  "source-meter-lt3080.response-1p1a.cir",
+  "source-meter-lt3080.set.cir",
+  "source-meter-lt3080.static.cir",
+  "source-meter-lt3080.step-g15-10u.cir",
+  "source-meter-lt3080.step-g15-2u2.cir",
+  "source-meter-lt3080.step-g16.cir"
+ ],
+ "format": 1
+}

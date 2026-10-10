@@ -1,0 +1,19 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "boost-output",
+ "title": "Boost converter: +13V5 with tolerances, against load, and its ripple",
+ "covers": "section 3 (analog rails, 13.0 V to 14.1 V), decision D-51",
+ "summary": "The boost converter on a 5 V rail that is up, with the loads of +13V5. The level of +13V5 is read from the averaged model: with typical parts, with the feedback voltage and the 1 % divider at their limits, at 10 mA and at 40 mA of load, and with the 5 V rail at 4.25 V and at 5.5 V. The ripple is read from the cycle-by-cycle model at the same two loads, at the output of the converter, behind the filter R37 with C29 at the input of the +12V_A regulator, and on the 5 V rail; then once more with a 0 ohm part in the place of R37.",
+ "status": "error",
+ "error": "boost-output.light: the run failed: Error on line 1 or its substitute:; unknown device type - error ; Simulation interrupted due to error!",
+ "tier": "vendor",
+ "engine": "",
+ "library_sha256": "",
+ "figures": [],
+ "graphs": [],
+ "notes": [],
+ "models": [],
+ "decks": [],
+ "format": 1
+}

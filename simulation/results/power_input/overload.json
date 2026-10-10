@@ -1,0 +1,325 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "overload",
+ "title": "A load beyond what the source gives: the rail falls and the supervisor sheds the carrier",
+ "covers": "section 4.1 (thresholds of the 5 V rail, enforcement), section 3 (supervisor), rule F-7",
+ "summary": "The running carrier is asked for 6.3 W more than a current-limited supply gives. The load stands for the pre-regulator of the source meter: a constant power that follows 5V_OK, so that it is shed when the supervisor trips. Three runs: on the module input with its limiter of 0.76 A, the same with a limiter whose fold-back reaches over the whole output range, and on the USB-C input from a source that gives no more than 0.9 A. The load is asked for during 0.6 ms; firmware, which would latch the fault (rule F-7), is not in the circuit.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "rail_low_module",
+   "label": "Module input: lowest level of the rail",
+   "value": 3.326941,
+   "unit": "V",
+   "expected": null,
+   "low": 2.99,
+   "high": 3.97,
+   "source": "section 4.1: a minimum of 2.99 V to 3.97 V (estimate, 96 cases)",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_after_module",
+   "label": "Module input: 5V_OK low after the load has stepped",
+   "value": 0.0001939351,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_delay_module",
+   "label": "Module input: 5V_OK low after the rail has passed 3.91 V",
+   "value": 3.415442e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "section 4.1: the pre-regulator is off within 0.1 ms (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "below_module",
+   "label": "Module input: time the rail spends below 3.91 V",
+   "value": 0.00021773,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vsys_low_module",
+   "label": "Module input: lowest VSYS of the module",
+   "value": 4.52807,
+   "unit": "V",
+   "expected": 3.46,
+   "low": 1.8,
+   "high": null,
+   "source": "section 4.1: VSYS stays at 3.46 V or above (estimate); the module works from 1.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_module",
+   "label": "Module input: 3V3_A when 5V_OK falls",
+   "value": 3.298996,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "the regulator holds 3.3 V within 2 % until it is switched off (LP5907 datasheet, page 5)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_module_wide_foldback",
+   "label": "Module input, fold-back up to 4.5 V: lowest level of the rail",
+   "value": 3.221524,
+   "unit": "V",
+   "expected": null,
+   "low": 2.99,
+   "high": 3.97,
+   "source": "section 4.1: a minimum of 2.99 V to 3.97 V (estimate, 96 cases)",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_after_module_wide_foldback",
+   "label": "Module input, fold-back up to 4.5 V: 5V_OK low after the load has stepped",
+   "value": 0.0001913129,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_delay_module_wide_foldback",
+   "label": "Module input, fold-back up to 4.5 V: 5V_OK low after the rail has passed 3.91 V",
+   "value": 3.392288e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "section 4.1: the pre-regulator is off within 0.1 ms (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "below_module_wide_foldback",
+   "label": "Module input, fold-back up to 4.5 V: time the rail spends below 3.91 V",
+   "value": 0.0002462086,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vsys_low_module_wide_foldback",
+   "label": "Module input, fold-back up to 4.5 V: lowest VSYS of the module",
+   "value": 4.516857,
+   "unit": "V",
+   "expected": 3.46,
+   "low": 1.8,
+   "high": null,
+   "source": "section 4.1: VSYS stays at 3.46 V or above (estimate); the module works from 1.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_module_wide_foldback",
+   "label": "Module input, fold-back up to 4.5 V: 3V3_A when 5V_OK falls",
+   "value": 3.298922,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "the regulator holds 3.3 V within 2 % until it is switched off (LP5907 datasheet, page 5)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_low_usbc_weak",
+   "label": "USB-C source of 0.9 A: lowest level of the rail",
+   "value": 3.59782,
+   "unit": "V",
+   "expected": null,
+   "low": 2.99,
+   "high": 3.97,
+   "source": "section 4.1: a minimum of 2.99 V to 3.97 V (estimate, 96 cases)",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_after_usbc_weak",
+   "label": "USB-C source of 0.9 A: 5V_OK low after the load has stepped",
+   "value": 0.0002536988,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_delay_usbc_weak",
+   "label": "USB-C source of 0.9 A: 5V_OK low after the rail has passed 3.91 V",
+   "value": 3.505789e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "section 4.1: the pre-regulator is off within 0.1 ms (estimate)",
+   "verdict": "pass"
+  },
+  {
+   "key": "below_usbc_weak",
+   "label": "USB-C source of 0.9 A: time the rail spends below 3.91 V",
+   "value": 0.0002038868,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vsys_low_usbc_weak",
+   "label": "USB-C source of 0.9 A: lowest VSYS of the module",
+   "value": 4.51463,
+   "unit": "V",
+   "expected": 3.46,
+   "low": 1.8,
+   "high": null,
+   "source": "section 4.1: VSYS stays at 3.46 V or above (estimate); the module works from 1.8 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "v3a_low_usbc_weak",
+   "label": "USB-C source of 0.9 A: 3V3_A when 5V_OK falls",
+   "value": 3.299206,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": null,
+   "source": "the regulator holds 3.3 V within 2 % until it is switched off (LP5907 datasheet, page 5)",
+   "verdict": "pass"
+  },
+  {
+   "key": "receptacle_low_usbc_weak",
+   "label": "USB-C source of 0.9 A: lowest voltage at the receptacle",
+   "value": 3.714536,
+   "unit": "V",
+   "expected": null,
+   "low": 2.87,
+   "high": null,
+   "source": "section 4.1: a limiter turns off at 2.67 V to 2.87 V",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "shed",
+   "6.3 W asked from a supply that cannot give it, at 6.5 ms",
+   "overload.shed.png"
+  ]
+ ],
+ "notes": [
+  "The load of 6.3 W is the one of the estimate in section 4.1. It follows 5V_OK with a delay of 50 us, which stands for the transistor at the enable pin and the converter: an assumption. With a longer delay the rail falls further.",
+  "The supervisor has its release delay shortened to 1 ms so that the carrier runs at 6.5 ms; its reaction to the falling rail is that of the model, with the filter of the schematic at its input. The load is not asked for again when 5V_OK returns: the run ends before.",
+  "The source of 0.9 A limits without switching off: an assumption. A port that switches off at its limit ends the run differently.",
+  "On the module input the module has its own supply through its diode, so VSYS does not follow the rail there. On USB-C alone it does, through D1.",
+  "The idle loads are assumptions (0.12 A in all); they are shed with 5V_OK too."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "overload.module.cir",
+  "overload.usbc-weak.cir"
+ ],
+ "format": 1
+}

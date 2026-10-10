@@ -1,0 +1,63 @@
+* -4V_A: operating point, noise and rejection of the 5 V rail (averaged pump)
+.include "../../models/analog_rails.lib"
+DD8 m4v_a 0 B0530W
+C19 cfly_p cfly_n 1e-06
+XC21 pump_in 0 RAILS_MLCC c=22u v0=7.39
+XC22 0 cpout RAILS_MLCC c=4.7u v0=8
+XC28 0 m4v_a RAILS_MLCC c=4.7u v0=8
+C48 0 m4v_a 1e-07
+C69 0 m4v_a 1e-07
+C72 0 m4v_a 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C84 0 m4v_a 1e-07
+R27 ok5v en_pump 100000
+R28 en_pump 0 150000
+R30 p5v pump_in 2.2
+R34 fb_pump m4v_a 226000
+R36 0 fb_pump 100000
+R69 ldo_out m4v_a 1300
+XU11 pump_in 0 cpout m4v_a fb_pump en_pump cfly_n cfly_p LM27761_AVG
+V5 p5v 0 DC 5 AC 1
+Vok ok5v 0 4.7
+Iload 0 m4v_a 0.00506
+Vldo ldo_out 0 0
+* start of the operating point: the end of a settled transient run
+.nodeset v(cfly_n)=0
+.nodeset v(cfly_p)=0
+.nodeset v(cpout)=-4.85502636
+.nodeset v(en_pump)=2.82
+.nodeset v(fb_pump)=-1.21999996
+.nodeset v(ldo_out)=0
+.nodeset v(m4v_a)=-3.97719987
+.nodeset v(ok5v)=4.7
+.nodeset v(p5v)=5
+.nodeset v(pump_in)=4.98127483
+.nodeset v(xc21.uc)=0.593100957
+.nodeset v(xc22.uc)=0.545461726
+.nodeset v(xc28.uc)=0.461364997
+.nodeset v(xu11.ip)=0.00814143956
+.nodeset v(xu11.on)=0.999999998
+.nodeset v(xu11.xctl.enr)=0.8
+.nodeset v(xu11.xctl.eon)=1
+.nodeset v(xu11.xctl.on0)=1
+.nodeset v(xu11.xctl.ond)=1
+.nodeset v(xu11.xctl.uok)=1
+.nodeset v(xu11.xctl.uvr)=2.5
+.nodeset v(xu11.xctl.xdl.a)=1
+.nodeset v(xu11.xctl.xdl.b)=1
+.nodeset v(xu11.xctl.xdl.c)=1
+.nodeset v(xu11.xctl.xdl.d)=1
+.nodeset v(xu11.xctl.xdl.e)=1
+.nodeset v(xu11.xctl.xen.x)=1
+.nodeset v(xu11.xctl.xuv.x)=1
+.nodeset v(xu11.xldo.e)=1.05668567e-08
+.nodeset v(xu11.xldo.nz)=0
+.nodeset v(xu11.xldo.ss)=0.999999975
+.nodeset v(xu11.xldo.x)=0.00813645456
+.control
+op
+noise v(m4v_a) V5 dec 30 1 10meg
+ac dec 30 1 10meg
+.endc
+.end

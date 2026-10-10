@@ -1,0 +1,20 @@
+* REF5025: start with 1 uF and 10 uF, with a noise capacitor, load step
+.include "../../models/analog_rails.lib"
+Vin vin 0 PWL(0 0 10u 0 12u 5)
+* A: 1 uF at the output, load stepped between -1 mA and +1 mA
+Xa vin 0 nra oa REF5025AID
+Ca oa 0 1u
+Ia oa 0 PWL(0 0 3m 0 3.001m -1m 4m -1m 4.001m 1m 5m 1m 5.001m -1m)
+* B: 10 uF at the output
+Xb vin 0 nrb ob REF5025AID
+Cb ob 0 10u
+* C: 1 uF at the noise pin
+Xc vin 0 nrc oc REF5025AID
+Cc oc 0 1u
+Cnr nrc 0 1u
+.options reltol=1e-5
+.control
+save oa ob oc vin
+tran 0.2u 0.12 0 20u
+.endc
+.end

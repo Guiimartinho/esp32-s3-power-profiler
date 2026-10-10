@@ -1,0 +1,38 @@
+* Clamp of the absent rail: p12 absent, typical diode, 5.06 mA
+.include "../../models/analog_rails.lib"
+DD8 m4v_a 0 B0530W
+DD9 0 p12v_a B0530W
+C28 0 m4v_a 4.7e-06
+C31 p12v_a 0 1e-05
+C44 p12v_a 0 1e-07
+C48 0 m4v_a 1e-07
+C56 p12v_a 0 1e-06
+C57 p12v_a 0 1e-07
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C69 0 m4v_a 1e-07
+C70 p12v_a 0 1e-07
+C72 0 m4v_a 1e-07
+C79 p12v_a 0 1e-07
+C80 p12v_a 0 1e-07
+C81 0 m4v_a 1e-07
+C82 0 m4v_a 1e-06
+C83 p12v_a 0 1e-06
+C84 0 m4v_a 1e-07
+R69 ldo_out m4v_a 1300
+* one rail is present, the other one has no converter; the amplifiers
+* between the two rails draw their supply current through both
+Vm4 m4v_a 0 PWL(0 0 2m -4)
+Bamp p12v_a m4v_a I = 0.00506*tanh(max(v(p12v_a,m4v_a), 0)/3)
+Vldo ldo_out 0 0
+Rp12 p12v_a 0 100meg
+Rm4 m4v_a 0 100meg
+.options temp=27
+.control
+save p12v_a m4v_a @dd8[id] @dd9[id]
+tran 20u 0.03
+.endc
+.end

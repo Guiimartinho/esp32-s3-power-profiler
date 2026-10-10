@@ -1,0 +1,357 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "monitor-channels",
+ "title": "Monitor channels at rest: scale, tolerance, input leakage, VIN at -20 V and +20 V",
+ "covers": "section 4.2 (D-80), rules F-11, F-12, F-26 and F-28, section 16",
+ "summary": "Every channel of the monitor converter is read at rest. The sources of the eight channels are ideal; the dividers, the filter capacitors, the temperature sensor and the inputs of the converter come from the schematic. The voltage at each converter input is compared with the scale of the specification. The run is repeated with the resistors at the limits of their tolerance, with the input of the module as the supply (the status line low), with the leakage of the converter inputs at the limit of the datasheet in either direction, with VIN at -20 V and +20 V, and at -20 C and 100 C for the temperature channel.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "scale_ch0",
+   "label": "Channel 0, ladder output: scale at the converter input",
+   "value": 0.4545454,
+   "unit": "",
+   "expected": 0.4545,
+   "low": 0.453591,
+   "high": 0.455409,
+   "source": "section 4.2, table of the channels (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scale_ch1",
+   "label": "Channel 1, VIN: scale at the converter input",
+   "value": 0.02272728,
+   "unit": "",
+   "expected": 0.02272727,
+   "low": 0.02268182,
+   "high": 0.02277273,
+   "source": "section 4.2, table of the channels (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scale_ch2",
+   "label": "Channel 2, 5 V rail, USB-C in use: scale at the converter input",
+   "value": 0.4545454,
+   "unit": "",
+   "expected": 0.4545,
+   "low": 0.453591,
+   "high": 0.455409,
+   "source": "section 4.2, table of the channels (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scale_ch6",
+   "label": "Channel 6, +12 V_A: scale at the converter input",
+   "value": 0.1754386,
+   "unit": "",
+   "expected": 0.1754,
+   "low": 0.1750492,
+   "high": 0.1757508,
+   "source": "section 4.2, table of the channels (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scale_ch3",
+   "label": "Channel 3, CC1 at 0.92 V: converter input",
+   "value": 0.92,
+   "unit": "V",
+   "expected": 0.92,
+   "low": 0.91816,
+   "high": 0.92184,
+   "source": "section 4.2: times 1 behind 10 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "ch7_nominal",
+   "label": "Channel 7, -4 V_A at -4.00 V: converter input",
+   "value": 0.3333335,
+   "unit": "V",
+   "expected": 0.335,
+   "low": 0.33165,
+   "high": 0.33835,
+   "source": "section 4.2: 0.333 x V + 1.667 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "ch5_room",
+   "label": "Channel 5, temperature sensor at 27 C: converter input",
+   "value": 0.77,
+   "unit": "V",
+   "expected": 0.77,
+   "low": 0.7623,
+   "high": 0.7777,
+   "source": "Microchip DS20001942L: 500 mV and 10 mV per kelvin",
+   "verdict": "pass"
+  },
+  {
+   "key": "scale_ch2_module",
+   "label": "Channel 2 with the input of the module in use: scale",
+   "value": 0.2523905,
+   "unit": "",
+   "expected": 0.2524,
+   "low": 0.2518952,
+   "high": 0.2529048,
+   "source": "section 4.2 and rule F-11 (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "band_usbc_low",
+   "label": "Channel 2, USB-C in use, rail at 4.25 V, resistors at their limits: lowest reading",
+   "value": 1.910763,
+   "unit": "V",
+   "expected": 1.93,
+   "low": 1.67,
+   "high": null,
+   "source": "section 4.2 and rule F-11: band 1.93 V to 2.50 V, separated at 1.67 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "band_usbc_high",
+   "label": "Channel 2, USB-C in use, rail at 5.50 V, resistors at their limits: highest reading",
+   "value": 2.527297,
+   "unit": "V",
+   "expected": 2.5,
+   "low": null,
+   "high": 2.5,
+   "source": "section 4.2: band up to 2.50 V; the converter reads up to 2.5 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "band_module_high",
+   "label": "Channel 2, input of the module in use, rail at 5.50 V: highest reading",
+   "value": 1.409007,
+   "unit": "V",
+   "expected": 1.39,
+   "low": null,
+   "high": 1.67,
+   "source": "section 4.2 and rule F-11: band 1.07 V to 1.39 V, separated at 1.67 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "band_module_low",
+   "label": "Channel 2, input of the module in use, rail at 4.25 V: lowest reading",
+   "value": 1.0567,
+   "unit": "V",
+   "expected": 1.07,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: band from 1.07 V",
+   "verdict": "info"
+  },
+  {
+   "key": "tolerance_ch0",
+   "label": "Channel 0, ladder output: largest change of the input with resistors at 1 %",
+   "value": 1.091902,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: the scale factors are calculated from nominal values",
+   "verdict": "info"
+  },
+  {
+   "key": "tolerance_ch1",
+   "label": "Channel 1, VIN: largest change of the input with resistors at 1 %",
+   "value": 1.973382,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: the scale factors are calculated from nominal values",
+   "verdict": "info"
+  },
+  {
+   "key": "tolerance_ch2",
+   "label": "Channel 2, 5 V rail: largest change of the input with resistors at 1 %",
+   "value": 1.091902,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: the scale factors are calculated from nominal values",
+   "verdict": "info"
+  },
+  {
+   "key": "tolerance_ch6",
+   "label": "Channel 6, +12 V_A: largest change of the input with resistors at 1 %",
+   "value": 1.659898,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: the scale factors are calculated from nominal values",
+   "verdict": "info"
+  },
+  {
+   "key": "tolerance_ch7",
+   "label": "Channel 7, -4 V_A: largest change of the input with resistors at 1 %",
+   "value": 8.695646,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: the scale factors are calculated from nominal values",
+   "verdict": "info"
+  },
+  {
+   "key": "leakage_ch0",
+   "label": "Channel 0, ladder output: error of the reading with 1 uA of input leakage",
+   "value": 0.120012,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "rule F-28: channel 0 within 100 mV of the set-point; Microchip DS21298E, page 3: 1 uA at the most, 1 nA typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "leakage_ch1",
+   "label": "Channel 1, VIN: error of the reading with 1 uA of input leakage",
+   "value": 0.43,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.13,
+   "source": "rule F-26: a true 0.8 V may read 0.67 V before calibration; Microchip DS21298E, page 3: 1 uA at the most, 1 nA typical",
+   "verdict": "fail"
+  },
+  {
+   "key": "leakage_ch2",
+   "label": "Channel 2, 5 V rail: error of the reading with 1 uA of input leakage",
+   "value": 0.120012,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "rule F-12: limits of 4.25 V and 5.50 V; Microchip DS21298E, page 3: 1 uA at the most, 1 nA typical",
+   "verdict": "info"
+  },
+  {
+   "key": "leakage_ch6",
+   "label": "Channel 6, +12 V_A: error of the reading with 1 uA of input leakage",
+   "value": 0.04701034,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.6,
+   "source": "rule F-12: window of 11.4 V to 12.6 V; Microchip DS21298E, page 3: 1 uA at the most, 1 nA typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "leakage_ch7",
+   "label": "Channel 7, -4 V_A: error of the reading with 1 uA of input leakage",
+   "value": 0.2,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "rule F-12: window of -4.3 V to -3.7 V; Microchip DS21298E, page 3: 1 uA at the most, 1 nA typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "vin_minus_on",
+   "label": "VIN at -20 V, converter supplied: voltage at its input",
+   "value": -0.4369461,
+   "unit": "V",
+   "expected": -0.4545455,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "section 16: within 0.5 V of ground with -20 V and +20 V at VIN (rating 0.6 V beyond the rails, datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vin_minus_off",
+   "label": "VIN at -20 V, converter without supply: voltage at its input",
+   "value": -0.4369461,
+   "unit": "V",
+   "expected": -0.4545455,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "section 16: within 0.5 V of ground with -20 V and +20 V at VIN (rating 0.6 V beyond the rails, datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vin_plus_on",
+   "label": "VIN at +20 V, converter supplied: voltage at its input",
+   "value": 0.4545455,
+   "unit": "V",
+   "expected": 0.4545455,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "section 16: within 0.5 V of ground with -20 V and +20 V at VIN (rating 0.6 V beyond the rails, datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vin_plus_off",
+   "label": "VIN at +20 V, converter without supply: voltage at its input",
+   "value": 0.4369461,
+   "unit": "V",
+   "expected": 0.4545455,
+   "low": -0.5,
+   "high": 0.5,
+   "source": "section 16: within 0.5 V of ground with -20 V and +20 V at VIN (rating 0.6 V beyond the rails, datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "ch5_m20c",
+   "label": "Channel 5 at -20 C: converter input",
+   "value": 0.3,
+   "unit": "V",
+   "expected": 0.3,
+   "low": 0.297,
+   "high": 0.303,
+   "source": "rule F-12: channel 5 between 0.3 V and 1.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "ch5_100c",
+   "label": "Channel 5 at 100 C: converter input",
+   "value": 1.5,
+   "unit": "V",
+   "expected": 1.5,
+   "low": 1.485,
+   "high": 1.515,
+   "source": "rule F-12: channel 5 between 0.3 V and 1.5 V",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "vin",
+   "Channel 1: converter input against the voltage at VIN, converter supplied",
+   "monitor-channels.vin.png"
+  ]
+ ],
+ "notes": [
+  "The converter model has the input structure of the datasheet and no error of its own: offset 3 LSB, gain 5 LSB and linearity 1 LSB at the most add to every figure here.",
+  "The leakage of an analog input is 1 nA typical and 1 uA at the most (datasheet). The specification does not name it. At the limit it shifts channel 0 by more than the 100 mV of rule F-28 and channel 1 by more than the allowance of rule F-26, through the 54.5 kohm and 9.8 kohm of their dividers; at the typical value the shift is a thousand times smaller. Rule F-26 stores the offset of channel 1 at calibration; no rule does so for channel 0.",
+  "With VIN at +20 V or -20 V the diodes of the converter input start to conduct a few microamperes and hold the input at about 0.42 V: the rating of 0.6 V is kept, and a current flows into the substrate or the supply of the converter that the datasheet does not rate.",
+  "The CC pins and the status line are ideal sources; the resistors of the USB-C receptacle and the multiplexer are not in this circuit."
+ ],
+ "models": [
+  [
+   "U15",
+   "DIGITAL_INPUT_PIN",
+   "written here"
+  ],
+  [
+   "U39",
+   "DIGITAL_MCP9700A",
+   "written here"
+  ],
+  [
+   "U40",
+   "DIGITAL_MCP3208",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "monitor-channels.nominal.cir"
+ ],
+ "format": 1
+}

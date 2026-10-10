@@ -1,0 +1,468 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "ring",
+ "title": "Ampere mode: a load step to 1 A rings on the supply leads against the capacitor at the load",
+ "covers": "sections 4.4 and 4.9 (ampere mode with long supply leads; 100 uF at the VIN terminals)",
+ "summary": "Ampere mode runs on 5 V behind supply leads and the load steps from 10 mA to 1 A. The load has a capacitor beside it, so the step is first served by that capacitor and the current in the shunt then rings up on the supply leads and passes the load current. The run measures for how long the current in the 0.1 ohm shunt stays above the over-current level without interruption: the trip acts when that lasts 12 us. It is repeated with 100 uF across the VIN terminals, which the user documentation asks for with long leads. Range 3 is held from the start, so this is the part of the event that the leads cause by themselves: the recharge of the capacitor after a range change, which the figures of the specification include, is not in it.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "held_3uh_100uf",
+   "label": "Longest time above 1.15 A in the shunt: 3 uH of leads, 100 uF at the load",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the trip acts after 12 us; section 4.4 states 12 us to 29 us for the whole event, with the range change",
+   "verdict": "info"
+  },
+  {
+   "key": "held_low_3uh_100uf",
+   "label": "Longest time above the lowest level of 1.114 A: 3 uH of leads, 100 uF at the load",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_3uh_100uf",
+   "label": "Largest current in the shunt: 3 uH of leads, 100 uF at the load",
+   "value": 1.011794,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_1uh_10uf",
+   "label": "Longest time above 1.15 A in the shunt: 1 uH of leads, 10 uF at the load",
+   "value": 7.128799e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the trip acts after 12 us; section 4.4 states 12 us to 29 us for the whole event, with the range change",
+   "verdict": "info"
+  },
+  {
+   "key": "held_low_1uh_10uf",
+   "label": "Longest time above the lowest level of 1.114 A: 1 uH of leads, 10 uF at the load",
+   "value": 8.645723e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_1uh_10uf",
+   "label": "Largest current in the shunt: 1 uH of leads, 10 uF at the load",
+   "value": 1.237856,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_1uh_100uf",
+   "label": "Longest time above 1.15 A in the shunt: 1 uH of leads, 100 uF at the load",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the trip acts after 12 us; section 4.4 states 12 us to 29 us for the whole event, with the range change",
+   "verdict": "info"
+  },
+  {
+   "key": "held_low_1uh_100uf",
+   "label": "Longest time above the lowest level of 1.114 A: 1 uH of leads, 100 uF at the load",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_1uh_100uf",
+   "label": "Largest current in the shunt: 1 uH of leads, 100 uF at the load",
+   "value": 0.9998947,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_2uh_47uf",
+   "label": "Longest time above 1.15 A in the shunt: 2 uH of leads, 47 uF at the load",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the trip acts after 12 us; section 4.4 states 12 us to 29 us for the whole event, with the range change",
+   "verdict": "info"
+  },
+  {
+   "key": "held_low_2uh_47uf",
+   "label": "Longest time above the lowest level of 1.114 A: 2 uH of leads, 47 uF at the load",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_2uh_47uf",
+   "label": "Largest current in the shunt: 2 uH of leads, 47 uF at the load",
+   "value": 1.100187,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_3uh_10uf",
+   "label": "Longest time above 1.15 A in the shunt: 3 uH of leads, 10 uF at the load",
+   "value": 1.336985e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the trip acts after 12 us; section 4.4 states 12 us to 29 us for the whole event, with the range change",
+   "verdict": "info"
+  },
+  {
+   "key": "held_low_3uh_10uf",
+   "label": "Longest time above the lowest level of 1.114 A: 3 uH of leads, 10 uF at the load",
+   "value": 1.56583e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_3uh_10uf",
+   "label": "Largest current in the shunt: 3 uH of leads, 10 uF at the load",
+   "value": 1.262031,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_3uh_100uf_terminal",
+   "label": "Longest time above 1.15 A in the shunt: 3 uH of leads, 100 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "rule F-18: the trip never acts before 10 us (section 4.4 states 2.1 us at the most for the whole event, with the range change)",
+   "verdict": "pass"
+  },
+  {
+   "key": "held_low_3uh_100uf_terminal",
+   "label": "Longest time above the lowest level of 1.114 A: 3 uH of leads, 100 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_3uh_100uf_terminal",
+   "label": "Largest current in the shunt: 3 uH of leads, 100 uF at the load, 100 uF at the VIN terminals",
+   "value": 1.013074,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_1uh_10uf_terminal",
+   "label": "Longest time above 1.15 A in the shunt: 1 uH of leads, 10 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "rule F-18: the trip never acts before 10 us (section 4.4 states 2.1 us at the most for the whole event, with the range change)",
+   "verdict": "pass"
+  },
+  {
+   "key": "held_low_1uh_10uf_terminal",
+   "label": "Longest time above the lowest level of 1.114 A: 1 uH of leads, 10 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_1uh_10uf_terminal",
+   "label": "Largest current in the shunt: 1 uH of leads, 10 uF at the load, 100 uF at the VIN terminals",
+   "value": 1.024035,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_1uh_100uf_terminal",
+   "label": "Longest time above 1.15 A in the shunt: 1 uH of leads, 100 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "rule F-18: the trip never acts before 10 us (section 4.4 states 2.1 us at the most for the whole event, with the range change)",
+   "verdict": "pass"
+  },
+  {
+   "key": "held_low_1uh_100uf_terminal",
+   "label": "Longest time above the lowest level of 1.114 A: 1 uH of leads, 100 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_1uh_100uf_terminal",
+   "label": "Largest current in the shunt: 1 uH of leads, 100 uF at the load, 100 uF at the VIN terminals",
+   "value": 1.006174,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "held_3uh_10uf_terminal",
+   "label": "Longest time above 1.15 A in the shunt: 3 uH of leads, 10 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "rule F-18: the trip never acts before 10 us (section 4.4 states 2.1 us at the most for the whole event, with the range change)",
+   "verdict": "pass"
+  },
+  {
+   "key": "held_low_3uh_10uf_terminal",
+   "label": "Longest time above the lowest level of 1.114 A: 3 uH of leads, 10 uF at the load, 100 uF at the VIN terminals",
+   "value": 0.0,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_3uh_10uf_terminal",
+   "label": "Largest current in the shunt: 3 uH of leads, 10 uF at the load, 100 uF at the VIN terminals",
+   "value": 1.015279,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The load is a current sink that steps within 100 ns beside its capacitor, which has 20 mohm in series; the supply is a voltage source behind its leads, 40 mohm per uH. These resistances set the damping and are assumptions. The capacitor across the VIN terminals has 50 mohm in series (assumption).",
+  "The trip itself is not in the circuit: the figure is the time the over-current comparator would see, without the delay of the amplifier chain.",
+  "The range is held at range 3. In the instrument such a step starts in a lower range: the capacitor at the load sags until the jump comparator has selected range 3, and its recharge then adds to the current in the shunt. The 12 us to 29 us and the 2.1 us of the specification are figures of that whole event, which needs the range logic in the loop and belongs to its block. With the range held, the leads alone keep the current above the level for 7 us to 14 us with 10 uF at the load and not at all with 47 uF or more.",
+  "The output pair is the part of the schematic with the model of its block."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

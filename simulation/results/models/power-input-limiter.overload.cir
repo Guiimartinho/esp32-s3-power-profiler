@@ -1,0 +1,17 @@
+* Limiter: overload and short circuit
+.include "../../models/power_input.lib"
+XU4 in out en ovcsel ilm dvdt flt 0 PWRIN_TPS259621
+Rflt flt 0 1e9
+Rdv dvdt 0 1e12
+Vin in 0 PWL(0 0 100u 12)
+Ven en 0 PWL(0 0 200u 0 201u 3.3)
+Rilm ilm 0 453
+Rsel ovcsel 0 1e12
+Cout out 0 1u
+Rout out 0 8.33
+Bstep out 0 I = v(out)*(1/4.54 - 1/8.33)*pwrin_hi((time - 2m)/0.2u)
+Bshort out 0 I = v(out)*50*pwrin_hi((time - 3m)/0.1u)
+.control
+tran 1e-07 0.0033 0.0019 1e-07 uic
+.endc
+.end

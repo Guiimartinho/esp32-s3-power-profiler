@@ -1,0 +1,397 @@
+* Models of the source meter block (sheet "Source Meter"), written for this
+* project. None of these is a model of a manufacturer. Every figure names
+* its datasheet and page; a figure that is an assumption says so. The
+* benches of the block "models" (source-meter-*) put each model into the
+* test circuit of its datasheet.
+
+* ---------------------------------------------------------------------
+* LT3080 (U18), adjustable 1.1 A low dropout regulator.
+* Analog Devices datasheet LT3080 Rev. E. The manufacturer publishes no
+* model outside its own simulator.
+*   Pins: IN, VCONTROL, SET, OUT (DFN: 7 and 8, 5, 4, 1 to 3 and the pad).
+* What it does:
+*   SET current 10 uA from VCONTROL (page 4: 9.90 / 10 / 10.10 uA), with
+*   its noise of 3.2 pA/rtHz (page 7, curve G26).
+*   SET clamped to OUT by two diodes (page 4, note 7). Their forward
+*   voltage and series resistance are assumptions.
+*   Quiescent current delivered to the output (page 4, note 3): 0.30 mA at
+*   1.5 V and 0.54 mA at 36 V between VCONTROL and OUT (page 5, curve G08).
+*   Pass transistor: an NPN between IN and OUT. Its base current is fitted
+*   to the VCONTROL pin current of page 7, curve G20 (5.5 mA at 0.2 A,
+*   12.5 mA at 0.6 A, 17.5 mA at 1.0 A) and of page 4 (4 mA at 100 mA,
+*   17 mA at 1.1 A, typical): 15.7 mA x (I / 1 A)^0.63 plus I / 1000.
+*   Dropout at the IN pin: the saturation of that transistor behind rc and
+*   re, and the offset voff. With rc = 0.11 ohm and voff = 25 mV the model
+*   needs 76 mV at 0.1 A and 349 mV at 1.1 A, between the typical values
+*   of page 4 (100 mV and 350 mV) and the typical curves of pages 5 and 6
+*   (70 mV and 318 mV at 25 C). With voff = 0.147 and rc = 0.134 it sits on
+*   the guaranteed limits of page 4, 200 mV at 100 mA and 500 mV at 1.1 A.
+*   Dropout at the VCONTROL pin: base-emitter voltage plus the head room of
+*   the driver, vhead. Page 4: 1.2 V at 100 mA, 1.35 V typical and 1.6 V at
+*   the most at 1.1 A; the model 1.20 V and 1.36 V.
+*   Current limit: the base drive ends at ibmax; 20.1 mA gives 1.40 A (page
+*   4, typical). With ibmax = 17.3 mA it is the least limit, 1.1 A.
+*   Error amplifier: an integrator with a proportional path, a delay pole
+*   and a second pole, and a bound on the correction rate. It drives the
+*   base through rdrv; the emitter resistance re closes the loop to OUT.
+*   DC gain a0 = 620: the offset moves by 0.60 mV from 1 mA to 1.1 A (page
+*   4: 0.6 mV typical, 1.3 mV at the most).
+*   Noise of the error amplifier 125 nV/rtHz, flat from 10 Hz to 100 kHz
+*   (page 7, curve G26; 40 uV RMS in that band, page 4).
+* How the loop was fitted. The datasheet gives no loop gain. The six
+* values fu, kp, fd, fd2, re and rdrv were chosen by a search so that the
+* model follows three load steps of page 6 at 1.5 V with 3 V on both
+* supply pins:
+*   curve G16, 0.1 A to 1.1 A and back with 10 uF: datasheet -95 mV and
+*   +88 mV, model -79 mV and +61 mV;
+*   curve G15, 50 mA to 250 mA and back with 2.2 uF: datasheet -48 mV and
+*   +38 mV, model -39 mV and +32 mV;
+*   curve G15, the same step with 10 uF: datasheet -12 mV and +8 mV, model
+*   -22 mV and +18 mV, which is the step the model does not follow;
+* and the closed-loop response from SET to OUT of page 8, curve G28, whose
+* output capacitor the datasheet does not state (2.2 uF assumed): at 1.1 A
+* a peak of 3 dB near 500 kHz and 3 dB down near 700 kHz, model 2.0 dB and
+* 700 kHz; at 100 mA the datasheet shows no peak and 3 dB down near
+* 300 kHz, the model peaks by 2.9 dB and is 3 dB down at 420 kHz.
+* What follows from that fit and is NOT a datasheet value: the phase
+* margin of the loop. In the model it is 42 to 51 degrees at 100 mA and at
+* 1.1 A with 2.2 uF and with 22 uF, and it falls with the load current
+* (19 degrees at 4 mA with 22 uF), because the emitter resistance of the
+* pass transistor rises as the current falls. The datasheet shows no step
+* below 50 mA and no capacitor above 10 uF: the model extrapolates there.
+* What it leaves out: the thermal limit, the fold-back of the current limit
+* above 6 V between IN and OUT (page 6, curve G14), temperature (everything
+* is at 27 C), the 1/f part of the noise. The rejection of ripple on the
+* IN pin is not fitted: the datasheet shows 82 dB at low frequency, 45 dB
+* at 100 kHz and 23 dB at 1 MHz at 1.1 A (page 7, curve G24), the model
+* rejects more, so no ripple figure at the output may be taken from it.
+* The reverse gain of the pass transistor (BR = 2) is an assumption: it
+* decides how the IN pin is fed from VCONTROL while IN has no supply.
+* The internal states are referred to node 0.
+*   vac: amplitude of a source in series with the sense input of the error
+*   amplifier, for loop gain runs: the loop gain is -v(out)/v(sns).
+.subckt LT3080 in vctl set out
++ params: iset=10u inref=3.2p iq=0.29m rc=0.11 re=60m voff=25m ibmax=20.1m
++ fu=150k kp=4 fd=150k fd2=1.5meg esat=30m a0=620 vb0=0.62 vlo=0.3 vhi=1.3
++ rdrv=6 isink=2m vhead=0.52 en=125n vos=0 vac=0
+* SET current from the control supply, with its noise as the short-circuit
+* noise current of a resistor
+Bset vctl set I = {iset}*0.5*(1 + tanh((v(vctl,set) - 0.8)/0.1))
+Vns ns 0 0
+Rns ns 0 {1.6564e-20/(inref*inref)}
+Fns vctl set Vns 1
+* SET clamped to OUT
+Dc1 set out LT3080_CLAMP
+Dc2 out set LT3080_CLAMP
+* quiescent current, delivered to the output
+Bq vctl out I = ({iq} + 7u*v(vctl,out))*0.5*(1 + tanh((v(vctl,out) - 0.9)/0.15))
+* error amplifier: input with its noise, delay pole, second pole
+Rnz nz 0 {en*en/1.6564e-20}
+Vprobe sns out dc 0 ac {vac}
+Berr err 0 V = v(set) - v(sns) + {vos} + v(nz)
+Rd1 err e1 1k
+Cd1 e1 0 {1/(6.2832*fd*1k)}
+Ed2 e1b 0 e1 0 1
+Rd2 e1b e2 1k
+Cd2 e2 0 {1/(6.2832*fd2*1k)}
+* integrator with a bounded correction rate; at rest it sits vb0 above SET
+.param gmx={6.2832*fu*1n}
+.param isat={6.2832*fu*1n*esat}
+Bgm 0 x I = {isat}*tanh(v(e2)/{esat})
+Cx x 0 1n
+Bxref xref 0 V = v(set) + {vb0}
+Rx x xref {a0/gmx}
+* the integrator may not run away while the output cannot follow
+Bwind x 0 I = max(v(x) - v(out) - {vhi}, 0) + min(v(x) - v(out) - {vlo}, 0)
+* base voltage asked for: integrator plus proportional path
+Bcmd cmd 0 V = v(x) + {kp*esat}*tanh(v(e2)/{esat})
+* driver: from the control supply into the base, bounded, with head room
+Bdrv vctl b I = max(min((v(cmd) - v(b))/{rdrv}, {ibmax}), {-isink})*0.5*(1 + tanh((v(vctl,b) - {vhead} + 0.05)/0.02))
+Rbl b out 1meg
+* pass transistor between IN and OUT
+Vic in c0 0
+Boff c0 c1 V = {voff}*tanh(i(Vic)/0.01)
+Rc c1 c {rc}
+Q1 c b e LT3080_PASS
+Re e out {re}
+.ends LT3080
+.model LT3080_PASS NPN(IS=4e-14 BF=1000 ISE=5.9e-11 NE=1.59 BR=2 VAF=100 RB=0.5
++ CJE=400p CJC=200p TF=0.3n)
+.model LT3080_CLAMP D(IS=1e-14 N=1 RS=20 CJO=2p)
+
+* ---------------------------------------------------------------------
+* TPS63020 (U16), buck-boost converter, averaged over the switching period.
+* Texas Instruments datasheet SLVS916I and application report SLVA726.
+*   Pins: VIN, VINA, EN, PS/SYNC, FB, VOUT, L1, L2, PG, GND, PGND.
+* What it does:
+*   The inductor of the circuit stands between the pins L1 and L2. The
+*   model drives each of them with the mean voltage of its half bridge,
+*   behind 50 mohm per switch (SLVS916I page 6), and takes the mean
+*   currents from VIN and into VOUT. One duty variable runs from 0 to 1 in
+*   step-down operation and from 1 to 2 in step-up operation.
+*   Feedback reference 0.5 V (page 6: 495 / 500 / 505 mV in forced PWM).
+*   Average current limit 4 A (page 6: 3.5 / 4.0 / 4.5 A). It starts at
+*   0.4 A and is at its value at about 1.2 V of output, at a start and at
+*   a short circuit (page 10, 7.4.1); the straight line between the two is
+*   an assumption.
+*   Negative current limit 0.7 A: in forced PWM the part takes current
+*   from its output and returns it to its input (SLVA726 page 3: 0.6 A to
+*   0.8 A, typical). It holds in every state, the start included: kneg
+*   lifts the duty variable by 20 per ampere below the limit, so the
+*   current ends within 0.1 A of it.
+*   Least duty cycle in step-down operation 20 % (page 6). What the part
+*   does when its loop asks for less is not stated: the model holds 20 %
+*   while the current is below its limit.
+*   Enable threshold 0.8 V (page 6: low below 0.4 V, high above 1.2 V),
+*   lock-out of the control supply 1.6 V (page 6: 1.5 V falling, 0.2 V of
+*   hysteresis). VINA is fed from VIN inside the part (page 8, block
+*   diagram); the 100 ohm of that path are an assumption.
+*   Over-voltage: the output is held at vovp (page 6: 5.5 V to 7 V; 6.2 V
+*   assumed).
+*   Losses: the switch resistances; a share that follows the square of the
+*   voltage, gsw, and one that follows the inductor current, ksw, both
+*   fitted to page 18, figure 9 (forced PWM, 3.6 V in: 40 % at 10 mA, 91 %
+*   to 92 % at 1 A) and taken to hold at 5 V in.
+*   The current loop is proportional; rloss, the two switches and the
+*   inductor, is fed forward so that the current follows what is asked.
+* The loop. Average current mode control (page 11). The datasheet gives no
+* value of the loop, so its two gains are fitted to a load step of 0.5 A
+* to 1.5 A at 3.3 V from 4.2 V with three times 22 uF (40 uF assumed
+* left): the datasheet shows about -75 mV to -115 mV (page 20, figures 21
+* and 22), the transient model of the manufacturer -110 mV after 10.7 us
+* and back within 10 mV after 33 us, this model -108 mV after 9.3 us and
+* 35 us. The static droop of 4.4 mV per ampere at 3.3 V is fitted to the
+* same run of the model of the manufacturer (4.5 mV). The band of the
+* current loop, 100 kHz, is an assumption. In step-up operation the model
+* dips further than the datasheet shows: -150 mV from 2.4 V.
+* Soft start: the duty variable rises behind a time constant, tss, fitted
+* to page 20, figure 25 (3.3 V after about 250 us from 4.2 V; the model of
+* the manufacturer 133 us, this model 160 us).
+*   vac: amplitude of a source in series with the feedback input, for
+*   loop gain runs: the loop gain is -v(fb)/v(fbs).
+* What it leaves out: the switching itself, so no ripple at 2.4 MHz and no
+* current ripple in the inductor; the transitions between step-down and
+* step-up operation; the power-save mode (the pin PS/SYNC is ignored: the
+* schematic holds it high); the reduced current limit below 2.3 V of
+* input; the thermal limit; the power-good output (left open); the body
+* diodes while the part is disabled.
+* Where it differs from the transient model of the manufacturer, in the
+* runs that both models did (bench source_meter/pre-regulator, with the
+* feedback path of the carrier board, and the qualification bench):
+*   A start on a charged output. This model starts its duty cycle from
+*   zero whatever stands on the output: it takes charged capacitors down
+*   with its negative current limit until the duty cycle has caught up,
+*   and returns that current to the input (capacitors at 5.45 V: down to
+*   3.5 V, up to 0.7 A returned for 0.15 ms). The model of the
+*   manufacturer leaves them charged and returns nothing. The datasheet
+*   does not say what the part does.
+*   The start. Only its length is fitted. This model rises in two steps
+*   with a pause near 1 V of output, where its current limit folds; the
+*   model of the manufacturer waits 50 us and rises in one sweep. The
+*   overshoot at the end: +8 mV here and +169 mV there in the application
+*   circuit; +40 mV and +136 mV on the carrier board at 3.83 V, +57 mV
+*   and +211 mV at 1.44 V.
+*   The load step at 1.44 V of output (0.8 V of regulator output), 10 mA
+*   to 1 A: a dip of 109 mV here and 138 mV there, a recovery that
+*   overshoots by 6 mV here and 38 mV there, a static fall of 4.7 mV here
+*   and 9.5 mV there. At 3.83 V the two agree: 103 mV, 2 mV and 5 mV,
+*   3.2 mV and 2.8 mV; so they do at 4.97 V and at 5.45 V, with dips of
+*   89 mV and 82 mV in both. This model is fitted at 3.3 V; it is
+*   optimistic at the low end of the output range.
+*   The current taken back from the output: the model of the manufacturer
+*   returned no more than 28 mA to 29 mA to its input in every run made
+*   (mean inductor current -0.04 A at 3.83 V, -0.09 A at 1.44 V), and
+*   nothing at 4.97 V and at 5.45 V; this model lets the inductor current
+*   fall to -0.7 A, as SLVA726 states.
+*   After a load release both return the same charge to the input, 2.0 uC
+*   from 0.83 A at 3.83 V, this model in 33 us with up to 0.53 W, that
+*   model in 83 us with up to 0.15 W.
+.subckt TPS63020_AVG vin vina en ps fb vout l1 l2 pg gnd pgnd
++ params: vref=0.5 ilim=4 ilim0=0.4 irev=0.7 rsw=50m dmin=0.2 dbmax=0.8
++ fc=28k cref=40u bref=0.1525 fzr=2.5 gdc=1457 fi=100k lref=1.5u
++ gsw=3.3m ksw=23m ven=0.8 vuvlo=1.6 rvina=100 vovp=6.2 tss=210u rloss=114m
++ kneg=20 vac=0
+.param kpv={6.2832*fc*cref/bref}
+.param kiv={6.2832*fc*cref/bref*6.2832*fc/fzr}
+.param kpi={6.2832*fi*lref}
+Rvina vin vina {rvina}
+Rps ps gnd 1e9
+Rpg pg gnd 1e9
+Rfb fb gnd 1e10
+* enabled: the EN pin high and the control supply above its lock-out
+Ben en1 0 V = 0.25*(1 + tanh((v(en,gnd) - {ven})/0.05))*(1 + tanh((v(vina,gnd) - {vuvlo})/0.05))
+Ren en1 enf 1k
+Cen enf 0 10n
+* the current limit follows the output below 1.2 V
+.param ilimrise={ilim - ilim0}
+Blim lim 0 V = {ilim0} + {ilimrise}*min(1, max(0, v(vout,pgnd))/1.2)
+* voltage loop: the inductor current asked for, in amperes
+Vprobe fbs fb dc 0 ac {vac}
+Berr ev 0 V = v(enf)*({vref} - v(fbs,gnd))
+Bint 0 xi I = {kiv*1u}*v(ev)*0.5*(1 + tanh((v(ss) - 0.77 - v(u))/0.02))
+Cint xi 0 1u
+Rint xi 0 {gdc/(kiv*1u)}
+Bwi xi 0 I = 10*(max(v(xi) - v(lim), 0) + min(v(xi) + {irev}, 0)) + 10*(1 - v(enf))*v(xi)
+Bcmd icmd 0 V = min(min(v(lim), max({-irev}, {kpv}*v(ev) + v(xi))), 20*({vovp} - v(vout,pgnd)))
+* current loop: the duty variable, with the feed-forward of both voltages
+Vsl sw1 sw1a 0
+Bff uff 0 V = min(max(v(vout,pgnd), 0)/max(v(vin,pgnd), 1), 1) + max(1 - max(v(vin,pgnd), 1)/max(v(vout,pgnd), 0.5), 0)
+Bu u 0 V = v(uff) + ({kpi}*(v(icmd) - i(Vsl)) + {rloss}*v(icmd))/max(v(vin,pgnd), 1)
+* soft start: the duty variable may rise only as fast as this node. The
+* negative current limit lifts it in every state, the start included: a
+* converter that is enabled on a charged output takes no more than irev
+Ess ss1 0 enf 0 2.95
+Rss ss1 ss 1k
+Css ss 0 {tss/1k}
+Bus us 0 V = min(v(u), v(ss) - 0.75) + {kneg}*max({-irev} - i(Vsl), 0)
+* the least duty cycle holds only while the current is below its limit
+Bd1 d1 0 V = min(max(v(us), {dmin}*0.5*(1 - tanh((i(Vsl) - v(lim))/0.05))), 1)
+Bd2 d2 0 V = min(max(v(us) - 1, 0), {dbmax})
+* power stage: the mean voltage of each half bridge behind its switch
+Bl1 sw1 pgnd V = v(enf)*v(d1)*v(vin,pgnd)
+Rs1 sw1a l1 {rsw}
+Bl2 sw2 pgnd V = v(enf)*(1 - v(d2))*v(vout,pgnd)
+Rs2 l2 sw2 {rsw}
+Bout pgnd vout I = v(enf)*(1 - v(d2))*i(Vsl)
+Bin vin pgnd I = v(enf)*(v(d1)*i(Vsl) + ({gsw}*max(v(vin,pgnd), v(vout,pgnd)) + {ksw}*abs(i(Vsl)))*max(v(vin,pgnd), v(vout,pgnd))/max(v(vin,pgnd), 1))
+Rgnd gnd pgnd 1m
+.ends TPS63020_AVG
+
+* ---------------------------------------------------------------------
+* The amplifier U19 with the sources that measure its loop: an OPA365 of
+* the shared amplifier file, or the model of the manufacturer of the same
+* name, with nothing opened.
+*   vac   amplitude of the voltage injected in series with the output
+*   iac   amplitude of the current injected into the output pin
+* The node "amp" is the output of the amplifier ahead of the injection.
+.subckt SOURCE_METER_OPA365_PROBE inp inn vp vn out params: vac=0 iac=0
+X1 inp inn vp vn amp OPA365
+Vser amp out dc 0 ac {vac}
+Ishunt 0 out dc 0 ac {iac}
+.ends SOURCE_METER_OPA365_PROBE
+
+* ---------------------------------------------------------------------
+* MCP4921 (U15), 12-bit DAC with a voltage output.
+* Microchip datasheet DS22248A.
+*   Pins: VDD, VREF, VOUT, VSS. The serial interface is not modelled: the
+*   code is a parameter.
+*   code, code1, code2, code3 and t1, t2, t3: the code before t1, from t1,
+*   from t2 and from t3. A code below zero stands for the state after
+*   power-on: output off, 500 kohm to VSS (page 20).
+*   gain: 2 for the frame bit GA = 0, 1 for GA = 1 (pages 19 and 24).
+*   VOUT = VREF x gain x code / 4096 (page 19), with the reference input in
+*   buffered mode: no input current, range 0.04 V to VDD - 0.04 V (page 4).
+*   Output swing 0.01 V to VDD - 0.04 V, slew rate 0.55 V/us, short-circuit
+*   current 15 mA (page 4, typical). The bandwidth of 1 MHz is fitted to
+*   the settling time of page 4: 4.5 us to half a step from one quarter to
+*   three quarters of the range.
+*   Errors, 0 by default: offs in volts (page 4: 0.02 % of the range
+*   typical, 1 % at the most), gerr as a fraction (-0.10 % typical, 1 % at
+*   the most), inl in steps at mid-scale, as a bow (page 3: 2 typical, 12
+*   at the most).
+*   Below 2.0 V of supply the output is off (page 3, power-on reset).
+*   The output resistance of 1 ohm and the pin capacitance of 10 pF are
+*   assumptions: the datasheet gives neither.
+* What it leaves out: the serial interface and the glitch of a code
+* change, the noise (not in the datasheet), the supply current.
+.subckt MCP4921 vdd vref vout vss
++ params: code=0 code1=0 code2=0 code3=0 t1=1e9 t2=1e9 t3=1e9 gain=2
++ offs=0 gerr=0 inl=0 sr=0.55meg fbw=1meg rout=1 isc=15m
+Rvref vref vss 1e12
+.param step1={code1 - code}
+.param step2={code2 - code1}
+.param step3={code3 - code2}
+Bcode cd 0 V = {code} + {step1}*0.5*(1 + tanh((time - {t1})/20n)) + {step2}*0.5*(1 + tanh((time - {t2})/20n)) + {step3}*0.5*(1 + tanh((time - {t3})/20n))
+* active with a code of zero or more and a supply above the reset level
+Bact a1 0 V = 0.25*(1 + tanh((v(cd) + 0.5)/0.05))*(1 + tanh((v(vdd,vss) - 2.0)/0.05))
+Ract a1 act 1k
+Cact act 0 10n
+Bref rb 0 V = min(max(v(vref,vss), 0.04), v(vdd,vss) - 0.04)
+Bx xc 0 V = max(v(cd), 0)/4096
+.param kgain={gain*(1 + gerr)}
+.param kinl={inl*4*gain/4096}
+Bt tgt 0 V = {kgain}*v(rb)*v(xc) + {offs} + {kinl}*v(rb)*v(xc)*(1 - v(xc))
+* output amplifier: one pole with a slew limit, swing inside the supply
+.param gbw={6.2832*fbw*1n}
+.param islew={sr*1n}
+Bs 0 s I = max(min({gbw}*(v(tgt) - v(s)), {islew}), {-islew})
+Cs s 0 1n
+Rs s 0 1e9
+Bo o 0 V = v(vss) + min(max(v(s), 0.01), v(vdd,vss) - 0.04)
+* the stage turns on behind a time constant and off at once
+Bout vdd vout I = v(act)*v(a1)*max(min((v(o) - v(vout))/{rout}, {isc}), {-isc})
+Roff vout vss 500k
+Cpin vout vss 10p
+.ends MCP4921
+
+* ---------------------------------------------------------------------
+* BLM31SN500SN1L (FB1), chip ferrite bead for power lines.
+* Murata reference specification JENF243A-0006Z-01, page 1: 50 ohm +/-25 %
+* at 100 MHz, DC resistance 1.6 mohm at the most (2.1 mohm after the
+* tests), rated 12 A at 85 C.
+*   The specification has no impedance curve. The inductance of 0.2 uH
+*   below the frequency at which the bead turns resistive is an
+*   assumption, a parameter, and swept by the bench of the input filter.
+.subckt BLM31SN500 a b params: rdc=1.6m lb=0.2u rp=50
+Rdc a m {rdc}
+Lb m b {lb}
+Rp m b {rp}
+.ends BLM31SN500
+
+* ---------------------------------------------------------------------
+* XFL4020-152ME (L2), shielded power inductor.
+* Coilcraft document 745-1 of 02/16/17, page 1: 1.5 uH +/-20 %, DC
+* resistance 14.4 mohm typical and 15.8 mohm at the most, self-resonance
+* 59 MHz typical, 10 % less inductance at 4.1 A and 30 % less at 4.6 A.
+*   The capacitance of 4.85 pF puts the resonance at 59 MHz. The parallel
+*   resistance of 10 kohm is an assumption.
+*   Not modelled: the fall of the inductance with the current, the losses
+*   of the core.
+.subckt XFL4020_152 a b params: l=1.5u rdc=14.4m
+L1 a m {l}
+Rdc m b {rdc}
+Cp a b 4.85p
+Rp a b 10k
+.ends XFL4020_152
+
+* ---------------------------------------------------------------------
+* 1N5819HW as the two clamps of the regulator (D11, D12). The same part
+* sits on other sheets, which have models of their own.
+* Diodes Incorporated datasheet DS30217 Rev. 22-2. Page 3, figure 1,
+* typical forward voltage at 25 C: 92 mV at 0.1 mA, 150 mV at 1 mA, 222 mV
+* at 10 mA, 289 mV at 100 mA, about 420 mV at 1 A. Page 2: 0.32 V at the
+* most at 0.1 A and 0.45 V at 1 A; reverse current 10 uA typical and 50 uA
+* at the most at 4 V and 25 C, 2 mA at the most at 4 V and 100 C;
+* capacitance 50 pF typical at 4 V. Page 3, figure 3: about 105 pF at 0 V.
+*   The model gives 88 mV, 150 mV, 213 mV, 284 mV and 423 mV, and 4 uA of
+*   reverse current: no leakage figure may be taken from it.
+*   _HI: the forward voltage at the limits of page 2 (0.32 V at 0.1 A).
+.model SOURCE_METER_1N5819HW D(IS=4u N=1.05 RS=85m CJO=110p VJ=0.4 M=0.33
++ BV=40 IBV=1m)
+.model SOURCE_METER_1N5819HW_HI D(IS=1.1u N=1.05 RS=95m CJO=110p VJ=0.4
++ M=0.33 BV=40 IBV=1m)
+
+* ---------------------------------------------------------------------
+* BSS138 as the gate of the enable line of the converter (Q1). The same
+* part sits on other sheets, which have models of their own.
+* Diodes Incorporated datasheet DS30144 Rev. 25-2. Page 2: threshold 0.5 /
+* 1.2 / 1.5 V at 250 uA, on-resistance 1.4 ohm typical and 3.5 ohm at the
+* most at 10 V and 0.22 A, capacitances 50 pF, 25 pF and 8 pF at the most.
+* Page 3, figure 1, drain current in saturation at 25 C: 0.19 A at 2.5 V,
+* 0.36 A at 3.0 V, 0.545 A at 3.5 V; figure 4: 1.05 V at 250 uA and 1.2 V
+* at 1 mA.
+*   Q1 works as a source follower at a few milliamperes, so the model is
+*   fitted to the threshold and to the current in saturation: 0.19 A,
+*   0.33 A and 0.50 A, 1.09 V at 250 uA, 1.42 ohm at 10 V. It is not fitted
+*   to the on-resistance at low gate voltage: 4.9 ohm at 2.5 V where page
+*   3, figure 5, shows 3.4 ohm.
+*   _LO and _HI: the threshold at the limits of page 2, 0.5 V and 1.5 V.
+.model SOURCE_METER_BSS138 VDMOS (VTO=1.06 KP=0.183 RD=0.4 RS=0.4 RG=10
++ CGS=40p CGDMAX=15p CGDMIN=8p CJO=20p IS=1e-13 N=1.05 LAMBDA=0.02
++ KSUBTHRES=0.05)
+.model SOURCE_METER_BSS138_LO VDMOS (VTO=0.47 KP=0.183 RD=0.4 RS=0.4 RG=10
++ CGS=40p CGDMAX=15p CGDMIN=8p CJO=20p IS=1e-13 N=1.05 LAMBDA=0.02
++ KSUBTHRES=0.05)
+.model SOURCE_METER_BSS138_HI VDMOS (VTO=1.47 KP=0.183 RD=0.4 RS=0.4 RG=10
++ CGS=40p CGDMAX=15p CGDMIN=8p CJO=20p IS=1e-13 N=1.05 LAMBDA=0.02
++ KSUBTHRES=0.05)

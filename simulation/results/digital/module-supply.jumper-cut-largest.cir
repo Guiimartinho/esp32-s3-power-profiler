@@ -1,0 +1,15 @@
+* Cable of the module alone, jumper cut, largest reverse current of D1
+.include "../../models/digital.lib"
+C1 pico_5v 0 1e-07
+XD1 v5 vsys DIGITAL_1N5819HW rleak=87000.0
+R5 pico_5v n_u3_en_uvlo 4530
+R6 n_u3_en_uvlo 0 3010
+XU1 vbus vsys 0 DIGITAL_PICO2_SUPPLY
+R23 v5 0 10000
+* 5 V at VBUS behind the cable; nothing feeds the rail
+Vcable cable 0 5
+Rcable cable vbus 0.2
+.control
+tran 10u 50m
+.endc
+.end

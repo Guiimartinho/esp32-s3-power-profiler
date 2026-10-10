@@ -1,0 +1,12 @@
+* MCP4921: one quarter to three quarters of the range
+.include "../../models/source_meter.lib"
+XU15 vdd vref vout 0 MCP4921 code=1024 code1=3072 t1=2e-06
+* supply and reference as ideal sources
+Vdd vdd 0 5
+Vref vref 0 2.048
+Rl vout 0 5k
+Cl vout 0 100p
+.control
+tran 5n 12u 0 5n
+.endc
+.end

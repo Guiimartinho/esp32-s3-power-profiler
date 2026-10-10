@@ -1,0 +1,275 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "source-meter-tps63020",
+ "title": "TPS63020 model of the source meter against its datasheet",
+ "covers": "the model of the tracking pre-regulator U16 with its inductor L2",
+ "summary": "The converter U16 and its inductor are put in the application circuit of the datasheet. A divider of 1 Mohm over 180 kohm sets 3.28 V. The run starts the converter, steps the load from 0.5 A to 1.5 A and back, and gives the start time, the dip and the load regulation. Runs that end at rest give the efficiency in forced PWM, the current limit above and below 1.2 V of output, and the current that the part takes back when its output is held above the target. With the model of the manufacturer only the first run from 4.2 V is made: it switches at 2.4 MHz and a millisecond takes minutes.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "output_4p2v",
+   "label": "Output from 4.2 V with 1 Mohm over 180 kohm",
+   "value": 3.275662,
+   "unit": "V",
+   "expected": 3.277778,
+   "low": 3.245,
+   "high": 3.310556,
+   "source": "Texas Instruments SLVS916I, page 6: reference 0.5 V, 495 mV to 505 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_dip_4p2v",
+   "label": "Load step of 0.5 A to 1.5 A from 4.2 V: lowest point",
+   "value": -0.1080989,
+   "unit": "V",
+   "expected": -0.1,
+   "low": -0.13,
+   "high": -0.07,
+   "source": "Texas Instruments SLVS916I, page 20, figures 21 and 22: about -75 mV to -115 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_peak_4p2v",
+   "label": "Release of that step from 4.2 V: highest point",
+   "value": 0.1037388,
+   "unit": "V",
+   "expected": 0.1,
+   "low": 0.07,
+   "high": 0.13,
+   "source": "Texas Instruments SLVS916I, page 20, figures 21 and 22",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_regulation_4p2v",
+   "label": "Fall of the output for 1 A more from 4.2 V",
+   "value": 0.00436006,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01638889,
+   "source": "Texas Instruments SLVS916I, page 6: load regulation 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_4p2v",
+   "label": "Start from 4.2 V into 6.6 ohm: 90 % of the output after the enable",
+   "value": 0.000159657,
+   "unit": "s",
+   "expected": 0.00025,
+   "low": 0.0001,
+   "high": 0.0004,
+   "source": "Texas Instruments SLVS916I, page 20, figures 24 and 25, into 2.2 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_peak_4p2v",
+   "label": "Start from 4.2 V: highest output before the load step",
+   "value": 0.007985053,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "output_2p4v",
+   "label": "Output from 2.4 V with 1 Mohm over 180 kohm",
+   "value": 3.27486,
+   "unit": "V",
+   "expected": 3.277778,
+   "low": 3.245,
+   "high": 3.310556,
+   "source": "Texas Instruments SLVS916I, page 6: reference 0.5 V, 495 mV to 505 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_dip_2p4v",
+   "label": "Load step of 0.5 A to 1.5 A from 2.4 V: lowest point",
+   "value": -0.1495716,
+   "unit": "V",
+   "expected": -0.1,
+   "low": -0.13,
+   "high": -0.07,
+   "source": "Texas Instruments SLVS916I, page 20, figures 21 and 22: about -75 mV to -115 mV",
+   "verdict": "fail"
+  },
+  {
+   "key": "step_peak_2p4v",
+   "label": "Release of that step from 2.4 V: highest point",
+   "value": 0.1430485,
+   "unit": "V",
+   "expected": 0.1,
+   "low": 0.07,
+   "high": 0.13,
+   "source": "Texas Instruments SLVS916I, page 20, figures 21 and 22",
+   "verdict": "fail"
+  },
+  {
+   "key": "load_regulation_2p4v",
+   "label": "Fall of the output for 1 A more from 2.4 V",
+   "value": 0.006714458,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01638889,
+   "source": "Texas Instruments SLVS916I, page 6: load regulation 0.5 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_2p4v",
+   "label": "Start from 2.4 V into 6.6 ohm: 90 % of the output after the enable",
+   "value": 0.0002483104,
+   "unit": "s",
+   "expected": 0.00025,
+   "low": 0.0001,
+   "high": 0.0004,
+   "source": "Texas Instruments SLVS916I, page 20, figures 24 and 25, into 2.2 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "start_peak_2p4v",
+   "label": "Start from 2.4 V: highest output before the load step",
+   "value": 0.009694916,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "efficiency_0",
+   "label": "Efficiency in forced PWM, 3.6 V to 2.5 V at 10 mA",
+   "value": 36.4366,
+   "unit": "%",
+   "expected": 40.0,
+   "low": 35.0,
+   "high": 45.0,
+   "source": "Texas Instruments SLVS916I, page 18, figure 9, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "efficiency_1",
+   "label": "Efficiency in forced PWM, 3.6 V to 2.5 V at 1000 mA",
+   "value": 91.23127,
+   "unit": "%",
+   "expected": 91.0,
+   "low": 86.0,
+   "high": 96.0,
+   "source": "Texas Instruments SLVS916I, page 18, figure 9, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "efficiency_2",
+   "label": "Efficiency in forced PWM, 3.6 V to 4.5 V at 10 mA",
+   "value": 39.76834,
+   "unit": "%",
+   "expected": 42.0,
+   "low": 37.0,
+   "high": 47.0,
+   "source": "Texas Instruments SLVS916I, page 18, figure 9, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "efficiency_3",
+   "label": "Efficiency in forced PWM, 3.6 V to 4.5 V at 1000 mA",
+   "value": 91.91843,
+   "unit": "%",
+   "expected": 92.0,
+   "low": 87.0,
+   "high": 97.0,
+   "source": "Texas Instruments SLVS916I, page 18, figure 9, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_limit",
+   "label": "Average inductor current into 0.5 ohm, output above 1.2 V",
+   "value": 3.99848,
+   "unit": "A",
+   "expected": 4.0,
+   "low": 3.5,
+   "high": 4.5,
+   "source": "Texas Instruments SLVS916I, page 6: 3.5 A to 4.5 A",
+   "verdict": "pass"
+  },
+  {
+   "key": "current_limit_short",
+   "label": "Average inductor current into a short circuit",
+   "value": 0.4786869,
+   "unit": "A",
+   "expected": 0.4,
+   "low": 0.3,
+   "high": 0.6,
+   "source": "Texas Instruments SLVS916I, page 10, 7.4.1: the limit starts at 400 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_limit",
+   "label": "Inductor current with the output held at 3.6 V, above the target",
+   "value": -0.6997341,
+   "unit": "A",
+   "expected": -0.7,
+   "low": -0.8,
+   "high": -0.6,
+   "source": "Texas Instruments SLVA726, page 3: 0.6 A to 0.8 A, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "returned_power",
+   "label": "Power returned to the input in that state",
+   "value": 2.312742,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "off_output",
+   "label": "Output with the enable pin at 0.4 V, 6.6 ohm of load",
+   "value": 6.137133e-13,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "Texas Instruments SLVS916I, page 6: low below 0.4 V; page 9: the load is disconnected",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "step",
+   "TPS63020 in its application circuit: start, load step of 1 A, release",
+   "source-meter-tps63020.step.png"
+  ]
+ ],
+ "notes": [
+  "The model is averaged over the switching period: the graph shows no ripple, and the limits of the load step are the span that the datasheet figures show, not datasheet limits.",
+  "The loop gains of the model are fitted to this load step, and its losses to the four efficiency points; both are therefore not independent checks. The run with the model of the manufacturer is the second opinion.",
+  "The output capacitance of 40 uF, the straight line of the current limit below 1.2 V and the hold of the least duty cycle are assumptions."
+ ],
+ "models": [
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "source-meter-tps63020.step-2p4v.cir",
+  "source-meter-tps63020.step-4p2v.cir"
+ ],
+ "format": 1
+}

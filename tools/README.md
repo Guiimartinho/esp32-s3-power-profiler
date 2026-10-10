@@ -9,6 +9,12 @@ One tool exists: the board figures in `board/`, which calculate the figures
 of the carrier board layout from its KiCad file. They are tested without
 hardware and measure nothing.
 
+The circuit simulations of the carrier board are not a tool of this
+directory. They are a package of their own at the root of the repository,
+in [`../simulation/`](../simulation/README.md) (decision D-94 of the
+specification): the board figures judge the copper of the board, the
+simulations the circuits of the schematic.
+
 The calibration tool and the production test are not started. Their two
 directories are empty, and nothing they would drive exists yet: no
 board is built, the firmware is not ported to the Raspberry Pi Pico 2, and
@@ -57,8 +63,9 @@ calculated from the drawn copper. None is measured, and no board is built.
   of 30 squares (D-92), and a surface leakage into the measured node of
   4.46 nA on the top layer and 0.67 nA on the bottom layer, against a
   budget of 10 nA.
-- Not in the repository: the scripts that drew the layout, and the
-  simulation files, which are still to be filed in `hardware/simulation/`.
+- Not in the repository: the scripts that drew the layout. The
+  simulations of the circuits are filed, in
+  [`../simulation/`](../simulation/README.md).
 - The checks (ruff, mypy in strict mode, pytest with coverage on Linux,
   Windows and macOS, a build of the wheel) are the workflow `Tools`,
   started by hand like the others (D-22). It has not been started yet: so
@@ -130,7 +137,10 @@ have to cover, is spread over several sections:
 - The first power-up of section 13: the Pico 2 out of its sockets, six
   links not fitted, the test point TP9 as the switch, and the rails
   brought up one by one with the level expected at each test point
-  (calculated or simulated levels).
+  (calculated or simulated levels). The simulations of the analog rails
+  in [`../simulation/`](../simulation/results/analog_rails/README.md) give
+  the order and the times of that power-up from the final netlist; they
+  are simulated too, and the test replaces them.
 - The items of section 16 that come before a DUT is connected to a board:
   every gate at or below 0.3 V in the states listed there, the output open
   within 100 ms of a halted supervision task (F-8), the gate lines low

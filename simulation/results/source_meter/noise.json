@@ -1,0 +1,204 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "noise",
+ "title": "Noise of the source across the 1 kohm shunt of range 0",
+ "covers": "requirement R-04, sections 4.2 and 4.10 (noise in source mode), decision D-59",
+ "summary": "The source stands at rest in range 0 and its noise is read as the chain reads it. The noise voltage between the supply node and the node after the shunts is the noise that the 1 kohm of range 0 turns into current. Its density is weighted with the filter in front of the converter, two poles at 40 kHz, and summed; the mean of 100 samples adds its own weight. The run is made at 5.0 V with the output open, with 100 nF and with 1 uF at the terminal, and at 0.8 V. A second noise run gives the density at the regulator output itself.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "noise_5v_0nf",
+   "label": "5 V, output open: noise current in range 0 behind the filter of the converter",
+   "value": 3.087064e-08,
+   "unit": "A",
+   "expected": 2.65e-08,
+   "low": null,
+   "high": 4e-08,
+   "source": "requirement R-04: 40 nA at the most in source mode; section 4.2: 26 nA to 27 nA simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_5v_0nf",
+   "label": "5 V, output open: noise of the mean of 100 samples",
+   "value": 9.419797e-10,
+   "unit": "A",
+   "expected": 1.1e-09,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 11: 5 nA for the mean of 100 samples; section 4.10: 1.1 nA with the output open, up to 3.9 nA with a device",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_5v_100nf",
+   "label": "5 V, 0.1 uF at the terminal: noise current in range 0 behind the filter of the converter",
+   "value": 3.126067e-08,
+   "unit": "A",
+   "expected": 2.65e-08,
+   "low": null,
+   "high": 4e-08,
+   "source": "requirement R-04: 40 nA at the most in source mode; section 4.2: 26 nA to 27 nA simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_5v_100nf",
+   "label": "5 V, 0.1 uF at the terminal: noise of the mean of 100 samples",
+   "value": 1.299651e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 11: 5 nA for the mean of 100 samples; section 4.10: 1.1 nA with the output open, up to 3.9 nA with a device",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_5v_1000nf",
+   "label": "5 V, 1 uF at the terminal: noise current in range 0 behind the filter of the converter",
+   "value": 3.154496e-08,
+   "unit": "A",
+   "expected": 2.65e-08,
+   "low": null,
+   "high": 4e-08,
+   "source": "requirement R-04: 40 nA at the most in source mode; section 4.2: 26 nA to 27 nA simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_5v_1000nf",
+   "label": "5 V, 1 uF at the terminal: noise of the mean of 100 samples",
+   "value": 2.327907e-09,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 11: 5 nA for the mean of 100 samples; section 4.10: 1.1 nA with the output open, up to 3.9 nA with a device",
+   "verdict": "pass"
+  },
+  {
+   "key": "noise_0p8v_0nf",
+   "label": "0.8 V, output open: noise current in range 0 behind the filter of the converter",
+   "value": 2.831547e-08,
+   "unit": "A",
+   "expected": 2.65e-08,
+   "low": null,
+   "high": 4e-08,
+   "source": "requirement R-04: 40 nA at the most in source mode; section 4.2: 26 nA to 27 nA simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_0p8v_0nf",
+   "label": "0.8 V, output open: noise of the mean of 100 samples",
+   "value": 1.073762e-09,
+   "unit": "A",
+   "expected": 1.1e-09,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 11: 5 nA for the mean of 100 samples; section 4.10: 1.1 nA with the output open, up to 3.9 nA with a device",
+   "verdict": "pass"
+  },
+  {
+   "key": "output_density",
+   "label": "Noise density at the regulator output at 10 kHz, 5.0 V",
+   "value": 1.761616e-07,
+   "unit": "V/√Hz",
+   "expected": 1.25e-07,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: 125 nV/rtHz, a typical datasheet figure without a maximum",
+   "verdict": "info"
+  },
+  {
+   "key": "output_noise",
+   "label": "Noise at the regulator output from 10 Hz to 100 kHz, 5.0 V",
+   "value": 3.222297e-05,
+   "unit": "V",
+   "expected": 4e-05,
+   "low": null,
+   "high": null,
+   "source": "LT3080 Rev. E, page 4: 40 uV RMS with 10 uF and 1.1 A",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "density",
+   "Noise of the source in range 0",
+   "noise.density.png"
+  ]
+ ],
+ "notes": [
+  "The noise of the regulator is the 125 nV/rtHz of its datasheet, flat, as the model holds it: a typical figure without a maximum, and without the 1/f part. Below the loop bandwidth it stands at the output unchanged; near the crossover the loop of the model raises it, and that part rests on the fitted loop.",
+  "The DAC and the reference are sources without noise here: the datasheet of the DAC states none, and the reference belongs to another block. The buffer U17 and every resistor of the netlist carry their noise.",
+  "The shunt of range 0 is the 1 kohm resistor that stands for it, with its own thermal noise, which the chain reads in either mode. The amplifier chain and the converter are not in this circuit: only their filter is, as a weight of two poles at 40 kHz with Q = 0.74 (section 4.5).",
+  "The regulator carries only its minimum load in these runs. A behavioral source makes no noise, so the pre-regulator adds none: its switching ripple is not in the averaged model at all."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "noise.shunt-5v-0nf.cir"
+ ],
+ "format": 1
+}

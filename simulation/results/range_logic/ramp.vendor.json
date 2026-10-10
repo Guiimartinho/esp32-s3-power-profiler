@@ -1,0 +1,19 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "ramp",
+ "title": "A slow ramp from 1 uA to 1 A and back: one range at a time, no bounce",
+ "covers": "section 4.4 (step up, blanking, step down), rule F-17, requirement R-07",
+ "summary": "The load current rises from 1 uA to 1 A in 60 ms and falls again. The ramp takes 10 ms for every decade, slow against every delay of the loop. On the way up the step-up comparator moves the sequencer; on the way down the bench plays firmware and asks for one step down 1 ms after the current has fallen below the level of the range (60 mA, 1.8 mA, 60 uA), which is the 100 samples of the rule. The run counts the range changes, reads the current at which each step up comes and the shortest time between two changes, and compares the reading that the amplifier output stands for with the load in the middle of every range. It is made without a capacitor at the terminals and with 1 uF.",
+ "status": "error",
+ "error": "ramp.no-capacitor: the run failed: doAnalyses: TRAN:  Timestep too small; time = 0.0501008, timestep = 2.5e-18: trouble with xq14:dd-instance d.xq14.ddg2; tran simulation(s) aborted",
+ "tier": "vendor",
+ "engine": "",
+ "library_sha256": "",
+ "figures": [],
+ "graphs": [],
+ "notes": [],
+ "models": [],
+ "decks": [],
+ "format": 1
+}

@@ -1,0 +1,11 @@
+* BC847B: output capacitance
+.include "../../models/path_switching.lib"
+QQ7 c b e PATH_BC847B
+* as the datasheet measures it: base grounded, emitter open, 1 MHz
+Vb b 0 0
+Re e 0 1e12
+Vc c 0 dc 10 ac 1
+.control
+ac lin 1 1meg 1meg
+.endc
+.end

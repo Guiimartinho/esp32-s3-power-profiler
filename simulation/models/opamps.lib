@@ -1,0 +1,179 @@
+* Operational amplifier models written for this project. None of these is a
+* model of a manufacturer. Every figure is from the datasheet named beside
+* it; the qualification benches of the block "models" compare each model
+* with those figures.
+
+* ---------------------------------------------------------------------
+* Unit noise sources for one amplifier: the open-circuit voltage of
+* resistors, because a behavioral source makes no noise.
+*   nw   white, 1 nV/rtHz: one resistor of (1 nV)^2 / 4kT = 60.328 ohm at
+*        27 C.
+*   nf   1/f, 1 uV/rtHz at 1 Hz: eight resistors with equal capacitors,
+*        one corner per decade from 0.01 Hz to 100 kHz. The sum follows
+*        1/f within 3 % of the density between 0.03 Hz and 100 kHz.
+* An amplifier scales the two with the gain of a controlled source.
+.subckt OPAMP_UNITNOISE nw nf
+Rw nw 0 60.328
+R1 nf n1 8.8434e9
+C1 nf n1 1.7997n
+R2 n1 n2 8.8434e8
+C2 n1 n2 1.7997n
+R3 n2 n3 8.8434e7
+C3 n2 n3 1.7997n
+R4 n3 n4 8.8434e6
+C4 n3 n4 1.7997n
+R5 n4 n5 8.8434e5
+C5 n4 n5 1.7997n
+R6 n5 n6 8.8434e4
+C6 n5 n6 1.7997n
+R7 n6 n7 8.8434e3
+C7 n6 n7 1.7997n
+R8 n7 0 8.8434e2
+C8 n7 0 1.7997n
+.ends OPAMP_UNITNOISE
+
+* ---------------------------------------------------------------------
+* One macromodel for the voltage-feedback amplifiers of the board.
+*   Pins: non-inverting input, inverting input, positive supply, negative
+*   supply, output.
+*   gbw    gain-bandwidth product, Hz
+*   sr     slew rate, V/s
+*   aol    open-loop gain at DC, V/V
+*   f2     second pole, Hz (sets the phase margin at unity gain)
+*   vos    input offset voltage, V (the output of a follower sits vos below
+*          its input)
+*   ib     input bias current, A (flows into both inputs when positive)
+*   en     input voltage noise density, white part, V/rtHz
+*   fc     frequency below which the 1/f part of the voltage noise is the
+*          larger one, Hz
+*   rout   open-loop output resistance, ohm
+*   cout   capacitance across the open-loop output resistance, F
+*   rsat   resistance of the output while it rests against a rail, ohm
+*   vhi    distance the unloaded output keeps from the positive supply, V
+*   vlo    distance the unloaded output keeps from the negative supply, V
+*   isc    output current limit, A
+*   cin    input capacitance to the negative supply, each input, F
+*   cdif   capacitance between the two inputs, F
+*   iq     supply current at a supply voltage of vsq, A
+*   giq    change of the supply current with the supply voltage, A/V
+*   vsq    supply voltage at which iq is stated, V
+* What it does: one dominant pole, one second pole, slew limit, an output
+* that follows the supply pins (against a rail it is a resistance to that
+* rail), current limit, white and 1/f voltage noise, supply current with
+* the output current taken from the supply pins. The output is dead while
+* the supply is below 1.5 V.
+* What it leaves out: current noise, common-mode rejection, supply
+* rejection, input range limits, overload recovery time, the fall of the
+* open-loop gain with the load, distortion, temperature.
+* Supply present: 1 above 1.5 V between the supply pins, 0 below.
+.func opamp_alive(vs) {0.5*(1 + tanh((vs - 1.5)/0.1))}
+.subckt OPAMP_VFB inp inn vp vn out
++ params: gbw=10meg sr=20meg aol=1meg f2=30meg vos=0 ib=0 en=5n rout=50
++ vhi=0.05 vlo=0.05 isc=50m cin=3p fc=0 cout=0 rsat=50 cdif=0 iq=0 giq=0
++ vsq=5
+* input: noise, offset, bias current, capacitance
+Xn nw nf OPAMP_UNITNOISE
+Enw inp ip0 nw 0 {en/1n}
+Enf ip0 ip1 nf 0 {en*sqrt(fc)/1u}
+Vos ip1 ip {vos}
+Ibp ip vn {ib}
+Ibn inn vn {ib}
+Cip inp vn {cin}
+Cin inn vn {cin}
+Cid inp inn {cdif}
+* transconductance into the integrator, limited to the slew rate
+Bgm 0 x I = max(min({6.2832*gbw*1n}*v(ip,inn), {sr*1n}), {-sr*1n})
+Cx x 0 1n
+Rx x 0 {aol/(6.2832*gbw*1n)}
+* the integrator may not run away while the output is against a rail: it
+* stops a little beyond the rail, plus what the output current needs across
+* the open-loop output resistance
+Bwind x 0 I = 0.1*(max(v(x) - (v(vn) + 0.01 + opamp_alive(v(vp,vn))*(v(vp,vn) - {vhi} - 0.01)) - 0.05 - {rout}*max(v(io), 0), 0) + min(v(x) - (v(vn) - 0.01 + opamp_alive(v(vp,vn))*({vlo} + 0.01)) + 0.05 - {rout}*min(v(io), 0), 0))
+* second pole
+Ep2 y1 0 x 0 1
+Rp2 y1 y 1k
+Cp2 y 0 {1/(6.2832*f2*1k)}
+Ey yb 0 y 0 1
+* output: the open-loop resistance behind the internal voltage, bounded by
+* the current limit and by what the stage can do near each rail. Without a
+* supply the two bounds close to 10 mV around the negative supply pin, so
+* the output rests there; written this way the bounds do not cross at the
+* first iteration of an operating point, when every node is still at 0 V.
+Bio io 0 V = max(min(min(v(yb,out)/{rout}, {isc}), ((v(vn) + 0.01 + opamp_alive(v(vp,vn))*(v(vp,vn) - {vhi} - 0.01)) - v(out))/{rsat}), max({-isc}, ((v(vn) - 0.01 + opamp_alive(v(vp,vn))*({vlo} + 0.01)) - v(out))/{rsat}))
+Bout 0 out I = v(io)
+Rleak yb out 1e6
+Cout yb out {cout}
+* supply current: the quiescent current and the current of the load
+Bqp vp 0 I = opamp_alive(v(vp,vn))*({iq} + {giq}*(v(vp,vn) - {vsq})) + max(v(io), 0)
+Bqn 0 vn I = opamp_alive(v(vp,vn))*({iq} + {giq}*(v(vp,vn) - {vsq})) + max(-v(io), 0)
+.ends OPAMP_VFB
+
+* ---------------------------------------------------------------------
+* OPA197 (U17, U25, U26). Texas Instruments datasheet SBOS737C of March
+* 2018, for a supply of 8 V to 36 V, typical at 25 C unless a limit is
+* named:
+*   Unity-gain bandwidth 10 MHz, slew rate 20 V/us (page 8). Figure 10
+*   (page 13) shows about 50 degrees of phase margin with 15 pF. The model
+*   has a gain-bandwidth product of 11 MHz and a second pole at 14 MHz: the
+*   gain then falls through 1 at 8 MHz with 55 degrees.
+*   Open-loop gain 134 dB into 2 kohm, 120 dB at the least (page 7).
+*   Offset 25 uV typical of either sign, 100 uV at most (page 7): the
+*   parameter vos, 0 by default.
+*   Bias current 5 pA typical, 20 pA at most at 25 C, 5 nA at most over
+*   temperature (page 7): the parameter ib.
+*   Voltage noise 5.5 nV/rtHz at 1 kHz, 10.5 nV/rtHz at 100 Hz and
+*   1.3 uV peak to peak from 0.1 Hz to 10 Hz (page 7): 5.0 nV/rtHz white
+*   with a corner of 340 Hz gives 5.8, 10.5 and 1.3.
+*   Open-loop output impedance 375 ohm at 1 MHz (page 8); figure 26
+*   (page 16) shows it flat from 100 Hz to 1 MHz and lower above. The
+*   100 pF across it, the second pole and the product above are one fit to
+*   table 3 (page 23), the isolation resistors for 45 degrees of margin
+*   with 100 pF to 1 uF, and to figure 28 (page 16), the overshoot without
+*   such a resistor: the model gives 44 to 55 degrees where the table says
+*   45 to 47, and 51 and 28 degrees with 100 pF and 1 nF alone. The
+*   resistors that the table gives for 60 degrees leave 70 to 89 degrees in
+*   the model: no output impedance that is a resistance up to 1 MHz
+*   reproduces that column.
+*   Output swing from a rail 5 mV without load, 95 mV into 10 kohm and
+*   430 mV into 2 kohm at +/-18 V (page 8): 5 mV and 48 ohm.
+*   Short-circuit current 65 mA (page 8).
+*   Input capacitance 6.4 pF to the supply at each input, 1.6 pF between
+*   the inputs (page 7).
+*   Supply current 1 mA, 1.3 mA at most (page 8).
+*   Not in the model: the second input pair, which takes over within 3 V
+*   of the positive supply with 12.5 nV/rtHz and another offset; the
+*   current noise of 1.5 fA/rtHz.
+.subckt OPA197 inp inn vp vn out params: vos=0 ib=5p
+X1 inp inn vp vn out OPAMP_VFB gbw=11meg sr=20meg aol=5meg f2=14meg
++ vos={vos} ib={ib} en=5.0n fc=340 rout=375 cout=100p rsat=48 vhi=5m vlo=5m
++ isc=65m cin=6.4p cdif=1.6p iq=1m giq=0 vsq=16
+.ends OPA197
+
+* ---------------------------------------------------------------------
+* OPA365 (U19, U28, U29). Texas Instruments datasheet SBOS365G of May
+* 2023, typical at 25 C and 5 V unless a limit is named:
+*   Gain-bandwidth product 50 MHz, slew rate 25 V/us (page 7).
+*   Open-loop gain 120 dB, 100 dB at the least (page 6).
+*   Second pole 70 MHz: fitted to the phase of figure 7-1 (page 8), about
+*   -100 degrees at 10 MHz, and to the overshoot of figure 7-16 (page 10).
+*   Offset 100 uV typical of either sign, 200 uV at most (page 6): the
+*   parameter vos, 0 by default.
+*   Bias current 0.2 pA typical, 10 pA at most at 25 C (page 6): the
+*   parameter ib.
+*   Voltage noise 4.5 nV/rtHz at 100 kHz and 5 uV peak to peak from 0.1 Hz
+*   to 10 Hz (page 6): 4.36 nV/rtHz white with a corner of 6.5 kHz gives
+*   both, and 12 nV/rtHz at 1 kHz where figure 7-14 (page 10) shows 13.
+*   Open-loop output impedance 30 ohm at 1 MHz (page 7).
+*   Output swing from a rail 10 mV into 10 kohm at 5.5 V, 20 mV at most
+*   (page 7): 2 mV without load (assumption) and 29 ohm.
+*   Short-circuit current 65 mA (page 7).
+*   Input capacitance 2 pF to the supply at each input, 6 pF between the
+*   inputs (page 6).
+*   Supply current 4.6 mA at 5 V, 5 mA at most (page 7); figure 7-10
+*   (page 9) shows 4.13 mA at 2.5 V and 4.28 mA at 3.3 V: 0.19 mA/V.
+*   Not in the model: the current noise of 4 fA/rtHz.
+.subckt OPA365 inp inn vp vn out params: vos=0 ib=0.2p
+X1 inp inn vp vn out OPAMP_VFB gbw=50meg sr=25meg aol=1meg f2=70meg
++ vos={vos} ib={ib} en=4.36n fc=6.5k rout=30 cout=0 rsat=29 vhi=2m vlo=2m
++ isc=65m cin=2p cdif=6p iq=4.6m giq=0.19m vsq=5
+.ends OPA365

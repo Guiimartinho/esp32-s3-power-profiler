@@ -1,0 +1,31 @@
+* LT3042: start-up with and without fast start-up, enable thresholds
+.include "../../models/analog_rails.lib"
+* 5 V of output, 4.7 uF at SET, 25 ohm of load, 6 V of input (datasheet page 4)
+Vin in 0 PWL(0 0 1m 6)
+Ven en 0 PWL(0 0 5m 0 5.001m 3)
+* A: fast start-up to 90 % through 50 kohm and 700 kohm at PGFB
+Xa in en pga 0 fba seta 0 oa oa LT3042
+Rseta seta 0 49.9k
+Cseta seta 0 4.7u
+Rpa2 oa fba 700k
+Rpa1 fba 0 50k
+Coa oa 0 4.7u
+Rla oa 0 25
+* B: PGFB tied to the input, no fast start-up
+Xb in en pgb 0 in setb 0 ob ob LT3042
+Rsetb setb 0 49.9k
+Csetb setb 0 4.7u
+Cob ob 0 4.7u
+Rlb ob 0 25
+* C: the enable pin swept up and down, 3.3 V of output, no SET capacitor
+Vinc inc 0 PWL(0 0 1m 5)
+Venc enc 0 PWL(0 0 1.4 0 1.5 1.5 1.6 0)
+Xc inc enc pgc 0 inc setc 0 oc oc LT3042
+Rsetc setc 0 33.2k
+Coc oc 0 4.7u
+Rlc oc 0 330
+.control
+save oa ob oc seta setb en enc in
+tran 50u 1.62 0 50u
+.endc
+.end

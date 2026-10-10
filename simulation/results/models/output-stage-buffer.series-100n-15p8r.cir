@@ -1,0 +1,16 @@
+* OPA197: loop gain with a capacitive load
+.include "../../models/opamps.lib"
+.include "../../models/output_stage.lib"
+XU25 buf_in buf_out p12v_a m4v_a buf_out OUTPUT_OPA197_PROBE vac=1 iac=0 vfb=0
+* the rails of the board
+Vp12 p12v_a 0 12
+Vm4 m4v_a 0 -4
+Vin buf_in 0 0
+* the load of the datasheet: an isolation resistor, a capacitor, 10 kohm
+Riso buf_out cl 15.8
+Cl cl 0 1e-07
+Rl cl 0 10k
+.control
+ac dec 60 100 100meg
+.endc
+.end

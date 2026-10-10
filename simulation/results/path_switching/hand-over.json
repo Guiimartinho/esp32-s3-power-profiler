@@ -1,0 +1,230 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "hand-over",
+ "title": "A pair closes while the supply node still holds a higher voltage",
+ "covers": "section 4.2 (charge of the supply node), rule F-25, the test of section 11",
+ "summary": "A mode pair closes on a supply that stands below the voltage left on the node. With the output open the supply node keeps its voltage for a long time. In the first run source mode at 5 V ends and, 5 ms later, the ampere pair closes on a supply of 0.8 V that has 4.7 uF at its output and cannot take current back: the example of the specification. In the second run the node holds only 0.1 V more than that supply, which is what rule F-25 allows. The third run is the other direction, which no rule names: ampere mode at 5 V ends and the source pair closes on a regulator at 0.8 V that cannot take current back either, with its output capacitors and its minimum load from the schematic.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "pushed",
+   "label": "Supply of the user at 0.8 V with 4.7 uF, node at 5 V: highest voltage at the terminal",
+   "value": 3.066628,
+   "unit": "V",
+   "expected": 3.1,
+   "low": 2.9,
+   "high": 3.3,
+   "source": "section 4.2: 3.1 V on a 0.8 V supply with 4.7 uF, calculated; 0.2 V asked here",
+   "verdict": "pass"
+  },
+  {
+   "key": "pushed_after",
+   "label": "Time from the ampere request to 90 % of that rise",
+   "value": 0.004410507,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pushed_current",
+   "label": "Largest current pushed back into the leads",
+   "value": 0.003969624,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "allowed",
+   "label": "Node at 0.9 V, supply of the user at 0.8 V: rise of the terminal",
+   "value": 0.05112774,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.1,
+   "source": "rule F-25 and section 11: the VIN terminal rises by less than 0.1 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "regulator_lifted",
+   "label": "Regulator at 0.8 V, node at 5 V: highest voltage at the regulator output",
+   "value": 1.486977,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "no rule of the specification names this direction",
+   "verdict": "info"
+  },
+  {
+   "key": "regulator_back",
+   "label": "Time from the source request until the regulator output is within 0.1 V again",
+   "value": 0.007056535,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "to-ampere",
+   "The ampere pair closes on 0.8 V with 4.7 uF while the node still holds 5 V",
+   "hand-over.to-ampere.png"
+  ],
+  [
+   "to-source",
+   "The source pair closes on a regulator at 0.8 V while the node still holds 5 V",
+   "hand-over.to-source.png"
+  ]
+ ],
+ "notes": [
+  "The supply of the user and the regulator are sources that deliver current and take none back, which is the case the specification describes. A supply that sinks current is not lifted.",
+  "The charge moves at the pace of the gate ramp once the gate has passed the lower voltage by a threshold: some milliseconds after the request, with tens of milliamperes at the most.",
+  "In the other direction the regulator output is lifted above its set-point until its minimum load of 1.3 kohm to -4 V_A has taken the charge away. The specification tolerates an output above the set-point (section 4.9, source output) and its start sequence checks the output 60 ms after the pair has closed; it has no rule like F-25 for the source pair. In the start sequence of rule F-28 at least 285 ms pass before the source pair closes, in which the node falls to about 60 % of its voltage."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "hand-over.to-ampere.cir",
+  "hand-over.to-source.cir"
+ ],
+ "format": 1
+}

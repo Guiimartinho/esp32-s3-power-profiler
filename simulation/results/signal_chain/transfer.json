@@ -1,0 +1,290 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "transfer",
+ "title": "From the shunt voltage to the converter input and to the code, with tolerances",
+ "covers": "sections 4.3, 4.5 and 8 (gain, pedestal, zero code, full scale, resolution), section 4.4 (room above the trip level)",
+ "summary": "The shunt voltage is swept and the converter input is read. Range 0 is held, the node after the shunts stands at 3.3 V and the voltage across the shunt is swept from -5 mV to 160 mV as an operating point sweep. The slope of the converter input is the gain of the chain, its value at 0 V the pedestal; an ideal converter turns it into codes. Then 120 boards are drawn: every resistor of the chain inside its tolerance, the gain error and the offsets of the amplifiers inside the limits of their datasheets, all with a uniform distribution.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "gain",
+   "label": "Gain from the shunt to the converter input",
+   "value": 19.9292,
+   "unit": "",
+   "expected": 19.92925,
+   "low": 19.90933,
+   "high": 19.94918,
+   "source": "section 4.5: 19.93 from R123, a 0.1 % part",
+   "verdict": "pass"
+  },
+  {
+   "key": "pedestal",
+   "label": "Converter input at zero shunt voltage (the pedestal)",
+   "value": 0.05007852,
+   "unit": "V",
+   "expected": 0.05007855,
+   "low": 0.04982816,
+   "high": 0.05032895,
+   "source": "section 4.5: +50 mV from R121 and R122",
+   "verdict": "pass"
+  },
+  {
+   "key": "zero_code",
+   "label": "Code at zero shunt voltage",
+   "value": 1313.0,
+   "unit": "codes",
+   "expected": 1313.0,
+   "low": 1310.0,
+   "high": 1316.0,
+   "source": "section 4.5: about 1313 codes",
+   "verdict": "pass"
+  },
+  {
+   "key": "full_scale",
+   "label": "Shunt voltage at which the converter reads full scale",
+   "value": 0.1229303,
+   "unit": "V",
+   "expected": 0.1229,
+   "low": 0.1226542,
+   "high": 0.1231458,
+   "source": "section 4.3: 122.9 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "straight",
+   "label": "Largest distance from a straight line, zero to full scale",
+   "value": 0.0003649631,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "section 4.5: the driver is linear beyond the full scale of the converter",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_above_full_scale",
+   "label": "Driver rail above the converter input at full scale",
+   "value": 0.1856668,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1,
+   "high": null,
+   "source": "OPA365 datasheet, page 6: gain specified down to 100 mV from the rail",
+   "verdict": "pass"
+  },
+  {
+   "key": "keeps_gain_to",
+   "label": "Shunt voltage at which the driver output is 100 mV below its rail",
+   "value": 0.1272298,
+   "unit": "V",
+   "expected": 0.1268,
+   "low": 0.1229,
+   "high": null,
+   "source": "section 4.5: linear up to 126.8 mV, above the full scale of the converter",
+   "verdict": "pass"
+  },
+  {
+   "key": "clipped",
+   "label": "Converter input with 150 mV at the shunt (driver against its rail)",
+   "value": 2.683676,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 2.75,
+   "source": "section 4.5: never above VREF + 0.25 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r0",
+   "label": "R0: current of one code, with the shunt of the specification",
+   "value": 1.914124e-09,
+   "unit": "A",
+   "expected": 1.914e-09,
+   "low": 1.910172e-09,
+   "high": 1.917828e-09,
+   "source": "sections 4.3 and 8",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r1",
+   "label": "R1: current of one code, with the shunt of the specification",
+   "value": 5.991e-08,
+   "unit": "A",
+   "expected": 5.99e-08,
+   "low": 5.97802e-08,
+   "high": 6.00198e-08,
+   "source": "sections 4.3 and 8",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r2",
+   "label": "R2: current of one code, with the shunt of the specification",
+   "value": 1.91604e-06,
+   "unit": "A",
+   "expected": 1.916e-06,
+   "low": 1.912168e-06,
+   "high": 1.919832e-06,
+   "source": "sections 4.3 and 8",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r3",
+   "label": "R3: current of one code, with the shunt of the specification",
+   "value": 1.914124e-05,
+   "unit": "A",
+   "expected": 1.914e-05,
+   "low": 1.910172e-05,
+   "high": 1.917828e-05,
+   "source": "sections 4.3 and 8",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_low",
+   "label": "Lowest gain of 120 boards",
+   "value": 19.87472,
+   "unit": "",
+   "expected": null,
+   "low": 19.86947,
+   "high": null,
+   "source": "0.1 % of R123 (section 4.5) and 0.2 % of the amplifier (AD8421, page 4)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_high",
+   "label": "Highest gain of 120 boards",
+   "value": 19.96977,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 19.98904,
+   "source": "0.1 % of R123 (section 4.5) and 0.2 % of the amplifier (AD8421, page 4)",
+   "verdict": "pass"
+  },
+  {
+   "key": "zero_code_low",
+   "label": "Lowest code at zero shunt voltage, offsets of the chain alone",
+   "value": 1278.0,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "zero_code_high",
+   "label": "Highest code at zero shunt voltage, offsets of the chain alone",
+   "value": 1350.0,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "zero_code_lowest",
+   "label": "Lowest code at zero shunt voltage with the offset error of the converter",
+   "value": 1196.0,
+   "unit": "codes",
+   "expected": null,
+   "low": 650.0,
+   "high": null,
+   "source": "section 4.4: a code below 650 counts as under-range",
+   "verdict": "pass"
+  },
+  {
+   "key": "zero_code_highest",
+   "label": "Highest code at zero shunt voltage with the offset error of the converter",
+   "value": 1446.0,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "full_scale_low",
+   "label": "Lowest shunt voltage of the converter full scale",
+   "value": 0.1225084,
+   "unit": "V",
+   "expected": null,
+   "low": 0.1223,
+   "high": null,
+   "source": "section 4.4: 3.6 mV to spare above the highest trip level of 118.7 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "lsb_r0_spread",
+   "label": "R0: spread of the current of one code over the boards, highest to lowest",
+   "value": 0.4782612,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "transfer",
+   "Signal chain: from the shunt voltage to the converter input",
+   "transfer.transfer.png"
+  ],
+  [
+   "boards",
+   "120 boards: gain and code at zero current",
+   "transfer.boards.png"
+  ]
+ ],
+ "notes": [
+  "The ladder is not in this circuit: ideal sources stand on the inputs of the multiplexer. The current of one code uses the shunt values of the specification.",
+  "The converter is ideal: one code per VREF / 65536. Its offset error (4 mV at most) is added by arithmetic in the figures that say so; its gain error (0.01 %) is left out.",
+  "The amplifier models are typical parts without offset in the sweep. Their offsets and the gain error of U27 are drawn only in the Monte Carlo run, inside the limits of the datasheets, with a uniform distribution; the reference is ideal.",
+  "The driver model keeps its gain up to its rail. The figure for the driver output 100 mV below the rail marks where the datasheet stops to state the gain.",
+  "The models are straight inside their limits, so the distance from the straight line in the second panel is the residue of the solver, a few ten-thousandths of a code. The non-linearity of the real parts is not in it: the amplifier has 5 ppm typical and 10 ppm at the most over an output of -5 V to +5 V (AD8421, page 4), the converter 1 code typical and 2 codes at the most (ADS8860, page 1)."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "transfer.sweep.cir"
+ ],
+ "format": 1
+}

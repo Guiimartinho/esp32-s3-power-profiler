@@ -1,0 +1,398 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "setpoint",
+ "title": "The set-point: DAC code to output voltage, step, ceiling and tolerances",
+ "covers": "section 4.2 (voltage control, ceiling), rule F-30, requirement R-08, decision D-58",
+ "summary": "The whole source is powered up at one DAC code after the other and read at rest. The nominal run gives the output over the code, its step, the offset that the SET current adds and the ceiling at the highest code. A wrong gain bit is one more run. Random sets of resistor values, reference voltage and SET current give the spread of the uncalibrated output at 0.80 V and at 5.00 V, and one run with every part at the limit that raises the output gives the ceiling at the tolerance limits. Four runs with the full-scale current of each range give the voltage at the terminal behind the burden.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "out_616",
+   "label": "Output at code 616",
+   "value": 0.7995009,
+   "unit": "V",
+   "expected": 0.7995508,
+   "low": 0.7979517,
+   "high": 0.8011499,
+   "source": "rule F-30: 10 mV + code x 1.2817 mV, nominal code of 0.80 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "out_3893",
+   "label": "Output at code 3893",
+   "value": 4.999714,
+   "unit": "V",
+   "expected": 4.999807,
+   "low": 4.997307,
+   "high": 5.002307,
+   "source": "rule F-30: nominal code of 5.00 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_low",
+   "label": "Step from code 616 to code 617",
+   "value": 0.001281721,
+   "unit": "V",
+   "expected": 0.001281738,
+   "low": 0.001268921,
+   "high": 0.001294556,
+   "source": "rule F-30: 1.2817 mV; requirement R-08: steps of 1.3 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_high",
+   "label": "Step from code 3893 to code 3894",
+   "value": 0.001281728,
+   "unit": "V",
+   "expected": 0.001281738,
+   "low": 0.001268921,
+   "high": 0.001294556,
+   "source": "rule F-30: 1.2817 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "buffer_gain",
+   "label": "Gain of the buffer U17, between the two codes",
+   "value": 2.099999,
+   "unit": "",
+   "expected": 2.1,
+   "low": 2.0979,
+   "high": 2.1021,
+   "source": "section 4.2: gain 2.1 with R57 and R58",
+   "verdict": "pass"
+  },
+  {
+   "key": "set_offset",
+   "label": "Output above the SET drive at code 616: the SET current in R60",
+   "value": 0.009952233,
+   "unit": "V",
+   "expected": 0.01,
+   "low": 0.008,
+   "high": 0.012,
+   "source": "section 4.2: about 10 mV",
+   "verdict": "pass"
+  },
+  {
+   "key": "dac_reference",
+   "label": "Reference input of the DAC (TP19)",
+   "value": 1.25,
+   "unit": "V",
+   "expected": 1.25,
+   "low": 1.24875,
+   "high": 1.25125,
+   "source": "section 4.2 and section 16: half the reference at TP19",
+   "verdict": "pass"
+  },
+  {
+   "key": "ceiling",
+   "label": "Output at the highest code, nominal parts",
+   "value": 5.258623,
+   "unit": "V",
+   "expected": 5.26,
+   "low": 5.24948,
+   "high": 5.27052,
+   "source": "section 4.2 and rule F-30: 5.26 V nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "ceiling_limit",
+   "label": "Output at the highest code, every part at the limit that raises it",
+   "value": 5.38088,
+   "unit": "V",
+   "expected": 5.39,
+   "low": null,
+   "high": 5.5,
+   "source": "section 4.2: 5.39 V at the tolerance limits, below the 5.5 V of the level translator",
+   "verdict": "pass"
+  },
+  {
+   "key": "gain_bit",
+   "label": "Output at code 3893 with the gain bit wrong",
+   "value": 2.504833,
+   "unit": "V",
+   "expected": 2.504904,
+   "low": 2.499894,
+   "high": 2.509913,
+   "source": "section 4.2: a wrong gain bit halves the output",
+   "verdict": "pass"
+  },
+  {
+   "key": "unbuffered",
+   "label": "Fall of the output at code 3893 with the reference input unbuffered",
+   "value": 0.03005883,
+   "unit": "V",
+   "expected": 0.03,
+   "low": 0.025,
+   "high": 0.035,
+   "source": "rule F-6: the unbuffered input would load the divider by 0.6 %, 30 mV at 5.0 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "drift_reference",
+   "label": "Rise of the output at 5.00 V with R55 and R56 apart by 25 ppm/K over 40 K each",
+   "value": 0.004989766,
+   "unit": "V",
+   "expected": 0.005,
+   "low": 0.004,
+   "high": 0.006,
+   "source": "section 4.2: up to 5 mV per pair at 5 V over 40 K",
+   "verdict": "pass"
+  },
+  {
+   "key": "drift_gain",
+   "label": "Rise of the output at 5.00 V with R57 and R58 apart by 25 ppm/K over 40 K each",
+   "value": 0.005232604,
+   "unit": "V",
+   "expected": 0.005,
+   "low": 0.004,
+   "high": 0.006,
+   "source": "section 4.2: up to 5 mV per pair at 5 V over 40 K",
+   "verdict": "pass"
+  },
+  {
+   "key": "zero_code",
+   "label": "Output at code 0",
+   "value": 0.03096169,
+   "unit": "V",
+   "expected": 0.01,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.01 V; the swing of the DAC ends 10 mV above ground",
+   "verdict": "info"
+  },
+  {
+   "key": "spread_low_616",
+   "label": "Lowest output of 24 random sets at the code of 0.80 V",
+   "value": 0.7988479,
+   "unit": "V",
+   "expected": 0.7995508,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "spread_high_616",
+   "label": "Highest output of 24 random sets at the code of 0.80 V",
+   "value": 0.8007393,
+   "unit": "V",
+   "expected": 0.7995508,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "spread_low_3893",
+   "label": "Lowest output of 24 random sets at the code of 5.00 V",
+   "value": 4.993945,
+   "unit": "V",
+   "expected": 4.999807,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "spread_high_3893",
+   "label": "Highest output of 24 random sets at the code of 5.00 V",
+   "value": 5.0026,
+   "unit": "V",
+   "expected": 4.999807,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_r0",
+   "label": "Range 0: regulator output above the terminal at full scale",
+   "value": 0.1000046,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "regulation_r0",
+   "label": "Range 0: fall of the regulator output at full scale",
+   "value": 7.137367e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_r1",
+   "label": "Range 1: regulator output above the terminal at full scale",
+   "value": 0.09603413,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "regulation_r1",
+   "label": "Range 1: fall of the regulator output at full scale",
+   "value": 1.802892e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_r2",
+   "label": "Range 2: regulator output above the terminal at full scale",
+   "value": 0.1062205,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "regulation_r2",
+   "label": "Range 2: fall of the regulator output at full scale",
+   "value": 0.0001606971,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_r3",
+   "label": "Range 3: regulator output above the terminal at full scale",
+   "value": 0.1453005,
+   "unit": "V",
+   "expected": 0.144,
+   "low": null,
+   "high": 0.2,
+   "source": "requirement R-06: 200 mV at 1 A; section 2: 144 mV typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "regulation_r3",
+   "label": "Range 3: fall of the regulator output at full scale",
+   "value": 0.0004746261,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rest",
+   "label": "Largest movement of output and pre-regulator in the last 2 ms of any run",
+   "value": 1.808808e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.0001,
+   "source": "limit of this bench: a run counts as at rest below 0.1 mV",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "transfer",
+   "Set-point: output of the regulator over the DAC code, nominal parts",
+   "setpoint.transfer.png"
+  ],
+  [
+   "power-up",
+   "The run that every figure is read from: power-up to code 3893",
+   "setpoint.power-up.png"
+  ]
+ ],
+ "notes": [
+  "Every figure is the end of a run that starts with all rails at zero and ends at rest; the capacitor of the set-point filter, C41, has one hundredth of its value in these runs, which changes no voltage at rest.",
+  "The rails and the reference are ideal sources. The DAC is the behavioral model without the serial interface: its code is a parameter, and the frame of rule F-6 is not simulated.",
+  "The random sets draw the six resistors of the path inside their tolerance, the reference inside 0.05 % (assumption) and the SET current inside 2 %. The error of the DAC is left out of them: the calibration of rule F-30 removes it. The ceiling at the limits adds 1 % of gain and 1 % of offset of the DAC and 3.5 mV of regulator offset.",
+  "At the highest code the pre-regulator is asked for 5.70 V, above the 5.5 V at which its datasheet ends; the model follows up to its assumed over-voltage level of 6.2 V. Rule F-30 keeps the set-point at or below 5.00 V.",
+  "The path to the terminal is three resistors that stand for the closed switches, the shunt, copper and contacts; the ladder and the switches belong to other blocks."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "setpoint.code-3893.cir",
+  "setpoint.code-616.cir"
+ ],
+ "format": 1
+}

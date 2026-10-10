@@ -1,0 +1,15 @@
+* USB-C alone: the rail stands at 5 V, no cable at the module
+.include "../../models/digital.lib"
+C1 pico_5v 0 1e-07
+XD1 v5 vsys DIGITAL_1N5819HW
+R5 pico_5v n_u3_en_uvlo 4530
+R6 n_u3_en_uvlo 0 3010
+XU1 vbus vsys 0 DIGITAL_PICO2_SUPPLY
+RJP1 vbus pico_5v 0.001
+R23 v5 0 10000
+* the 5 V rail as an ideal source; nothing drives VBUS
+Vrail v5 0 5
+.control
+tran 10u 50m
+.endc
+.end

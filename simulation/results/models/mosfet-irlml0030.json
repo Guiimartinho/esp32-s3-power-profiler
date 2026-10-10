@@ -1,0 +1,103 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "mosfet-irlml0030",
+ "title": "IRLML0030 model against its datasheet",
+ "covers": "the model of the range switches Q12 and Q13",
+ "summary": "The model is put in the test circuits of a datasheet. A forced drain current with the gate held gives the on-resistance, the gate tied to the drain the threshold, and a constant current into the gate with a clamped current as load the gate charge. The element is one part of the schematic of this type, so the model map decides the model.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "on_4p5v",
+   "label": "On-resistance at 4.5 V on the gate and 4 A",
+   "value": 0.03341798,
+   "unit": "ohm",
+   "expected": 0.033,
+   "low": 0.0297,
+   "high": 0.0363,
+   "source": "Infineon PD-96278B page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "on_10v",
+   "label": "On-resistance at 10 V on the gate and 4 A",
+   "value": 0.02043555,
+   "unit": "ohm",
+   "expected": 0.022,
+   "low": 0.0198,
+   "high": 0.0242,
+   "source": "Infineon PD-96278B page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "threshold",
+   "label": "Gate threshold at 25 uA",
+   "value": 1.613265,
+   "unit": "V",
+   "expected": 1.7,
+   "low": 1.3,
+   "high": 2.3,
+   "source": "Infineon PD-96278B page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "charge_4v5",
+   "label": "Gate charge to 4.5 V",
+   "value": 3.001112e-09,
+   "unit": "C",
+   "expected": 2.6e-09,
+   "low": 1.95e-09,
+   "high": 3.25e-09,
+   "source": "Infineon PD-96278B page 2, typical",
+   "verdict": "pass"
+  },
+  {
+   "key": "plateau",
+   "label": "Gate voltage while the drain falls",
+   "value": 2.360082,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "charge_plateau",
+   "label": "Gate charge while the drain falls from 90 % to 10 %",
+   "value": 7.80743e-10,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "gate-charge",
+   "IRLML0030: gate charge at 4 A and 15 V",
+   "mosfet-irlml0030.gate-charge.png"
+  ]
+ ],
+ "notes": [
+  "The limits here are the fit this project asks of a model: 10 % on the on-resistance, 25 % on the gate charge. They are not datasheet limits.",
+  "The model is a typical part at 25 C. It says nothing about leakage."
+ ],
+ "models": [
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "mosfet-irlml0030.charge.cir"
+ ],
+ "format": 1
+}

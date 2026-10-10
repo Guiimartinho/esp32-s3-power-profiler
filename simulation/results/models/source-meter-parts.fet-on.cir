@@ -1,0 +1,11 @@
+* BSS138: on-resistance
+.include "../../models/source_meter.lib"
+MQ1 d g s SOURCE_METER_BSS138
+* source grounded, 10 V on the gate, drain current forced
+Vs s 0 0
+Vg g 0 10
+Id 0 d 0.22
+.control
+op
+.endc
+.end

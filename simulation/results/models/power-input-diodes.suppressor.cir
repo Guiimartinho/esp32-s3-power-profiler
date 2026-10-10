@@ -1,0 +1,9 @@
+* SMAJ10A: breakdown, clamping, forward
+.include "../../models/power_input.lib"
+XD2 0 k PWRIN_SMAJ10A
+Ik 0 k PWL(0 0 5e-05 0.001 0.001 0.001 0.00105 23.5 0.002 23.5 0.00205 -25 0.003 -25)
+Rk k 0 1e9
+.control
+tran 2e-06 0.003 0 2e-06 uic
+.endc
+.end

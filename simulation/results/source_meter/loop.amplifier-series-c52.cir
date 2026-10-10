@@ -1,0 +1,27 @@
+* Loop of the tracking amplifier U19
+.include "../../models/opamps.lib"
+.include "../../models/diodes.lib"
+.include "../../models/source_meter.lib"
+C51 p3v3_a 0 1e-07
+C52 trk_n pre_fb 1e-11
+C55 trk_sense 0 1e-07
+DD13_1 ldo_out trk_sense BAV199
+DD13_2 trk_sense trk_sense BAV199
+R63 trk_n pre_fb 19100
+R64 trk_sense trk_n 93100
+R65 ldo_out trk_sense 6650
+R66 trk_p 0 23700
+R67 v_pre trk_p 100000
+R68 vref trk_p 137000
+XU19 trk_p trk_n p3v3_a 0 pre_fb SOURCE_METER_OPA365_PROBE vac=1 iac=0
+* the inputs of the difference amplifier held by sources; the feedback pin
+* of the converter takes no current
+Vpre v_pre 0 3.827
+Vldo ldo_out 0 3.3
+Vref vref 0 2.5
+Vp3v3a p3v3_a 0 3.3
+Rfb pre_fb 0 1e10
+.control
+ac dec 50 10 1g
+.endc
+.end

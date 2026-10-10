@@ -1,0 +1,17 @@
+* MCP9700A at 25 C
+.include "../../models/digital.lib"
+* one sensor without load, one with 100 uA drawn from its output,
+* and one without supply
+Vdd vdd 0 3.3
+X1 vdd out 0 DIGITAL_MCP9700A
+Ro out 0 1e9
+X2 vdd loaded 0 DIGITAL_MCP9700A
+Il loaded 0 0.0001
+Voff off 0 0
+X3 off dead 0 DIGITAL_MCP9700A
+Rd dead 0 1e6
+.options temp=25
+.control
+op
+.endc
+.end

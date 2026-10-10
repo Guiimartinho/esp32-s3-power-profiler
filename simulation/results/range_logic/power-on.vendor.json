@@ -1,0 +1,259 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "power-on",
+ "title": "DUT power on into 1000 uF to 3300 uF: the in-rush against the armed trip",
+ "covers": "sections 4.2 (output switch) and 4.4 (trip without blanking), rules F-19, F-20 and F-24",
+ "summary": "Range 3 is selected, the trip is armed and the output switch is asked to close. The output switch closes as a source follower behind 2.2 Mohm and 10 nF, so the output voltage rises slowly and a discharged capacitor at the output draws a current in proportion to its size. The trip has no blanking at a start: the current has to stay below the over-current level by itself. The run takes 1000 uF, 1800 uF, 2200 uF, 2200 uF plus 20 %, and 3300 uF at 5 V, and 2200 uF at 3.3 V and 0.8 V, and reads the largest current in the 0.1 ohm shunt, when the output begins to rise and how fast, and whether the trip acts.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "peak_1000uf",
+   "label": "1000 uF at 5 V: largest current in the shunt",
+   "value": 0.397729,
+   "unit": "A",
+   "expected": 0.39,
+   "low": null,
+   "high": 1.0,
+   "source": "section 4.2: 0.39 A into 1000 uF, simulated; section 11: no trip, peak below 1.0 A up to 1800 uF",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_1800uf",
+   "label": "1800 uF at 5 V: largest current in the shunt",
+   "value": 0.7087944,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "section 11: no trip, peak below 1.0 A up to 1800 uF",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_2200uf",
+   "label": "2200 uF at 5 V: largest current in the shunt",
+   "value": 0.8627292,
+   "unit": "A",
+   "expected": 0.85,
+   "low": null,
+   "high": 1.15,
+   "source": "section 4.2: 0.85 A into 2200 uF, simulated; section 4.4: below the trip level",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_2640uf",
+   "label": "2200 uF plus 20 % at 5 V: largest current in the shunt",
+   "value": 1.030937,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "peak_2200uf_3v3",
+   "label": "2200 uF at 3.3 V: largest current in the shunt",
+   "value": 0.8566616,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.15,
+   "source": "section 4.4: below the trip level up to about 2200 uF",
+   "verdict": "pass"
+  },
+  {
+   "key": "peak_2200uf_0v8",
+   "label": "2200 uF at 0.8 V: largest current in the shunt",
+   "value": 0.7837924,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.15,
+   "source": "section 4.4: below the trip level up to about 2200 uF",
+   "verdict": "pass"
+  },
+  {
+   "key": "trips_to_2200uf",
+   "label": "Starts into 2200 uF or less in which the trip acts, of 5",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.4: no trip up to about 2200 uF",
+   "verdict": "pass"
+  },
+  {
+   "key": "trip_2640uf",
+   "label": "2200 uF plus 20 %: the trip acts (1 when so)",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "trip_3300uf",
+   "label": "3300 uF: the trip acts (1 when so)",
+   "value": 1.0,
+   "unit": "",
+   "expected": 1.0,
+   "low": null,
+   "high": null,
+   "source": "rule F-19: a start trips with more than about 2200 uF",
+   "verdict": "info"
+  },
+  {
+   "key": "starts",
+   "label": "2200 uF at 5 V: request to 0.1 V at the output",
+   "value": 0.006544924,
+   "unit": "s",
+   "expected": 0.0065,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: starts to rise 6 ms to 7 ms after the request, simulated",
+   "verdict": "info"
+  },
+  {
+   "key": "slope",
+   "label": "2200 uF at 5 V: slope of the output between 1 V and 2 V",
+   "value": 364.6158,
+   "unit": "V/s",
+   "expected": 440.0,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 0.44 V/ms, simulated",
+   "verdict": "info"
+  },
+  {
+   "key": "most",
+   "label": "2200 uF at 5 V: request to 90 % of the output voltage",
+   "value": 0.02072122,
+   "unit": "s",
+   "expected": 0.02,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: about 20 ms at 5.0 V, simulated",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The capacitor has 20 mohm in series and starts at 0 V; a leak of 100 kohm stands for the rest of the device. A device that draws current while its supply rises adds to the in-rush.",
+  "The slope of the output, and with it the current, follows the gate network and the capacitances of the two switch transistors; the instant at which the output begins to rise follows their threshold. The transistor model is a typical part.",
+  "The trip is the model of rule F-18 and is armed from the start of the run; that range 3 is selected first is the order of rule F-24, set here through the state at rest.",
+  "The source holds its voltage behind 20 mohm: what the regulator does with 0.9 A of in-rush is not in this run.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

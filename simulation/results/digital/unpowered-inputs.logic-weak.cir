@@ -1,0 +1,55 @@
+* Acquisition lines high into a dead logic rail: weakest pad of the 4 mA setting
+.include "../../models/digital.lib"
+R3 dac_cs_mid c_dac_cs 1500
+XU7 v5 v3c 0 DIGITAL_LP5907_OFF
+C16 v3c 0 1e-06
+C35 v3c 0 1e-07
+C92 v3c 0 1e-06
+C98 v3c 0 1e-07
+C99 v3c 0 1e-07
+R51 v3c pwr_good 1500
+R52 pwr_good 0 6800
+RRN3_1 gp19 0 4700
+RRN3_2 gp20 0 4700
+RRN3_3 gp21 0 4700
+RRN3_4 gp22 v3a 4700
+RRN4_1 gp19 adc_sck 47
+RRN4_2 gp20 adc_cnv 47
+RRN4_3 gp21 side_load 47
+RRN4_4 gp22 dac_cs_mid 47
+RRN5_1 u30_sclk adc_sck 220
+RRN5_2 u30_dout gp16 220
+RRN5_3 u30_cnv adc_cnv 220
+XU30 u30_cnv u30_dout u30_sclk v3c v3c 0 DIGITAL_ADS8860_IO
+XU33 side_load adc_sck din4 din5 din6 din7 nc_u33_q7_pad7 0 q33 v3c din0 din1 din2 din3 0 v3c DIGITAL_LV165A
+XU34 side_load adc_sck vin_ov gate_out mux_a0 mux_a1 nc_u34_q7_pad7 0 q34 q33 pwr_good cmp_up cmp_jump cmp_oc 0 v3c DIGITAL_LV165A
+C101 v3c 0 1e-07
+R138 q34 gp17 33
+* the 3.3 V rail of the module, an ideal source
+Viovdd iovdd 0 3.3
+* the 5 V rail stands; the supervisor holds the two 3.3 V regulators off
+Vrail v5 0 5
+Vanalog v3a 0 0
+* three pads of the controller are driven high at 20 us
+Xgp19 gp19 gp19_ctl gp19_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=170 cpad=5e-12 e9=0
+Vgp19_ctl gp19_ctl 0 PWL(0 0 2e-05 0 2.001e-05 1)
+Vgp19_oe gp19_oe 0 1
+Xgp20 gp20 gp20_ctl gp20_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=170 cpad=5e-12 e9=0
+Vgp20_ctl gp20_ctl 0 PWL(0 0 2e-05 0 2.001e-05 1)
+Vgp20_oe gp20_oe 0 1
+Xgp21 gp21 gp21_ctl gp21_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=170 cpad=5e-12 e9=0
+Vgp21_ctl gp21_ctl 0 PWL(0 0 2e-05 0 2.001e-05 1)
+Vgp21_oe gp21_oe 0 1
+Xgp16 gp16 gp16_ctl gp16_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp16_ctl gp16_ctl 0 0
+Vgp16_oe gp16_oe 0 0
+Xgp17 gp17 gp17_ctl gp17_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp17_ctl gp17_ctl 0 0
+Vgp17_oe gp17_oe 0 0
+Xgp22 gp22 gp22_ctl gp22_oe iovdd 0 DIGITAL_RP2350_PAD roh=170 rol=125 cpad=5e-12 e9=0
+Vgp22_ctl gp22_ctl 0 0
+Vgp22_oe gp22_oe 0 0
+.control
+tran 20n 6m 0 5u
+.endc
+.end

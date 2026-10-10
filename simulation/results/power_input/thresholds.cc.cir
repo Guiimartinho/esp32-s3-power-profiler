@@ -1,0 +1,18 @@
+* CC1 with the pull-ups of the three kinds of USB-C source
+.include "../../models/power_input.lib"
+R7 cc1 0 5100
+XU2_1 cc1 0 PWRIN_TPD4E1U06_CH
+XU2_2 cc2 0 PWRIN_TPD4E1U06_CH
+R11 cc2 0 5100
+C106 mon_cc1 0 1e-07
+C107 mon_cc2 0 1e-07
+R144 cc1 mon_cc1 10000
+R145 cc2 mon_cc2 10000
+* VBUS of the source and its pull-up to CC1 (not in the schematic)
+Vsrc src 0 PWL(0 0 0.001 5 0.02099 5 0.021 5.5 0.04099 5.5 0.041 4.75 0.06099 4.75 0.061 5 0.08099 5 0.081 5.5 0.10099 5.5 0.101 4.75 0.12099 4.75 0.121 5 0.14099 5 0.141 5.5 0.16099 5.5 0.161 4.75 0.18099 4.75)
+Bpull src cc1 I = v(src,cc1)*(1.78571e-05*pwrin_hi((time - 0.001)/10u)*pwrin_hi((0.021 - time)/10u) + 2.23214e-05*pwrin_hi((time - 0.021)/10u)*pwrin_hi((0.041 - time)/10u) + 1.4881e-05*pwrin_hi((time - 0.041)/10u)*pwrin_hi((0.061 - time)/10u) + 4.54545e-05*pwrin_hi((time - 0.061)/10u)*pwrin_hi((0.081 - time)/10u) + 4.78469e-05*pwrin_hi((time - 0.081)/10u)*pwrin_hi((0.101 - time)/10u) + 4.329e-05*pwrin_hi((time - 0.101)/10u)*pwrin_hi((0.121 - time)/10u) + 0.0001*pwrin_hi((time - 0.121)/10u)*pwrin_hi((0.141 - time)/10u) + 0.000105263*pwrin_hi((time - 0.141)/10u)*pwrin_hi((0.161 - time)/10u) + 9.52381e-05*pwrin_hi((time - 0.161)/10u)*pwrin_hi((0.181 - time)/10u))
+Rcc2 cc2 0 1e9
+.control
+tran 2e-05 0.182 0 2e-05 uic
+.endc
+.end

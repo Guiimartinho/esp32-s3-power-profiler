@@ -1,0 +1,305 @@
+{
+ "block": "analog_rails",
+ "block_title": "Analog Rails and Rail Monitor",
+ "bench": "supply-noise",
+ "title": "Noise and ripple of +12V_A and -4V_A, and what passes from the rails ahead",
+ "covers": "section 3 (analog rails), section 4.6, decision D-51; the rails feed the amplifier, the multiplexer and the buffers of sections 4.3 and 4.5",
+ "summary": "Each analog rail is taken alone, at rest, with an ideal rail ahead of it. For +12V_A the regulator runs from a 13.53 V source through R37 and C29 with 6.6 mA of load; a noise analysis gives the noise of the rail and a test signal on the source gives what the regulator lets through. For -4V_A the same is done with the averaged pump on a 5 V source, and a transient with the pump switch by switch gives the ripple. For the reference a test signal on 3V3_A gives what reaches VREF. The supply pins of the amplifier, of the multiplexer and of the buffers are on these rail nets without a part in between, so what the rail carries is what the pins see.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "p12_level",
+   "label": "+12V_A at rest",
+   "value": 12.00002,
+   "unit": "V",
+   "expected": 12.0,
+   "low": 11.868,
+   "high": 12.132,
+   "source": "section 3: 12.0 V; SET current 1 % and R38 0.1 % (datasheet, netlist)",
+   "verdict": "pass"
+  },
+  {
+   "key": "p12_noise_10",
+   "label": "+12V_A: noise density at 10 Hz",
+   "value": 2.351248e-07,
+   "unit": "V/√Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "p12_noise_10k",
+   "label": "+12V_A: noise density at 10 kHz",
+   "value": 2.079348e-09,
+   "unit": "V/√Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "p12_noise",
+   "label": "+12V_A: noise from 10 Hz to 100 kHz",
+   "value": 9.868387e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "p12_reject_120",
+   "label": "+12V_A: what passes from +13V5 at 120 Hz",
+   "value": -116.7747,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "p12_reject_10000",
+   "label": "+12V_A: what passes from +13V5 at 10000 Hz",
+   "value": -91.29867,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "p12_reject_100000",
+   "label": "+12V_A: what passes from +13V5 at 100000 Hz",
+   "value": -86.61754,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "p12_reject_1p6e06",
+   "label": "+12V_A: what passes from +13V5 at 1.6e+06 Hz",
+   "value": -120.382,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_level",
+   "label": "-4V_A at rest",
+   "value": -3.9772,
+   "unit": "V",
+   "expected": -3.977,
+   "low": -3.996885,
+   "high": -3.957115,
+   "source": "datasheet equation of the pump with R34 and R36",
+   "verdict": "pass"
+  },
+  {
+   "key": "m4_noise",
+   "label": "-4V_A: noise from 10 Hz to 100 kHz",
+   "value": 5.447152e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_reject_1000",
+   "label": "-4V_A: what passes from the 5 V rail at 1000 Hz",
+   "value": -104.0422,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_reject_100000",
+   "label": "-4V_A: what passes from the 5 V rail at 100000 Hz",
+   "value": -78.19435,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_reject_1p6e06",
+   "label": "-4V_A: what passes from the 5 V rail at 1.6e+06 Hz",
+   "value": -117.2972,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "m4_ripple",
+   "label": "-4V_A: ripple that the pump lets through, peak to peak",
+   "value": 7.22515e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "cpout_ripple",
+   "label": "Output of the pump ahead of its regulator: ripple, peak to peak",
+   "value": 0.01094913,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pump_in_ripple",
+   "label": "Supply pin of the pump behind R30: ripple, peak to peak",
+   "value": 0.003809536,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vref_reject_1000",
+   "label": "VREF: what passes from 3V3_A at 1000 Hz",
+   "value": -77.93215,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vref_reject_100000",
+   "label": "VREF: what passes from 3V3_A at 100000 Hz",
+   "value": -115.8739,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vref_reject_1p6e06",
+   "label": "VREF: what passes from 3V3_A at 1.6e+06 Hz",
+   "value": -69.77556,
+   "unit": "dB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "Noise of +12V_A: the model holds the 2 nV/rtHz of the error amplifier and the 20 pA/rtHz of the reference current of the datasheet, white. Below 100 Hz the reference current into the SET capacitor decides, and that capacitor is 1.45 uF at 12 V instead of 4.7 uF, so the rail is noisier there than the 0.8 uV RMS that the datasheet gives for 4.7 uF.",
+  "What +12V_A lets through is the datasheet rejection of the regulator up to 1 MHz with the filter R37 and C29 ahead of it. With the boost ripple of the boost-output bench (2.5 mV at 1.6 MHz and up to 5 mV of slow movement at a few kilohertz, the latter a property of the model) less than 0.2 uV reaches +12V_A by conduction. The edges of the switch node, which the datasheet of the regulator says pass it, and coupling through the board are not in a circuit simulation.",
+  "Noise of -4V_A: the 20 uV RMS of the datasheet are put at the reference of the regulator as if measured at -1.8 V of output; at -4 V that gives the figure here. Read as a figure of the output itself it would be 20 uV RMS. The ripple of -4V_A is only what the pump ripple passes through an assumed feed-through that reproduces the 35 dB at 2 MHz of the datasheet; the datasheet shows 0.8 mV to 3.2 mV of ripple on a 2.2 uF output (figure 5-1), most of which is coupling that a circuit simulation does not hold. Scaled to the 6.2 uF of this rail that would be about 1 mV: the figure to budget with until it is measured.",
+  "The pulse skipping of the pump has a hysteresis of 10 mV that is an assumption; it sets the ripple ahead of the regulator and the pace of the bursts."
+ ],
+ "models": [
+  [
+   "C20",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C21",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C22",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C28",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C29",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C30",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "C31",
+   "RAILS_MLCC",
+   "written here"
+  ],
+  [
+   "D7",
+   "DI_B0530W",
+   "vendor"
+  ],
+  [
+   "D8",
+   "DI_B0530W",
+   "vendor"
+  ],
+  [
+   "D9",
+   "DI_B0530W",
+   "vendor"
+  ],
+  [
+   "U11",
+   "LM27761",
+   "written here"
+  ],
+  [
+   "U11",
+   "LM27761_AVG",
+   "written here"
+  ],
+  [
+   "U12",
+   "REF5025",
+   "vendor"
+  ],
+  [
+   "U13",
+   "LT3042",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

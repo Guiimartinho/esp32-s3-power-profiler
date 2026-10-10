@@ -1,0 +1,13 @@
+* PTVS15VS1UR: stand-off current and capacitance
+.include "../../models/output_stage.lib"
+XD21 0 k OUTPUT_PTVS15V
+* the cathode is driven by a voltage source
+Vk k 0 dc 15 ac 1
+.control
+op
+alter Vk dc = 0
+ac lin 1 1e+06 1e+06
+alter Vk dc = 5
+ac lin 1 1e+06 1e+06
+.endc
+.end

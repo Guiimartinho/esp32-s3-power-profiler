@@ -1,0 +1,207 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "side-data",
+ "title": "Side data chain: load pulse, shift and the sixteen bits at the controller",
+ "covers": "section 4.7 (D-41), rule F-34",
+ "summary": "The two registers are loaded and shifted by the frame of rule F-34. The load line is low for three system clocks at the rising edge of convert-start; sixteen clocks later shift the sixteen bits to the pad GP17 through R138, while the converter shifts its word to GP16. The pulse widths are read at the pins of the registers and compared with the times that their datasheet asks for. The two words are read back at the pads, with 16 and with 10 system clocks per bit, with everything slow, everything fast and a middle case. A last run releases the pads.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "load_low_9p375mhz",
+   "label": "9.375 MHz: load pin of the registers below its low level for",
+   "value": 1.79298e-08,
+   "unit": "s",
+   "expected": 2e-08,
+   "low": 9e-09,
+   "high": null,
+   "source": "rule F-34: three clocks; TI SCLS402R, page 6: 9 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_high_9p375mhz",
+   "label": "9.375 MHz: clock pin of the registers above its high level for",
+   "value": 4.502064e-08,
+   "unit": "s",
+   "expected": null,
+   "low": 7e-09,
+   "high": null,
+   "source": "TI SCLS402R, page 6: clock pulse 7 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_low_9p375mhz",
+   "label": "9.375 MHz: clock pin of the registers below its low level for",
+   "value": 4.895669e-08,
+   "unit": "s",
+   "expected": null,
+   "low": 7e-09,
+   "high": null,
+   "source": "TI SCLS402R, page 6: clock pulse 7 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "first_bit_9p375mhz",
+   "label": "9.375 MHz: first side bit valid at the pad after the load began",
+   "value": 2.181054e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7.733333e-07,
+   "source": "rule F-34: the first rising clock edge comes after the conversion",
+   "verdict": "pass"
+  },
+  {
+   "key": "wrong_bits_9p375mhz",
+   "label": "9.375 MHz: bits read wrong at the two pads in three runs, of 96",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.7: one word per sample holds the result and its side bits",
+   "verdict": "pass"
+  },
+  {
+   "key": "read_before_9p375mhz",
+   "label": "9.375 MHz: the pads are read before the rising clock edge by",
+   "value": 1.355632e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the middle of the window that a weak and a strong board share",
+   "verdict": "info"
+  },
+  {
+   "key": "load_low_15mhz",
+   "label": "15 MHz: load pin of the registers below its low level for",
+   "value": 1.79298e-08,
+   "unit": "s",
+   "expected": 2e-08,
+   "low": 9e-09,
+   "high": null,
+   "source": "rule F-34: three clocks; TI SCLS402R, page 6: 9 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_high_15mhz",
+   "label": "15 MHz: clock pin of the registers above its high level for",
+   "value": 2.497951e-08,
+   "unit": "s",
+   "expected": null,
+   "low": 7e-09,
+   "high": null,
+   "source": "TI SCLS402R, page 6: clock pulse 7 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_low_15mhz",
+   "label": "15 MHz: clock pin of the registers below its low level for",
+   "value": 2.901491e-08,
+   "unit": "s",
+   "expected": null,
+   "low": 7e-09,
+   "high": null,
+   "source": "TI SCLS402R, page 6: clock pulse 7 ns at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "first_bit_15mhz",
+   "label": "15 MHz: first side bit valid at the pad after the load began",
+   "value": 2.181054e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7.533333e-07,
+   "source": "rule F-34: the first rising clock edge comes after the conversion",
+   "verdict": "pass"
+  },
+  {
+   "key": "wrong_bits_15mhz",
+   "label": "15 MHz: bits read wrong at the two pads in three runs, of 96",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": 0.0,
+   "source": "section 4.7: one word per sample holds the result and its side bits",
+   "verdict": "pass"
+  },
+  {
+   "key": "read_before_15mhz",
+   "label": "15 MHz: the pads are read before the rising clock edge by",
+   "value": 3.681327e-09,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the middle of the window that a weak and a strong board share",
+   "verdict": "info"
+  },
+  {
+   "key": "released_load",
+   "label": "Pads released: load line of the registers",
+   "value": 1.551e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.99,
+   "source": "section 4.7: its pull-down keeps the registers loading",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_first_bit",
+   "label": "Pads released: side data line shows the input D7 of U34 (high in this run)",
+   "value": 3.3,
+   "unit": "V",
+   "expected": null,
+   "low": 2.0,
+   "high": null,
+   "source": "section 4.7: with the load line low the registers follow their inputs",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "frame",
+   "Read-out at 9.375 MHz, middle case: side word 0xB269 and converter word 0xA5C3",
+   "side-data.frame.png"
+  ],
+  [
+   "load",
+   "The load pulse at the rising edge of convert-start, middle case",
+   "side-data.load.png"
+  ]
+ ],
+ "notes": [
+  "The first side bit is the input D7 of U34, MUX_A1; the sixteenth is D0 of U33, DIN0. The side word of the runs is 0xB269 and the converter word 0xA5C3, so that neighbors differ in both.",
+  "The pads are read at one instant per bit, in the middle of the window that the bench converter-lines finds. A program of the controller reads on a grid of 6.7 ns and through a synchronizer; where that instant falls is not decided yet.",
+  "The register model does not check its own timing; the pulse widths are read at its pins and compared with its datasheet. Data inputs that change during a load are not in these runs: the inputs are held."
+ ],
+ "models": [
+  [
+   "U30",
+   "DIGITAL_ADS8860_IO",
+   "written here"
+  ],
+  [
+   "U33",
+   "DIGITAL_LV165A",
+   "written here"
+  ],
+  [
+   "U34",
+   "DIGITAL_LV165A",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "side-data.typical-16.cir"
+ ],
+ "format": 1
+}

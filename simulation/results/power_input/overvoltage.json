@@ -1,0 +1,297 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "overvoltage",
+ "title": "Too much voltage and the wrong polarity at the USB-C receptacle",
+ "covers": "section 4.1 (limits of the USB-C input, thresholds of the 5 V rail), section 11",
+ "summary": "The source at the USB-C receptacle rises from 5 V to 12.5 V; another one is reversed. The carrier runs at idle when the source starts to rise by 1 V per millisecond. The limiter lets the rail follow up to its clamp threshold and then holds its output at the clamp level; from 11.1 V to 12.3 V the suppressor conducts. The run is repeated with the highest and the lowest clamp of the datasheet of the limiter. In a last run a source of 5 V and 3 A is connected with the wrong polarity.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "rail_5v5",
+   "label": "Typical limiter: rail with 5.5 V at the source",
+   "value": 5.416395,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.5,
+   "source": "section 4.1: 5.50 V is the highest rail in operation",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_peak_typical",
+   "label": "Typical limiter: highest level of the rail while the source rises",
+   "value": 5.654025,
+   "unit": "V",
+   "expected": 5.69,
+   "low": null,
+   "high": 5.83,
+   "source": "section 4.1: a source up to 5.83 V can reach the rail without being clamped",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_peak_high",
+   "label": "Limiter with the highest clamp threshold: highest level of the rail",
+   "value": 5.794028,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 5.83,
+   "source": "section 4.1: a source up to 5.83 V can reach the rail without being clamped",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_8v",
+   "label": "Typical limiter: rail with 8 V at the source",
+   "value": 5.38927,
+   "unit": "V",
+   "expected": 5.45,
+   "low": 5.28,
+   "high": 5.61,
+   "source": "section 4.1: output clamped at 5.28 V to 5.61 V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_10v",
+   "label": "Typical limiter: rail with 10 V at the source",
+   "value": 5.38928,
+   "unit": "V",
+   "expected": 5.45,
+   "low": 5.28,
+   "high": 5.61,
+   "source": "section 4.1: output clamped at 5.28 V to 5.61 V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rail_10v_low",
+   "label": "Limiter with the lowest clamp: rail with 10 V at the source",
+   "value": 5.219084,
+   "unit": "V",
+   "expected": null,
+   "low": 4.25,
+   "high": null,
+   "source": "section 4.1: the rail has to stay above the firmware limit, 4.25 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "limiter_watts_10v",
+   "label": "Typical limiter: dissipation of the limiter with 10 V at the source, idle carrier",
+   "value": 0.6501101,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "v3a_10v",
+   "label": "Typical limiter: 3V3_A with 10 V at the source",
+   "value": 3.299339,
+   "unit": "V",
+   "expected": null,
+   "low": 3.234,
+   "high": 3.366,
+   "source": "LP5907 datasheet, page 5: 2 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_10v",
+   "label": "Typical suppressor: current of its breakdown path with 10 V at the source",
+   "value": -1.077748e-12,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.1e-06,
+   "source": "suppressor datasheet: 1 uA at most at 10 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_12v5",
+   "label": "Typical suppressor: its current with 12.5 V at the source",
+   "value": 1.646267,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_watts",
+   "label": "Typical suppressor: its dissipation with 12.5 V at the source",
+   "value": 20.10745,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 3.3,
+   "source": "suppressor datasheet, page 1: 3.3 W on an infinite heat sink; section 4.1: a source that delivers amperes destroys it",
+   "verdict": "fail"
+  },
+  {
+   "key": "source_amps_12v5",
+   "label": "Current from the source with 12.5 V",
+   "value": 1.790169,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reverse_receptacle",
+   "label": "Reversed source of 3 A: voltage at the receptacle and at the input of the limiter",
+   "value": -0.961803,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "TPS2596 datasheet, page 5: -0.3 V at the input; the specification states no figure",
+   "verdict": "fail"
+  },
+  {
+   "key": "reverse_input1",
+   "label": "Reversed source of 3 A: voltage at input 1 of the multiplexer",
+   "value": -0.816065,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "TPS2116 datasheet, page 4: -0.3 V at an input; the specification states no figure",
+   "verdict": "fail"
+  },
+  {
+   "key": "reverse_rail",
+   "label": "Reversed source of 3 A: lowest level of the rail",
+   "value": -3.927207e-09,
+   "unit": "V",
+   "expected": null,
+   "low": -0.3,
+   "high": null,
+   "source": "LP5907 datasheet, page 4: -0.3 V at the input",
+   "verdict": "pass"
+  },
+  {
+   "key": "reverse_amps",
+   "label": "Reversed source of 3 A: current in the cable",
+   "value": -3.0,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "rise",
+   "The source at the receptacle rises from 5 V to 12.5 V; the carrier runs at idle",
+   "overvoltage.rise.png"
+  ],
+  [
+   "reverse",
+   "A source of 5 V and 3 A with the wrong polarity, connected at 0.1 ms",
+   "overvoltage.reverse.png"
+  ]
+ ],
+ "notes": [
+  "The source rises by 1 V per millisecond: the levels are static ones. The response of the clamp to a fast edge (5 us in the datasheet) is not what this run shows.",
+  "Between its clamp level and its clamp threshold the limiter lets the rail follow the source: with a typical part the rail reaches 5.69 V, with the highest threshold 5.83 V, before it falls back to the clamp level.",
+  "The suppressor is a typical part with a breakdown of 11.7 V at 1 mA; the datasheet allows 11.1 V to 12.3 V. Its dissipation is the product of its current and the receptacle voltage; nothing here heats up or fails.",
+  "The thermal shutdown of the limiter is not modelled. With the idle carrier it dissipates little; with a load of 1 A and 10 V at its input it would take 4.5 W and cycle, as the specification says.",
+  "With the wrong polarity the suppressor conducts in its forward direction. Its forward voltage (0.8 V at 3 A in the model) is an assumption: the datasheet gives only 3.5 V at most at 25 A. The diode across the limiter and the body diode of the limiter (an assumption) take input 1 down with the receptacle. A USB-C plug cannot be turned to reverse VBUS; a reversed source is a faulty cable or charger."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "overvoltage.reverse.cir",
+  "overvoltage.typical.cir"
+ ],
+ "format": 1
+}

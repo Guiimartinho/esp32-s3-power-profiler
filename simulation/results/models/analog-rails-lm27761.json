@@ -1,0 +1,188 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-lm27761",
+ "title": "LM27761 models against the datasheet",
+ "covers": "the two models of the charge pump U11: switch by switch and averaged",
+ "summary": "Both models of the pump run the typical application of the datasheet. The supply is 5 V, the output is set to -1.8 V, and the load steps to 10 mA, 100 mA and 200 mA before the enable falls. The run gives the output, the level of the pump at light load, its output resistance, the times of the start and the discharge in shutdown. A second run takes the supply of the averaged model down to 2.2 V and back for the lock-out.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "switched_level",
+   "label": "Switch by switch: output of the datasheet circuit, 10 mA",
+   "value": -1.79828,
+   "unit": "V",
+   "expected": -1.79828,
+   "low": -1.807271,
+   "high": -1.789289,
+   "source": "SNVSA85D page 13, equation 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "switched_light",
+   "label": "Switch by switch: pump output short of the supply at 10 mA",
+   "value": 0.1348517,
+   "unit": "V",
+   "expected": 0.135,
+   "low": 0.10125,
+   "high": 0.16875,
+   "source": "SNVSA85D page 15, figures 7-3 and 7-4: 2.7 % of the supply",
+   "verdict": "pass"
+  },
+  {
+   "key": "switched_resistance",
+   "label": "Switch by switch: output resistance of the pump between 100 mA and 200 mA",
+   "value": 2.4825,
+   "unit": "ohm",
+   "expected": 2.5,
+   "low": 2.0,
+   "high": 3.0,
+   "source": "SNVSA85D page 1: 2.5 ohm at 5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "switched_moves",
+   "label": "Switch by switch: output at 10 % after the enable",
+   "value": 0.0003339949,
+   "unit": "s",
+   "expected": 0.00033,
+   "low": 0.000231,
+   "high": 0.000429,
+   "source": "SNVSA85D page 7, figure 5-10: 0.32 ms before the output moves",
+   "verdict": "pass"
+  },
+  {
+   "key": "switched_there",
+   "label": "Switch by switch: output at 90 % after the enable",
+   "value": 0.0004842889,
+   "unit": "s",
+   "expected": 0.00046,
+   "low": 0.000322,
+   "high": 0.000598,
+   "source": "SNVSA85D page 7, figure 5-10: 0.14 ms of ramp after that",
+   "verdict": "pass"
+  },
+  {
+   "key": "switched_discharge",
+   "label": "Switch by switch: output from 90 % to 10 % after the enable has fallen, no load",
+   "value": 0.001740455,
+   "unit": "s",
+   "expected": 0.001710796,
+   "low": 0.001368637,
+   "high": 0.002052955,
+   "source": "SNVSA85D page 10: the output is pulled to ground with 1.85 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_level",
+   "label": "Averaged: output of the datasheet circuit, 10 mA",
+   "value": -1.79828,
+   "unit": "V",
+   "expected": -1.79828,
+   "low": -1.807271,
+   "high": -1.789289,
+   "source": "SNVSA85D page 13, equation 5",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_light",
+   "label": "Averaged: pump output short of the supply at 10 mA",
+   "value": 0.1279287,
+   "unit": "V",
+   "expected": 0.135,
+   "low": 0.10125,
+   "high": 0.16875,
+   "source": "SNVSA85D page 15, figures 7-3 and 7-4: 2.7 % of the supply",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_resistance",
+   "label": "Averaged: output resistance of the pump between 100 mA and 200 mA",
+   "value": 2.499994,
+   "unit": "ohm",
+   "expected": 2.5,
+   "low": 2.375,
+   "high": 2.625,
+   "source": "SNVSA85D page 1: 2.5 ohm at 5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_moves",
+   "label": "Averaged: output at 10 % after the enable",
+   "value": 0.0003338588,
+   "unit": "s",
+   "expected": 0.00033,
+   "low": 0.000231,
+   "high": 0.000429,
+   "source": "SNVSA85D page 7, figure 5-10: 0.32 ms before the output moves",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_there",
+   "label": "Averaged: output at 90 % after the enable",
+   "value": 0.0004841888,
+   "unit": "s",
+   "expected": 0.00046,
+   "low": 0.000322,
+   "high": 0.000598,
+   "source": "SNVSA85D page 7, figure 5-10: 0.14 ms of ramp after that",
+   "verdict": "pass"
+  },
+  {
+   "key": "averaged_discharge",
+   "label": "Averaged: output from 90 % to 10 % after the enable has fallen, no load",
+   "value": 0.001740455,
+   "unit": "s",
+   "expected": 0.001710796,
+   "low": 0.001368637,
+   "high": 0.002052955,
+   "source": "SNVSA85D page 10: the output is pulled to ground with 1.85 mA",
+   "verdict": "pass"
+  },
+  {
+   "key": "lockout_off",
+   "label": "Averaged: supply at which the output goes",
+   "value": 2.380642,
+   "unit": "V",
+   "expected": null,
+   "low": 2.3,
+   "high": 2.7,
+   "source": "SNVSA85D page 10: off at 2.4 V; the regulator runs out of head room first",
+   "verdict": "pass"
+  },
+  {
+   "key": "lockout_on",
+   "label": "Averaged: supply at which the output returns",
+   "value": 2.598591,
+   "unit": "V",
+   "expected": 2.6,
+   "low": 2.496,
+   "high": 2.704,
+   "source": "SNVSA85D page 10: on at 2.6 V (0.4 ms of start taken off)",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "run",
+   "LM27761 models in the typical application: start, 10 mA, 100 mA, 200 mA, off",
+   "analog-rails-lm27761.run.png"
+  ]
+ ],
+ "notes": [
+  "The limits are the fit this project asks of the models. The times of the start are read from a scope picture of the datasheet.",
+  "The level of the pump at light load is read from two figures of the datasheet; the hysteresis of the pulse skipping in the switched model (10 mV) is an assumption.",
+  "The output ripple of the datasheet (0.8 mV to 3.2 mV, figure 5-1) is not reproduced: the model passes only what the pump ripple leaves through a feed-through fitted to the 35 dB at 2 MHz."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-lm27761.averaged.cir",
+  "analog-rails-lm27761.lockout.cir",
+  "analog-rails-lm27761.switched.cir"
+ ],
+ "format": 1
+}

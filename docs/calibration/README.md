@@ -96,6 +96,32 @@ kept is open, and section 16 lists it among the points to decide:
   the first board (F-14);
 - the thermal limit, a constant taken from the first board (F-15).
 
+## What the Circuit Simulations Add
+
+On 2026-10-10 the circuits of draft A2 were simulated from the netlist of
+the schematic ([simulation guide](../../simulation/README.md)). Nothing in
+them is measured, and section 8 is unchanged.
+
+- The nominal values come out of the drawn circuit: the amplifier sees
+  shunts of 1 kΩ, 31.95 Ω, 999 mΩ and 99.99 mΩ, the gain is 19.93, and
+  the code at zero current is 1313 (simulated). Over 120 sets of
+  tolerances the gain of the chain lies between 19.87 and 19.97; with the
+  tolerance of the shunts, that is what the gain calibration removes.
+- One question for section 8 came up. With the amplifier at the limit of
+  its common-mode rejection the zero of range 0 moves with the output
+  voltage by 2.515 nA per volt, 12.58 nA at 5 V (simulated;
+  [`signal_chain/common-mode`](../../simulation/results/signal_chain/README.md#signal_chaincommon-mode)).
+  Section 8 does not say at which ladder voltage the open-switch zero is
+  taken. The point stays for the bench and for the procedure that is not
+  written; the closed-switch zero is taken at 5.0 V and at the working
+  voltage.
+- The settling after a range change comes out again: 45.37 µs to 0.1 %
+  of the range, where the specification has about 45 µs. The charging
+  current of the gates of the output switch is 293.1 nA after 50 ms,
+  where the specification has 0.3 µA, and 2.748 nA after 200 ms, where it
+  has 4 nA: 31 % less, inside the factor of two that the bench sets as
+  its limit (simulated).
+
 ## Reference Equipment
 
 Section 8 names three things, and no model or accuracy class beyond the

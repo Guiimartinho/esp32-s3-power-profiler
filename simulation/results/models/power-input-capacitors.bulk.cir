@@ -1,0 +1,9 @@
+* C11: impedance
+.include "../../models/power_input.lib"
+XC11 p 0 PWRIN_WCAP_47U c=47u esr=0.44
+Iac 0 p DC 0 AC 1
+Rdc p 0 1e6
+.control
+ac dec 20 10 1meg
+.endc
+.end

@@ -1,0 +1,352 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "noise",
+ "title": "Noise of the chain at the converter input, by range",
+ "covers": "section 4.10 (noise budget), requirement R-04, section 4.5 (anti-alias filter)",
+ "summary": "A noise analysis from 0.1 Hz to 100 MHz with each range held. The shunt of the range is in the circuit as the resistor of the netlist, the two closed channels of the multiplexer as 250 ohm resistors, and the amplifiers carry the voltage and current noise of their datasheets with the 1/f part. A test current through the shunt gives the gain. The noise of one sample is the density at the converter input integrated over the whole analysis, because sampling folds every frequency down; divided by the gain and by the shunt it is the noise of the reading. The noise of the converter itself is not simulated: it is added from its datasheet. Range 0 is run a second time as the board has it, with the 100 nF of C71 on the node after the shunts and a quiet supply.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "chain_r0",
+   "label": "R0: noise of one sample at the shunt, chain alone",
+   "value": 1.574642e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r0",
+   "label": "R0: noise of one sample with the converter, as a current",
+   "value": 2.265597e-09,
+   "unit": "A",
+   "expected": 2.1e-09,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 4.10: about 2.1 nA, limit of the test 5 nA",
+   "verdict": "pass"
+  },
+  {
+   "key": "chain_r1",
+   "label": "R1: noise of one sample at the shunt, chain alone",
+   "value": 1.317154e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r1",
+   "label": "R1: noise of one sample with the converter, as a current",
+   "value": 6.556599e-08,
+   "unit": "A",
+   "expected": 6.5e-08,
+   "low": null,
+   "high": null,
+   "source": "section 4.10",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_r2",
+   "label": "R2: noise of one sample at the shunt, chain alone",
+   "value": 1.307711e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r2",
+   "label": "R2: noise of one sample with the converter, as a current",
+   "value": 2.091e-06,
+   "unit": "A",
+   "expected": 2.1e-06,
+   "low": null,
+   "high": null,
+   "source": "section 4.10",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_r3",
+   "label": "R3: noise of one sample at the shunt, chain alone",
+   "value": 1.307445e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r3",
+   "label": "R3: noise of one sample with the converter, as a current",
+   "value": 2.088742e-05,
+   "unit": "A",
+   "expected": 2.1e-05,
+   "low": null,
+   "high": null,
+   "source": "section 4.10",
+   "verdict": "info"
+  },
+  {
+   "key": "share_0",
+   "label": "R0: part of the noise at the shunt that comes from shunt",
+   "value": 8.770108e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_1",
+   "label": "R0: part of the noise at the shunt that comes from multiplexer channels",
+   "value": 6.201533e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_2",
+   "label": "R0: part of the noise at the shunt that comes from amplifier U27 and R123",
+   "value": 1.101824e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_3",
+   "label": "R0: part of the noise at the shunt that comes from pedestal: U26, R121, R122",
+   "value": 5.682346e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_4",
+   "label": "R0: part of the noise at the shunt that comes from filter and driver: R125, R128, R130, U29",
+   "value": 3.25673e-07,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "share_5",
+   "label": "R0: part of the noise at the shunt that comes from other",
+   "value": 2.489816e-10,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "shares_add_up",
+   "label": "R0: the parts above together, over the integrated density",
+   "value": 0.9995053,
+   "unit": "",
+   "expected": null,
+   "low": 0.97,
+   "high": 1.03,
+   "source": "check of this bench: the parts are those of the same analysis",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter",
+   "label": "Noise of the converter at its input with a reference of 2.5 V, from its datasheet",
+   "value": 3.246348e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_at_shunt",
+   "label": "The same referred to the shunt",
+   "value": 1.628936e-06,
+   "unit": "V",
+   "expected": 1e-06,
+   "low": null,
+   "high": null,
+   "source": "section 4.10 estimates about 1.0 uV",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r0_optimistic",
+   "label": "R0: noise of one sample if the converter had 0.5 code of noise at 2.5 V",
+   "value": 1.842678e-09,
+   "unit": "A",
+   "expected": 2.1e-09,
+   "low": null,
+   "high": null,
+   "source": "section 4.10: about 2.1 nA",
+   "verdict": "info"
+  },
+  {
+   "key": "density_1khz",
+   "label": "R0: density at the shunt at 1 kHz",
+   "value": 7.188537e-09,
+   "unit": "V/√Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "density_1hz",
+   "label": "R0: density at the shunt at 1 Hz",
+   "value": 2.159983e-08,
+   "unit": "V/√Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "below_10hz",
+   "label": "R0: noise at the shunt from 0.1 Hz to 10 Hz",
+   "value": 4.813049e-08,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "above_nyquist",
+   "label": "R0: part of the chain noise that lies above half the sample rate",
+   "value": 0.3971363,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "mean_100",
+   "label": "R0: noise of the mean of 100 samples (1 ms), with the converter",
+   "value": 2.396929e-10,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 4.10: 5 nA for the mean of 100 samples",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_100000",
+   "label": "R0: noise of the mean of 100000 samples (1 s), with the converter",
+   "value": 2.439417e-11,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "chain_r0_c71",
+   "label": "R0 with C71 and a quiet supply: noise of one sample at the shunt, chain alone",
+   "value": 1.322158e-06,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "reading_r0_c71",
+   "label": "R0 with C71 and a quiet supply: noise of one sample with the converter",
+   "value": 2.097983e-09,
+   "unit": "A",
+   "expected": 2.1e-09,
+   "low": null,
+   "high": 5e-09,
+   "source": "section 4.10: about 2.1 nA, limit of the test 5 nA",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "density",
+   "Noise of the chain referred to the shunt",
+   "noise.density.png"
+  ]
+ ],
+ "notes": [
+  "Every noise source is typical: 3 nV/rtHz and 60 nV/rtHz of the two stages of U27 with 200 fA/rtHz at each input, the densities of the other amplifiers, the thermal noise of every resistor. The reference, the rails and the supply are ideal and quiet: what a switching converter adds behind the filter is not in these figures.",
+  "The multiplexer channels are 250 ohm resistors here (a variant of the multiplexer model written for this bench); the datasheet states no noise for them.",
+  "The converter is not simulated. Its noise comes from its datasheet at a reference of 2.5 V: 88.7 dB of signal-to-noise ratio (figure 14), which is 32 uV RMS or 0.85 code. The 0.5 code of its table holds for a reference of 5 V.",
+  "The analysis starts at 0.1 Hz. A mean over 1 s also takes in what lies below that, where the 1/f noise keeps rising; drift is not noise in this sense.",
+  "Without C71 the node after the shunts is held by an ideal source, so the whole thermal noise of the shunt is read. With C71 that noise is shunted above 1.6 kHz."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U24",
+   "SIGNAL_CHAIN_MUX509_HELD",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "noise.r0-c71.cir",
+  "noise.r0.cir"
+ ],
+ "format": 1
+}

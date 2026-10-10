@@ -1,0 +1,10 @@
+* BSS138: output characteristics
+.include "../../models/path_switching.lib"
+MQ2 d g 0 PATH_BSS138
+* drain and gate held by sources
+Vd d 0 5
+Vg g 0 2.5
+.control
+dc Vd 0 10 0.05 Vg 2.5 3.5 0.25
+.endc
+.end

@@ -1,0 +1,15 @@
+# Model map of the signal chain sheet: the parts that only its sheet holds.
+# The format is that of models.toml.
+#
+# The amplifiers of the sheet (AD8421, OPA197, OPA365) and the diode pair
+# (BAV199) take their models from models.toml.
+
+# ---- Converter U30 ----------------------------------------------------
+# The analog input and the reference pin. VSSOP-10: 1 REF, 3 AINP, 4 AINN,
+# 5 GND, 6 CONVST. The digital pins are a model of the digital sheet.
+[part."ADS8860IDGS"]
+kind = "subckt"
+name = "SIGNAL_CHAIN_ADS8860"
+ports = ["1", "3", "4", "5", "6"]
+library = "signal_chain.lib"
+origin = "written here"

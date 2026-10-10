@@ -1,0 +1,768 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "overvoltage",
+ "title": "The supply rises above its range while the ampere pair is closed",
+ "covers": "section 4.9 (over-voltage detector, D-43, D-60), rule F-27, sections 14 and 16",
+ "summary": "Ampere mode runs on a supply that rises above the trip level of the detector. The pair and the output pair are closed, range 3 is selected and a device under test of 10 uF with 100 ohm hangs on the output terminal. The supply steps from 5 V to 6 V, 8 V and 20 V within 1 us, and rises more slowly. The detector opens the pair; the run shows what has reached the device under test by then and what the transistors have to block when the pair opens with the current of the leads flowing. A last run takes the supply to 6 V for 0.3 ms and back with the request still high: the detector releases and the pair closes again, as rule F-27 describes.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "opens_5v_to_20v",
+   "label": "Gate-source voltage below 1 V after the terminal passes the trip level: 5 V to 20 V",
+   "value": 3.226811e-06,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "fail"
+  },
+  {
+   "key": "dut_5v_to_20v",
+   "label": "Highest voltage at the device under test: 5 V to 20 V",
+   "value": 8.828122,
+   "unit": "V",
+   "expected": 9.2,
+   "low": null,
+   "high": null,
+   "source": "section 4.9: 9.2 V for a supply that steps to 20 V in 1 us, simulated",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_20v",
+   "label": "Largest current of the supply leads: 5 V to 20 V",
+   "value": 27.94403,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_20v",
+   "label": "Largest voltage across the transistor on the supply side: 5 V to 20 V",
+   "value": 34.43938,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "fail"
+  },
+  {
+   "key": "energy_5v_to_20v",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to 20 V",
+   "value": 2.528529e-05,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_20v",
+   "label": "Highest voltage on VIN behind the fuse: 5 V to 20 V",
+   "value": 35.28953,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_20v",
+   "label": "Largest current in the suppressor: 5 V to 20 V",
+   "value": 19.57317,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_20v",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to 20 V",
+   "value": 6.650831,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_20v",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to 20 V",
+   "value": 0.08480367,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_5v_to_20v",
+   "label": "Highest voltage of the supply node: 5 V to 20 V",
+   "value": 10.62894,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "limit of this bench, taken from section 4.3: the node stays below 11.5 V because the multiplexer runs from +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_5v_to_8v",
+   "label": "Gate-source voltage below 1 V after the terminal passes the trip level: 5 V to 8 V",
+   "value": 9.958331e-06,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_5v_to_8v",
+   "label": "Highest voltage at the device under test: 5 V to 8 V",
+   "value": 8.893363,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_8v",
+   "label": "Largest current of the supply leads: 5 V to 8 V",
+   "value": 7.732051,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_8v",
+   "label": "Largest voltage across the transistor on the supply side: 5 V to 8 V",
+   "value": 24.32879,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "energy_5v_to_8v",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to 8 V",
+   "value": 2.58112e-12,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_8v",
+   "label": "Highest voltage on VIN behind the fuse: 5 V to 8 V",
+   "value": 25.37035,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_8v",
+   "label": "Largest current in the suppressor: 5 V to 8 V",
+   "value": 2.666402,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_8v",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to 8 V",
+   "value": 0.2225231,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_8v",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to 8 V",
+   "value": 0.0213491,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_5v_to_8v",
+   "label": "Highest voltage of the supply node: 5 V to 8 V",
+   "value": 9.03143,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "limit of this bench, taken from section 4.3: the node stays below 11.5 V because the multiplexer runs from +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_5v_to_6v",
+   "label": "Gate-source voltage below 1 V after the terminal passes the trip level: 5 V to 6 V",
+   "value": 3.159229e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_5v_to_6v",
+   "label": "Highest voltage at the device under test: 5 V to 6 V",
+   "value": 6.333474,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_6v",
+   "label": "Largest current of the supply leads: 5 V to 6 V",
+   "value": 2.613763,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_6v",
+   "label": "Largest voltage across the transistor on the supply side: 5 V to 6 V",
+   "value": 11.19119,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "energy_5v_to_6v",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to 6 V",
+   "value": 0.0,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_6v",
+   "label": "Highest voltage on VIN behind the fuse: 5 V to 6 V",
+   "value": 13.78734,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_6v",
+   "label": "Largest current in the suppressor: 5 V to 6 V",
+   "value": 0.106335,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_6v",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to 6 V",
+   "value": 0.005440578,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_6v",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to 6 V",
+   "value": 0.002743626,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_5v_to_6v",
+   "label": "Highest voltage of the supply node: 5 V to 6 V",
+   "value": 6.349685,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "limit of this bench, taken from section 4.3: the node stays below 11.5 V because the multiplexer runs from +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_5v_to_20v_100us",
+   "label": "Gate-source voltage below 1 V after the terminal passes the trip level: 5 V to 20 V in 100 us",
+   "value": 1.472459e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "pass"
+  },
+  {
+   "key": "dut_5v_to_20v_100us",
+   "label": "Highest voltage at the device under test: 5 V to 20 V in 100 us",
+   "value": 7.909875,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_20v_100us",
+   "label": "Largest current of the supply leads: 5 V to 20 V in 100 us",
+   "value": 3.209466,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_20v_100us",
+   "label": "Largest voltage across the transistor on the supply side: 5 V to 20 V in 100 us",
+   "value": 24.35891,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "energy_5v_to_20v_100us",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to 20 V in 100 us",
+   "value": 9.289855e-12,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_20v_100us",
+   "label": "Highest voltage on VIN behind the fuse: 5 V to 20 V in 100 us",
+   "value": 25.23648,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_20v_100us",
+   "label": "Largest current in the suppressor: 5 V to 20 V in 100 us",
+   "value": 2.382771,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_20v_100us",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to 20 V in 100 us",
+   "value": 0.1980226,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_20v_100us",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to 20 V in 100 us",
+   "value": 0.007096469,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_5v_to_20v_100us",
+   "label": "Highest voltage of the supply node: 5 V to 20 V in 100 us",
+   "value": 8.070921,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "limit of this bench, taken from section 4.3: the node stays below 11.5 V because the multiplexer runs from +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "opens_5v_to_6v_1000us",
+   "label": "Gate-source voltage below 1 V after the terminal passes the trip level: 5 V to 6 V in 1000 us",
+   "value": 5.227812e-05,
+   "unit": "s",
+   "expected": null,
+   "low": 4e-06,
+   "high": 4.5e-05,
+   "source": "section 4.9: the detector opens the switch 4 us to 45 us after the terminal passes the threshold",
+   "verdict": "fail"
+  },
+  {
+   "key": "dut_5v_to_6v_1000us",
+   "label": "Highest voltage at the device under test: 5 V to 6 V in 1000 us",
+   "value": 5.509124,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_5v_to_6v_1000us",
+   "label": "Largest current of the supply leads: 5 V to 6 V in 1000 us",
+   "value": 0.08053085,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "across_5v_to_6v_1000us",
+   "label": "Largest voltage across the transistor on the supply side: 5 V to 6 V in 1000 us",
+   "value": 6.734036,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "energy_5v_to_6v_1000us",
+   "label": "Energy in that transistor while it blocks more than 20 V: 5 V to 6 V in 1000 us",
+   "value": 0.0,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ at 28 A (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_5v_to_6v_1000us",
+   "label": "Highest voltage on VIN behind the fuse: 5 V to 6 V in 1000 us",
+   "value": 7.623566,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_5v_to_6v_1000us",
+   "label": "Largest current in the suppressor: 5 V to 6 V in 1000 us",
+   "value": 0.03323877,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 12.3 A for the 10/1000 us wave (Vishay 88390, page 2)",
+   "verdict": "info"
+  },
+  {
+   "key": "pulse_5v_to_6v_1000us",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width: 5 V to 6 V in 1000 us",
+   "value": 0.0,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "fuse_5v_to_6v_1000us",
+   "label": "I2t of the event as a share of the melting figure of the fuse: 5 V to 6 V in 1000 us",
+   "value": 0.0001382816,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "node_5v_to_6v_1000us",
+   "label": "Highest voltage of the supply node: 5 V to 6 V in 1000 us",
+   "value": 5.516491,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "limit of this bench, taken from section 4.3: the node stays below 11.5 V because the multiplexer runs from +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "reclose_slope",
+   "label": "Largest slope of the supply node when the pair closes again without its ramp",
+   "value": 15165.27,
+   "unit": "V/s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: about 0.9 V/ms with the full ramp (section 4.2); rule F-27 says that this case closes without the ramp",
+   "verdict": "info"
+  },
+  {
+   "key": "reclose_amps",
+   "label": "Largest current of the supply leads when the pair closes again",
+   "value": 0.3239305,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: 5 mA with the full ramp and no device under test",
+   "verdict": "info"
+  },
+  {
+   "key": "reclose_ramp",
+   "label": "Voltage left on the ramp capacitor when the detector releases",
+   "value": 7.625674,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "to-20v",
+   "The supply steps from 5 V to 20 V within 1 us, ampere pair closed, 1 uH of leads",
+   "overvoltage.to-20v.png"
+  ],
+  [
+   "release",
+   "The supply at 6 V for 0.3 ms with the request held high: the pair closes again",
+   "overvoltage.release.png"
+  ]
+ ],
+ "notes": [
+  "The supply is a voltage source behind 1 uH and 50 mohm, and the device under test is 10 uF behind 20 mohm with 100 ohm beside it, at the output terminal behind the closed output pair: the assumptions of the earlier simulations behind the 9.2 V of the specification. A larger capacitor at the device under test sees less voltage and more current.",
+  "After a fast step to 20 V the detector opens the pair while the leads carry tens of amperes. Their kick drives the VIN line into the suppressor, and the transistor on the supply side has to block that voltage less the voltage of its source, which falls to ground once the gate is pulled down. The transistor model written here has no avalanche: a figure above 30 V is the voltage the part would have to block and does not. The model of the manufacturer breaks down near 31 V and clamps there in the run with those models. The suppressor model clamps at the datasheet maximum for a millisecond pulse, which is the cautious side.",
+  "The time to open is counted from the instant the line behind the fuse passes 5.465 V. It depends on how far the step passes the trip level: the 4 us to 45 us of the specification hold for steps to about 5.8 V or more.",
+  "Rule F-27 exists for the last run: the detector is not latched, and when it releases with the request still high the pair closes on what is left on its ramp capacitor. Firmware has to lower the request within the time the over-voltage lasts."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "overvoltage.5v_to_20v.cir",
+  "overvoltage.bump.cir"
+ ],
+ "format": 1
+}

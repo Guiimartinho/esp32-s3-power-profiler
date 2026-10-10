@@ -1,0 +1,334 @@
+{
+ "block": "power_input",
+ "block_title": "Power Input and Logic Supplies",
+ "bench": "current-limit",
+ "title": "The current limits of the two inputs and a short circuit of the 5 V rail",
+ "covers": "section 2 (R-14), section 4.1 (limiters, power budget, bring-up), section 3 (power tree)",
+ "summary": "Each input supplies the carrier alone under a rising load; then the rail is shorted. The carrier runs at idle on a stiff 5 V source. A load on the 5 V rail rises within 5 ms to more than the limiter of that input gives, so the rail gives way and ends near ground, where the limiter folds its limit back. The current into the limiter while the rail falls is the limit that the resistor at its ILM pin sets. In two more runs the rail of the idle carrier is shorted to ground with 10 mohm.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "limit_module",
+   "label": "Module input: current into the limiter while it limits",
+   "value": 0.758539,
+   "unit": "A",
+   "expected": 0.76,
+   "low": 0.67,
+   "high": 0.85,
+   "source": "section 4.1: limit with the tolerances (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_after_module",
+   "label": "Module input: mean current into the limiter after the rail has collapsed",
+   "value": 0.06708569,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "limit_usbc",
+   "label": "USB-C input: current into the limiter while it limits",
+   "value": 2.006211,
+   "unit": "A",
+   "expected": 2.0,
+   "low": 1.81,
+   "high": 2.17,
+   "source": "section 4.1: limit with the tolerances (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "mean_after_usbc",
+   "label": "USB-C input: mean current into the limiter after the rail has collapsed",
+   "value": 0.3020645,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "monitor_gain",
+   "label": "USB-C input: voltage at TP3 per ampere, at 1 A",
+   "value": 0.2970308,
+   "unit": "V/A",
+   "expected": 0.297,
+   "low": 0.28215,
+   "high": 0.31185,
+   "source": "section 4.1: 0.297 V per ampere (calculated from the datasheet gain)",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_mux_peak_usbc",
+   "label": "Short circuit, USB-C input: largest current through the multiplexer",
+   "value": 30.49633,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 4.0,
+   "source": "TPS2116 datasheet, page 4: 4 A for a pulse; the specification states no figure for a short circuit of the rail",
+   "verdict": "fail"
+  },
+  {
+   "key": "short_mux_time_usbc",
+   "label": "Short circuit, USB-C input: time the multiplexer carries more than 4 A",
+   "value": 1.428514e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_charge_usbc",
+   "label": "Short circuit, USB-C input: charge through the multiplexer in the first 20 us",
+   "value": 3.081909e-05,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_source_peak_usbc",
+   "label": "Short circuit, USB-C input: largest current from the source",
+   "value": 7.606877,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_limited_usbc",
+   "label": "Short circuit, USB-C input: source current back at the limit after",
+   "value": 4.299268e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_mean_usbc",
+   "label": "Short circuit, USB-C input: mean source current from 20 us to 200 us",
+   "value": 0.05739278,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 2.17,
+   "source": "section 4.1: the limiters regulate the current in an overload",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_v3a_over_usbc",
+   "label": "Short circuit, USB-C input: highest level of 3V3_A above the rail",
+   "value": 1.539217,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "LP5907 datasheet, page 4: output at most 0.3 V above the input; the specification states no figure",
+   "verdict": "fail"
+  },
+  {
+   "key": "short_mux_peak_module",
+   "label": "Short circuit, Module input: largest current through the multiplexer",
+   "value": 8.863161,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 4.0,
+   "source": "TPS2116 datasheet, page 4: 4 A for a pulse; the specification states no figure for a short circuit of the rail",
+   "verdict": "fail"
+  },
+  {
+   "key": "short_mux_time_module",
+   "label": "Short circuit, Module input: time the multiplexer carries more than 4 A",
+   "value": 5.926387e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_charge_module",
+   "label": "Short circuit, Module input: charge through the multiplexer in the first 20 us",
+   "value": 4.002992e-06,
+   "unit": "C",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_source_peak_module",
+   "label": "Short circuit, Module input: largest current from the source",
+   "value": 5.685726,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_limited_module",
+   "label": "Short circuit, Module input: source current back at the limit after",
+   "value": 1.535899e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "short_mean_module",
+   "label": "Short circuit, Module input: mean source current from 20 us to 200 us",
+   "value": 0.0066759,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.85,
+   "source": "section 4.1: the limiters regulate the current in an overload",
+   "verdict": "pass"
+  },
+  {
+   "key": "short_v3a_over_module",
+   "label": "Short circuit, Module input: highest level of 3V3_A above the rail",
+   "value": 1.33139,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.3,
+   "source": "LP5907 datasheet, page 4: output at most 0.3 V above the input; the specification states no figure",
+   "verdict": "fail"
+  }
+ ],
+ "graphs": [
+  [
+   "ramp",
+   "A load on the rail that rises until the limiter of the input limits",
+   "current-limit.ramp.png"
+  ],
+  [
+   "short",
+   "The 5 V rail shorted with 10 mohm while the USB-C input supplies",
+   "current-limit.short.png"
+  ]
+ ],
+ "notes": [
+  "The sources are stiff: 5.0 V behind 0.15 ohm and 0.5 uH on USB-C, behind 0.25 ohm and 0.8 uH on the module input. The supervisor has its delay shortened to 1 ms in these runs, which changes nothing in the figures.",
+  "The limit is that of typical parts: the model follows the equation of the datasheet with the resistor of the schematic. The band of the specification comes from the tolerances of the datasheet, which the run does not vary.",
+  "The fold-back current of the module input (0.34 A) is an interpolation between the two resistor values that the datasheet shows, and so an assumption.",
+  "In a short circuit the damper capacitors (2 x 22 uF behind 0.33 ohm) and the 1 uF at the input discharge through the multiplexer, which has no current limit of its own. The peak of that current is set by 0.33 ohm, the on-resistance and the short itself, not by a model limit.",
+  "The peak of the source current in a short circuit is an upper bound: the model of the limiter has no saturation current, and the datasheet gives none.",
+  "The multiplexer model opens its channel when its input has fallen below 1.4 V, which a short circuit of the rail does within a microsecond, and starts again with its soft start: the levels are assumptions for the reset that the datasheet describes without figures. A part that stays on carries the discharge of the damper, 13 A at first with a time constant of 11 us (calculated from 0.33 ohm, the on-resistance and 30 uF), and then the current of the limiter.",
+  "With the rail at ground the 3.3 V rails stand above their input, by the forward voltage of a body diode that the regulator model assumes, until the 2.4 uF and 3.8 uF on them are empty.",
+  "The thermal shutdown of the limiters and its retry after 95 ms are not modelled: a sustained overload ends there, not at the fold-back current."
+ ],
+ "models": [
+  [
+   "C11",
+   "PWRIN_WCAP_47U",
+   "written here"
+  ],
+  [
+   "D1",
+   "DIGITAL_1N5819HW",
+   "written here"
+  ],
+  [
+   "D2",
+   "PWRIN_SMAJ10A",
+   "written here"
+  ],
+  [
+   "D3",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D4",
+   "PWRIN_1N5819HW",
+   "written here"
+  ],
+  [
+   "D5",
+   "PWRIN_LED_GREEN",
+   "written here"
+  ],
+  [
+   "D6",
+   "B0530W",
+   "written here"
+  ],
+  [
+   "L1",
+   "L_74438357100",
+   "written here"
+  ],
+  [
+   "U1",
+   "DIGITAL_PICO2_SUPPLY",
+   "written here"
+  ],
+  [
+   "U2",
+   "PWRIN_TPD4E1U06_CH",
+   "written here"
+  ],
+  [
+   "U3",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U4",
+   "PWRIN_TPS259621",
+   "written here"
+  ],
+  [
+   "U5",
+   "PWRIN_TPS2116",
+   "written here"
+  ],
+  [
+   "U6",
+   "PWRIN_TPS3808G01",
+   "written here"
+  ],
+  [
+   "U7",
+   "PWRIN_LP5907",
+   "written here"
+  ],
+  [
+   "U8",
+   "PWRIN_LP5907",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "current-limit.ramp-module.cir",
+  "current-limit.ramp-usbc.cir",
+  "current-limit.short-usbc.cir"
+ ],
+ "format": 1
+}

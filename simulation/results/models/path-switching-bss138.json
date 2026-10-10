@@ -1,0 +1,152 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "path-switching-bss138",
+ "title": "BSS138 model of the path switching sheet against its datasheet",
+ "covers": "the model of the interlock transistors Q2 and Q3",
+ "summary": "The transistor Q2 of the schematic is put in the test circuits of its datasheet. The gate tied to the drain gives the threshold, a forced drain current the on-resistance, swept drain and gate voltages the output characteristics and the transconductance, and two small-signal runs the capacitances. One more point is the state of the interlock: 3.3 V on the gate and the 3.3 mA that the series resistor of the ampere request delivers.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "threshold",
+   "label": "Gate threshold at 250 uA",
+   "value": 1.098872,
+   "unit": "V",
+   "expected": 1.2,
+   "low": 0.5,
+   "high": 1.5,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2",
+   "verdict": "pass"
+  },
+  {
+   "key": "on_10v",
+   "label": "On-resistance at 10 V on the gate and 0.22 A",
+   "value": 1.416104,
+   "unit": "ohm",
+   "expected": 1.4,
+   "low": null,
+   "high": 3.5,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 1.4 ohm typical, 3.5 ohm at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "transconductance",
+   "label": "Transconductance at 0.2 A and 25 V",
+   "value": 0.2754957,
+   "unit": "S",
+   "expected": null,
+   "low": 0.1,
+   "high": null,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 100 mS at least",
+   "verdict": "pass"
+  },
+  {
+   "key": "saturation_2p5v",
+   "label": "Drain current at 2.5 V on the gate and 5 V on the drain",
+   "value": 0.1819815,
+   "unit": "A",
+   "expected": 0.2,
+   "low": 0.17,
+   "high": 0.23,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 3, figure 1, read from the curve; 15 % asked of the fit",
+   "verdict": "pass"
+  },
+  {
+   "key": "saturation_3v",
+   "label": "Drain current at 3 V on the gate and 5 V on the drain",
+   "value": 0.3289477,
+   "unit": "A",
+   "expected": 0.36,
+   "low": 0.306,
+   "high": 0.414,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 3, figure 1, read from the curve; 15 % asked of the fit",
+   "verdict": "pass"
+  },
+  {
+   "key": "saturation_3p5v",
+   "label": "Drain current at 3.5 V on the gate and 5 V on the drain",
+   "value": 0.5189046,
+   "unit": "A",
+   "expected": 0.545,
+   "low": 0.46325,
+   "high": 0.62675,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 3, figure 1, read from the curve; 15 % asked of the fit",
+   "verdict": "pass"
+  },
+  {
+   "key": "ciss",
+   "label": "Input capacitance at 10 V",
+   "value": 4.769614e-11,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": 5e-11,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 50 pF at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "coss",
+   "label": "Output capacitance at 10 V",
+   "value": 2.348341e-11,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": 2.5e-11,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 25 pF at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "crss",
+   "label": "Reverse transfer capacitance at 10 V",
+   "value": 7.697574e-12,
+   "unit": "F",
+   "expected": null,
+   "low": null,
+   "high": 8e-12,
+   "source": "Diodes Incorporated DS30144 Rev. 25-2, page 2: 8 pF at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "interlock_drop",
+   "label": "Drain voltage with 3.3 V on the gate and 3.3 mA",
+   "value": 0.01116992,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "the state of the interlock node with both requests high",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "output",
+   "BSS138: drain current against drain voltage, as figure 1 of the datasheet",
+   "path-switching-bss138.output.png"
+  ]
+ ],
+ "notes": [
+  "The table and the typical curves of the datasheet do not agree on the threshold; the model lies between them, at 1.1 V and 250 uA.",
+  "The capacitances of the model are the upper limits of the datasheet. The benches of the interlock also run the variants with the threshold at 0.5 V and at 1.5 V.",
+  "The gate resistance and the body diode are assumptions; the model has no breakdown and says nothing about leakage."
+ ],
+ "models": [
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "path-switching-bss138.capacitance.cir",
+  "path-switching-bss138.curves.cir",
+  "path-switching-bss138.gain.cir",
+  "path-switching-bss138.static.cir",
+  "path-switching-bss138.threshold.cir"
+ ],
+ "format": 1
+}

@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem in the firmware, hardware design, host software, protocol or documentation.
+description: Report a problem in the firmware, hardware design, circuit simulations, host software, protocol or documentation.
 labels: ["bug"]
 body:
   - type: markdown
@@ -12,7 +12,8 @@ body:
         draft A2, a review draft that has not been built, and the firmware
         is not ported to the Raspberry Pi Pico 2 yet. A report today is
         most likely about the design files (schematic, board), the
-        specification, the firmware core and its unit tests, the protocol
+        specification, the circuit simulations with their models and
+        benches, the firmware core and its unit tests, the protocol
         definition, or the host package with its simulated instrument.
   - type: dropdown
     id: area
@@ -24,6 +25,7 @@ body:
         - Host software
         - Protocol
         - Tools
+        - Simulation
         - Documentation or specification
     validations:
       required: true
@@ -42,7 +44,9 @@ body:
         The setup and the exact steps that show the problem. For a problem
         in the design files, name the schematic sheet and the reference
         designator, or the section, requirement (R-xx), decision (D-xx) or
-        firmware rule (F-xx) of docs/specification.md.
+        firmware rule (F-xx) of docs/specification.md. For a problem in a
+        simulation, name the bench (block/bench) and the figure, or the
+        model and the datasheet figure it misses.
       placeholder: |
         1.
         2.
@@ -56,7 +60,8 @@ body:
       description: >-
         Commit of the repository; draft or revision of the carrier board
         (for example draft A2); host software version, Python version and
-        operating system; KiCad version for a problem in the design files.
+        operating system; KiCad version for a problem in the design files;
+        ngspice version for a problem in the simulations.
         With hardware on the bench: the Pico 2 and the stepping of its
         RP2350, the firmware commit, and the device under test if it
         matters.

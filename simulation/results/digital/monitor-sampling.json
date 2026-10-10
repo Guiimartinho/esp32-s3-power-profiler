@@ -1,0 +1,209 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "monitor-sampling",
+ "title": "Monitor converter while it samples: charge step, settling, edges of the slow SPI bus",
+ "covers": "section 4.2, section 5 (slow SPI bus), rules F-6 and F-10",
+ "summary": "Three pads of the controller read the monitor converter over the slow SPI bus. The frames are those of the converter datasheet at 500 kHz, through the 2.2 kohm of RN1. First all eight channels are read in turn, 1.25 ms apart, for five cycles of 10 ms, and the voltage that each sample holds is compared with the voltage of its channel at rest. Then channel 0 alone is read at 100 SPS, at 1 kSPS and at 2 kSPS with a sampling capacitor that starts every sample from 0 V, the worst case that the specification calculates with. The edges of the clock are read at the converter.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "scan_ch0",
+   "label": "Scan of eight channels at 100 SPS: error of the sample of channel 0",
+   "value": -0.8442528,
+   "unit": "LSB",
+   "expected": -0.97,
+   "low": -1.0185,
+   "high": 1.0185,
+   "source": "section 4.2 and rule F-10: 0.97 LSB at the sampled instant at 100 SPS (calculated for a capacitor that starts 2.5 V away)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scan_ch2",
+   "label": "Scan of eight channels at 100 SPS: error of the sample of channel 2",
+   "value": -0.8412147,
+   "unit": "LSB",
+   "expected": null,
+   "low": -1.0185,
+   "high": 1.0185,
+   "source": "section 4.2 and rule F-10: 0.97 LSB at the sampled instant at 100 SPS (calculated for a capacitor that starts 2.5 V away)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scan_ch7",
+   "label": "Scan of eight channels at 100 SPS: error of the sample of channel 7",
+   "value": 0.7462975,
+   "unit": "LSB",
+   "expected": null,
+   "low": -1.0185,
+   "high": 1.0185,
+   "source": "section 4.2 and rule F-10: 0.97 LSB at the sampled instant at 100 SPS (calculated for a capacitor that starts 2.5 V away)",
+   "verdict": "pass"
+  },
+  {
+   "key": "scan_worst",
+   "label": "Scan of eight channels at 100 SPS: largest sample error, channel 0",
+   "value": 0.8442528,
+   "unit": "LSB",
+   "expected": null,
+   "low": null,
+   "high": 1.0185,
+   "source": "rule F-10: 0.97 LSB behind 54.5 kohm and 66.7 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_edge",
+   "label": "Clock at the converter behind 2.2 kohm, weakest pad: rise time, 10 % to 90 %",
+   "value": 1.566457e-07,
+   "unit": "s",
+   "expected": 1.56e-07,
+   "low": null,
+   "high": 1.794e-07,
+   "source": "section 5 and rule F-6: 156 ns (calculated); within 15 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_level",
+   "label": "Clock at the converter, weakest pad: high level against the 4.7 kohm pull-down",
+   "value": 3.184806,
+   "unit": "V",
+   "expected": null,
+   "low": 2.31,
+   "high": null,
+   "source": "Microchip DS21298E, page 3: 0.7 of the supply at the least",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_high",
+   "label": "Clock at the converter at 500 kHz: time above its high level",
+   "value": 9.295055e-07,
+   "unit": "s",
+   "expected": null,
+   "low": 5e-07,
+   "high": null,
+   "source": "Microchip DS21298E, page 3: 1 MHz at 2.7 V, half a period of 500 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "clock_low",
+   "label": "Clock at the converter at 500 kHz: time below its low level",
+   "value": 9.448901e-07,
+   "unit": "s",
+   "expected": null,
+   "low": 5e-07,
+   "high": null,
+   "source": "Microchip DS21298E, page 3: 1 MHz at 2.7 V, half a period of 500 ns",
+   "verdict": "pass"
+  },
+  {
+   "key": "worst_100sps",
+   "label": "Channel 0 at 100 SPS, capacitor from 0 V each time: error of the sample",
+   "value": 0.9743346,
+   "unit": "LSB",
+   "expected": 0.97,
+   "low": 0.873,
+   "high": 1.067,
+   "source": "section 4.2 and rule F-10 (calculated); within 10 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "worst_volts_100sps",
+   "label": "Channel 0 at 100 SPS: the same error as a voltage at the output",
+   "value": 0.001308441,
+   "unit": "V",
+   "expected": 0.0013,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 1.3 mV at VOUT at 100 SPS",
+   "verdict": "info"
+  },
+  {
+   "key": "worst_1000sps",
+   "label": "Channel 0 at 1000 SPS, capacitor from 0 V each time: error of the sample",
+   "value": 4.87884,
+   "unit": "LSB",
+   "expected": 4.9,
+   "low": 4.41,
+   "high": 5.39,
+   "source": "section 4.2 and rule F-10 (calculated); within 10 %",
+   "verdict": "pass"
+  },
+  {
+   "key": "worst_volts_1000sps",
+   "label": "Channel 0 at 1000 SPS: the same error as a voltage at the output",
+   "value": 0.006551833,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 1.3 mV at VOUT at 100 SPS",
+   "verdict": "info"
+  },
+  {
+   "key": "worst_2000sps",
+   "label": "Channel 0 at 2000 SPS, capacitor from 0 V each time: error of the sample",
+   "value": 9.320226,
+   "unit": "LSB",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "rule F-10: more at the rate of the exception of rule F-33 (0.5 ms)",
+   "verdict": "info"
+  },
+  {
+   "key": "worst_volts_2000sps",
+   "label": "Channel 0 at 2000 SPS: the same error as a voltage at the output",
+   "value": 0.0125162,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 4.2: 1.3 mV at VOUT at 100 SPS",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "frame",
+   "Start of a frame at 500 kHz behind 2.2 kohm: clock, data and the sampling capacitor",
+   "monitor-sampling.frame.png"
+  ],
+  [
+   "droop",
+   "Converter input of channel 0 below its level at rest, capacitor from 0 V each time",
+   "monitor-sampling.droop.png"
+  ]
+ ],
+ "notes": [
+  "The sampling capacitor of the converter model keeps the voltage of the channel before: in a scan every sample then starts from its neighbor channel, which is less than the 2.5 V of the calculation of the specification. The runs with channel 0 alone set the capacitor to 0 V before every sample and repeat that calculation.",
+  "The frames are 1.25 ms apart in the scan; the specification says 100 SPS per channel and not how the eight frames are placed in the 10 ms.",
+  "The output of the converter is not in the model, so the line to the pad GP12 is not judged. Each track of the bus has 10 pF (assumption); the pins have the 10 pF of the datasheets.",
+  "The pads are at the limit of the 4 mA setting, 170 ohm and 125 ohm."
+ ],
+ "models": [
+  [
+   "U15",
+   "DIGITAL_INPUT_PIN",
+   "written here"
+  ],
+  [
+   "U39",
+   "DIGITAL_MCP9700A",
+   "written here"
+  ],
+  [
+   "U40",
+   "DIGITAL_MCP3208",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "monitor-sampling.alone-1000sps.cir",
+  "monitor-sampling.scan.cir"
+ ],
+ "format": 1
+}

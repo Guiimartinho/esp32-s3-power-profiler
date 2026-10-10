@@ -1,0 +1,15 @@
+* LT3080: small-signal response
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080
+* the loop is opened nowhere: a source in series with the sense input of
+* the error amplifier (inside the model) or on the SET pin carries the signal
+Vin in 0 3
+Rjoin in vctl 1m
+Vset set 0 dc 1.5 ac 1
+Cout out out_c 2.2e-06
+Resr out_c 0 0.005
+Iload out 0 0.1
+.control
+ac dec 60 10 20meg
+.endc
+.end

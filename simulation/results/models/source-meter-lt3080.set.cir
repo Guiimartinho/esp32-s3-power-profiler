@@ -1,0 +1,16 @@
+* LT3080: SET current and residual output
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080
+* SET current into 150 kohm; then SET at 0 V and 1 kohm as the only load
+Vin in 0 5
+Vctl vctl 0 5
+Rset set 0 150k
+Rtest out 0 1k
+.control
+op
+alter Rset = 1m
+op
+alter Rtest = 2k
+op
+.endc
+.end

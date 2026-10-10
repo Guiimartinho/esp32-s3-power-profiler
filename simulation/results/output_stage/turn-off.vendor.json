@@ -1,0 +1,703 @@
+{
+ "block": "output_stage",
+ "block_title": "Output Stage",
+ "bench": "turn-off",
+ "title": "The output switch opens under load: gate, current, terminal and suppressor",
+ "covers": "section 4.2 (output switch, D-71), section 4.9 (VOUT, D-70), rules F-8, F-23 and F-36",
+ "summary": "The output is switched off while 1 A flows into a resistor, in range 3. The gate is discharged through one diode of D20 and R116 into the gate driver. The run is repeated with inductance in the cable to the device, with a capacitor at the device and inductance in supply leads, at 0.8 V, in the corner in which the gate falls latest (R116 and C74 at their upper limits, D20 with the highest forward voltage, transistors with the lowest threshold), and with the pin of the controller released by a reset instead of driven low. Each run gives the time to a gate node below 2 V, the time after which the pair carries less than a tenth of its current, and what the terminal, the node after the shunts and the suppressor see. A long run follows the gate after the opening: the level it rests at, the time constant with which it leaves it, and the current that the pair still passes into a device that holds the terminal at 0 V.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "plain_gate",
+   "label": "5 V, no inductance: command to the gate node below 2 V",
+   "value": 6.11527e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "plain_tenth",
+   "label": "5 V, no inductance: command to less than 10 % of the current in the pair",
+   "value": 4.986061e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_terminal_low",
+   "label": "5 V, no inductance: lowest voltage at the terminal",
+   "value": -0.0005241444,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "plain_node_high",
+   "label": "5 V, no inductance: highest voltage at the node after the shunts",
+   "value": 4.999999,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "plain_diode",
+   "label": "5 V, no inductance: largest forward current in the suppressor D21",
+   "value": 0.001250264,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable1_gate",
+   "label": "5 V, 1 uH of cable: command to the gate node below 2 V",
+   "value": 6.111608e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable1_tenth",
+   "label": "5 V, 1 uH of cable: command to less than 10 % of the current in the pair",
+   "value": 5.154645e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "cable1_terminal_low",
+   "label": "5 V, 1 uH of cable: lowest voltage at the terminal",
+   "value": -0.0005740806,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "cable1_node_high",
+   "label": "5 V, 1 uH of cable: highest voltage at the node after the shunts",
+   "value": 4.999999,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable1_diode",
+   "label": "5 V, 1 uH of cable: largest forward current in the suppressor D21",
+   "value": 0.001314403,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable3_gate",
+   "label": "5 V, 3 uH of cable: command to the gate node below 2 V",
+   "value": 6.08608e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable3_tenth",
+   "label": "5 V, 3 uH of cable: command to less than 10 % of the current in the pair",
+   "value": 5.568975e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "cable3_terminal_low",
+   "label": "5 V, 3 uH of cable: lowest voltage at the terminal",
+   "value": -0.05099376,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "cable3_node_high",
+   "label": "5 V, 3 uH of cable: highest voltage at the node after the shunts",
+   "value": 4.999999,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "cable3_diode",
+   "label": "5 V, 3 uH of cable: largest forward current in the suppressor D21",
+   "value": 0.001319935,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "leads_gate",
+   "label": "5 V, 3 uH of cable, 2 uH of supply leads, 10 uF at the device: command to the gate node below 2 V",
+   "value": 6.310077e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "leads_tenth",
+   "label": "5 V, 3 uH of cable, 2 uH of supply leads, 10 uF at the device: command to less than 10 % of the current in the pair",
+   "value": 3.504857e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "leads_terminal_low",
+   "label": "5 V, 3 uH of cable, 2 uH of supply leads, 10 uF at the device: lowest voltage at the terminal",
+   "value": 0.9787159,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "leads_node_high",
+   "label": "5 V, 3 uH of cable, 2 uH of supply leads, 10 uF at the device: highest voltage at the node after the shunts",
+   "value": 5.515464,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "leads_diode",
+   "label": "5 V, 3 uH of cable, 2 uH of supply leads, 10 uF at the device: largest forward current in the suppressor D21",
+   "value": 0.01971593,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_gate",
+   "label": "0.8 V, no inductance: command to the gate node below 2 V",
+   "value": 7.140463e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "fail"
+  },
+  {
+   "key": "low_tenth",
+   "label": "0.8 V, no inductance: command to less than 10 % of the current in the pair",
+   "value": 6.597405e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "low_terminal_low",
+   "label": "0.8 V, no inductance: lowest voltage at the terminal",
+   "value": -9.808382e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "low_node_high",
+   "label": "0.8 V, no inductance: highest voltage at the node after the shunts",
+   "value": 0.7999997,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "low_diode",
+   "label": "0.8 V, no inductance: largest forward current in the suppressor D21",
+   "value": 0.0004011943,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "low3_gate",
+   "label": "0.8 V, 3 uH of cable: command to the gate node below 2 V",
+   "value": 6.96815e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "low3_tenth",
+   "label": "0.8 V, 3 uH of cable: command to less than 10 % of the current in the pair",
+   "value": 8.819212e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "low3_terminal_low",
+   "label": "0.8 V, 3 uH of cable: lowest voltage at the terminal",
+   "value": -0.7443488,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "low3_node_high",
+   "label": "0.8 V, 3 uH of cable: highest voltage at the node after the shunts",
+   "value": 0.7999997,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "low3_diode",
+   "label": "0.8 V, 3 uH of cable: largest forward current in the suppressor D21",
+   "value": 0.01831685,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "slow_gate",
+   "label": "5 V, slow corner: command to the gate node below 2 V",
+   "value": 6.661109e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "slow_tenth",
+   "label": "5 V, slow corner: command to less than 10 % of the current in the pair",
+   "value": 5.36403e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "slow_terminal_low",
+   "label": "5 V, slow corner: lowest voltage at the terminal",
+   "value": -0.0003137304,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "slow_node_high",
+   "label": "5 V, slow corner: highest voltage at the node after the shunts",
+   "value": 4.999999,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "slow_diode",
+   "label": "5 V, slow corner: largest forward current in the suppressor D21",
+   "value": 0.001148259,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "lowslow_gate",
+   "label": "0.8 V, slow corner: command to the gate node below 2 V",
+   "value": 7.732855e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "fail"
+  },
+  {
+   "key": "lowslow_tenth",
+   "label": "0.8 V, slow corner: command to less than 10 % of the current in the pair",
+   "value": 7.099621e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "lowslow_terminal_low",
+   "label": "0.8 V, slow corner: lowest voltage at the terminal",
+   "value": -6.355017e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "lowslow_node_high",
+   "label": "0.8 V, slow corner: highest voltage at the node after the shunts",
+   "value": 0.7999997,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "lowslow_diode",
+   "label": "0.8 V, slow corner: largest forward current in the suppressor D21",
+   "value": 0.0003603472,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_gate",
+   "label": "5 V, pin released by a reset: command to the gate node below 2 V",
+   "value": 6.115644e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 7e-06,
+   "source": "section 4.2, D-71 and rule F-8: below 2 V within 7 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_tenth",
+   "label": "5 V, pin released by a reset: command to less than 10 % of the current in the pair",
+   "value": 4.986439e-06,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "released_terminal_low",
+   "label": "5 V, pin released by a reset: lowest voltage at the terminal",
+   "value": -0.0005241389,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "released_node_high",
+   "label": "5 V, pin released by a reset: highest voltage at the node after the shunts",
+   "value": 4.999999,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "section 4.3: the ladder stays below 11.5 V, under +12 V_A",
+   "verdict": "pass"
+  },
+  {
+   "key": "released_diode",
+   "label": "5 V, pin released by a reset: largest forward current in the suppressor D21",
+   "value": 0.001261473,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 50.0,
+   "source": "section 4.9: surge rating 50 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_energy",
+   "label": "Largest energy in Q15 during an opening",
+   "value": 4.77619e-06,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "pair_energy_second",
+   "label": "Largest energy in Q16 during an opening",
+   "value": 1.403618e-07,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "TI SLPS515A, page 1: 39 mJ of avalanche energy, taken as the scale",
+   "verdict": "pass"
+  },
+  {
+   "key": "drain_first",
+   "label": "Largest drain-source voltage of Q15",
+   "value": 5.448371,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: the transistors are rated 30 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "drain_second",
+   "label": "Largest drain-source voltage of Q16, either sign",
+   "value": 4.384757,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "section 4.9: the transistors are rated 30 V (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_source",
+   "label": "Largest gate-source voltage of the pair, either sign",
+   "value": 11.31711,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "TI SLPS515A, page 1: gate-source voltage 20 V at most",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_high",
+   "label": "Highest voltage at the terminal after an opening",
+   "value": 7.342695,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 15.0,
+   "source": "section 4.9: stand-off voltage of the suppressor D21",
+   "verdict": "pass"
+  },
+  {
+   "key": "guard_error",
+   "label": "Largest distance of the guard from the node after the shunts",
+   "value": 0.478962,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "rest_level",
+   "label": "Gate node 100 us after the command: the diode drop it rests at",
+   "value": 0.5888113,
+   "unit": "V",
+   "expected": null,
+   "low": 0.3,
+   "high": 0.9,
+   "source": "section 4.2: the gate rests at a diode drop",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_constant",
+   "label": "Time constant of the gate node from 10 ms to 60 ms after the command",
+   "value": 0.02648811,
+   "unit": "s",
+   "expected": 0.031,
+   "low": 0.026,
+   "high": 0.036,
+   "source": "section 4.2 and rule F-36: 31 ms; limit set here, 15 % around it",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_200ms",
+   "label": "Gate node 200 ms after the command",
+   "value": 0.003287637,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.11,
+   "source": "rule F-36: readings 200 ms after GATE_OUT fell; limit set here, a tenth of the lowest threshold of 1.1 V",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "An ideal source behind 10 mohm stands for the source meter and its closed mode pair. In the case with supply leads their inductance sits between that source and the supply node; the ampere pair and the suppressor of the VIN terminal, which bound that node at a trip, belong to the path switching block and are not in this circuit.",
+  "Every run starts with all voltages at zero and its sources rising in 20 us. A switch ties the gate node to 12 V until 60 us, because through R117 alone the gate needs a quarter of a second; the command comes at 200 us.",
+  "The suppressor carries the cable current only while the terminal is below ground. With a resistor as device and little inductance the pair itself brings the current down as a follower, and the suppressor stays off.",
+  "The forward curve of the suppressor is an assumption (0.75 V at 0.1 A, 0.03 ohm); its datasheet has none.",
+  "The current that the pair passes after the opening comes from the slope of the transistor model below its threshold, which is a fit between 250 uA and amperes. The figures show that it is microamperes for milliseconds; no value of nanoamperes may be taken from them, and none is quoted at 200 ms.",
+  "With the pin released the line falls through R93 into 20 pF, which is an assumption for the pad, the track and the input of the side register."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D20",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U25",
+   "OPAx197",
+   "vendor"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

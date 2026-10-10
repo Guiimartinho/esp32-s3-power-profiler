@@ -1,0 +1,15 @@
+* LT3080: offset and control current
+.include "../../models/source_meter.lib"
+XU18 in vctl set out LT3080
+* IN 1 V and VCONTROL 2 V above the output, SET held by a source
+Vin in 0 2.5
+Vctl vctl 0 3.5
+Vset set 0 1.5
+Iload out 0 1m
+.control
+foreach amps 0.001 0.01 0.1 0.2 0.6 1 1.1
+  alter Iload dc = $amps
+  op
+end
+.endc
+.end

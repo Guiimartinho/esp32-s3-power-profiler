@@ -12,6 +12,7 @@ body:
         - Host software
         - Protocol
         - Tools
+        - Simulation
         - Documentation or specification
         - Several areas
     validations:
@@ -31,7 +32,8 @@ body:
         What should change, in as much detail as you have. For a part of
         the carrier board, name the schematic sheet and the reference
         designator of draft A2. Give the source of every figure: a
-        datasheet, a calculation, a simulation or a measurement.
+        datasheet, a calculation, a simulation or a measurement. For a
+        simulated figure, name the bench under simulation/results.
     validations:
       required: true
   - type: textarea

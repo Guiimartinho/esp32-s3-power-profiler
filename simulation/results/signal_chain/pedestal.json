@@ -1,0 +1,279 @@
+{
+ "block": "signal_chain",
+ "block_title": "Signal Chain",
+ "bench": "pedestal",
+ "title": "The pedestal: divider with its 1 uF, the buffer U26 and the reference pin of U27",
+ "covers": "section 4.5 (reference pin at +50 mV), section 8 (zero calibration)",
+ "summary": "The pedestal is followed from the reference to the reference pin of the amplifier. An operating point gives the voltage at the test point and the current that the reference pin takes from the buffer; the same point is solved with the divider at the two ends of its tolerance and with the offset and the bias current of the buffer at their limits. Small-signal runs give what the divider and its 1 uF let through from the reference, the impedance that the buffer offers the reference pin, and the loop gain of the buffer by double injection. Two transient runs follow: the amplifier output steps by 2 V, which changes the current of the reference pin, and the reference appears at power-up.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "pedestal",
+   "label": "Pedestal at the test point TP41",
+   "value": 0.05007855,
+   "unit": "V",
+   "expected": 0.05007855,
+   "low": 0.0499784,
+   "high": 0.05017871,
+   "source": "section 4.5: +50 mV from 49.9 kohm and 1.02 kohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "pedestal_low",
+   "label": "Pedestal with divider and buffer at the low corner",
+   "value": 0.04987551,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pedestal_high",
+   "label": "Pedestal with divider and buffer at the high corner",
+   "value": 0.0502818,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "spread_codes",
+   "label": "The two corners apart, in codes of the converter",
+   "value": 10.65084,
+   "unit": "codes",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "divider_current",
+   "label": "Current that the divider takes from the reference",
+   "value": 4.909662e-05,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "pin_current",
+   "label": "Current of the buffer output at 50 mV of shunt voltage (negative: into the buffer)",
+   "value": -0.0001686576,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "divider_ratio",
+   "label": "From the reference to the pedestal at 1 Hz",
+   "value": 0.02003102,
+   "unit": "",
+   "expected": 0.02003142,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "divider_corner",
+   "label": "Corner above which the divider and its 1 uF keep reference noise off the pedestal",
+   "value": 158.8449,
+   "unit": "Hz",
+   "expected": 159.0,
+   "low": 154.23,
+   "high": 163.77,
+   "source": "1 uF with 49.9 kohm and 1.02 kohm in parallel, calculated here",
+   "verdict": "pass"
+  },
+  {
+   "key": "impedance_1000",
+   "label": "Impedance that the buffer offers the reference pin at 1 kHz",
+   "value": 0.03407818,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "AD8421 datasheet, page 23: source impedance of the REF pin below 1 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "impedance_10000",
+   "label": "Impedance that the buffer offers the reference pin at 10 kHz",
+   "value": 0.3407803,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "AD8421 datasheet, page 23: source impedance of the REF pin below 1 ohm",
+   "verdict": "pass"
+  },
+  {
+   "key": "impedance_40000",
+   "label": "Impedance that the buffer offers the reference pin at 40 kHz",
+   "value": 1.363187,
+   "unit": "ohm",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "AD8421 datasheet, page 23: source impedance of the REF pin below 1 ohm",
+   "verdict": "fail"
+  },
+  {
+   "key": "gain_error_40khz",
+   "label": "Gain error that this impedance causes at 40 kHz",
+   "value": 68.15933,
+   "unit": "ppm",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "loop_margin",
+   "label": "Phase margin of the buffer loop with the reference pin as its load",
+   "value": 56.74961,
+   "unit": "deg",
+   "expected": null,
+   "low": 45.0,
+   "high": null,
+   "source": "this bench: 45 degrees is the least it accepts",
+   "verdict": "pass"
+  },
+  {
+   "key": "loop_crossover",
+   "label": "Crossover of the buffer loop",
+   "value": 8733498.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "step_peak",
+   "label": "Amplifier output steps by 2 V: largest excursion of the pedestal",
+   "value": 0.001432747,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "step_shift",
+   "label": "Amplifier output steps by 2 V: lasting shift of the pedestal",
+   "value": 3.922312e-09,
+   "unit": "V",
+   "expected": null,
+   "low": -1.907349e-05,
+   "high": 1.907349e-05,
+   "source": "this bench: below half a code of the converter",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_settles",
+   "label": "Amplifier output steps by 2 V: pedestal within half a code after",
+   "value": 6.432239e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "power_up",
+   "label": "Reference appears: pedestal within one code of its level after",
+   "value": 0.007181665,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "rule F-36: the zero calibration starts no earlier than 200 ms after a reset",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "response",
+   "Pedestal: what comes through from the reference, and the impedance at the pin",
+   "pedestal.response.png"
+  ],
+  [
+   "step",
+   "Pedestal while the amplifier output steps from 0.25 V to 2.24 V",
+   "pedestal.step.png"
+  ],
+  [
+   "power-up",
+   "Pedestal when the reference appears at 1 ms",
+   "pedestal.power-up.png"
+  ]
+ ],
+ "notes": [
+  "The reference is an ideal source: its own noise, tolerance and output impedance are not in these figures. The pedestal follows the reference in proportion, as the converter does, so a reference error does not move the code at zero current.",
+  "The corners take the two divider resistors to opposite ends of their 0.1 % and the buffer to 100 uV of offset and 5 nA of bias current, its limit over temperature. The zero calibration removes what is constant of it.",
+  "The load of the buffer is the reference pin of the amplifier model, 20 kohm to its first stage. The capacitance of the test point and of the track is not in the circuit.",
+  "The buffer model has the open-loop output impedance of its datasheet, 375 ohm with 100 pF across it. Its impedance in closed loop passes 1 ohm near 30 kHz; the datasheet of the amplifier asks for less than 1 ohm without naming a frequency. The consequence is a gain error of the positive input by the ratio to 20 kohm."
+ ],
+ "models": [
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U26",
+   "SIGNAL_CHAIN_OPA197_PROBE",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "pedestal.power-up.cir",
+  "pedestal.rest.cir",
+  "pedestal.step.cir"
+ ],
+ "format": 1
+}

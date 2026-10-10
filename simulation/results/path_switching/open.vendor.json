@@ -1,0 +1,1045 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "open",
+ "title": "A mode pair opens under load: time to block and the kick of the supply leads",
+ "covers": "sections 4.2 and 4.9 (opening through a diode, D-61), rule F-23",
+ "summary": "A closed pair carries a load current and its request goes low. The driver pulls the gate down through one diode of the pair of diodes and 22 ohm. The run shows the gate, the current in the transistors and, for the ampere pair, the VIN line: the current of the supply leads has nowhere to go once the pair blocks, and the suppressor takes it. The load is a resistor on the node after the shunts, so the supply node falls after the pair has opened. This is not the order of normal operation, in which the output pair opens first (rule F-23); it is what the paths of rules F-7, F-26 and F-27 do. Two corners are run: the slowest opening that the datasheets of the driver, the diodes and the transistors allow, and the suppressor at its highest breakdown voltage.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "blocks_ampere_5v_1a_1uh",
+   "label": "Current below 10 % after the request falls: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 1.783713e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_5v_1a_1uh",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 23.57052,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_5v_1a_1uh",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 13.4894,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_5v_1a_1uh",
+   "label": "Largest current in the turn-off diode: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 0.3482224,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_5v_1a_1uh",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 1.111548,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_5v_1a_1uh",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 24.20472,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "swing_ampere_5v_1a_1uh",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 5 V, 1 A, 1 uH",
+   "value": -8.905692,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_5v_1a_1uh",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 0.6831397,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_5v_1a_1uh",
+   "label": "Largest current in the suppressor: ampere pair, 5 V, 1 A, 1 uH",
+   "value": 0.7003789,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_ampere_5v_0p5a_0p5uh",
+   "label": "Current below 10 % after the request falls: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 1.885045e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_5v_0p5a_0p5uh",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 13.94286,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_5v_0p5a_0p5uh",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 9.086115,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_5v_0p5a_0p5uh",
+   "label": "Largest current in the turn-off diode: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 0.347553,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_5v_0p5a_0p5uh",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 1.087885,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_5v_0p5a_0p5uh",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 16.9271,
+   "unit": "V",
+   "expected": null,
+   "low": 20.0,
+   "high": 24.0,
+   "source": "rule F-23: 20 V to 24 V at 0.5 A to 1 A with 0.5 uH, estimate",
+   "verdict": "fail"
+  },
+  {
+   "key": "swing_ampere_5v_0p5a_0p5uh",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": -4.150855,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_5v_0p5a_0p5uh",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 0.1417119,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_5v_0p5a_0p5uh",
+   "label": "Largest current in the suppressor: ampere pair, 5 V, 0.5 A, 0.5 uH",
+   "value": 0.2616408,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_ampere_5v_1a_0p5uh",
+   "label": "Current below 10 % after the request falls: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 1.787371e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_5v_1a_0p5uh",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 22.29206,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_5v_1a_0p5uh",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 13.78669,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_5v_1a_0p5uh",
+   "label": "Largest current in the turn-off diode: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 0.3482514,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_5v_1a_0p5uh",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 1.112771,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_5v_1a_0p5uh",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 24.0124,
+   "unit": "V",
+   "expected": null,
+   "low": 20.0,
+   "high": 24.0,
+   "source": "rule F-23: 20 V to 24 V at 0.5 A to 1 A with 0.5 uH, estimate",
+   "verdict": "fail"
+  },
+  {
+   "key": "swing_ampere_5v_1a_0p5uh",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": -9.164728,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_5v_1a_0p5uh",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 0.6452468,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_5v_1a_0p5uh",
+   "label": "Largest current in the suppressor: ampere pair, 5 V, 1 A, 0.5 uH",
+   "value": 0.5209802,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_ampere_5v_1a_0p5uh_clamp",
+   "label": "Current below 10 % after the request falls: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 1.799864e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_5v_1a_0p5uh_clamp",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 23.26381,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_5v_1a_0p5uh_clamp",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 13.88883,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_5v_1a_0p5uh_clamp",
+   "label": "Largest current in the turn-off diode: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 0.3482514,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_5v_1a_0p5uh_clamp",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 1.112886,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_5v_1a_0p5uh_clamp",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 25.12963,
+   "unit": "V",
+   "expected": null,
+   "low": 20.0,
+   "high": 24.0,
+   "source": "rule F-23: 20 V to 24 V at 0.5 A to 1 A with 0.5 uH, estimate",
+   "verdict": "fail"
+  },
+  {
+   "key": "swing_ampere_5v_1a_0p5uh_clamp",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": -9.265148,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_5v_1a_0p5uh_clamp",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 0.6616489,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_5v_1a_0p5uh_clamp",
+   "label": "Largest current in the suppressor: ampere pair, 5 V, 1 A, 0.5 uH, suppressor at its upper limit",
+   "value": 0.5299041,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_ampere_5v_1a_3uh",
+   "label": "Current below 10 % after the request falls: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 1.798581e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_5v_1a_3uh",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 24.15845,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_5v_1a_3uh",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 10.59357,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_5v_1a_3uh",
+   "label": "Largest current in the turn-off diode: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 0.3481182,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_5v_1a_3uh",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 1.104005,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_5v_1a_3uh",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 24.37276,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "swing_ampere_5v_1a_3uh",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 5 V, 1 A, 3 uH",
+   "value": -6.087894,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_5v_1a_3uh",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 0.4276629,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_5v_1a_3uh",
+   "label": "Largest current in the suppressor: ampere pair, 5 V, 1 A, 3 uH",
+   "value": 0.845337,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_ampere_0p8v_1a_1uh",
+   "label": "Current below 10 % after the request falls: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 3.582425e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_0p8v_1a_1uh",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 20.4551,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_0p8v_1a_1uh",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 6.721866,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_0p8v_1a_1uh",
+   "label": "Largest current in the turn-off diode: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 0.3424027,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_0p8v_1a_1uh",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 1.129113,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_0p8v_1a_1uh",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 21.29702,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "swing_ampere_0p8v_1a_1uh",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": -6.194864,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_0p8v_1a_1uh",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 0.5596959,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_0p8v_1a_1uh",
+   "label": "Largest current in the suppressor: ampere pair, 0.8 V, 1 A, 1 uH",
+   "value": 0.2953661,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_ampere_0p8v_1a_1uh_slow",
+   "label": "Current below 10 % after the request falls: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 4.93202e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_ampere_0p8v_1a_1uh_slow",
+   "label": "Largest voltage across the transistor on the supply side: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 17.80478,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_ampere_0p8v_1a_1uh_slow",
+   "label": "Largest voltage across the transistor on the ladder side: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 6.128801,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_ampere_0p8v_1a_1uh_slow",
+   "label": "Largest current in the turn-off diode: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 0.3143626,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_ampere_0p8v_1a_1uh_slow",
+   "label": "Gate-source voltage 20 us after the request fell: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 0.8887156,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "kick_ampere_0p8v_1a_1uh_slow",
+   "label": "Highest voltage on VIN behind the fuse: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 18.51542,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "swing_ampere_0p8v_1a_1uh_slow",
+   "label": "Lowest voltage on VIN behind the fuse after the kick: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": -5.599757,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "back_ampere_0p8v_1a_1uh_slow",
+   "label": "Largest current back through the pair after it blocked: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 0.4455062,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_ampere_0p8v_1a_1uh_slow",
+   "label": "Largest current in the suppressor: ampere pair, 0.8 V, 1 A, 1 uH, slowest parts",
+   "value": 0.2384938,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 12.3,
+   "source": "peak pulse current of the SMAJ20CA, 12.3 A (Vishay 88390, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "blocks_source_5v_1a",
+   "label": "Current below 10 % after the request falls: source pair, 5 V, 1 A",
+   "value": 1.045698e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_source_5v_1a",
+   "label": "Largest voltage across the transistor on the supply side: source pair, 5 V, 1 A",
+   "value": 5.212618,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_source_5v_1a",
+   "label": "Largest voltage across the transistor on the ladder side: source pair, 5 V, 1 A",
+   "value": 4.837022,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_source_5v_1a",
+   "label": "Largest current in the turn-off diode: source pair, 5 V, 1 A",
+   "value": 0.3510341,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_source_5v_1a",
+   "label": "Gate-source voltage 20 us after the request fell: source pair, 5 V, 1 A",
+   "value": 1.05129,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "blocks_source_0p8v_1a",
+   "label": "Current below 10 % after the request falls: source pair, 0.8 V, 1 A",
+   "value": 2.437992e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_source_0p8v_1a",
+   "label": "Largest voltage across the transistor on the supply side: source pair, 0.8 V, 1 A",
+   "value": 1.212522,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_source_0p8v_1a",
+   "label": "Largest voltage across the transistor on the ladder side: source pair, 0.8 V, 1 A",
+   "value": 1.080972,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_source_0p8v_1a",
+   "label": "Largest current in the turn-off diode: source pair, 0.8 V, 1 A",
+   "value": 0.3451161,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_source_0p8v_1a",
+   "label": "Gate-source voltage 20 us after the request fell: source pair, 0.8 V, 1 A",
+   "value": 1.128232,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  },
+  {
+   "key": "blocks_source_0p8v_1a_slow",
+   "label": "Current below 10 % after the request falls: source pair, 0.8 V, 1 A, slowest parts",
+   "value": 3.574668e-07,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.2: within 1 us (0.1 us to 0.3 us simulated before)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_source_0p8v_1a_slow",
+   "label": "Largest voltage across the transistor on the supply side: source pair, 0.8 V, 1 A, slowest parts",
+   "value": 0.7990454,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "vds_node_source_0p8v_1a_slow",
+   "label": "Largest voltage across the transistor on the ladder side: source pair, 0.8 V, 1 A, slowest parts",
+   "value": 0.581201,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A, 30 V (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "diode_source_0p8v_1a_slow",
+   "label": "Largest current in the turn-off diode: source pair, 0.8 V, 1 A, slowest parts",
+   "value": 0.3121991,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "repetitive peak current of the BAV199, 0.5 A (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "rest_source_0p8v_1a_slow",
+   "label": "Gate-source voltage 20 us after the request fell: source pair, 0.8 V, 1 A, slowest parts",
+   "value": 0.8853274,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "for comparison: the lowest threshold of the transistors is 1.1 V at 250 uA and 25 C (TI SLPS515A, page 3)",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The load is a resistor on the node after the shunts; the output pair, the cable and the device under test belong to another block. The regulator is a voltage source and the external supply a voltage source behind its leads.",
+  "The capacitance on the VIN line that the leads ring against is that of the models of the suppressor and of the transistor, about 1 nF; the capacitance of the leads themselves and of the supply is not in the circuit. The height of the kick depends on it: rule F-23 states 20 V to 24 V as an estimate, the runs give 16 V at 0.5 A and 24 V to 25 V at 1 A, all below what the transistors and the suppressor bear.",
+  "After the kick the line swings below ground on its leads. The transistor on the supply side then conducts through its body diode and the one on the ladder side as a follower, for some tens of nanoseconds: a current flows back from the supply node. The lead model has no loss but its resistance, so a real line rings less.",
+  "After the opening the gate rests one diode drop above ground for as long as the ramp capacitor discharges through that diode, about 3 ms, and the common source floats near ground: 0.86 V to 1.08 V of gate-source voltage in these runs, against a lowest threshold of 1.1 V at 250 uA and 25 C that falls by about 4.6 mV/K (datasheet). The pair is a follower in both directions and can lift neither side above its gate less a threshold, which is near 0 V, so nothing follows from it for a load; no model here gives the current that flows meanwhile. The specification describes the same state for the output pair and not for the mode pairs.",
+  "The forward recovery of the turn-off diode (1.75 V at the most at 10 mA, datasheet) is not modelled. The driver is a behavioral model; the slow corner gives it 50 ns and 10 ohm, the datasheet limits at 25 C. The transistor model has no avalanche: the figures are the voltages it would have to block."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_HI",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q4",
+   "PATH_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "PATH_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "PATH_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "PATH_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

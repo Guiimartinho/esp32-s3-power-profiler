@@ -1,0 +1,369 @@
+{
+ "block": "range_logic",
+ "block_title": "Range Control Logic",
+ "bench": "hot-plug",
+ "title": "Hot plug of 100 uF and a short circuit at the output: the surge in the ladder",
+ "covers": "section 4.3 (ladder clamp, decision D-66), section 4.4 (jump, trip), section 11 (pulses)",
+ "summary": "The output is on at 5 V and a contact closes on it. Behind 30 mohm and 50 nH of lead the contact connects a discharged 100 uF capacitor, or a short circuit. The ladder is in range 0 or in range 2. Its voltage rises until the two clamp transistors carry the current; the jump comparator forces range 3, the 0.1 ohm branch takes over, and the over-current trip opens the output 12 us later. The run reads the current in each clamp transistor, the time it spends above 5 A, the ladder voltage, and current and energy in the 0.1 ohm shunt. It is made with the worst delays and with the two clamp transistors at their typical curve, both at the low end of the threshold, both at the high end, and one at each end. Further runs change the lead to 20 nH and 150 nH and the output voltage to 5.5 V.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "clamp_equal",
+   "label": "Largest current in a clamp transistor, both at the same threshold",
+   "value": 7.094816,
+   "unit": "A",
+   "expected": 8.8,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: 8.8 A in each part, simulated; section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_opposite",
+   "label": "Largest current in one clamp transistor, thresholds at opposite ends",
+   "value": 11.97177,
+   "unit": "A",
+   "expected": 14.2,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: 14.2 A in one part, simulated; section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "above_plug",
+   "label": "Hot plug: longest time a clamp transistor carries more than 5 A",
+   "value": 2.856e-07,
+   "unit": "s",
+   "expected": 5.4e-07,
+   "low": null,
+   "high": 5.4e-07,
+   "source": "section 4.3: above 5 A for at most 0.54 us, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "above_short",
+   "label": "Short circuit: longest time a clamp transistor carries more than 5 A",
+   "value": 1.463e-05,
+   "unit": "s",
+   "expected": 5.4e-07,
+   "low": null,
+   "high": 5.4e-07,
+   "source": "section 4.3: above 5 A for at most 0.54 us, simulated",
+   "verdict": "fail"
+  },
+  {
+   "key": "above_short_typical",
+   "label": "The same with both clamp transistors at their typical curve",
+   "value": 1.456e-07,
+   "unit": "s",
+   "expected": 5.4e-07,
+   "low": null,
+   "high": 5.4e-07,
+   "source": "section 4.3: above 5 A for at most 0.54 us, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder",
+   "label": "Largest ladder voltage",
+   "value": 3.812629,
+   "unit": "V",
+   "expected": 3.9,
+   "low": null,
+   "high": 3.9,
+   "source": "section 4.3: ladder at most 3.9 V, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "shunt_peak",
+   "label": "Largest current in the 0.1 ohm shunt",
+   "value": 29.15501,
+   "unit": "A",
+   "expected": 27.0,
+   "low": null,
+   "high": null,
+   "source": "section 4.3: up to 27 A for microseconds; accepted on the energy",
+   "verdict": "info"
+  },
+  {
+   "key": "shunt_energy",
+   "label": "Largest energy in the 0.1 ohm shunt in one event",
+   "value": 0.001304245,
+   "unit": "J",
+   "expected": 0.001,
+   "low": null,
+   "high": 0.2,
+   "source": "section 4.3: about 1 mJ against 200 mJ, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "one_ohm_peak",
+   "label": "Largest current in the 1 ohm shunt, events in range 2",
+   "value": 3.496626,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "opened",
+   "label": "Contact closed to the line of the output switch low, longest",
+   "value": 1.231596e-05,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 2.1e-05,
+   "source": "rule F-18: at most 20 us of qualification; 1 us for the jump",
+   "verdict": "pass"
+  },
+  {
+   "key": "not_opened",
+   "label": "Events after which the output stayed on, of 16",
+   "value": 0.0,
+   "unit": "",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "lowest_output",
+   "label": "Lowest voltage at the output terminal",
+   "value": -0.3219406,
+   "unit": "V",
+   "expected": null,
+   "low": -2.5,
+   "high": null,
+   "source": "section 11: VOUT above -2.5 V in a short circuit",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_short_r0_low_20nh",
+   "label": "Short, 20 nH of lead, both low: current in a clamp transistor",
+   "value": 10.68504,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_short_r0_opposite_20nh",
+   "label": "Short, 20 nH of lead, opposite ends: current in one",
+   "value": 16.17482,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_short_r0_low_150nh",
+   "label": "Short, 150 nH of lead, both low: current in a clamp transistor",
+   "value": 4.279495,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_short_r0_low_5v5",
+   "label": "Short at 5.5 V, both low: current in a clamp transistor",
+   "value": 8.300545,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_short_r0_opposite_5v5",
+   "label": "Short at 5.5 V, opposite ends: current in one",
+   "value": 13.67124,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_short_r0_opposite_5v5_20nh",
+   "label": "Short at 5.5 V, 20 nH, opposite ends: current in one",
+   "value": 18.78649,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 21.0,
+   "source": "section 4.3: pulsed rating 21 A (datasheet value)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_effect",
+   "label": "Hot plug, typical clamp: current with the nominal delays",
+   "value": 5.673197,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "delay_effect_worst",
+   "label": "Hot plug, typical clamp: current with the worst delays",
+   "value": 6.070898,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The surge is set by what stands around the instrument, and the specification does not say what its figures assumed. Here: a source that holds its voltage behind 20 mohm, 30 mohm and 50 nH of lead, a contact of 10 mohm that closes within 5 ns, and 10 mohm in the capacitor. The earlier simulations of the design had the same lead and 5.6 V; the runs at 5.5 V come close to their 8.8 A and 14.2 A.",
+  "The lead inductance sets how far the current rises before range 3 conducts: 20 nH in place of 50 nH adds about half to the clamp current.",
+  "A source that holds 5 V through a short circuit is an external supply in ampere mode with short leads. The source meter cannot do that: its regulator limits its current, and the 22 uF at its output hold the charge of about 4 us at 27 A. For it the figures of the first microsecond hold and the ones up to the trip are an upper bound.",
+  "In the short circuit the 0.1 ohm branch carries about 27 A until the trip, and the ladder stands at about 2.8 V. A clamp transistor at the low end of its threshold conducts at that voltage: it carries 5 A to 8 A for the whole 15 us, not for the 0.54 us of the specification. The peak stays below the pulsed rating; the energy in that transistor is about 0.3 mJ.",
+  "The clamp model is fitted to the typical output curve of the datasheet up to 10 A; the low and high variants move its threshold by the spread the datasheet states at 25 uA, which is an assumption about amperes. The transistors heat in such a pulse and the model does not.",
+  "The amplifier sees up to 3.8 V between its inputs in these events. Its model has no input protection and no overload recovery; the datasheet limits of its inputs are not checked here.",
+  "Vendor tier: the range 3 switch and the two transistors of the output switch take the model of their manufacturer. The comparators keep the model written here, because the loop finds its operating point only with their hysteresis held, and the model of the manufacturer offers no node for that. The bench models/range-logic-mcp6561 puts the two comparator models side by side."
+ ],
+ "models": [
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "PTVS15VS1UR",
+   "vendor"
+  ],
+  [
+   "D22",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D23",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP_HI",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP_LO",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP_HI",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP_LO",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ],
+  [
+   "U26",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U27",
+   "AD8421",
+   "written here"
+  ],
+  [
+   "U28",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U29",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U31",
+   "RL_MCP6562",
+   "written here"
+  ],
+  [
+   "U32",
+   "MCP656X",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

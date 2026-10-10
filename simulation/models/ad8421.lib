@@ -1,0 +1,188 @@
+* AD8421 instrumentation amplifier (U27), behavioral, written for this
+* project. Not the model of the manufacturer.
+* Analog Devices datasheet AD8421 Rev. A; the A grade (AD8421ARZ), typical
+* at 25 C unless a limit is named.
+*   Gain: G = 1 + 9.9 kohm / RG (pages 4 and 22). The model has the two
+*   4.95 kohm feedback resistors of figure 62 (page 22) and takes the gain
+*   resistor from the circuit. Gain error of the part 0.2 % at most for
+*   G = 10 to 1000 (page 4): the parameter gerr scales the two resistors,
+*   0 by default.
+*   Small-signal bandwidth 10 MHz at G = 1 and G = 10, 2 MHz at G = 100,
+*   0.2 MHz at G = 1000 (page 4): a first stage with a gain-bandwidth
+*   product of 200 MHz (gbwi) and an output stage with one pole at 10 MHz
+*   (fout). That gives 10, 8.4, 1.9 and 0.2 MHz, and 6.4 MHz at G = 19.93.
+*   Slew rate 35 V/us (page 4): sr, a limit of the output stage.
+*   Voltage noise at 1 kHz: 3 nV/rtHz of the input stage, 3.2 at most, and
+*   60 nV/rtHz of the output stage (page 3; figure 42 on page 18 shows 60
+*   as the typical level at G = 1): eni and eno. The 1/f corners, 1.5 Hz
+*   (fci) and 5 Hz (fco), are fitted to 0.07 uV and 2 uV peak to peak from
+*   0.1 Hz to 10 Hz (page 3) and to figure 42; the model gives 0.08 uV and
+*   2.3 uV.
+*   Current noise 200 fA/rtHz at 1 kHz and 18 pA peak to peak from 0.1 Hz
+*   to 10 Hz (page 3): inz, with a corner of 40 Hz (fcn) that also follows
+*   figure 44 (page 18).
+*   Offset: 60 uV of the input stage and 350 uV of the output stage at
+*   most, of either sign (page 3): vosi and voso, 0 by default. The two
+*   add as input offset times gain plus output offset (page 5). The sign
+*   of vosi is the one of the first version of this file and of vos in
+*   opamps.lib: a positive vosi lowers the output by the gain times vosi.
+*   A positive voso raises the output by voso.
+*   Bias current 1 nA typical, 2 nA at most; offset current 0.5 nA typical,
+*   2 nA at most (page 3): ib is the current into each input and ios the
+*   difference between the two, both 0 by default.
+*   Input impedance 30 Gohm and 3 pF, between the inputs and from each
+*   input (page 4). The 30 Gohm from each input ends on the middle of the
+*   supply, which gives the slope of figure 19 (page 14).
+*   Common-mode rejection from DC to 60 Hz at the least: 86 dB at G = 1,
+*   106 dB at G = 10, 126 dB at G = 100; 80 dB at 20 kHz and G = 1
+*   (page 3). The error is made in the output stage, so it falls with the
+*   gain as the table says. cmrr is the rejection at G = 1 in dB, 200 by
+*   default (none): the table gives a limit and no typical value. cmsign
+*   (1 or -1) is the sign of the error, fcmr the frequency above which it
+*   rises, 11.5 kHz from the two figures for G = 1.
+*   Limits of the first stage: its two outputs sit one level shift (vbe)
+*   below the inputs, moved apart by half the output signal, and may come
+*   no closer than hlo to the negative and hhi to the positive supply. The
+*   manufacturer's range tool states 1.4 V, 1.8 V and a shift of 0.58 V;
+*   the model uses a shift of 0.40 V, which gives the 20 uA of the
+*   reference pin (page 4), and hlo = 1.58 V, hhi = 1.62 V, so that the
+*   sums are those of the tool. Figures 11 and 13 (page 13) agree with
+*   them. Figure 14 (G = 100 at +/-5 V) shows less room near the negative
+*   supply; hlo = 2.38 V reproduces it near an output of 2.5 V. Beyond a
+*   limit one half of the first stage stops and the gain falls to about 2.
+*   Output swing: -Vs + 1.2 V to +Vs - 1.6 V into 2 kohm are the limits
+*   of page 4; figure 36 (page 17) shows -Vs + 1.1 V and +Vs - 1.4 V at
+*   2 kohm and 25 C, the values of vlo and vhi.
+*   Short-circuit current 65 mA (page 4): isc.
+*   Reference pin: 20 kohm to the first stage (page 4).
+*   Input current in overdrive: figures 17 and 18 (page 14) show, at
+*   G = 100, no visible current up to about 2 V between the inputs, then
+*   about 3 mA/V, bending over near 10 mA. The model lets a current pass
+*   from an input into its gain pin when the pin is more than vfwd below
+*   it, and from a gain pin into its input when the pin is more than vrev
+*   above it, each through rod. The values are a fit to that one figure
+*   up to 5 mA; with another gain resistor the path is an assumption.
+*   Output resistance in closed loop 0.05 ohm (ro): an assumption, the
+*   datasheet gives none.
+*   Supply current 2 mA, 2.3 mA at most (page 5): iq.
+* What it leaves out: the peaking of the response near 8 MHz (figure 22),
+* the fall of the rejection with frequency at gains above 1 (90 dB at the
+* least at 20 kHz and G = 10, where the model keeps 100 dB), the upper end
+* of the input range at low gain (+Vs - 1.8 V in the table; the model
+* limits at +Vs - 1.2 V), the overload recovery time (not in the
+* datasheet: the model recovers as fast as it slews), supply rejection,
+* gain nonlinearity, drift, the bend of the overdrive current near 10 mA,
+* phase inversion under extreme overdrive.
+* Pins in the order of the package: -IN RG RG +IN -VS REF OUT +VS.
+
+* Unit noise sources: white 1 nV/rtHz and 1/f with 1 uV/rtHz at 1 Hz, as
+* the open-circuit voltage of resistors (see OPAMP_UNITNOISE in opamps.lib).
+.subckt AD8421_UNITNOISE nw nf
+Rw nw 0 60.328
+R1 nf n1 8.8434e9
+C1 nf n1 1.7997n
+R2 n1 n2 8.8434e8
+C2 n1 n2 1.7997n
+R3 n2 n3 8.8434e7
+C3 n2 n3 1.7997n
+R4 n3 n4 8.8434e6
+C4 n3 n4 1.7997n
+R5 n4 n5 8.8434e5
+C5 n4 n5 1.7997n
+R6 n5 n6 8.8434e4
+C6 n5 n6 1.7997n
+R7 n6 n7 8.8434e3
+C7 n6 n7 1.7997n
+R8 n7 0 8.8434e2
+C8 n7 0 1.7997n
+.ends AD8421_UNITNOISE
+
+* Supply present: 1 above 4 V between the supply pins, 0 below.
+.func ad8421_alive(vs) {0.5*(1 + tanh((vs - 4)/0.3))}
+.subckt AD8421 inn rga rgb inp vn ref out vp
++ params: vosi=0 voso=0 ib=0 cmrr=200 gbwi=200meg fout=10meg sr=35meg
++ vhi=1.4 vlo=1.1 ios=0 gerr=0 eni=3n fci=1.5 eno=60n fco=5 inz=200f
++ fcn=40 cmsign=1 fcmr=11.5k vbe=0.4 hlo=1.58 hhi=1.62 vfwd=0.7 vrev=1.5
++ rod=125 isc=65m iq=2m ro=0.05
+.param kcm={cmsign*exp(-cmrr*0.11512925)}
+.param tcm={1/(6.2832*fcmr*1n)}
+.param kwo={eno/1n}
+.param kfo={eno*sqrt(fco)/1u}
+* inputs: impedance and bias current
+Bmid mid 0 V = 0.5*(v(vp) + v(vn))
+Rca inn mid 30g
+Rcb inp mid 30g
+Rd inp inn 30g
+Cca inn vn 3p
+Ccb inp vn 3p
+Cd inp inn 3p
+Iba inn vn {ib - ios/2}
+Ibb inp vn {ib + ios/2}
+* voltage noise of the input stage, half in each input, and the offset
+Xna nwa nfa AD8421_UNITNOISE
+Xnb nwb nfb AD8421_UNITNOISE
+Ewa inn pa1 nwa 0 {eni/1.4142/1n}
+Efa pa1 pa nfa 0 {eni/1.4142*sqrt(fci)/1u}
+Ewb inp pb1 nwb 0 {eni/1.4142/1n}
+Efb pb1 pb2 nfb 0 {eni/1.4142*sqrt(fci)/1u}
+Vosi pb2 pb {vosi}
+* current noise of each input
+Xnc nwc nfc AD8421_UNITNOISE
+Xnd nwd nfd AD8421_UNITNOISE
+Gwa inn vn nwc 0 {inz/1n}
+Gfa inn vn nfc 0 {inz*sqrt(fcn)/1u}
+Gwb inp vn nwd 0 {inz/1n}
+Gfb inp vn nfd 0 {inz*sqrt(fcn)/1u}
+* first stage: each half holds its gain pin one level shift below its
+* input and drives it through 4.95 kohm; its output stops at the limits.
+* The limits are written so that they cannot cross at the first iteration
+* of an operating point, when every node is still at 0 V. The integrators
+* work on 10 pF: with a larger capacitor their transconductance turns the
+* rounding of the solver into currents that it takes for an error.
+Bga 0 xa I = {6.2832*gbwi*10p}*(v(pa) - {vbe} - v(rga))
+Cxa xa 0 10p
+Rxa xa 0 1e9
+Bwa xa 0 I = 0.1*(max(v(xa) - max(v(vp) - {hhi}, 0.5*(v(vp) + v(vn)) + 0.5) - 0.02, 0) + min(v(xa) - min(v(vn) + {hlo}, 0.5*(v(vp) + v(vn)) - 0.5) + 0.02, 0))
+Bya ya 0 V = min(max(v(xa), min(v(vn) + {hlo}, 0.5*(v(vp) + v(vn)) - 0.5)), max(v(vp) - {hhi}, 0.5*(v(vp) + v(vn)) + 0.5))
+Rfa ya rga {4950*(1 + gerr)} noisy=0
+Bgb 0 xb I = {6.2832*gbwi*10p}*(v(pb) - {vbe} - v(rgb))
+Cxb xb 0 10p
+Rxb xb 0 1e9
+Bwb xb 0 I = 0.1*(max(v(xb) - max(v(vp) - {hhi}, 0.5*(v(vp) + v(vn)) + 0.5) - 0.02, 0) + min(v(xb) - min(v(vn) + {hlo}, 0.5*(v(vp) + v(vn)) - 0.5) + 0.02, 0))
+Byb yb 0 V = min(max(v(xb), min(v(vn) + {hlo}, 0.5*(v(vp) + v(vn)) - 0.5)), max(v(vp) - {hhi}, 0.5*(v(vp) + v(vn)) + 0.5))
+Rfb yb rgb {4950*(1 + gerr)} noisy=0
+* input current in overdrive, through the gain pins. The two resistors of
+* 1 Tohm keep the same places of the solver's matrix in use whether a path
+* conducts or not; without them some operating points are not found.
+Roa inn rga 1e12 noisy=0
+Rob inp rgb 1e12 noisy=0
+Bfa inn rga I = max(v(inn) - v(rga) - {vfwd}, 0)/{rod}
+Bra rga inn I = max(v(rga) - v(inn) - {vrev}, 0)/{rod}
+Bfb inp rgb I = max(v(inp) - v(rgb) - {vfwd}, 0)/{rod}
+Brb rgb inp I = max(v(rgb) - v(inp) - {vrev}, 0)/{rod}
+* output stage: difference of the two halves, referred to the REF pin
+* through 10 kohm and 10 kohm; the common-mode error is made here
+Rda yb pd 10k noisy=0
+Rdb pd ref 10k noisy=0
+Bcmn cmn 0 V = 0.5*(v(ya) + v(yb)) + {vbe}
+Ccm cmn cm1 1n
+Rcm cm1 cm2 159 noisy=0
+Vcm cm2 0 0
+Xno nwo nfo AD8421_UNITNOISE
+Bt t 0 V = 2*v(pd) - v(ya) + {voso} + {kcm}*(v(cmn) + {tcm}*i(Vcm)) + {kwo}*v(nwo) + {kfo}*v(nfo)
+* the target is bounded by the output swing; the output follows it at the
+* slew rate. At DC the inductor ties the two, so that an operating
+* point does not depend on the slew limiter.
+Btc tc 0 V = min(max(v(t), min(v(vn) + {vlo}, 0.5*(v(vp) + v(vn)) - 0.5)), max(v(vp) - {vhi}, 0.5*(v(vp) + v(vn)) + 0.5))
+Bs 0 s I = max(min({6.2832*fout*1n}*v(tc,s), {sr*1n}), {-sr*1n})
+Ls tc s 100m
+Cs s 0 1n
+Rs s 0 1e9
+Bo o 0 V = ad8421_alive(v(vp,vn))*v(s) + (1 - ad8421_alive(v(vp,vn)))*v(vn)
+Bio io 0 V = max(min(v(o,out)/{ro}, {isc}), {-isc})
+Bout 0 out I = v(io)
+Rol o out 1k noisy=0
+* supply current: the quiescent current and the current of the load
+Bqp vp 0 I = ad8421_alive(v(vp,vn))*{iq} + max(v(io), 0)
+Bqn 0 vn I = ad8421_alive(v(vp,vn))*{iq} + max(-v(io), 0)
+.ends AD8421

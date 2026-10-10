@@ -1,0 +1,163 @@
+* Models of the parts of the path switching sheet, written for this project.
+* None of these is a model of a manufacturer. Every figure is from the
+* datasheet named beside it; the qualification benches of the block "models"
+* (path-switching-...) compare each model with those figures.
+
+* ---------------------------------------------------------------------
+* BC847B, NPN transistor (Q6, Q7: the hold-off of a mode pair below ground).
+* Diodes Incorporated datasheet DS11108 Rev. 28-2 (May 2025).
+*   Page 4: hFE 200 / 290 / 450 at 2 mA and 5 V; VBE(on) 580 / 660 / 700 mV
+*   at 2 mA and 5 V; VCE(sat) 90 mV typical and 250 mV at most at 10 mA with
+*   0.5 mA of base current, 200 mV typical and 600 mV at most at 100 mA with
+*   5 mA; VBE(sat) 700 mV typical at 10 mA with 0.5 mA and 900 mV typical at
+*   100 mA with 5 mA; output capacitance 3 pF typical at VCB = 10 V;
+*   transition frequency 300 MHz typical, 100 MHz at least, at 10 mA and 5 V.
+*   Page 5, figure 5 (typical gain against collector current): flat from
+*   1 mA to 10 mA, about half at 100 mA. Figure 6 (typical VCE(sat) with the
+*   collector current 20 times the base current): 75 mV at 1 mA and below.
+*   Fit: IS puts VBE at 660 mV at 2 mA; BF, VAF and IKF give the gain and its
+*   fall; BR gives the 75 mV of figure 6; RC, RE and RB give the saturation
+*   voltages at 100 mA; CJC the output capacitance; TF the transition
+*   frequency.
+*   Three variants for the spread of the gain at 2 mA (page 4):
+*   PATH_BC847B 290 (typical), PATH_BC847B_LO 200, PATH_BC847B_HI 450.
+*   Assumptions, not in this datasheet: the gain below 1 mA (ISE and NE make
+*   it fall to about 220 at 10 uA), the emitter capacitance CJE (12 pF), the
+*   reverse transit time TR (80 ns), the Early voltages.
+*   A fourth variant, PATH_BC847B_WEAK, is the other reading of that open
+*   figure: a gain inside the datasheet limits at 2 mA (about 225) that falls
+*   to about 25 at 10 uA, which is where the model that the manufacturer
+*   publishes for this part puts it. The hold-off works with microamperes of
+*   base current when a low supply voltage reverses, so the benches of that
+*   case run both readings.
+*   Not modelled: the breakdown voltages (45 V collector to emitter, 6 V
+*   emitter to base, page 2), the leakage currents (15 nA at most, page 4),
+*   self-heating.
+.model PATH_BC847B NPN (IS=1.76e-14 NF=1 BF=312 VAF=70 IKF=0.07 ISE=1.1e-13 NE=1.7
++ BR=1.3 NR=1 VAR=12 IKR=0.05 RB=14 RE=0.45 RC=0.6 CJE=12p VJE=0.7 MJE=0.35
++ CJC=7.7p VJC=0.6 MJC=0.33 TF=0.45n TR=80n XTB=1.5)
+.model PATH_BC847B_LO NPN (IS=1.76e-14 NF=1 BF=212 VAF=70 IKF=0.07 ISE=1.1e-13 NE=1.7
++ BR=1.3 NR=1 VAR=12 IKR=0.05 RB=14 RE=0.45 RC=0.6 CJE=12p VJE=0.7 MJE=0.35
++ CJC=7.7p VJC=0.6 MJC=0.33 TF=0.45n TR=80n XTB=1.5)
+.model PATH_BC847B_HI NPN (IS=1.76e-14 NF=1 BF=500 VAF=70 IKF=0.07 ISE=1.1e-13 NE=1.7
++ BR=1.3 NR=1 VAR=12 IKR=0.05 RB=14 RE=0.45 RC=0.6 CJE=12p VJE=0.7 MJE=0.35
++ CJC=7.7p VJC=0.6 MJC=0.33 TF=0.45n TR=80n XTB=1.5)
+.model PATH_BC847B_WEAK NPN (IS=1.76e-14 NF=1 BF=600 VAF=70 IKF=0.07 ISE=1.6e-11 NE=2
++ BR=1.3 NR=1 VAR=12 IKR=0.05 RB=14 RE=0.45 RC=0.6 CJE=12p VJE=0.7 MJE=0.35
++ CJC=7.7p VJC=0.6 MJC=0.33 TF=0.45n TR=80n XTB=1.5)
+
+* ---------------------------------------------------------------------
+* BSS138, small N-channel MOSFET (Q2, Q3: the interlock at the input of the
+* ampere driver). Diodes Incorporated datasheet DS30144 Rev. 25-2 (June 2024).
+*   Page 2: VGS(th) 0.5 / 1.2 / 1.5 V at 250 uA; RDS(on) 1.4 ohm typical and
+*   3.5 ohm at most at VGS = 10 V and 0.22 A; transconductance 100 mS at
+*   least at 0.2 A; Ciss 50 pF, Coss 25 pF and Crss 8 pF at most at 10 V;
+*   turn-on and turn-off delay 20 ns at most.
+*   Page 3, figure 1 (typical output characteristics at 25 C), current in
+*   saturation: 0.20 A at VGS = 2.5 V, 0.36 A at 3.0 V, 0.545 A at 3.5 V.
+*   The table and the figure do not agree: a square law through the figure
+*   has its threshold near 1.0 V at 250 uA, the table says 1.2 V typical.
+*   The fit lies between them: 1.1 V at 250 uA, and 7 % to 11 % less current
+*   than the figure. RD gives the on-resistance at 10 V.
+*   Three variants for the spread of the threshold at 250 uA (page 2):
+*   PATH_BSS138 1.1 V, PATH_BSS138_HI 1.5 V, PATH_BSS138_LO 0.5 V.
+*   The capacitances are the datasheet maxima, the cautious choice for speed.
+*   Assumptions, not in this datasheet: the gate resistance (20 ohm), the
+*   body diode (IS, N), the change of the gate-drain capacitance with voltage.
+*   Not modelled: the breakdown at 50 V, leakage.
+.model PATH_BSS138 VDMOS (VTO=1.05 KP=0.169 RD=0.75 RS=0 RG=20 RB=0.3 CGS=40p
++ CGDMAX=25p CGDMIN=7p A=1 CJO=58p IS=1.2e-13 N=1.02 LAMBDA=0.005 KSUBTHRES=0.03)
+.model PATH_BSS138_HI VDMOS (VTO=1.45 KP=0.169 RD=0.75 RS=0 RG=20 RB=0.3 CGS=40p
++ CGDMAX=25p CGDMIN=7p A=1 CJO=58p IS=1.2e-13 N=1.02 LAMBDA=0.005 KSUBTHRES=0.03)
+.model PATH_BSS138_LO VDMOS (VTO=0.45 KP=0.169 RD=0.75 RS=0 RG=20 RB=0.3 CGS=40p
++ CGDMAX=25p CGDMIN=7p A=1 CJO=58p IS=1.2e-13 N=1.02 LAMBDA=0.005 KSUBTHRES=0.03)
+
+* ---------------------------------------------------------------------
+* SMAJ20CA, bidirectional 400 W suppressor (D14, on the VIN terminal behind
+* the fuse). Vishay datasheet 88390, revision of 09-Jan-2024.
+*   Page 2: breakdown voltage 22.2 V at least and 24.5 V at most at 1 mA;
+*   stand-off voltage 20 V with 1 uA at most; clamping voltage 32.4 V at most
+*   at the peak pulse current of 12.3 A (10/1000 us wave); both directions.
+*   Page 4, figure 4: about 300 pF at the stand-off voltage (typical,
+*   bidirectional). Page 4, figure 1: peak pulse power 400 W at 1000 us,
+*   about 3.5 kW at 10 us and about 10 kW at 1 us (read from the curve).
+*   Two equal diodes back to back; each breaks down at BV and has the series
+*   resistance that puts the clamping voltage 7.9 V above the breakdown
+*   voltage at 12.3 A, as the datasheet maxima are (32.4 V - 24.5 V).
+*   Three variants for the spread of the breakdown voltage at 1 mA:
+*   PATH_SMAJ20CA 23.35 V (middle), PATH_SMAJ20CA_LO 22.2 V,
+*   PATH_SMAJ20CA_HI 24.5 V, which clamps at the 32.4 V of the datasheet.
+*   What the fit means for a short pulse: the 7.9 V of the datasheet hold
+*   after a pulse of a millisecond, which heats the junction (0.094 %/K,
+*   page 2). In a pulse of microseconds the part clamps lower than the
+*   model: the model is the cautious side for the voltage on the terminal.
+*   Assumptions: the typical clamping voltage (the datasheet gives only the
+*   maximum), the softness of the knee (NBV), the transit time.
+*   Not modelled: heating, the limits of fig. 1 (the benches compare the
+*   simulated pulse with them), leakage (the two resistors of 1 Gohm only
+*   keep the middle node defined; no leakage figure may be taken).
+.subckt PATH_SMAJ20CA a1 a2
+D1 a1 k PATH_SMAJ20_D
+D2 a2 k PATH_SMAJ20_D
+R1 a1 k 1e9
+R2 a2 k 1e9
+.ends PATH_SMAJ20CA
+.subckt PATH_SMAJ20CA_LO a1 a2
+D1 a1 k PATH_SMAJ20_D_LO
+D2 a2 k PATH_SMAJ20_D_LO
+R1 a1 k 1e9
+R2 a2 k 1e9
+.ends PATH_SMAJ20CA_LO
+.subckt PATH_SMAJ20CA_HI a1 a2
+D1 a1 k PATH_SMAJ20_D_HI
+D2 a2 k PATH_SMAJ20_D_HI
+R1 a1 k 1e9
+R2 a2 k 1e9
+.ends PATH_SMAJ20CA_HI
+.model PATH_SMAJ20_D D(IS=1e-11 N=1.1 RS=0.2805 BV=22.83 IBV=1m NBV=3 CJO=1.47n
++ VJ=0.7 M=0.4 TT=50n)
+.model PATH_SMAJ20_D_LO D(IS=1e-11 N=1.1 RS=0.2805 BV=21.68 IBV=1m NBV=3 CJO=1.47n
++ VJ=0.7 M=0.4 TT=50n)
+.model PATH_SMAJ20_D_HI D(IS=1e-11 N=1.1 RS=0.2805 BV=23.98 IBV=1m NBV=3 CJO=1.47n
++ VJ=0.7 M=0.4 TT=50n)
+
+* ---------------------------------------------------------------------
+* 0466004.NR, 4 A fast chip fuse in 1206 (F1, in the VIN path). Littelfuse
+* datasheet of the 466 series, revised 05/18/15, read in the copy that a
+* distributor holds (Farnell); the site of the manufacturer did not answer.
+*   Page 1: nominal cold resistance 0.014 ohm (at 10 % of the rated current,
+*   25 C), nominal voltage drop 74.5 mV at 4 A, nominal melting I2t
+*   1.764 A2s, interrupting rating 50 A at 32 V, opening times: 4 hours at
+*   least at 100 %, 5 s at most at 200 %, 0.2 s at most at 300 %.
+*   The model is the cold resistance alone.
+*   Not modelled: the rise of the resistance with the current (at 4 A the
+*   datasheet drop means 18.6 mohm; at the 1 A of this instrument the
+*   heating is 6 % of that), the opening of the fuse (the benches compare
+*   the simulated I2t with the melting figure), the tolerance of the
+*   resistance, which the datasheet does not state.
+.subckt PATH_FUSE_0466004 a b params: rcold=14m
+R1 a b {rcold}
+.ends PATH_FUSE_0466004
+
+* ---------------------------------------------------------------------
+* CSD17577Q3A at the limits of its datasheet (Q4, Q5, Q8, Q9). Texas
+* Instruments datasheet SLPS515A, page 3: gate threshold 1.1 V, 1.4 V and
+* 1.8 V (least, typical, most) at 250 uA; on-resistance 5.3 mohm typical and
+* 6.4 mohm at most at 4.5 V, 4.0 mohm typical and 4.8 mohm at most at 10 V.
+*   The typical part is the model CSD17577Q3A of mosfets.lib. These three
+*   are that model with one property moved; when that model changes they
+*   have to follow it.
+*   _LO and _HI: the threshold moved by -0.3 V and +0.4 V. A low threshold
+*   lets the supply node rise closest to its gate at a trip; a high one
+*   leaves the least gate drive.
+*   _RMAX: the on-resistance at its upper limit: 1.2 times the series
+*   resistance and 1.23 times the channel resistance of the typical part.
+.model PATH_CSD17577_LO VDMOS (VTO=2.0 KP=128 MTRIODE=1.95 RD=2.4m RS=1.08m RG=1
++ RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p IS=5e-11 N=1.05
++ LAMBDA=0.01 KSUBTHRES=0.2)
+.model PATH_CSD17577_HI VDMOS (VTO=2.7 KP=128 MTRIODE=1.95 RD=2.4m RS=1.08m RG=1
++ RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p IS=5e-11 N=1.05
++ LAMBDA=0.01 KSUBTHRES=0.2)
+.model PATH_CSD17577_RMAX VDMOS (VTO=2.3 KP=104 MTRIODE=1.95 RD=2.88m RS=1.296m RG=1
++ RB=4m CGS=1.55n CGDMAX=0.75n CGDMIN=60p A=0.6 CJO=700p IS=5e-11 N=1.05
++ LAMBDA=0.01 KSUBTHRES=0.2)

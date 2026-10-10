@@ -1,0 +1,20 @@
+* Ceramic capacitors: charge with a constant current
+.include "../../models/analog_rails.lib"
+* each capacitor is charged with 1 mA
+I0 0 n0 PULSE(0 1m 1m 1u 1u 10 20)
+X0 n0 0 RAILS_MLCC c=4.7e-06 v0=8
+R0 n0 0 1e9
+I1 0 n1 PULSE(0 1m 1m 1u 1u 10 20)
+X1 n1 0 RAILS_MLCC c=1e-05 v0=20.4
+R1 n1 0 1e9
+I2 0 n2 PULSE(0 1m 1m 1u 1u 10 20)
+X2 n2 0 RAILS_MLCC c=2.2e-05 v0=7.39
+R2 n2 0 1e9
+* the SET capacitor with the 2 mA of the fast start-up
+Iset 0 nset PULSE(0 2m 1m 1u 1u 10 20)
+Xset nset 0 RAILS_MLCC c=4.7u v0=8
+Rset nset 0 1e9
+.control
+tran 50u 0.3 0 50u
+.endc
+.end

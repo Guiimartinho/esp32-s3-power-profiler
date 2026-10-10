@@ -1,0 +1,123 @@
+* Short circuit at the output: 5 V, 3 uH, trip after 20 us
+.include "../../models/logic.lib"
+.include "../../models/sequencer.lib"
+.include "../../models/diodes.lib"
+.include "../../models/output_stage.lib"
+.include "../../models/mosfets.lib"
+.include "../../models/mux509.lib"
+.include "../../models/opamps.lib"
+C62 supply 0 1e-06
+C63 damper 0 4.7e-06
+C64 p12v_a 0 1e-06
+C65 p12v_a 0 1e-06
+C66 p12v_a 0 1e-07
+C67 p12v_a 0 1e-07
+C68 p12v_a 0 1e-07
+C69 0 m4v_a 1e-07
+C70 p12v_a 0 1e-07
+C71 vout_s 0 1e-07
+C72 0 m4v_a 1e-07
+C73 guard 0 1e-07
+C74 out_gate 0 1e-08
+DD20_1 0 out_gate BAV199
+DD20_2 out_gate gate_off BAV199
+XD21 0 vout OUTPUT_PTVS15V
+MQ10 supply n_q10_g vout_s IRLML0030_CLAMP
+MQ11 supply n_q11_g vout_s IRLML0030_CLAMP
+MQ12 supply g_r1 sense_r1 IRLML0030
+MQ13 supply g_r2 sense_r2 IRLML0030
+MQ14 supply g_r3 sense_r3 CSD17577Q3A
+MQ15 vout_s g_out mid CSD17577Q3A
+MQ16 vout g_out mid CSD17577Q3A
+R87 supply damper 0.47
+R88 gate_r3 0 1000
+R89 gate_r1 0 1000
+R90 supply 0 100000
+R91 mux_a1 0 5100
+R92 supply n_q10_g 22
+R93 gate_out 0 1000
+R94 gate_r2 0 1000
+R95 mux_a0 0 5100
+R96 gate_r3 n_u22_in_b 1000
+R97 gate_r1 n_u23_in_b 1000
+R98 gate_out n_u22_in_a 1000
+R99 gate_r2 n_u23_in_a 1000
+XU22_1 n_u22_in_a drv_out p12v_a 0 TC4427CH
+XU22_2 n_u22_in_b n_u22_out_b p12v_a 0 TC4427CH
+XU23_1 n_u23_in_a n_u23_out_a p12v_a 0 TC4427CH
+XU23_2 n_u23_in_b n_u23_out_b p12v_a 0 TC4427CH
+XU24 n_u24_a0 n_u24_en m4v_a supply sense_r1 n_u24_s3a n_u24_s4a inp inn n_u24_s4b n_u24_s3b vout_s vout_s p12v_a 0 n_u24_a1 MUX509
+XU25 buf_in buf_out p12v_a m4v_a buf_out OPA197
+R100 supply n_q11_g 22
+R101 supply vout_s 1000
+R102 n_u23_out_b g_r1 47
+R103 g_r1 0 100000
+R104 sense_r1 vout_s 33
+R105 n_u23_out_a g_r2 47
+R106 g_r2 0 100000
+R107 sense_r2 vout_s 1
+RR107_SA sense_r2 n_u24_s3a 0.001
+RR107_SB vout_s n_u24_s3b 0.001
+R108 n_u22_out_b g_r3 10
+R109 g_r3 0 100000
+R110 sense_r3 vout_s 0.1
+RR110_SA sense_r3 n_u24_s4a 0.001
+RR110_SB vout_s n_u24_s4b 0.001
+R111 mux_a1 n_u24_a1 1000
+R112 mux_a0 n_u24_a0 1000
+R113 p12v_a n_u24_en 10000
+R114 vout_s buf_in 10000
+R115 drv_out 0 100000
+R116 drv_out gate_off 220
+R117 drv_out out_gate 2.2e+06
+R118 buf_out vccb_src 1000
+R119 buf_out guard 47
+R120 out_gate g_out 10
+* ideal rails, risen from zero
+Vp12 p12v_a 0 PWL(0 0 2e-05 12)
+Vm4 m4v_a 0 PWL(0 0 2e-05 -4)
+Vp3v3a p3v3_a 0 PWL(0 0 2e-05 3.3)
+* stand-in for the amplifier chain and the comparators: ideal thresholds
+* on the voltage between the outputs of the multiplexer, one delay each
+Bcup cup0 0 V = 0.5*(1 + tanh((v(inp,inn) - 0.09095)/0.5m))
+Xcup cup0 cup1 DLY td=2e-07
+Bcoc coc0 0 V = 0.5*(1 + tanh((v(inp,inn) - 0.115)/0.5m))
+Xcoc coc0 coc1 DLY td=2e-07
+Bcjump cjump0 0 V = 0.5*(1 + tanh((v(inp,inn) - 0.151)/0.5m))
+Xcjump cjump0 cjump1 DLY td=2e-07
+Eup seq_up 0 cup1 0 3.3
+Eoc seq_oc 0 coc1 0 3.3
+* firmware selects range 3 before the path closes: the jump input is held
+Vforce force 0 PWL(0 1 2u 1 2.02u 0)
+Bjump seq_jump 0 V = 3.3*(1 - (1 - v(cjump1))*(1 - v(force)))
+Vdown seq_down 0 0
+Venable seq_enable 0 3.3
+.nodeset v(xseq.l1)=1 v(xseq.l2)=1 v(xseq.l3)=1 v(xseq.trip)=0
+* range sequencer: model of rules F-16 to F-18, not a program
+Xseq seq_up seq_jump seq_oc seq_down seq_enable seq_out_on gate_r1 gate_r2 gate_r3 mux_a0 mux_a1 gate_out SEQUENCER tseq=1e-07 toverlap=1e-06 tblank=2e-06 toc=2e-05
+* stand-in for the source meter and the closed mode pair
+Vsrc src 0 PWL(0 0 2e-05 5)
+Rsrc src supply 0.01
+* cable to the device under test
+Vcab vout cab 0
+Rcab cab cabl 0.05
+Lcab cabl dut 3e-06
+* the output is on; the device takes a small current until a short circuit
+* closes at the end of the cable
+Vouton seq_out_on 0 3.3
+Rload dut 0 50
+.model OUTPUT_SHORT SW(vt=0.5 vh=0.1 ron=0.01 roff=1e9)
+Vshort shc 0 PWL(0 0 0.0002 0 0.00020001 1)
+Sshort dut 0 shc 0 OUTPUT_SHORT
+* the gate node is brought to its rest value by a helper that opens before the
+* event; through R117 alone the gate needs a quarter of a second
+Vpre pre 0 PWL(0 0 2e-05 12)
+Vprectl prectl 0 PWL(0 1 6e-05 1 6.01e-05 0)
+Spre out_gate pre prectl 0 OUTPUT_PRECHARGE
+.model OUTPUT_PRECHARGE SW(vt=0.5 vh=0.1 ron=100 roff=1e12)
+.options method=gear
+.control
+save gate_out out_gate g_out mid vout_s vout dut supply guard gate_r3 @r110[i] vcab#branch xseq.trip @r.xd21.rf[i] v.xd21.vz#branch
+tran 5n 0.00031 0 10n uic
+.endc
+.end

@@ -1,0 +1,153 @@
+{
+ "block": "models",
+ "block_title": "Model Qualification",
+ "bench": "analog-rails-b0530w",
+ "title": "B0530W models against the datasheet",
+ "covers": "the models of the Schottky diodes D6 to D9",
+ "summary": "Both variants of the diode model carry the currents of the datasheet table. A forced current gives the forward voltage, a forced reverse voltage the reverse current, and a small ramp on top of a reverse voltage the capacitance. The variant ``B0530W_HI`` has to sit on the largest forward voltage of the datasheet; the variant ``B0530W`` is the assumed typical part and has to stay below it.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "vf_max_0",
+   "label": "Largest-drop variant: forward voltage at 0.1 A",
+   "value": 0.3751997,
+   "unit": "V",
+   "expected": 0.375,
+   "low": 0.37125,
+   "high": 0.37875,
+   "source": "datasheet DS30139 page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "vf_typ_0",
+   "label": "Typical variant: forward voltage at 0.1 A",
+   "value": 0.3357389,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.375,
+   "source": "datasheet DS30139 page 2, maximum; the typical value is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "vf_max_1",
+   "label": "Largest-drop variant: forward voltage at 0.5 A",
+   "value": 0.4302291,
+   "unit": "V",
+   "expected": 0.43,
+   "low": 0.4257,
+   "high": 0.4343,
+   "source": "datasheet DS30139 page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "vf_typ_1",
+   "label": "Typical variant: forward voltage at 0.5 A",
+   "value": 0.4106377,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.43,
+   "source": "datasheet DS30139 page 2, maximum; the typical value is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "vf_clamp",
+   "label": "Typical variant: forward voltage at 5 mA",
+   "value": 0.2307807,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "vf_clamp_max",
+   "label": "Largest-drop variant: forward voltage at 5 mA",
+   "value": 0.2911532,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "ir_15",
+   "label": "Typical variant: reverse current at 15 V",
+   "value": 5.000015e-06,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 2e-05,
+   "source": "datasheet DS30139 page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "ir_30",
+   "label": "Typical variant: reverse current at 30 V",
+   "value": 5.00003e-06,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.00013,
+   "source": "datasheet DS30139 page 2, maximum",
+   "verdict": "pass"
+  },
+  {
+   "key": "c_0",
+   "label": "Capacitance at 0 V of reverse voltage",
+   "value": 1.703702e-10,
+   "unit": "F",
+   "expected": 1.7e-10,
+   "low": 1.445e-10,
+   "high": 1.955e-10,
+   "source": "datasheet DS30139 page 2 (0 V) and figure 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "c_1",
+   "label": "Capacitance at 5 V of reverse voltage",
+   "value": 6.954695e-11,
+   "unit": "F",
+   "expected": 6.5e-11,
+   "low": 5.525e-11,
+   "high": 7.475e-11,
+   "source": "datasheet DS30139 page 2 (0 V) and figure 4",
+   "verdict": "pass"
+  },
+  {
+   "key": "c_2",
+   "label": "Capacitance at 20 V of reverse voltage",
+   "value": 3.783879e-11,
+   "unit": "F",
+   "expected": 3.3e-11,
+   "low": 2.805e-11,
+   "high": 3.795e-11,
+   "source": "datasheet DS30139 page 2 (0 V) and figure 4",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "capacitance",
+   "B0530W: current while the reverse voltage rises by 1 V/us",
+   "analog-rails-b0530w.capacitance.png"
+  ]
+ ],
+ "notes": [
+  "The typical forward voltage is an assumption 40 mV and 20 mV below the datasheet maximum: figure 2 of the datasheet does not agree with its table and was not used.",
+  "The reverse current of the model is flat with the voltage and that of the largest-drop variant is far below a real part: no leakage figure may be taken from these models."
+ ],
+ "models": [],
+ "decks": [
+  "analog-rails-b0530w.capacitance.cir",
+  "analog-rails-b0530w.static.cir"
+ ],
+ "format": 1
+}

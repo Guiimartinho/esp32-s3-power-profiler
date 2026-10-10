@@ -1,0 +1,16 @@
+* OPA365: open loop
+.include "../../models/opamps.lib"
+Vp vp 0 5
+Vn vn 0 0
+Vmid mid 0 2.5
+Vin in mid dc 0 ac 1
+X1 in fb vp vn out OPA365
+Lfb out fb 1meg
+Cfb fb mid 1k
+Itest mid out dc 0 ac 0
+Rl out mid 10k
+.control
+ac dec 60 0.1 500meg
+noise v(out) Vin dec 30 0.1 1meg
+.endc
+.end

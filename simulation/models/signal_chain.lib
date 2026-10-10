@@ -1,0 +1,138 @@
+* Models of the signal chain sheet that no other sheet uses, written for this
+* project. None of these is a model of a manufacturer. Every figure is from
+* the datasheet named beside it; a figure that is an assumption says so.
+
+* ---------------------------------------------------------------------
+* ADS8860 (U30): the analog input and the reference pin. Texas Instruments
+* datasheet SBAS569B of February 2019.
+*   Input: figure 45 (page 20) gives 4 pF at each input pin, then a
+*   sampling switch of 96 ohm and a sampling capacitor of 55 pF to ground,
+*   and protection diodes from each input to REF and to ground. The input
+*   capacitance during acquisition is 59 pF (page 6).
+*   Timing: the rising edge of the convert-start line opens the switch;
+*   the conversion takes 500 ns to 710 ns (page 6) and the switch closes
+*   again at its end (page 19). The model converts for tconv, 710 ns by
+*   default, and expects the line to stay high for at least that long, as
+*   the three-wire mode asks, and low for 150 ns or more before the next
+*   rising edge, which empties the timer of the model.
+*   What the sampling capacitor holds when it is reconnected is not in the
+*   datasheet. The model shares its charge with a capacitor cres that is
+*   empty at every conversion: 5.5 nF by default, which leaves 1 % and is
+*   the bounding case of an empty capacitor. A smaller cres stands for a
+*   converter that keeps part of the charge.
+*   Reference pin: 300 uA during the conversion at mid-code with a
+*   reference of 5 V, 250 nA of leakage otherwise (page 6, figure 67 on
+*   page 37). The model draws iref during the conversion, in proportion to
+*   the reference voltage (assumption: the charge of a capacitor array), as
+*   a constant current; the real current comes as one packet per bit.
+*   Protection diodes: an ordinary junction with a saturation current of
+*   10 fA (assumption; the datasheet gives the rating of 0.3 V beyond REF
+*   and ground and no curve).
+*   Logic threshold of the convert-start pin: 1.5 V (assumption).
+* What it leaves out: the conversion itself and its result, the digital
+* pins (the block of the digital sheet has them), the input leakage of 5 nA,
+* the dependence of the reference current on the code, the supply pins.
+* Pins: REF, AINP, AINN, GND, CONVST.
+.model SIGNAL_CHAIN_DESD D(IS=1e-14 N=1 RS=10)
+.subckt SIGNAL_CHAIN_ADS8860 ref ainp ainn gnd cnv
++ params: csh=55p rsw=96 cpin=4p tconv=710n cres=5.5n iref=300u vth=1.5
+.param goff=1e-12
+.param gsw={1/rsw - 1e-12}
+.param gres={1/50 - 1e-12}
+* pins: capacitance and protection diodes
+Cpp ainp gnd {cpin}
+Cpn ainn gnd {cpin}
+Dpu ainp ref SIGNAL_CHAIN_DESD
+Dpd gnd ainp SIGNAL_CHAIN_DESD
+Dnu ainn ref SIGNAL_CHAIN_DESD
+Dnd gnd ainn SIGNAL_CHAIN_DESD
+* convert-start line as a level between 0 and 1
+Bc c0 0 V = 0.5*(1 + tanh((v(cnv,gnd) - {vth})/0.1))
+Rc c0 c 1k
+Cc c 0 1p
+* conversion timer: a ramp that starts with the rising edge of the line,
+* passes 1 after tconv and stops at 1.5. While the line is low it is
+* emptied with 20 ns. A ramp and not a transmission line: the breakpoints
+* of a line can stop a long run.
+Ctm tm 0 1n
+Rtm tm 0 1e9
+Btm 0 tm I = v(c)*{1n/tconv}*min(max((1.5 - v(tm))*10, 0), 1) - (1 - v(c))*v(tm)*0.05
+* converting: 1 from the rising edge until the ramp passes 1
+Bq q 0 V = min(max(v(c)*0.5*(1 - tanh((v(tm) - 1)/0.003)), 0), 1)
+* sampling switches, closed while the converter acquires. They are open
+* before the charge of the capacitors is touched: the first half of the
+* change of q opens them, the second half starts the sharing.
+Bsp ainp shp I = v(ainp,shp)*({goff} + {gsw}*(1 - min(2*v(q), 1)))
+Bsn ainn shn I = v(ainn,shn)*({goff} + {gsw}*(1 - min(2*v(q), 1)))
+Cshp shp gnd {csh}
+Cshn shn gnd {csh}
+* the charge that a conversion takes from the sampling capacitors: shared
+* with cres while converting, cres emptied while acquiring
+Bxp shp rp I = v(shp,rp)*({goff} + {gres}*max(2*v(q) - 1, 0))
+Bxn shn rn I = v(shn,rn)*({goff} + {gres}*max(2*v(q) - 1, 0))
+Crp rp gnd {cres}
+Crn rn gnd {cres}
+Bep rp gnd I = v(rp,gnd)*({goff} + {gres}*(1 - min(2*v(q), 1)))
+Ben rn gnd I = v(rn,gnd)*({goff} + {gres}*(1 - min(2*v(q), 1)))
+* reference pin: leakage, and the current of a conversion
+Rref ref gnd 2e7
+Bref ref gnd I = {iref}*v(q)*v(ref,gnd)/5
+.ends SIGNAL_CHAIN_ADS8860
+
+* ---------------------------------------------------------------------
+* MUX509 (U24) with one channel pair held closed, for noise runs. The model
+* of the multiplexer in mux509.lib makes its channels from behavioral
+* sources, which make no noise; here the closed channels are resistors, so
+* that their thermal noise is in a noise analysis. The figures are those of
+* that model: ron per channel (250 ohm by default, an estimate between the
+* datasheet values for other supplies) and 6.7 pF at each output.
+*   sel   the channel pair that is closed, 1 to 4 (range 0 to range 3)
+*   Not modelled: switching, leakage, charge injection, the noise of the
+*   channel beyond that of its resistance.
+* Pins in the order of the package: A0 EN VSS S1A S2A S3A S4A DA DB S4B S3B
+* S2B S1B VDD GND A1.
+.subckt SIGNAL_CHAIN_MUX509_HELD a0 en vss s1a s2a s3a s4a da db s4b s3b s2b s1b vdd gnd a1
++ params: ron=250 roff=1e12 cdon=6.7p sel=1
+R1a s1a da {sel == 1 ? ron : roff}
+R2a s2a da {sel == 2 ? ron : roff}
+R3a s3a da {sel == 3 ? ron : roff}
+R4a s4a da {sel == 4 ? ron : roff}
+R1b s1b db {sel == 1 ? ron : roff}
+R2b s2b db {sel == 2 ? ron : roff}
+R3b s3b db {sel == 3 ? ron : roff}
+R4b s4b db {sel == 4 ? ron : roff}
+Cda da gnd {cdon}
+Cdb db gnd {cdon}
+Ra0 a0 gnd 1e9
+Ra1 a1 gnd 1e9
+Ren en gnd 1e9
+Rvd vdd gnd 1e9
+Rvs vss gnd 1e9
+.ends SIGNAL_CHAIN_MUX509_HELD
+
+* ---------------------------------------------------------------------
+* The OPA365 with the sources that measure the loop of the driver rail
+* buffer U28: a voltage in series with its output and a current into its
+* output pin, for the double injection method. With both amplitudes at 0
+* the part is the amplifier alone. The first takes the model of opamps.lib,
+* the second the model of the manufacturer, which has the same pin order.
+*   vac   amplitude of the voltage in series with the amplifier output
+*   iac   amplitude of the current into the output pin
+.subckt SIGNAL_CHAIN_OPA365_PROBE inp inn vp vn out params: vac=0 iac=0 vos=0 ib=0.2p
+X1 inp inn vp vn amp OPA365 vos={vos} ib={ib}
+Vser amp out dc 0 ac {vac}
+Iinj 0 out dc 0 ac {iac}
+.ends SIGNAL_CHAIN_OPA365_PROBE
+
+.subckt SIGNAL_CHAIN_OPA365X_PROBE inp inn vp vn out params: vac=0 iac=0
+X1 inp inn vp vn amp OPA365
+Vser amp out dc 0 ac {vac}
+Iinj 0 out dc 0 ac {iac}
+.ends SIGNAL_CHAIN_OPA365X_PROBE
+
+* The OPA197 with the same sources, for the loop of the pedestal buffer U26.
+.subckt SIGNAL_CHAIN_OPA197_PROBE inp inn vp vn out params: vac=0 iac=0 vos=0 ib=5p
+X1 inp inn vp vn amp OPA197 vos={vos} ib={ib}
+Vser amp out dc 0 ac {vac}
+Iinj 0 out dc 0 ac {iac}
+.ends SIGNAL_CHAIN_OPA197_PROBE

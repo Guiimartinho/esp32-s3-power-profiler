@@ -1,0 +1,540 @@
+{
+ "block": "source_meter",
+ "block_title": "Source Meter",
+ "bench": "loop",
+ "title": "Loop gain and phase margin: linear regulator, pre-regulator, tracking amplifier",
+ "covers": "section 4.2 (loop of the pre-regulator, C52), section 16 (open checks of U16 and U18)",
+ "summary": "Each loop is measured closed, with a source inside the model or at the output pin. The source is first powered up into a state and brought to rest; the operating point of the small-signal run starts from the end of that run. The loop of the linear regulator is read at its sense input with the output network of the netlist: C53 and C54, the capacitors of the supply node, the path to the device and the capacitor beside it. The loop of the pre-regulator is read at its feedback pin, with the difference amplifier in the path. The loop of the amplifier U19 is read by a double injection at its output, with and without C52. With the model of the manufacturer only the amplifier is measured.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "amplifier_margin",
+   "label": "Tracking amplifier U19 with C52: phase margin",
+   "value": 64.66677,
+   "unit": "deg",
+   "expected": 75.0,
+   "low": 60.0,
+   "high": null,
+   "source": "section 4.2: 73 to 77 degrees with the model of the manufacturer; the lower limit of 60 degrees is the one of this bench",
+   "verdict": "pass"
+  },
+  {
+   "key": "amplifier_crossover",
+   "label": "Tracking amplifier U19 with C52: crossover",
+   "value": 9989976.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amplifier_margin_without",
+   "label": "Tracking amplifier U19 without C52: phase margin",
+   "value": 3.796513,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_0p8v_idle_r0_0uf",
+   "label": "Regulator, 0.8 V, 10 uA, range 0, no capacitor at the device: phase margin",
+   "value": 17.31213,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_0p8v_idle_r0_0uf",
+   "label": "Regulator, 0.8 V, 10 uA, range 0, no capacitor at the device: crossover",
+   "value": 10128.75,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_0p8v_idle_r3_100uf",
+   "label": "Regulator, 0.8 V, 10 uA, range 3, 100 uF at the device: phase margin",
+   "value": 29.13778,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_0p8v_idle_r3_100uf",
+   "label": "Regulator, 0.8 V, 10 uA, range 3, 100 uF at the device: crossover",
+   "value": 4851.451,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_0p8v_100ma_r2_10uf",
+   "label": "Regulator, 0.8 V, 100 mA, range 2, 10 uF at the device: phase margin",
+   "value": 55.9821,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_0p8v_100ma_r2_10uf",
+   "label": "Regulator, 0.8 V, 100 mA, range 2, 10 uF at the device: crossover",
+   "value": 53986.76,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_0p8v_100ma_r3_100uf",
+   "label": "Regulator, 0.8 V, 100 mA, range 3, 100 uF at the device: phase margin",
+   "value": 77.55316,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_0p8v_100ma_r3_100uf",
+   "label": "Regulator, 0.8 V, 100 mA, range 3, 100 uF at the device: crossover",
+   "value": 37416.69,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_0p8v_1000ma_r3_1uf",
+   "label": "Regulator, 0.8 V, 1000 mA, range 3, 1 uF at the device: phase margin",
+   "value": 51.46248,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_0p8v_1000ma_r3_1uf",
+   "label": "Regulator, 0.8 V, 1000 mA, range 3, 1 uF at the device: crossover",
+   "value": 120590.5,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_0p8v_1000ma_r3_100uf",
+   "label": "Regulator, 0.8 V, 1000 mA, range 3, 100 uF at the device: phase margin",
+   "value": 70.88203,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_0p8v_1000ma_r3_100uf",
+   "label": "Regulator, 0.8 V, 1000 mA, range 3, 100 uF at the device: crossover",
+   "value": 106530.9,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_5v_idle_r0_0uf",
+   "label": "Regulator, 5 V, 10 uA, range 0, no capacitor at the device: phase margin",
+   "value": 27.04294,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_5v_idle_r0_0uf",
+   "label": "Regulator, 5 V, 10 uA, range 0, no capacitor at the device: crossover",
+   "value": 18096.21,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_5v_idle_r3_100uf",
+   "label": "Regulator, 5 V, 10 uA, range 3, 100 uF at the device: phase margin",
+   "value": 41.45655,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_5v_idle_r3_100uf",
+   "label": "Regulator, 5 V, 10 uA, range 3, 100 uF at the device: crossover",
+   "value": 7388.713,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_5v_100ma_r2_10uf",
+   "label": "Regulator, 5 V, 100 mA, range 2, 10 uF at the device: phase margin",
+   "value": 59.77417,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_5v_100ma_r2_10uf",
+   "label": "Regulator, 5 V, 100 mA, range 2, 10 uF at the device: crossover",
+   "value": 73813.85,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_5v_100ma_r3_100uf",
+   "label": "Regulator, 5 V, 100 mA, range 3, 100 uF at the device: phase margin",
+   "value": 86.52815,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_5v_100ma_r3_100uf",
+   "label": "Regulator, 5 V, 100 mA, range 3, 100 uF at the device: crossover",
+   "value": 45416.81,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_5v_600ma_r3_1uf",
+   "label": "Regulator, 5 V, 600 mA, range 3, 1 uF at the device: phase margin",
+   "value": 51.29455,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_5v_600ma_r3_1uf",
+   "label": "Regulator, 5 V, 600 mA, range 3, 1 uF at the device: crossover",
+   "value": 139678.0,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_5v_600ma_r3_100uf",
+   "label": "Regulator, 5 V, 600 mA, range 3, 100 uF at the device: phase margin",
+   "value": 76.67001,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "crossover_5v_600ma_r3_100uf",
+   "label": "Regulator, 5 V, 600 mA, range 3, 100 uF at the device: crossover",
+   "value": 116464.1,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_speed_0p5",
+   "label": "Regulator, 0.8 V, 10 uA, range 0, no capacitor at the device, error amplifier of the model 0.5 times as fast: phase margin",
+   "value": 25.24335,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "margin_speed_2",
+   "label": "Regulator, 0.8 V, 10 uA, range 0, no capacitor at the device, error amplifier of the model 2 times as fast: phase margin",
+   "value": 11.27588,
+   "unit": "deg",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_margin_0p8v_idle_r0_0uf",
+   "label": "Pre-regulator, 0.8 V, 10 uA, range 0, no capacitor at the device: phase margin",
+   "value": 58.1846,
+   "unit": "deg",
+   "expected": 55.0,
+   "low": 55.0,
+   "high": null,
+   "source": "section 4.2: 55 degrees or more, from a behavioral model whose compensation is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter_crossover_0p8v_idle_r0_0uf",
+   "label": "Pre-regulator, 0.8 V, 10 uA, range 0, no capacitor at the device: crossover",
+   "value": 19419.47,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_margin_0p8v_1000ma_r3_10uf",
+   "label": "Pre-regulator, 0.8 V, 1000 mA, range 3, 10 uF at the device: phase margin",
+   "value": 58.18185,
+   "unit": "deg",
+   "expected": 55.0,
+   "low": 55.0,
+   "high": null,
+   "source": "section 4.2: 55 degrees or more, from a behavioral model whose compensation is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter_crossover_0p8v_1000ma_r3_10uf",
+   "label": "Pre-regulator, 0.8 V, 1000 mA, range 3, 10 uF at the device: crossover",
+   "value": 19419.22,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_margin_3p3v_830ma_r3_10uf",
+   "label": "Pre-regulator, 3.3 V, 830 mA, range 3, 10 uF at the device: phase margin",
+   "value": 60.95545,
+   "unit": "deg",
+   "expected": 55.0,
+   "low": 55.0,
+   "high": null,
+   "source": "section 4.2: 55 degrees or more, from a behavioral model whose compensation is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter_crossover_3p3v_830ma_r3_10uf",
+   "label": "Pre-regulator, 3.3 V, 830 mA, range 3, 10 uF at the device: crossover",
+   "value": 24324.99,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_margin_5v_idle_r0_0uf",
+   "label": "Pre-regulator, 5 V, 10 uA, range 0, no capacitor at the device: phase margin",
+   "value": 62.70744,
+   "unit": "deg",
+   "expected": 55.0,
+   "low": 55.0,
+   "high": null,
+   "source": "section 4.2: 55 degrees or more, from a behavioral model whose compensation is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter_crossover_5v_idle_r0_0uf",
+   "label": "Pre-regulator, 5 V, 10 uA, range 0, no capacitor at the device: crossover",
+   "value": 27719.11,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "converter_margin_5v_600ma_r3_10uf",
+   "label": "Pre-regulator, 5 V, 600 mA, range 3, 10 uF at the device: phase margin",
+   "value": 61.01832,
+   "unit": "deg",
+   "expected": 55.0,
+   "low": 55.0,
+   "high": null,
+   "source": "section 4.2: 55 degrees or more, from a behavioral model whose compensation is an assumption",
+   "verdict": "pass"
+  },
+  {
+   "key": "converter_crossover_5v_600ma_r3_10uf",
+   "label": "Pre-regulator, 5 V, 600 mA, range 3, 10 uF at the device: crossover",
+   "value": 26953.07,
+   "unit": "Hz",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  }
+ ],
+ "graphs": [
+  [
+   "regulator",
+   "Loop gain of the linear regulator model at 0.8 V, by load and capacitor",
+   "loop.regulator.png"
+  ],
+  [
+   "converter",
+   "Loop gain of the pre-regulator model with the difference amplifier",
+   "loop.converter.png"
+  ],
+  [
+   "amplifier",
+   "Loop gain of the tracking amplifier U19",
+   "loop.amplifier.png"
+  ]
+ ],
+ "notes": [
+  "The loop of the regulator model is a fit to three load steps and one response curve of the datasheet, which shows no loop gain, no load below 50 mA and no capacitor above 10 uF. Its phase margin carries no limit here: at idle, where only the minimum load R69 flows, it is an extrapolation. The two runs with a slower and a faster error amplifier show how far the figure moves with one assumption of the model.",
+  "The loop of the pre-regulator model is fitted to a load step of the transient model of the manufacturer in the application circuit of the datasheet; its current loop of 100 kHz is an assumption. The model is averaged: it holds no effect of the switching frequency on the phase. The specification names a risk prototype for this loop, and this bench does not replace it.",
+  "The regulator loop is measured at the sense input inside the model and the pre-regulator loop at its feedback pin; both points take no current, so one injection is exact there. The amplifier loop is a double injection at its output pin.",
+  "The path to the device is three resistors for one range; the capacitor beside the device is a ceramic part with 5 mohm. The capacitors of the netlist have the capacitance of their bias curve at the state of each run."
+ ],
+ "models": [
+  [
+   "D10",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D11",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D12",
+   "SOURCE_METER_1N5819HW",
+   "written here"
+  ],
+  [
+   "D13",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "FB1",
+   "BLM31SN500",
+   "written here"
+  ],
+  [
+   "L2",
+   "XFL4020_152",
+   "written here"
+  ],
+  [
+   "Q1",
+   "SOURCE_METER_BSS138",
+   "written here"
+  ],
+  [
+   "U15",
+   "MCP4921",
+   "written here"
+  ],
+  [
+   "U16",
+   "TPS63020_AVG",
+   "written here"
+  ],
+  [
+   "U17",
+   "OPA197",
+   "written here"
+  ],
+  [
+   "U18",
+   "LT3080",
+   "written here"
+  ],
+  [
+   "U19",
+   "OPA365",
+   "written here"
+  ],
+  [
+   "U19",
+   "SOURCE_METER_OPA365_PROBE",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "loop.amplifier-series-c52.cir",
+  "loop.converter-5v-600ma-r3-10uf.cir",
+  "loop.loop-0p8v-idle-r0-0uf.cir"
+ ],
+ "format": 1
+}

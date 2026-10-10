@@ -1,0 +1,591 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "close",
+ "title": "A mode pair closes on a live supply: gate ramp and source follower",
+ "covers": "sections 4.2 and 4.9 (mode switches, D-61), rule F-24, the open check of section 16",
+ "summary": "Each mode pair closes on a supply that is already there, at 5 V and at 0.8 V. The request of the pair goes high with the output pair open and range 3 selected, as rule F-24 orders it. The run shows the gate behind its network, the common source of the pair, the supply node of the ladder and the current that the pair takes from the supply while the capacitors of that node charge. The ampere pair closes on an external supply behind 1 uH of leads, the source pair on a voltage source that stands for the regulator.",
+ "status": "ok",
+ "error": "",
+ "tier": "vendor",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "step_ampere_5v",
+   "label": "First step of the gate, ampere pair on 5 V",
+   "value": 0.7009602,
+   "unit": "V",
+   "expected": 0.76,
+   "low": null,
+   "high": 1.1,
+   "source": "sections 4.2 and 4.9: 0.76 V, below the lowest threshold of 1.1 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "ramp_ampere_5v",
+   "label": "Gate at 63 % of its way after, ampere pair on 5 V",
+   "value": 0.01034844,
+   "unit": "s",
+   "expected": 0.0107,
+   "low": 0.0096,
+   "high": 0.0118,
+   "source": "sections 4.2 and 4.9: the gate rises with 10.7 ms, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "conducts_ampere_5v",
+   "label": "Supply node at 5 % after, ampere pair on 5 V",
+   "value": 0.001276733,
+   "unit": "s",
+   "expected": 0.001,
+   "low": null,
+   "high": null,
+   "source": "section 16: conduction after about 1 ms on 5 V",
+   "verdict": "info"
+  },
+  {
+   "key": "slope_ampere_5v",
+   "label": "Largest slope of the supply node, ampere pair on 5 V",
+   "value": 900.7473,
+   "unit": "V/s",
+   "expected": 900.0,
+   "low": 700.0,
+   "high": 1100.0,
+   "source": "section 4.2: about 0.9 V/ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "nearly_ampere_5v",
+   "label": "Supply node at 95 % after, ampere pair on 5 V",
+   "value": 0.007721746,
+   "unit": "s",
+   "expected": 0.009,
+   "low": null,
+   "high": null,
+   "source": "section 16: 95 % after about 9 ms on 5 V",
+   "verdict": "info"
+  },
+  {
+   "key": "closed_ampere_5v",
+   "label": "Gate-source voltage 40 ms after the request, share of its final value, ampere pair on 5 V",
+   "value": 96.83335,
+   "unit": "%",
+   "expected": null,
+   "low": 95.0,
+   "high": null,
+   "source": "rule F-24: the path counts as closed after 40 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_ampere_5v",
+   "label": "Final gate-source voltage, ampere pair on 5 V",
+   "value": 6.655459,
+   "unit": "V",
+   "expected": 6.699,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_ampere_5v",
+   "label": "Largest current into the pair while it closes, ampere pair on 5 V",
+   "value": 0.005270032,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overshoot_ampere_5v",
+   "label": "Supply node above its final value at the most, ampere pair on 5 V",
+   "value": 2.065557e-10,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.9: the supply node does not ring, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_ampere_5v",
+   "label": "Largest current in the ladder clamp, ampere pair on 5 V",
+   "value": 3.563006e-21,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.9: no current in the ladder clamp, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_ampere_0p8v",
+   "label": "First step of the gate, ampere pair on 0.8 V",
+   "value": 0.6993348,
+   "unit": "V",
+   "expected": 0.76,
+   "low": null,
+   "high": 1.1,
+   "source": "sections 4.2 and 4.9: 0.76 V, below the lowest threshold of 1.1 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "ramp_ampere_0p8v",
+   "label": "Gate at 63 % of its way after, ampere pair on 0.8 V",
+   "value": 0.0105124,
+   "unit": "s",
+   "expected": 0.0107,
+   "low": 0.0096,
+   "high": 0.0118,
+   "source": "sections 4.2 and 4.9: the gate rises with 10.7 ms, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "conducts_ampere_0p8v",
+   "label": "Supply node at 5 % after, ampere pair on 0.8 V",
+   "value": 0.0009807346,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "slope_ampere_0p8v",
+   "label": "Largest slope of the supply node, ampere pair on 0.8 V",
+   "value": 862.0412,
+   "unit": "V/s",
+   "expected": 900.0,
+   "low": 700.0,
+   "high": 1100.0,
+   "source": "section 4.2: about 0.9 V/ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "nearly_ampere_0p8v",
+   "label": "Supply node at 95 % after, ampere pair on 0.8 V",
+   "value": 0.001953686,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "closed_ampere_0p8v",
+   "label": "Gate-source voltage 40 ms after the request, share of its final value, ampere pair on 0.8 V",
+   "value": 98.03067,
+   "unit": "%",
+   "expected": null,
+   "low": 95.0,
+   "high": null,
+   "source": "rule F-24: the path counts as closed after 40 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_ampere_0p8v",
+   "label": "Final gate-source voltage, ampere pair on 0.8 V",
+   "value": 10.673,
+   "unit": "V",
+   "expected": 10.7184,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_ampere_0p8v",
+   "label": "Largest current into the pair while it closes, ampere pair on 0.8 V",
+   "value": 0.005019128,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overshoot_ampere_0p8v",
+   "label": "Supply node above its final value at the most, ampere pair on 0.8 V",
+   "value": 3.408762e-11,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.9: the supply node does not ring, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_ampere_0p8v",
+   "label": "Largest current in the ladder clamp, ampere pair on 0.8 V",
+   "value": 3.562975e-21,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.9: no current in the ladder clamp, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_source_5v",
+   "label": "First step of the gate, source pair on 5 V",
+   "value": 0.7010616,
+   "unit": "V",
+   "expected": 0.76,
+   "low": null,
+   "high": 1.1,
+   "source": "sections 4.2 and 4.9: 0.76 V, below the lowest threshold of 1.1 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "ramp_source_5v",
+   "label": "Gate at 63 % of its way after, source pair on 5 V",
+   "value": 0.01034848,
+   "unit": "s",
+   "expected": 0.0107,
+   "low": 0.0096,
+   "high": 0.0118,
+   "source": "sections 4.2 and 4.9: the gate rises with 10.7 ms, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "conducts_source_5v",
+   "label": "Supply node at 5 % after, source pair on 5 V",
+   "value": 0.001276679,
+   "unit": "s",
+   "expected": 0.001,
+   "low": null,
+   "high": null,
+   "source": "section 16: conduction after about 1 ms on 5 V",
+   "verdict": "info"
+  },
+  {
+   "key": "slope_source_5v",
+   "label": "Largest slope of the supply node, source pair on 5 V",
+   "value": 900.731,
+   "unit": "V/s",
+   "expected": 900.0,
+   "low": 700.0,
+   "high": 1100.0,
+   "source": "section 4.2: about 0.9 V/ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "nearly_source_5v",
+   "label": "Supply node at 95 % after, source pair on 5 V",
+   "value": 0.007721675,
+   "unit": "s",
+   "expected": 0.009,
+   "low": null,
+   "high": null,
+   "source": "section 16: 95 % after about 9 ms on 5 V",
+   "verdict": "info"
+  },
+  {
+   "key": "closed_source_5v",
+   "label": "Gate-source voltage 40 ms after the request, share of its final value, source pair on 5 V",
+   "value": 96.83337,
+   "unit": "%",
+   "expected": null,
+   "low": 95.0,
+   "high": null,
+   "source": "rule F-24: the path counts as closed after 40 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_source_5v",
+   "label": "Final gate-source voltage, source pair on 5 V",
+   "value": 6.655455,
+   "unit": "V",
+   "expected": 6.699,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_source_5v",
+   "label": "Largest current into the pair while it closes, source pair on 5 V",
+   "value": 0.005235037,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overshoot_source_5v",
+   "label": "Supply node above its final value at the most, source pair on 5 V",
+   "value": 3.871481e-11,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.9: the supply node does not ring, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_source_5v",
+   "label": "Largest current in the ladder clamp, source pair on 5 V",
+   "value": 3.563006e-21,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.9: no current in the ladder clamp, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "step_source_0p8v",
+   "label": "First step of the gate, source pair on 0.8 V",
+   "value": 0.6994538,
+   "unit": "V",
+   "expected": 0.76,
+   "low": null,
+   "high": 1.1,
+   "source": "sections 4.2 and 4.9: 0.76 V, below the lowest threshold of 1.1 V, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "ramp_source_0p8v",
+   "label": "Gate at 63 % of its way after, source pair on 0.8 V",
+   "value": 0.01051245,
+   "unit": "s",
+   "expected": 0.0107,
+   "low": 0.0096,
+   "high": 0.0118,
+   "source": "sections 4.2 and 4.9: the gate rises with 10.7 ms, calculated",
+   "verdict": "pass"
+  },
+  {
+   "key": "conducts_source_0p8v",
+   "label": "Supply node at 5 % after, source pair on 0.8 V",
+   "value": 0.0009806499,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "slope_source_0p8v",
+   "label": "Largest slope of the supply node, source pair on 0.8 V",
+   "value": 862.0536,
+   "unit": "V/s",
+   "expected": 900.0,
+   "low": 700.0,
+   "high": 1100.0,
+   "source": "section 4.2: about 0.9 V/ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "nearly_source_0p8v",
+   "label": "Supply node at 95 % after, source pair on 0.8 V",
+   "value": 0.001953369,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "closed_source_0p8v",
+   "label": "Gate-source voltage 40 ms after the request, share of its final value, source pair on 0.8 V",
+   "value": 98.03068,
+   "unit": "%",
+   "expected": null,
+   "low": 95.0,
+   "high": null,
+   "source": "rule F-24: the path counts as closed after 40 ms",
+   "verdict": "pass"
+  },
+  {
+   "key": "drive_source_0p8v",
+   "label": "Final gate-source voltage, source pair on 0.8 V",
+   "value": 10.673,
+   "unit": "V",
+   "expected": 10.7184,
+   "low": 6.2,
+   "high": null,
+   "source": "section 4.9: 95.7 % of the drive, at least 6.2 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "inrush_source_0p8v",
+   "label": "Largest current into the pair while it closes, source pair on 0.8 V",
+   "value": 0.005013655,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "overshoot_source_0p8v",
+   "label": "Supply node above its final value at the most, source pair on 0.8 V",
+   "value": 4.148681e-12,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.01,
+   "source": "section 4.9: the supply node does not ring, simulated",
+   "verdict": "pass"
+  },
+  {
+   "key": "clamp_source_0p8v",
+   "label": "Largest current in the ladder clamp, source pair on 0.8 V",
+   "value": 3.562975e-21,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1e-06,
+   "source": "section 4.9: no current in the ladder clamp, simulated",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [],
+ "notes": [
+  "The regulator is a voltage source behind 20 mohm and the external supply a voltage source behind 1 uH and 40 mohm of leads: neither sags, and the response of the regulator is not in these runs.",
+  "The transistors are the typical model at 25 C and the driver a behavioral model; the first step of the gate is taken from the ramp carried back to the instant of the request.",
+  "The capacitors have their nominal values: an X7R part of 4.7 uF keeps less under bias, which makes the in-rush smaller, not larger.",
+  "The limit of 6.2 V for the gate-source voltage is the figure of the specification; at 0.8 V the drive is larger and the limit is not at stake."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q6",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q7",
+   "DI_BC847B",
+   "vendor"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "vendor"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [],
+ "format": 1
+}

@@ -1,0 +1,1036 @@
+{
+ "block": "path_switching",
+ "block_title": "Path Switching",
+ "bench": "short",
+ "title": "A short circuit in ampere mode: the trip opens the output and the supply leads kick",
+ "covers": "sections 4.3 and 4.9 (supply node, D-63; bound of the gate, D-61; suppressor, D-60), section 4.4 and rule F-18 (trip), the tests of sections 11 and 16",
+ "summary": "Ampere mode on a stiff 5 V supply, and the output terminal is shorted. The ampere pair and the output pair are closed, range 3 is selected and the load takes 100 mA. Then a short circuit of 5 mohm closes at the terminal. The current rises as fast as the supply leads allow until the over-current trip opens the output pair: 12 us after the shunt passes 1.15 A, plus 0.3 us for the amplifier and the comparator. From then on the current of the leads has to go somewhere: into the capacitor of the supply node and its damped branch, and, once the ampere pair works as a follower against its bounded gate, into the suppressor of the VIN terminal. The run is made with 0.5 uH to 3 uH of leads, with the longest qualification time of rule F-18, with the parts that let the node and the terminal rise highest, with a short behind 1 m of cable and, for comparison, without the damped branch.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "amps_2uh",
+   "label": "Largest current of the supply leads: 2 uH",
+   "value": 18.92828,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh",
+   "label": "Highest voltage of the supply node: 2 uH",
+   "value": 10.94176,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH",
+   "value": 29.43818,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_0p5uh",
+   "label": "Largest current of the supply leads: 0.5 uH",
+   "value": 32.74438,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_0p5uh",
+   "label": "Highest voltage of the supply node: 0.5 uH",
+   "value": 10.74917,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_0p5uh",
+   "label": "Highest voltage on VIN behind the fuse: 0.5 uH",
+   "value": 27.75229,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_1uh",
+   "label": "Largest current of the supply leads: 1 uH",
+   "value": 25.99994,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_1uh",
+   "label": "Highest voltage of the supply node: 1 uH",
+   "value": 10.92225,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_1uh",
+   "label": "Highest voltage on VIN behind the fuse: 1 uH",
+   "value": 29.75249,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_3uh",
+   "label": "Largest current of the supply leads: 3 uH",
+   "value": 14.78193,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh",
+   "label": "Highest voltage of the supply node: 3 uH",
+   "value": 10.69445,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_3uh",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH",
+   "value": 27.54784,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_0p5uh_20us",
+   "label": "Largest current of the supply leads: 0.5 uH, trip after 20 us",
+   "value": 33.89311,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_0p5uh_20us",
+   "label": "Highest voltage of the supply node: 0.5 uH, trip after 20 us",
+   "value": 10.74831,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_0p5uh_20us",
+   "label": "Highest voltage on VIN behind the fuse: 0.5 uH, trip after 20 us",
+   "value": 27.9399,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_20us",
+   "label": "Largest current of the supply leads: 2 uH, trip after 20 us",
+   "value": 20.85041,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_20us",
+   "label": "Highest voltage of the supply node: 2 uH, trip after 20 us",
+   "value": 10.98048,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_20us",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, trip after 20 us",
+   "value": 30.30815,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_0p5uh_corner",
+   "label": "Largest current of the supply leads: 0.5 uH, corner parts",
+   "value": 32.72488,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_0p5uh_corner",
+   "label": "Highest voltage of the supply node: 0.5 uH, corner parts",
+   "value": 11.18753,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_0p5uh_corner",
+   "label": "Highest voltage on VIN behind the fuse: 0.5 uH, corner parts",
+   "value": 27.87966,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_1uh_corner",
+   "label": "Largest current of the supply leads: 1 uH, corner parts",
+   "value": 25.94593,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_1uh_corner",
+   "label": "Highest voltage of the supply node: 1 uH, corner parts",
+   "value": 11.38969,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_1uh_corner",
+   "label": "Highest voltage on VIN behind the fuse: 1 uH, corner parts",
+   "value": 30.20726,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_corner",
+   "label": "Largest current of the supply leads: 2 uH, corner parts",
+   "value": 18.91785,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_corner",
+   "label": "Highest voltage of the supply node: 2 uH, corner parts",
+   "value": 11.54154,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "terminal_2uh_corner",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, corner parts",
+   "value": 30.43856,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_3uh_corner",
+   "label": "Largest current of the supply leads: 3 uH, corner parts",
+   "value": 14.80858,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_3uh_corner",
+   "label": "Highest voltage of the supply node: 3 uH, corner parts",
+   "value": 11.5356,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "terminal_3uh_corner",
+   "label": "Highest voltage on VIN behind the fuse: 3 uH, corner parts",
+   "value": 29.87795,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_corner_20us",
+   "label": "Largest current of the supply leads: 2 uH, corner parts, trip after 20 us",
+   "value": 20.80921,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_corner_20us",
+   "label": "Highest voltage of the supply node: 2 uH, corner parts, trip after 20 us",
+   "value": 11.5213,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "fail"
+  },
+  {
+   "key": "terminal_2uh_corner_20us",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, corner parts, trip after 20 us",
+   "value": 30.88463,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_threshold",
+   "label": "Largest current of the supply leads: 2 uH, transistors with the lowest threshold",
+   "value": 18.93242,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_threshold",
+   "label": "Highest voltage of the supply node: 2 uH, transistors with the lowest threshold",
+   "value": 11.19684,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_threshold",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, transistors with the lowest threshold",
+   "value": 29.27162,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_diodes",
+   "label": "Largest current of the supply leads: 2 uH, gate bound with the highest forward voltage",
+   "value": 18.92828,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_diodes",
+   "label": "Highest voltage of the supply node: 2 uH, gate bound with the highest forward voltage",
+   "value": 11.01447,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_diodes",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, gate bound with the highest forward voltage",
+   "value": 29.58269,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_capacitors",
+   "label": "Largest current of the supply leads: 2 uH, capacitors at 40 %",
+   "value": 18.91374,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_capacitors",
+   "label": "Highest voltage of the supply node: 2 uH, capacitors at 40 %",
+   "value": 11.11728,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_capacitors",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, capacitors at 40 %",
+   "value": 29.31272,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_clamp_low",
+   "label": "Largest current of the supply leads: 2 uH, suppressor at its lower limit",
+   "value": 18.92828,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_clamp_low",
+   "label": "Highest voltage of the supply node: 2 uH, suppressor at its lower limit",
+   "value": 10.93493,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_clamp_low",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, suppressor at its lower limit",
+   "value": 28.34471,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_0p5uh_cable",
+   "label": "Largest current of the supply leads: 0.5 uH, short behind 1 m of cable",
+   "value": 22.31292,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_0p5uh_cable",
+   "label": "Highest voltage of the supply node: 0.5 uH, short behind 1 m of cable",
+   "value": 7.930944,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_0p5uh_cable",
+   "label": "Highest voltage on VIN behind the fuse: 0.5 uH, short behind 1 m of cable",
+   "value": 8.030252,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_2uh_cable",
+   "label": "Largest current of the supply leads: 2 uH, short behind 1 m of cable",
+   "value": 15.1864,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "section 15, D-63: 15 A to 34 A of lead current",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_cable",
+   "label": "Highest voltage of the supply node: 2 uH, short behind 1 m of cable",
+   "value": 10.4928,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 11.5,
+   "source": "sections 4.3 and 11: the node stays below 11.5 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "terminal_2uh_cable",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, short behind 1 m of cable",
+   "value": 24.78577,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 36.0,
+   "source": "section 11: TP27 below 36 V (section 16 expects below 34 V)",
+   "verdict": "pass"
+  },
+  {
+   "key": "amps_0p5uh_no_damper",
+   "label": "Largest current of the supply leads: 0.5 uH, without the damper",
+   "value": 32.67528,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_0p5uh_no_damper",
+   "label": "Highest voltage of the supply node: 0.5 uH, without the damper",
+   "value": 11.02328,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_0p5uh_no_damper",
+   "label": "Highest voltage on VIN behind the fuse: 0.5 uH, without the damper",
+   "value": 30.83278,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_2uh_no_damper",
+   "label": "Largest current of the supply leads: 2 uH, without the damper",
+   "value": 18.9145,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_no_damper",
+   "label": "Highest voltage of the supply node: 2 uH, without the damper",
+   "value": 11.38678,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_2uh_no_damper",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, without the damper",
+   "value": 32.74391,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "amps_2uh_corner_no_damper",
+   "label": "Largest current of the supply leads: 2 uH, corner parts, without the damper",
+   "value": 18.87808,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "node_2uh_corner_no_damper",
+   "label": "Highest voltage of the supply node: 2 uH, corner parts, without the damper",
+   "value": 11.82995,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "terminal_2uh_corner_no_damper",
+   "label": "Highest voltage on VIN behind the fuse: 2 uH, corner parts, without the damper",
+   "value": 34.21389,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "supply_side",
+   "label": "Largest voltage across the transistor on the supply side (Q5)",
+   "value": 20.05266,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A (TI SLPS515A, page 1): 30 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "ladder_side",
+   "label": "Largest voltage across the transistor on the ladder side (Q9)",
+   "value": 0.05224333,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 30.0,
+   "source": "rating of the CSD17577Q3A (TI SLPS515A, page 1): 30 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate_source",
+   "label": "Largest gate-source voltage of the ampere pair",
+   "value": 8.36573,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "rating of the CSD17577Q3A (TI SLPS515A, page 1): 20 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "transistor_energy",
+   "label": "Largest energy in the transistor on the supply side while it limits",
+   "value": 0.0001660369,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": 0.039,
+   "source": "single-pulse avalanche energy of the CSD17577Q3A, 39 mJ, taken as the measure of what the part bears in microseconds (TI SLPS515A, page 1)",
+   "verdict": "pass"
+  },
+  {
+   "key": "gate",
+   "label": "Highest voltage of the gate of the ampere pair",
+   "value": 14.12254,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_amps",
+   "label": "Largest current in the suppressor D14",
+   "value": 10.67895,
+   "unit": "A",
+   "expected": 16.9,
+   "low": null,
+   "high": null,
+   "source": "section 16: up to 16.9 A for microseconds, simulated before; the datasheet rates 12.3 A for the 10/1000 us wave",
+   "verdict": "info"
+  },
+  {
+   "key": "suppressor_share",
+   "label": "Largest pulse power of the suppressor as a share of its rating at that width",
+   "value": 2.221258,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Vishay 88390, page 4, figure 1, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "suppressor_energy",
+   "label": "Largest energy in the suppressor per event",
+   "value": 0.00016859,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "fuse",
+   "label": "Largest I2t of the event as a share of the melting figure of the fuse F1",
+   "value": 1.305298,
+   "unit": "%",
+   "expected": null,
+   "low": null,
+   "high": 100.0,
+   "source": "Littelfuse 466 series, page 1: 1.764 A2s nominal",
+   "verdict": "pass"
+  },
+  {
+   "key": "damper_power",
+   "label": "Largest power in the resistor R87 of the damped branch",
+   "value": 66.79178,
+   "unit": "W",
+   "expected": null,
+   "low": null,
+   "high": 600.0,
+   "source": "Vishay 20019, page 3: single pulse of 10 us, read from the curve",
+   "verdict": "pass"
+  },
+  {
+   "key": "damper_energy",
+   "label": "Largest energy in the resistor R87 per event",
+   "value": 0.0001854833,
+   "unit": "J",
+   "expected": null,
+   "low": null,
+   "high": null,
+   "source": "",
+   "verdict": "info"
+  },
+  {
+   "key": "bound",
+   "label": "Largest current in a diode of the gate bound (D17)",
+   "value": 0.1350482,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 1.0,
+   "source": "BAV199: 1 A for 1 ms, 4 A for 1 us (Nexperia, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "driver",
+   "label": "Largest current from the gate network back into the driver output (R79)",
+   "value": 0.03464791,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.5,
+   "source": "the driver withstands 0.5 A of reverse current (Microchip DS20001422G, page 3)",
+   "verdict": "pass"
+  },
+  {
+   "key": "hold_off",
+   "label": "Largest collector current of the hold-off transistor Q7",
+   "value": 0.001050809,
+   "unit": "A",
+   "expected": null,
+   "low": null,
+   "high": 0.2,
+   "source": "peak collector current of the BC847B, 200 mA (Diodes DS11108, page 2)",
+   "verdict": "pass"
+  },
+  {
+   "key": "margin",
+   "label": "Supply node below +12 V_A at the least, runs with the damper",
+   "value": 0.4584613,
+   "unit": "V",
+   "expected": null,
+   "low": 0.5,
+   "high": null,
+   "source": "section 4.9: 0.5 V or more below the supply of the multiplexer",
+   "verdict": "fail"
+  }
+ ],
+ "graphs": [
+  [
+   "kick",
+   "Short circuit in ampere mode on 5 V, 2 uH of leads, typical parts",
+   "short.kick.png"
+  ],
+  [
+   "all",
+   "Leads, parts and the damped branch: supply node and VIN line at the trip",
+   "short.all.png"
+  ]
+ ],
+ "notes": [
+  "The external supply is a voltage source behind its leads, 40 mohm per uH: a supply that limits its current at 10 A still delivers the surge from its output capacitor, which this stands for. The short circuit is 5 mohm behind 50 nH, or behind 1 uH and 40 mohm for 1 m of cable.",
+  "The trip is not simulated as a program: a first pass finds the instant at which the 0.1 ohm shunt passes 115 mV, and the line GATE_OUT falls 0.3 us plus the qualification time after it. The 0.3 us for amplifier, filter and comparator are an assumption. The output pair, its gate network and the suppressor of the output terminal are the parts of the schematic with the models of their block; this bench does not judge them.",
+  "The voltage on VIN behind the fuse is the voltage across the suppressor D14, the detector divider and the monitor divider. The transistor Q5 blocks that voltage less the voltage of its source, which stands near 10 V at that moment: that difference, not the terminal voltage, is what its 30 V rating limits.",
+  "The suppressor model clamps at the datasheet maximum for a pulse of a millisecond; in microseconds a real part clamps lower. The corner parts are: transistors with the lowest threshold, the diodes of the gate bound with the highest forward voltage, the suppressor at its upper limit and both capacitors of the node at 40 % of their value (an assumption for their loss under bias).",
+  "The transistor models have no avalanche and no heating. The energy in the transistor on the supply side is compared with its avalanche rating for want of a better figure: the datasheet gives the safe operating area from 10 us on, where 20 V allow about 60 A.",
+  "The gate of the ampere pair is bound through two diodes in series: one diode into the driver output behind 22 ohm, and from there the second one to +12 V_A. It therefore rises to about two diode drops above the rail while the bound carries current."
+ ],
+ "models": [
+  [
+   "D14",
+   "PATH_SMAJ20CA",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_HI",
+   "written here"
+  ],
+  [
+   "D14",
+   "PATH_SMAJ20CA_LO",
+   "written here"
+  ],
+  [
+   "D15",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D16",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D17",
+   "BAV199_HI",
+   "written here"
+  ],
+  [
+   "D18",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D19",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D20",
+   "BAV199",
+   "written here"
+  ],
+  [
+   "D21",
+   "OUTPUT_PTVS15V",
+   "written here"
+  ],
+  [
+   "F1",
+   "PATH_FUSE_0466004",
+   "written here"
+  ],
+  [
+   "Q10",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q11",
+   "IRLML0030_CLAMP",
+   "written here"
+  ],
+  [
+   "Q12",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q13",
+   "IRLML0030",
+   "written here"
+  ],
+  [
+   "Q14",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q15",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q16",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q2",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q3",
+   "PATH_BSS138",
+   "written here"
+  ],
+  [
+   "Q4",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q5",
+   "PATH_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "Q6",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q7",
+   "PATH_BC847B",
+   "written here"
+  ],
+  [
+   "Q8",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "CSD17577Q3A",
+   "written here"
+  ],
+  [
+   "Q9",
+   "PATH_CSD17577_LO",
+   "written here"
+  ],
+  [
+   "U20",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U21",
+   "MCP656X",
+   "written here"
+  ],
+  [
+   "U22",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U23",
+   "TC4427CH",
+   "written here"
+  ],
+  [
+   "U24",
+   "MUX509",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "short.2uh.cir"
+ ],
+ "format": 1
+}

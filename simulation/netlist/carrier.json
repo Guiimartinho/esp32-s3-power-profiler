@@ -1,0 +1,9475 @@
+{
+ "components": [
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/PICO_5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C1",
+   "sheet": "/Power Input/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D2-A1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C2",
+   "sheet": "/Power Input/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D2-A1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C3",
+   "sheet": "/Power Input/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL10B332KB8NNNC",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U4-dV/dT)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C4",
+   "sheet": "/Power Input/",
+   "value": "3.3n 50V X7R"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C5-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C5",
+   "sheet": "/Power Input/",
+   "value": "10u 25V"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D3-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C6",
+   "sheet": "/Power Input/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D4-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C7",
+   "sheet": "/Power Input/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "CL10B333KB8NNNC",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U5-PR1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C8",
+   "sheet": "/Power Input/",
+   "value": "33n 50V X7R"
+  },
+  {
+   "mpn": "CL31B226KPHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C10-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C9",
+   "sheet": "/Power Input/",
+   "value": "22u 10V X7R"
+  },
+  {
+   "mpn": "CL31B226KPHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C10-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C10",
+   "sheet": "/Power Input/",
+   "value": "22u 10V X7R"
+  },
+  {
+   "mpn": "865060343004",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C11",
+   "sheet": "/Power Input/",
+   "value": "47u 16V"
+  },
+  {
+   "mpn": "C0603C102J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U6-SENSE)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C12",
+   "sheet": "/Logic Supplies/",
+   "value": "1n 50V C0G"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C13",
+   "sheet": "/Logic Supplies/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C14",
+   "sheet": "/Logic Supplies/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C15",
+   "sheet": "/Logic Supplies/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C16",
+   "sheet": "/Logic Supplies/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C17",
+   "sheet": "/Logic Supplies/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C18",
+   "sheet": "/Analog Rails/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U11-C+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U11-C-)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C19",
+   "sheet": "/Analog Rails/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U12-Vin)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C20",
+   "sheet": "/Analog Rails/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "CL31B226KPHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U11-VIN)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C21",
+   "sheet": "/Analog Rails/",
+   "value": "22u 10V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U11-CPOUT)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C22",
+   "sheet": "/Analog Rails/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "C0603C221J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U10-FB)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C23",
+   "sheet": "/Analog Rails/",
+   "value": "220p 50V C0G"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U12-Trim/NR)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C24",
+   "sheet": "/Analog Rails/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C25",
+   "sheet": "/Analog Rails/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL21B106KOQNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C26-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C26",
+   "sheet": "/Analog Rails/",
+   "value": "10u 16V X7R"
+  },
+  {
+   "mpn": "CL32B106KAJNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C27",
+   "sheet": "/Analog Rails/",
+   "value": "10u 25V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C28",
+   "sheet": "/Analog Rails/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "CL32B106KAJNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C29-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C29",
+   "sheet": "/Analog Rails/",
+   "value": "10u 25V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U13-SET)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C30",
+   "sheet": "/Analog Rails/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "CL32B106KAJNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C31",
+   "sheet": "/Analog Rails/",
+   "value": "10u 25V X7R"
+  },
+  {
+   "mpn": "C0603C102J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14C--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C32",
+   "sheet": "/Rail Monitor/",
+   "value": "1n 50V C0G"
+  },
+  {
+   "mpn": "C0603C102J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14A--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C33",
+   "sheet": "/Rail Monitor/",
+   "value": "1n 50V C0G"
+  },
+  {
+   "mpn": "C0603C102J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14B--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C34",
+   "sheet": "/Rail Monitor/",
+   "value": "1n 50V C0G"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C35",
+   "sheet": "/Rail Monitor/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C36",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U16-PS/SYNC)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C37",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U15-Vref)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C38",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL21A106KAYNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C39",
+   "sheet": "/Source Meter/",
+   "value": "10u 25V X5R"
+  },
+  {
+   "mpn": "CL21A106KAYNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C40",
+   "sheet": "/Source Meter/",
+   "value": "10u 25V X5R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U17-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C41",
+   "sheet": "/Source Meter/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "CL31A226KAHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C42",
+   "sheet": "/Source Meter/",
+   "value": "22u 25V X5R"
+  },
+  {
+   "mpn": "CL31A226KAHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D11-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C43-Pad2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C43",
+   "sheet": "/Source Meter/",
+   "value": "22u 25V X5R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C44",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL31A226KAHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C45",
+   "sheet": "/Source Meter/",
+   "value": "22u 25V X5R"
+  },
+  {
+   "mpn": "CL21A106KAYNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D11-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C46",
+   "sheet": "/Source Meter/",
+   "value": "10u 25V X5R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D10-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C47",
+   "sheet": "/Source Meter/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C48",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U18-SET)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C49",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL31A226KAHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C50",
+   "sheet": "/Source Meter/",
+   "value": "22u 25V X5R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C51",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C100J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U19--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U16-FB)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C52",
+   "sheet": "/Source Meter/",
+   "value": "10p 50V C0G"
+  },
+  {
+   "mpn": "CL31A226KAHNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C53",
+   "sheet": "/Source Meter/",
+   "value": "22u 25V X5R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C54",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D13-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C55",
+   "sheet": "/Source Meter/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C56",
+   "sheet": "/Path Switching/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C57",
+   "sheet": "/Path Switching/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C102J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D15-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C58",
+   "sheet": "/Path Switching/",
+   "value": "1n 50V C0G"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C59",
+   "sheet": "/Path Switching/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D16-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C60-Pad2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C60",
+   "sheet": "/Path Switching/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D17-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C61-Pad2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C61",
+   "sheet": "/Path Switching/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C62",
+   "sheet": "/Path Switching/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "CL21B475KAFNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C63-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C63",
+   "sheet": "/Path Switching/",
+   "value": "4.7u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C64",
+   "sheet": "/Shunt Ladder/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C65",
+   "sheet": "/Shunt Ladder/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C66",
+   "sheet": "/Shunt Ladder/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C67",
+   "sheet": "/Shunt Ladder/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C68",
+   "sheet": "/Shunt Ladder/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C69",
+   "sheet": "/Shunt Ladder/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C70",
+   "sheet": "/Output Stage/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C3216C0G1H104J160AA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C71",
+   "sheet": "/Output Stage/",
+   "value": "100n 50V C0G"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C72",
+   "sheet": "/Output Stage/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/VOUT_BUF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C73",
+   "sheet": "/Output Stage/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "GRM1885C1H103JA01D",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D20-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C74",
+   "sheet": "/Output Stage/",
+   "value": "10n 50V C0G"
+  },
+  {
+   "mpn": "C0603C220J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Shunt Ladder/INN",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C75",
+   "sheet": "/Signal Chain/",
+   "value": "22p 50V C0G"
+  },
+  {
+   "mpn": "C0603C220J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Shunt Ladder/INP",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C76",
+   "sheet": "/Signal Chain/",
+   "value": "22p 50V C0G"
+  },
+  {
+   "mpn": "C0603C221J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Shunt Ladder/INP",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Shunt Ladder/INN",
+     "pin": "2"
+    }
+   ],
+   "ref": "C77",
+   "sheet": "/Signal Chain/",
+   "value": "220p 50V C0G"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U26-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C78",
+   "sheet": "/Signal Chain/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C79",
+   "sheet": "/Signal Chain/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C80",
+   "sheet": "/Signal Chain/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C81",
+   "sheet": "/Signal Chain/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C82",
+   "sheet": "/Signal Chain/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C83",
+   "sheet": "/Signal Chain/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "C84",
+   "sheet": "/Signal Chain/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C152J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D22-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U29--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "C85",
+   "sheet": "/Signal Chain/",
+   "value": "1.5n 50V C0G"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C86",
+   "sheet": "/Signal Chain/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C681J5GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U29-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C87",
+   "sheet": "/Signal Chain/",
+   "value": "680p 50V C0G"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D22-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C88",
+   "sheet": "/Signal Chain/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "CL21A226KQQNNNE",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C89-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C89",
+   "sheet": "/Signal Chain/",
+   "value": "22u 6.3V X5R"
+  },
+  {
+   "mpn": "C0603C103J3GACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U30-AINP)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C90",
+   "sheet": "/Signal Chain/",
+   "value": "10n 25V C0G"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C91",
+   "sheet": "/Signal Chain/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C92",
+   "sheet": "/Signal Chain/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U31A--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C93",
+   "sheet": "/Comparators/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U31B--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C94",
+   "sheet": "/Comparators/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U32--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C95",
+   "sheet": "/Comparators/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C96",
+   "sheet": "/Comparators/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C97",
+   "sheet": "/Comparators/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C98",
+   "sheet": "/Side Data/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C99",
+   "sheet": "/Side Data/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(JP2-C)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C100",
+   "sheet": "/Digital Inputs/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C101",
+   "sheet": "/Digital Inputs/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C102",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH0)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C103",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C104",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C105",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH3)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C106",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH4)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C107",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH5)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C108",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH6)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C109",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH7)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C110",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C111",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "C0603C105K3RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C112",
+   "sheet": "/Monitors/",
+   "value": "1u 25V X7R"
+  },
+  {
+   "mpn": "C0603C104K5RACTU",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "C113",
+   "sheet": "/Monitors/",
+   "value": "100n 50V X7R"
+  },
+  {
+   "mpn": "1N5819HW-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "Net-(D1-K)",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "+5V",
+     "pin": "2"
+    }
+   ],
+   "ref": "D1",
+   "sheet": "/Controller/",
+   "value": "1N5819HW"
+  },
+  {
+   "mpn": "SMAJ10A-E3/61",
+   "pins": [
+    {
+     "function": "A1",
+     "net": "Net-(D2-A1)",
+     "pin": "1"
+    },
+    {
+     "function": "A2",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "D2",
+   "sheet": "/Power Input/",
+   "value": "SMAJ10A"
+  },
+  {
+   "mpn": "1N5819HW-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "/Controller/PICO_5V",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "Net-(D3-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "D3",
+   "sheet": "/Power Input/",
+   "value": "1N5819HW"
+  },
+  {
+   "mpn": "1N5819HW-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "Net-(D2-A1)",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "Net-(D4-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "D4",
+   "sheet": "/Power Input/",
+   "value": "1N5819HW"
+  },
+  {
+   "mpn": "150060VS75000",
+   "pins": [
+    {
+     "function": "K",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "Net-(D5-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "D5",
+   "sheet": "/Logic Supplies/",
+   "value": "green 2.0V"
+  },
+  {
+   "mpn": "B0530W-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "Net-(D6-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "D6",
+   "sheet": "/Analog Rails/",
+   "value": "B0530W 30V 0.5A"
+  },
+  {
+   "mpn": "B0530W-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "VREF",
+     "pin": "2"
+    }
+   ],
+   "ref": "D7",
+   "sheet": "/Analog Rails/",
+   "value": "B0530W 30V 0.5A"
+  },
+  {
+   "mpn": "B0530W-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "D8",
+   "sheet": "/Analog Rails/",
+   "value": "B0530W 30V 0.5A"
+  },
+  {
+   "mpn": "B0530W-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "D9",
+   "sheet": "/Analog Rails/",
+   "value": "B0530W 30V 0.5A"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "Net-(D10-A)",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "Net-(D10-K)",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D10-K)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D10",
+   "sheet": "/Source Meter/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "1N5819HW-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "Net-(D11-K)",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "2"
+    }
+   ],
+   "ref": "D11",
+   "sheet": "/Source Meter/",
+   "value": "1N5819HW"
+  },
+  {
+   "mpn": "1N5819HW-7-F",
+   "pins": [
+    {
+     "function": "K",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "D12",
+   "sheet": "/Source Meter/",
+   "value": "1N5819HW"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "Net-(D13-K)",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D13-K)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D13",
+   "sheet": "/Source Meter/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "SMAJ20CA-E3/61",
+   "pins": [
+    {
+     "function": "A1",
+     "net": "/Monitors/VIN_P",
+     "pin": "1"
+    },
+    {
+     "function": "A2",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "D14",
+   "sheet": "/Path Switching/",
+   "value": "SMAJ20CA"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "+3V3_A",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D15-common)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D15",
+   "sheet": "/Path Switching/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "Net-(D16-A)",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "+12V_A",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D16-common)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D16",
+   "sheet": "/Path Switching/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "Net-(D17-A)",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "+12V_A",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D17-common)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D17",
+   "sheet": "/Path Switching/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "Net-(D18-A)",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "Net-(D18-K)",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D18-K)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D18",
+   "sheet": "/Path Switching/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "Net-(D19-A)",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "Net-(D19-K)",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D19-K)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D19",
+   "sheet": "/Path Switching/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "Net-(D20-K)",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D20-common)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D20",
+   "sheet": "/Output Stage/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "PTVS15VS1UR,115",
+   "pins": [
+    {
+     "function": "K",
+     "net": "Net-(D21-K)",
+     "pin": "1"
+    },
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "D21",
+   "sheet": "/Output Stage/",
+   "value": "PTVS15VS1UR"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "Net-(D22-K)",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D22-common)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D22",
+   "sheet": "/Signal Chain/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAV199-7-F",
+   "pins": [
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "+3V3_A",
+     "pin": "2"
+    },
+    {
+     "function": "common",
+     "net": "Net-(D23-common)",
+     "pin": "3"
+    }
+   ],
+   "ref": "D23",
+   "sheet": "/Comparators/",
+   "value": "BAV199"
+  },
+  {
+   "mpn": "BAT54SLT1G",
+   "pins": [
+    {
+     "function": "A",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "K",
+     "net": "+5V",
+     "pin": "2"
+    },
+    {
+     "function": "COM",
+     "net": "/Digital Inputs/VCCB_SRC",
+     "pin": "3"
+    }
+   ],
+   "ref": "D24",
+   "sheet": "/Digital Inputs/",
+   "value": "BAT54S"
+  },
+  {
+   "mpn": "0466004.NR",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Output Stage/VIN_RAW",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Monitors/VIN_P",
+     "pin": "2"
+    }
+   ],
+   "ref": "F1",
+   "sheet": "/Path Switching/",
+   "value": "4A fast 32V"
+  },
+  {
+   "mpn": "BLM31SN500SN1L",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D11-K)",
+     "pin": "2"
+    }
+   ],
+   "ref": "FB1",
+   "sheet": "/Source Meter/",
+   "value": "50R 12A"
+  },
+  {
+   "mpn": "",
+   "pins": [],
+   "ref": "FID1",
+   "sheet": "/Logic Supplies/",
+   "value": "Fiducial"
+  },
+  {
+   "mpn": "",
+   "pins": [],
+   "ref": "FID2",
+   "sheet": "/Logic Supplies/",
+   "value": "Fiducial"
+  },
+  {
+   "mpn": "",
+   "pins": [],
+   "ref": "FID3",
+   "sheet": "/Logic Supplies/",
+   "value": "Fiducial"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "H1",
+   "sheet": "/Logic Supplies/",
+   "value": "M3"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "H2",
+   "sheet": "/Logic Supplies/",
+   "value": "M3"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "H3",
+   "sheet": "/Logic Supplies/",
+   "value": "M3"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "H4",
+   "sheet": "/Logic Supplies/",
+   "value": "M3"
+  },
+  {
+   "mpn": "61300311121",
+   "pins": [
+    {
+     "function": "Pin_1",
+     "net": "Net-(J1-Pin_1)",
+     "pin": "1"
+    },
+    {
+     "function": "Pin_2",
+     "net": "Net-(J1-Pin_2)",
+     "pin": "2"
+    },
+    {
+     "function": "Pin_3",
+     "net": "GND",
+     "pin": "3"
+    }
+   ],
+   "ref": "J1",
+   "sheet": "/Controller/",
+   "value": "Debug UART"
+  },
+  {
+   "mpn": "USB4125-GF-A-0190",
+   "pins": [
+    {
+     "function": "CC1",
+     "net": "/Monitors/CC1",
+     "pin": "A5"
+    },
+    {
+     "function": "VBUS",
+     "net": "Net-(D2-A1)",
+     "pin": "A9"
+    },
+    {
+     "function": "CC2",
+     "net": "/Monitors/CC2",
+     "pin": "B5"
+    },
+    {
+     "function": "VBUS",
+     "net": "Net-(D2-A1)",
+     "pin": "B9"
+    },
+    {
+     "function": "SHIELD",
+     "net": "GND",
+     "pin": "SH"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "A12"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "B12"
+    }
+   ],
+   "ref": "J2",
+   "sheet": "/Power Input/",
+   "value": "USB-C power"
+  },
+  {
+   "mpn": "61300411121",
+   "pins": [
+    {
+     "function": "Pin_1",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "Pin_2",
+     "net": "/Output Stage/VIN_RAW",
+     "pin": "2"
+    },
+    {
+     "function": "Pin_3",
+     "net": "Net-(D21-K)",
+     "pin": "3"
+    },
+    {
+     "function": "Pin_4",
+     "net": "GND",
+     "pin": "4"
+    }
+   ],
+   "ref": "J3",
+   "sheet": "/Output Stage/",
+   "value": "DUT"
+  },
+  {
+   "mpn": "2601-1104",
+   "pins": [
+    {
+     "function": "Pin_1",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "Pin_2",
+     "net": "/Output Stage/VIN_RAW",
+     "pin": "2"
+    },
+    {
+     "function": "Pin_3",
+     "net": "Net-(D21-K)",
+     "pin": "3"
+    },
+    {
+     "function": "Pin_4",
+     "net": "GND",
+     "pin": "4"
+    }
+   ],
+   "ref": "J4",
+   "sheet": "/Output Stage/",
+   "value": "DUT wires"
+  },
+  {
+   "mpn": "61301011121",
+   "pins": [
+    {
+     "function": "Pin_1",
+     "net": "Net-(J5-Pin_1)",
+     "pin": "1"
+    },
+    {
+     "function": "Pin_2",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "Pin_3",
+     "net": "Net-(J5-Pin_3)",
+     "pin": "3"
+    },
+    {
+     "function": "Pin_4",
+     "net": "Net-(J5-Pin_4)",
+     "pin": "4"
+    },
+    {
+     "function": "Pin_5",
+     "net": "Net-(J5-Pin_5)",
+     "pin": "5"
+    },
+    {
+     "function": "Pin_6",
+     "net": "Net-(J5-Pin_6)",
+     "pin": "6"
+    },
+    {
+     "function": "Pin_7",
+     "net": "Net-(J5-Pin_7)",
+     "pin": "7"
+    },
+    {
+     "function": "Pin_8",
+     "net": "Net-(J5-Pin_8)",
+     "pin": "8"
+    },
+    {
+     "function": "Pin_9",
+     "net": "Net-(J5-Pin_9)",
+     "pin": "9"
+    },
+    {
+     "function": "Pin_10",
+     "net": "Net-(J5-Pin_10)",
+     "pin": "10"
+    }
+   ],
+   "ref": "J5",
+   "sheet": "/Digital Inputs/",
+   "value": "Logic port"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "A",
+     "net": "Net-(JP1-A)",
+     "pin": "1"
+    },
+    {
+     "function": "B",
+     "net": "/Controller/PICO_5V",
+     "pin": "2"
+    }
+   ],
+   "ref": "JP1",
+   "sheet": "/Controller/",
+   "value": "USB of Pico feeds +5V"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "A",
+     "net": "/Digital Inputs/VCCB_SRC",
+     "pin": "1"
+    },
+    {
+     "function": "C",
+     "net": "Net-(JP2-C)",
+     "pin": "2"
+    },
+    {
+     "function": "B",
+     "net": "Net-(JP2-B)",
+     "pin": "3"
+    }
+   ],
+   "ref": "JP2",
+   "sheet": "/Digital Inputs/",
+   "value": "VOUT / VCC pin"
+  },
+  {
+   "mpn": "74438357100",
+   "pins": [
+    {
+     "function": "1",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "2",
+     "net": "Net-(D6-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "L1",
+   "sheet": "/Analog Rails/",
+   "value": "10u 3A"
+  },
+  {
+   "mpn": "XFL4020-152MEC",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(L2-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "2",
+     "net": "Net-(L2-Pad2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "L2",
+   "sheet": "/Source Meter/",
+   "value": "1.5u 4.6A"
+  },
+  {
+   "mpn": "61302011821",
+   "pins": [],
+   "ref": "MP1",
+   "sheet": "/Controller/",
+   "value": "Socket 1x20 2.54 mm"
+  },
+  {
+   "mpn": "61302011821",
+   "pins": [],
+   "ref": "MP2",
+   "sheet": "/Controller/",
+   "value": "Socket 1x20 2.54 mm"
+  },
+  {
+   "mpn": "BMI-S-210-C",
+   "pins": [],
+   "ref": "MP3",
+   "sheet": "/Signal Chain/",
+   "value": "BMI-S-210-C"
+  },
+  {
+   "mpn": "BSS138-7-F",
+   "pins": [
+    {
+     "function": "G",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q1-S)",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "/Controller/SMU_ON",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q1",
+   "sheet": "/Source Meter/",
+   "value": "BSS138"
+  },
+  {
+   "mpn": "BSS138-7-F",
+   "pins": [
+    {
+     "function": "G",
+     "net": "/Controller/GATE_SRC",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "Net-(Q2-D)",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q2",
+   "sheet": "/Path Switching/",
+   "value": "BSS138"
+  },
+  {
+   "mpn": "BSS138-7-F",
+   "pins": [
+    {
+     "function": "G",
+     "net": "/Controller/VIN_OV",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "Net-(Q2-D)",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q3",
+   "sheet": "/Path Switching/",
+   "value": "BSS138"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(D18-A)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D18-A)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D18-A)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(D16-A)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q4",
+   "sheet": "/Path Switching/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(D19-A)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D19-A)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D19-A)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(D17-A)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "/Monitors/VIN_P",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q5",
+   "sheet": "/Path Switching/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "BC847B-7-F",
+   "pins": [
+    {
+     "function": "B",
+     "net": "Net-(D18-K)",
+     "pin": "1"
+    },
+    {
+     "function": "E",
+     "net": "Net-(D18-A)",
+     "pin": "2"
+    },
+    {
+     "function": "C",
+     "net": "Net-(D16-A)",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q6",
+   "sheet": "/Path Switching/",
+   "value": "BC847B"
+  },
+  {
+   "mpn": "BC847B-7-F",
+   "pins": [
+    {
+     "function": "B",
+     "net": "Net-(D19-K)",
+     "pin": "1"
+    },
+    {
+     "function": "E",
+     "net": "Net-(D19-A)",
+     "pin": "2"
+    },
+    {
+     "function": "C",
+     "net": "Net-(D17-A)",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q7",
+   "sheet": "/Path Switching/",
+   "value": "BC847B"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(D18-A)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D18-A)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D18-A)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(D16-A)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q8",
+   "sheet": "/Path Switching/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(D19-A)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D19-A)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(D19-A)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(D17-A)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q9",
+   "sheet": "/Path Switching/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "IRLML0030TRPBF",
+   "pins": [
+    {
+     "function": "G",
+     "net": "Net-(Q10-G)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q10",
+   "sheet": "/Shunt Ladder/",
+   "value": "IRLML0030"
+  },
+  {
+   "mpn": "IRLML0030TRPBF",
+   "pins": [
+    {
+     "function": "G",
+     "net": "Net-(Q11-G)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q11",
+   "sheet": "/Shunt Ladder/",
+   "value": "IRLML0030"
+  },
+  {
+   "mpn": "IRLML0030TRPBF",
+   "pins": [
+    {
+     "function": "G",
+     "net": "Net-(Q12-G)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q12-S)",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q12",
+   "sheet": "/Shunt Ladder/",
+   "value": "IRLML0030"
+  },
+  {
+   "mpn": "IRLML0030TRPBF",
+   "pins": [
+    {
+     "function": "G",
+     "net": "Net-(Q13-G)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q13-S)",
+     "pin": "2"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "3"
+    }
+   ],
+   "ref": "Q13",
+   "sheet": "/Shunt Ladder/",
+   "value": "IRLML0030"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(Q14-S-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q14-S-Pad1)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q14-S-Pad1)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(Q14-G)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q14",
+   "sheet": "/Shunt Ladder/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(Q15-S-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q15-S-Pad1)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q15-S-Pad1)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(Q15-G)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q15",
+   "sheet": "/Output Stage/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "CSD17577Q3A",
+   "pins": [
+    {
+     "function": "S",
+     "net": "Net-(Q15-S-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q15-S-Pad1)",
+     "pin": "2"
+    },
+    {
+     "function": "S",
+     "net": "Net-(Q15-S-Pad1)",
+     "pin": "3"
+    },
+    {
+     "function": "G",
+     "net": "Net-(Q15-G)",
+     "pin": "4"
+    },
+    {
+     "function": "D",
+     "net": "Net-(D21-K)",
+     "pin": "5"
+    }
+   ],
+   "ref": "Q16",
+   "sheet": "/Output Stage/",
+   "value": "CSD17577Q3A"
+  },
+  {
+   "mpn": "CRCW06034K70FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/VIN_OV",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U1-GPIO11)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R1",
+   "sheet": "/Controller/",
+   "value": "4.7k 1%"
+  },
+  {
+   "mpn": "CRCW06030000Z0EA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U1-AGND)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R2",
+   "sheet": "/Controller/",
+   "value": "0R"
+  },
+  {
+   "mpn": "CRCW06031K50FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(RN4-R4.2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Controller/C_DAC_CS",
+     "pin": "2"
+    }
+   ],
+   "ref": "R3",
+   "sheet": "/Controller/",
+   "value": "1.5k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U1-GPIO28_ADC2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R4",
+   "sheet": "/Controller/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06034K53FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/PICO_5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U3-EN/UVLO)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R5",
+   "sheet": "/Power Input/",
+   "value": "4.53k 1%"
+  },
+  {
+   "mpn": "CRCW06033K01FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U3-EN/UVLO)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R6",
+   "sheet": "/Power Input/",
+   "value": "3.01k 1%"
+  },
+  {
+   "mpn": "CRCW06035K10FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/CC1",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R7",
+   "sheet": "/Power Input/",
+   "value": "5.1k 1%"
+  },
+  {
+   "mpn": "CRCW0603402KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U3-OVLO/OVCSEL)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R8",
+   "sheet": "/Power Input/",
+   "value": "402k 1%"
+  },
+  {
+   "mpn": "CRCW06034K53FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D2-A1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U4-EN/UVLO)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R9",
+   "sheet": "/Power Input/",
+   "value": "4.53k 1%"
+  },
+  {
+   "mpn": "CRCW06033K01FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U4-EN/UVLO)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R10",
+   "sheet": "/Power Input/",
+   "value": "3.01k 1%"
+  },
+  {
+   "mpn": "CRCW06035K10FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/CC2",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R11",
+   "sheet": "/Power Input/",
+   "value": "5.1k 1%"
+  },
+  {
+   "mpn": "CRCW0603402KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U4-OVLO/OVCSEL)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R12",
+   "sheet": "/Power Input/",
+   "value": "402k 1%"
+  },
+  {
+   "mpn": "CRCW06031K21FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U3-ILM)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R13",
+   "sheet": "/Power Input/",
+   "value": "1.21k 1%"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D3-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C5-Pad1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R14",
+   "sheet": "/Power Input/",
+   "value": "0.33R"
+  },
+  {
+   "mpn": "CRCW0603453RFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U4-ILM)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R15",
+   "sheet": "/Power Input/",
+   "value": "453R 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U4-ILM)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(R16-Pad2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R16",
+   "sheet": "/Power Input/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D3-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R17",
+   "sheet": "/Power Input/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW060313K7FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D4-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U5-PR1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R18",
+   "sheet": "/Power Input/",
+   "value": "13.7k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U5-PR1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R19",
+   "sheet": "/Power Input/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "ERJ-6RQFR33V",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D4-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C10-Pad1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R20",
+   "sheet": "/Power Input/",
+   "value": "0.33R 1%"
+  },
+  {
+   "mpn": "TNPW060386K6BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U6-SENSE)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R21",
+   "sheet": "/Logic Supplies/",
+   "value": "86.6k 0.1%"
+  },
+  {
+   "mpn": "TNPW060310K0BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U6-SENSE)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R22",
+   "sheet": "/Logic Supplies/",
+   "value": "10k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R23",
+   "sheet": "/Logic Supplies/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U6-CT)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R24",
+   "sheet": "/Logic Supplies/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "2"
+    }
+   ],
+   "ref": "R25",
+   "sheet": "/Logic Supplies/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D5-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R26",
+   "sheet": "/Logic Supplies/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U11-EN)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R27",
+   "sheet": "/Analog Rails/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW0603150KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U11-EN)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R28",
+   "sheet": "/Analog Rails/",
+   "value": "150k 1%"
+  },
+  {
+   "mpn": "CRCW060351K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U10-EN)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R29",
+   "sheet": "/Analog Rails/",
+   "value": "51k 1%"
+  },
+  {
+   "mpn": "CRCW12062R20FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U11-VIN)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R30",
+   "sheet": "/Analog Rails/",
+   "value": "2.2R 1% 0.25W"
+  },
+  {
+   "mpn": "CRCW060310R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U12-Vin)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R31",
+   "sheet": "/Analog Rails/",
+   "value": "10R 1%"
+  },
+  {
+   "mpn": "CRCW0603133KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U10-FB)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R32",
+   "sheet": "/Analog Rails/",
+   "value": "133k 1%"
+  },
+  {
+   "mpn": "CRCW060313K3FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U10-FB)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R33",
+   "sheet": "/Analog Rails/",
+   "value": "13.3k 1%"
+  },
+  {
+   "mpn": "TNPW0603226KBEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U11-VFB)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "R34",
+   "sheet": "/Analog Rails/",
+   "value": "226k 0.1%"
+  },
+  {
+   "mpn": "CRCW06031R00FNEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C26-Pad1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R35",
+   "sheet": "/Analog Rails/",
+   "value": "1R 1%"
+  },
+  {
+   "mpn": "TNPW0603100KBEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U11-VFB)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R36",
+   "sheet": "/Analog Rails/",
+   "value": "100k 0.1% 25ppm"
+  },
+  {
+   "mpn": "ERJ-8RQFR47V",
+   "pins": [
+    {
+     "function": "",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C29-Pad1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R37",
+   "sheet": "/Analog Rails/",
+   "value": "0.47R 1% 0.25W"
+  },
+  {
+   "mpn": "TNPW0603120KBEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U13-SET)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R38",
+   "sheet": "/Analog Rails/",
+   "value": "120k 0.1%"
+  },
+  {
+   "mpn": "CRCW0603442KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U13-PGFB)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R39",
+   "sheet": "/Analog Rails/",
+   "value": "442k 1%"
+  },
+  {
+   "mpn": "CRCW060312K4FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U13-PGFB)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R40",
+   "sheet": "/Analog Rails/",
+   "value": "12.4k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U14C--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R41",
+   "sheet": "/Rail Monitor/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U14C-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R42",
+   "sheet": "/Rail Monitor/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW060340K2FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14C--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U14A--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R43",
+   "sheet": "/Rail Monitor/",
+   "value": "40.2k 1%"
+  },
+  {
+   "mpn": "CRCW060349K9FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14A--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R44",
+   "sheet": "/Rail Monitor/",
+   "value": "49.9k 1%"
+  },
+  {
+   "mpn": "CRCW0603249KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U14A-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R45",
+   "sheet": "/Rail Monitor/",
+   "value": "249k 1%"
+  },
+  {
+   "mpn": "CRCW060349K9FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14A-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R46",
+   "sheet": "/Rail Monitor/",
+   "value": "49.9k 1%"
+  },
+  {
+   "mpn": "CRCW060349K9FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U14B--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R47",
+   "sheet": "/Rail Monitor/",
+   "value": "49.9k 1%"
+  },
+  {
+   "mpn": "CRCW0603127KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14B--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "R48",
+   "sheet": "/Rail Monitor/",
+   "value": "127k 1%"
+  },
+  {
+   "mpn": "CRCW060336K5FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U14D-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R49",
+   "sheet": "/Rail Monitor/",
+   "value": "36.5k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U14D-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R50",
+   "sheet": "/Rail Monitor/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW06031K50FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "2"
+    }
+   ],
+   "ref": "R51",
+   "sheet": "/Rail Monitor/",
+   "value": "1.5k 1%"
+  },
+  {
+   "mpn": "CRCW06036K80FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R52",
+   "sheet": "/Rail Monitor/",
+   "value": "6.8k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q1-S)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R53",
+   "sheet": "/Source Meter/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U15-Vout)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U17-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R54",
+   "sheet": "/Source Meter/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "TNPW06032K00BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U15-Vref)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R55",
+   "sheet": "/Source Meter/",
+   "value": "2.00k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06032K00BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U15-Vref)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R56",
+   "sheet": "/Source Meter/",
+   "value": "2.00k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW060310K0BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U17--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R57",
+   "sheet": "/Source Meter/",
+   "value": "10k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW060311K0BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R58-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U17--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R58",
+   "sheet": "/Source Meter/",
+   "value": "11k 0.1% 25ppm"
+  },
+  {
+   "mpn": "ERJ-6RQFR33V",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C43-Pad2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R59",
+   "sheet": "/Source Meter/",
+   "value": "0.33R 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R58-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U18-SET)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R60",
+   "sheet": "/Source Meter/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW060310R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+13V5",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D10-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R61",
+   "sheet": "/Source Meter/",
+   "value": "10R 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R62",
+   "sheet": "/Source Meter/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "TNPW060319K1BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U19--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U16-FB)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R63",
+   "sheet": "/Source Meter/",
+   "value": "19.1k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW060393K1BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D13-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U19--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R64",
+   "sheet": "/Source Meter/",
+   "value": "93.1k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06036K65BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D13-K)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R65",
+   "sheet": "/Source Meter/",
+   "value": "6.65k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW060323K7BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U19-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R66",
+   "sheet": "/Source Meter/",
+   "value": "23.7k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW0603100KBEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U19-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R67",
+   "sheet": "/Source Meter/",
+   "value": "100k 0.1% 25ppm"
+  },
+  {
+   "mpn": "ERA-3AEB1373V",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U19-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R68",
+   "sheet": "/Source Meter/",
+   "value": "137k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW08051K30FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "R69",
+   "sheet": "/Source Meter/",
+   "value": "1.3k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_SRC",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R70",
+   "sheet": "/Path Switching/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06034K70FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_AMP",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R71",
+   "sheet": "/Path Switching/",
+   "value": "4.7k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_AMP",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q2-D)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R72",
+   "sheet": "/Path Switching/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "TNPW0603115KBEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/VIN_P",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D15-common)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R73",
+   "sheet": "/Path Switching/",
+   "value": "115k 0.1%"
+  },
+  {
+   "mpn": "TNPW0603100KBEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D15-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R74",
+   "sheet": "/Path Switching/",
+   "value": "100k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_SRC",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U20-IN_A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R75",
+   "sheet": "/Path Switching/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06033M30FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D15-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Controller/VIN_OV",
+     "pin": "2"
+    }
+   ],
+   "ref": "R76",
+   "sheet": "/Path Switching/",
+   "value": "3.3M 1%"
+  },
+  {
+   "mpn": "CRCW060322R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U20-OUT_A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D16-common)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R77",
+   "sheet": "/Path Switching/",
+   "value": "22R 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U20-OUT_A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D16-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R78",
+   "sheet": "/Path Switching/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW060322R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U20-OUT_B)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D17-common)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R79",
+   "sheet": "/Path Switching/",
+   "value": "22R 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U20-OUT_B)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D17-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R80",
+   "sheet": "/Path Switching/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW06036K80FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C60-Pad2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R81",
+   "sheet": "/Path Switching/",
+   "value": "6.8k 1%"
+  },
+  {
+   "mpn": "CRCW06036K80FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(C61-Pad2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R82",
+   "sheet": "/Path Switching/",
+   "value": "6.8k 1%"
+  },
+  {
+   "mpn": "CRCW06032M20FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D16-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D18-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R83",
+   "sheet": "/Path Switching/",
+   "value": "2.2M 1%"
+  },
+  {
+   "mpn": "CRCW06032M20FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D17-A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D19-A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R84",
+   "sheet": "/Path Switching/",
+   "value": "2.2M 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D18-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R85",
+   "sheet": "/Path Switching/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D19-K)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R86",
+   "sheet": "/Path Switching/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "RCWE1206R470FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C63-Pad1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R87",
+   "sheet": "/Path Switching/",
+   "value": "0.47R 1% 0.5W"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_R3",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R88",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_R1",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R89",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R90",
+   "sheet": "/Shunt Ladder/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW06035K10FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/MUX_A1",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R91",
+   "sheet": "/Shunt Ladder/",
+   "value": "5.1k 1%"
+  },
+  {
+   "mpn": "CRCW060322R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q10-G)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R92",
+   "sheet": "/Shunt Ladder/",
+   "value": "22R 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R93",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_R2",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R94",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06035K10FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/MUX_A0",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R95",
+   "sheet": "/Shunt Ladder/",
+   "value": "5.1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_R3",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U22-IN_B)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R96",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_R1",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U23-IN_B)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R97",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U22-IN_A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R98",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/GATE_R2",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U23-IN_A)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R99",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW060322R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q11-G)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R100",
+   "sheet": "/Shunt Ladder/",
+   "value": "22R 1%"
+  },
+  {
+   "mpn": "TNPW08051K00BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "2"
+    }
+   ],
+   "ref": "R101",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW060347R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U23-OUT_B)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q12-G)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R102",
+   "sheet": "/Shunt Ladder/",
+   "value": "47R 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q12-G)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R103",
+   "sheet": "/Shunt Ladder/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CPF0805B33RE1",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q12-S)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "2"
+    }
+   ],
+   "ref": "R104",
+   "sheet": "/Shunt Ladder/",
+   "value": "33R 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW060347R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U23-OUT_A)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q13-G)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R105",
+   "sheet": "/Shunt Ladder/",
+   "value": "47R 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q13-G)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R106",
+   "sheet": "/Shunt Ladder/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "TNPW12061R00DEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q13-S)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-S3A)",
+     "pin": "2"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-S3B)",
+     "pin": "3"
+    },
+    {
+     "function": "",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "4"
+    }
+   ],
+   "ref": "R107",
+   "sheet": "/Shunt Ladder/",
+   "value": "1R 0.5% 25ppm"
+  },
+  {
+   "mpn": "CRCW060310R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U22-OUT_B)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q14-G)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R108",
+   "sheet": "/Shunt Ladder/",
+   "value": "10R 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q14-G)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R109",
+   "sheet": "/Shunt Ladder/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "LVK12R100CER",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(Q14-S-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-S4A)",
+     "pin": "2"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-S4B)",
+     "pin": "3"
+    },
+    {
+     "function": "",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "4"
+    }
+   ],
+   "ref": "R110",
+   "sheet": "/Shunt Ladder/",
+   "value": "0.1R 0.25% 50ppm"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/MUX_A1",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-A1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R111",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/MUX_A0",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-A0)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R112",
+   "sheet": "/Shunt Ladder/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U24-EN)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R113",
+   "sheet": "/Shunt Ladder/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U25-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R114",
+   "sheet": "/Output Stage/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Output Stage/DRV_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R115",
+   "sheet": "/Output Stage/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW0603220RFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Output Stage/DRV_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D20-K)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R116",
+   "sheet": "/Output Stage/",
+   "value": "220R 1%"
+  },
+  {
+   "mpn": "CRCW06032M20FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Output Stage/DRV_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D20-common)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R117",
+   "sheet": "/Output Stage/",
+   "value": "2.2M 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U25--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Digital Inputs/VCCB_SRC",
+     "pin": "2"
+    }
+   ],
+   "ref": "R118",
+   "sheet": "/Output Stage/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW060347R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U25--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Monitors/VOUT_BUF",
+     "pin": "2"
+    }
+   ],
+   "ref": "R119",
+   "sheet": "/Output Stage/",
+   "value": "47R 1%"
+  },
+  {
+   "mpn": "CRCW060310R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D20-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(Q15-G)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R120",
+   "sheet": "/Output Stage/",
+   "value": "10R 1%"
+  },
+  {
+   "mpn": "TNPW060349K9BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U26-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R121",
+   "sheet": "/Signal Chain/",
+   "value": "49.9k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06031K02BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U26-+)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R122",
+   "sheet": "/Signal Chain/",
+   "value": "1.02k 0.1% 25ppm"
+  },
+  {
+   "mpn": "RT0603BRD07523RL",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R123-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(R123-Pad2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R123",
+   "sheet": "/Signal Chain/",
+   "value": "523R 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW060311K0BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U28--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R124",
+   "sheet": "/Signal Chain/",
+   "value": "11k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW06033K90FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Comparators/AMP_RAW",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D22-common)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R125",
+   "sheet": "/Signal Chain/",
+   "value": "3.9k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U28-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R126",
+   "sheet": "/Signal Chain/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "TNPW06031K00BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R127-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U28--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R127",
+   "sheet": "/Signal Chain/",
+   "value": "1k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW06033K90FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D22-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U29-+)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R128",
+   "sheet": "/Signal Chain/",
+   "value": "3.9k 1%"
+  },
+  {
+   "mpn": "CRCW060310R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R127-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D22-K)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R129",
+   "sheet": "/Signal Chain/",
+   "value": "10R 1%"
+  },
+  {
+   "mpn": "CRCW060322R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U29--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U30-AINP)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R130",
+   "sheet": "/Signal Chain/",
+   "value": "22R 1%"
+  },
+  {
+   "mpn": "ERJ-3RQFR22V",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(C89-Pad1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R131",
+   "sheet": "/Signal Chain/",
+   "value": "0.22R 1%"
+  },
+  {
+   "mpn": "TNPW060334K8BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U31A--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R132",
+   "sheet": "/Comparators/",
+   "value": "34.8k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06033K60BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U31A--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U31B--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R133",
+   "sheet": "/Comparators/",
+   "value": "3.6k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06032K40BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U31B--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U32--)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R134",
+   "sheet": "/Comparators/",
+   "value": "2.4k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06039K31BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U32--)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R135",
+   "sheet": "/Comparators/",
+   "value": "9.31k 0.1% 25ppm"
+  },
+  {
+   "mpn": "ERA-3AEB3011V",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Comparators/AMP_RAW",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(D23-common)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R136",
+   "sheet": "/Comparators/",
+   "value": "3.01k 0.1% 25ppm"
+  },
+  {
+   "mpn": "TNPW06031K00BEEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(D23-common)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R137",
+   "sheet": "/Comparators/",
+   "value": "1k 0.1% 25ppm"
+  },
+  {
+   "mpn": "CRCW060333R0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U34-Q7)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Controller/SIDE_DOUT",
+     "pin": "2"
+    }
+   ],
+   "ref": "R138",
+   "sheet": "/Side Data/",
+   "value": "33R 1%"
+  },
+  {
+   "mpn": "CRCW0603100RFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(J5-Pin_1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(JP2-B)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R139",
+   "sheet": "/Digital Inputs/",
+   "value": "100R 1%"
+  },
+  {
+   "mpn": "CRCW0603120KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/VOUT_BUF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH0)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R140",
+   "sheet": "/Monitors/",
+   "value": "120k 1%"
+  },
+  {
+   "mpn": "CRCW0603430KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/VIN_P",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH1)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R141",
+   "sheet": "/Monitors/",
+   "value": "430k 1%"
+  },
+  {
+   "mpn": "CRCW0603120KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH2)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R142",
+   "sheet": "/Monitors/",
+   "value": "120k 1%"
+  },
+  {
+   "mpn": "CRCW060368K1FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "/Monitors/SRC_ST",
+     "pin": "2"
+    }
+   ],
+   "ref": "R143",
+   "sheet": "/Monitors/",
+   "value": "68.1k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/CC1",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH3)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R144",
+   "sheet": "/Monitors/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Monitors/CC2",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH4)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R145",
+   "sheet": "/Monitors/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW06031K00FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U39-V_{OUT})",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH5)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R146",
+   "sheet": "/Monitors/",
+   "value": "1k 1%"
+  },
+  {
+   "mpn": "CRCW060347K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "+12V_A",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH6)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R147",
+   "sheet": "/Monitors/",
+   "value": "47k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "Net-(U40-CH7)",
+     "pin": "2"
+    }
+   ],
+   "ref": "R148",
+   "sheet": "/Monitors/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH0)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R149",
+   "sheet": "/Monitors/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH1)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R150",
+   "sheet": "/Monitors/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW0603100KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH2)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R151",
+   "sheet": "/Monitors/",
+   "value": "100k 1%"
+  },
+  {
+   "mpn": "CRCW060310K0FKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH6)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "GND",
+     "pin": "2"
+    }
+   ],
+   "ref": "R152",
+   "sheet": "/Monitors/",
+   "value": "10k 1%"
+  },
+  {
+   "mpn": "CRCW0603200KFKEA",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U40-CH7)",
+     "pin": "1"
+    },
+    {
+     "function": "",
+     "net": "-4V_A",
+     "pin": "2"
+    }
+   ],
+   "ref": "R153",
+   "sheet": "/Monitors/",
+   "value": "200k 1%"
+  },
+  {
+   "mpn": "CAY16-222J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(RN1-R1.1)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN1-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN1-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(RN1-R4.1)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "/Controller/C_MOSI",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "/Controller/C_SCK",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "/Controller/C_MON_CS",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "/Controller/C_MISO",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN1",
+   "sheet": "/Controller/",
+   "value": "2.2k"
+  },
+  {
+   "mpn": "CAY16-472J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "/Controller/C_MISO",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN1-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN1-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(RN1-R4.1)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "GND",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "+3V3_A",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "GND",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN2",
+   "sheet": "/Controller/",
+   "value": "4.7k"
+  },
+  {
+   "mpn": "CAY16-472J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(RN3-R1.1)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN3-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN3-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(RN3-R4.1)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "+3V3_A",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "GND",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "GND",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "GND",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN3",
+   "sheet": "/Controller/",
+   "value": "4.7k"
+  },
+  {
+   "mpn": "CAY16-470J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(RN3-R1.1)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN3-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN3-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(RN3-R4.1)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "Net-(RN4-R4.2)",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "/Controller/SIDE_LOAD",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "/Controller/ADC_CNV",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "/Controller/ADC_SCK",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN4",
+   "sheet": "/Controller/",
+   "value": "47R"
+  },
+  {
+   "mpn": "CAY16-221J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(RN5-R1.1)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN5-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN5-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "unconnected-(RN5-R4.1-Pad4)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "unconnected-(RN5-R4.2-Pad5)",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "/Controller/ADC_CNV",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "/Controller/ADC_DOUT",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "/Controller/ADC_SCK",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN5",
+   "sheet": "/Signal Chain/",
+   "value": "220R 5%"
+  },
+  {
+   "mpn": "CAY16-104J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "/Digital Inputs/DIN0",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "/Digital Inputs/DIN1",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "/Digital Inputs/DIN2",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "/Digital Inputs/DIN3",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "GND",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "GND",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "GND",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN6",
+   "sheet": "/Side Data/",
+   "value": "100k"
+  },
+  {
+   "mpn": "CAY16-104J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "/Digital Inputs/DIN4",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "/Digital Inputs/DIN5",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "/Digital Inputs/DIN6",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "/Digital Inputs/DIN7",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "GND",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "GND",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "GND",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN7",
+   "sheet": "/Side Data/",
+   "value": "100k"
+  },
+  {
+   "mpn": "CAY16-331J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(J5-Pin_10)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(J5-Pin_9)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(J5-Pin_8)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(J5-Pin_7)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "Net-(RN11-R4.1)",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "Net-(RN11-R3.1)",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "Net-(RN11-R2.1)",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "Net-(RN11-R1.1)",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN8",
+   "sheet": "/Digital Inputs/",
+   "value": "330R"
+  },
+  {
+   "mpn": "CAY16-331J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(J5-Pin_6)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(J5-Pin_5)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(J5-Pin_4)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(J5-Pin_3)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "Net-(RN10-R4.1)",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "Net-(RN10-R3.1)",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "Net-(RN10-R2.1)",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "Net-(RN10-R1.1)",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN9",
+   "sheet": "/Digital Inputs/",
+   "value": "330R"
+  },
+  {
+   "mpn": "CAY16-474J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(RN10-R1.1)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN10-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN10-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(RN10-R4.1)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "GND",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "GND",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "GND",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN10",
+   "sheet": "/Digital Inputs/",
+   "value": "470k"
+  },
+  {
+   "mpn": "CAY16-474J4LF",
+   "pins": [
+    {
+     "function": "R1.1",
+     "net": "Net-(RN11-R1.1)",
+     "pin": "1"
+    },
+    {
+     "function": "R2.1",
+     "net": "Net-(RN11-R2.1)",
+     "pin": "2"
+    },
+    {
+     "function": "R3.1",
+     "net": "Net-(RN11-R3.1)",
+     "pin": "3"
+    },
+    {
+     "function": "R4.1",
+     "net": "Net-(RN11-R4.1)",
+     "pin": "4"
+    },
+    {
+     "function": "R4.2",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "R3.2",
+     "net": "GND",
+     "pin": "6"
+    },
+    {
+     "function": "R2.2",
+     "net": "GND",
+     "pin": "7"
+    },
+    {
+     "function": "R1.2",
+     "net": "GND",
+     "pin": "8"
+    }
+   ],
+   "ref": "RN11",
+   "sheet": "/Digital Inputs/",
+   "value": "470k"
+  },
+  {
+   "mpn": "BMI-S-210-F",
+   "pins": [
+    {
+     "function": "Shield",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "SH1",
+   "sheet": "/Signal Chain/",
+   "value": "BMI-S-210-F"
+  },
+  {
+   "mpn": "B3F-1000",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "2",
+     "net": "Net-(U1-RUN)",
+     "pin": "2"
+    }
+   ],
+   "ref": "SW1",
+   "sheet": "/Controller/",
+   "value": "RESET"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D2-A1)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP1",
+   "sheet": "/Power Input/",
+   "value": "VBUS_C"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D4-A)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP2",
+   "sheet": "/Power Input/",
+   "value": "VBUS_CP"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(R16-Pad2)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP3",
+   "sheet": "/Power Input/",
+   "value": "IMON"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D3-A)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP4",
+   "sheet": "/Power Input/",
+   "value": "VBUS_P"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Monitors/SRC_ST",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP5",
+   "sheet": "/Power Input/",
+   "value": "SRC"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "+5V",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP6",
+   "sheet": "/Logic Supplies/",
+   "value": "+5V"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP7",
+   "sheet": "/Logic Supplies/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP8",
+   "sheet": "/Logic Supplies/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP9",
+   "sheet": "/Logic Supplies/",
+   "value": "5V_OK"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "+3V3_A",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP10",
+   "sheet": "/Logic Supplies/",
+   "value": "+3V3_A"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "+3V3_C",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP11",
+   "sheet": "/Logic Supplies/",
+   "value": "+3V3_C"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "-4V_A",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP12",
+   "sheet": "/Analog Rails/",
+   "value": "-4V_A"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "+13V5",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP13",
+   "sheet": "/Analog Rails/",
+   "value": "+13V5"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "VREF",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP14",
+   "sheet": "/Analog Rails/",
+   "value": "VREF"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP15",
+   "sheet": "/Analog Rails/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "+12V_A",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP16",
+   "sheet": "/Analog Rails/",
+   "value": "+12V_A"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP17",
+   "sheet": "/Rail Monitor/",
+   "value": "PWR_GOOD"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(Q1-S)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP18",
+   "sheet": "/Source Meter/",
+   "value": "SMU_EN"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(U15-Vref)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP19",
+   "sheet": "/Source Meter/",
+   "value": "VREF_DAC"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP20",
+   "sheet": "/Source Meter/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(C42-Pad1)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP21",
+   "sheet": "/Source Meter/",
+   "value": "V_PRE"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D11-K)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP22",
+   "sheet": "/Source Meter/",
+   "value": "LDO_IN"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(U18-SET)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP23",
+   "sheet": "/Source Meter/",
+   "value": "LDO_SET"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(U16-FB)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP24",
+   "sheet": "/Source Meter/",
+   "value": "PRE_FB"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP25",
+   "sheet": "/Source Meter/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP26",
+   "sheet": "/Source Meter/",
+   "value": "LDO_OUT"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Monitors/VIN_P",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP27",
+   "sheet": "/Path Switching/",
+   "value": "VIN_P"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP28",
+   "sheet": "/Path Switching/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP29",
+   "sheet": "/Path Switching/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Controller/VIN_OV",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP30",
+   "sheet": "/Path Switching/",
+   "value": "VIN_OV"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D16-A)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP31",
+   "sheet": "/Path Switching/",
+   "value": "SRC_G"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D17-A)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP32",
+   "sheet": "/Path Switching/",
+   "value": "AMP_G"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP33",
+   "sheet": "/Path Switching/",
+   "value": "SUPPLY"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(Q12-G)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP34",
+   "sheet": "/Shunt Ladder/",
+   "value": "G_R1"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(Q13-G)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP35",
+   "sheet": "/Shunt Ladder/",
+   "value": "G_R2"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(Q14-G)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP36",
+   "sheet": "/Shunt Ladder/",
+   "value": "G_R3"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D20-common)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP37",
+   "sheet": "/Output Stage/",
+   "value": "OUT_GATE"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D21-K)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP38",
+   "sheet": "/Output Stage/",
+   "value": "VOUT"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "GND",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP39",
+   "sheet": "/Output Stage/",
+   "value": "GND"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Monitors/VOUT_BUF",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP40",
+   "sheet": "/Output Stage/",
+   "value": "GUARD"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(U26--)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP41",
+   "sheet": "/Signal Chain/",
+   "value": "PED"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(D22-K)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP42",
+   "sheet": "/Signal Chain/",
+   "value": "VDRV"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(U30-AINP)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP43",
+   "sheet": "/Signal Chain/",
+   "value": "ADC_IN"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Comparators/AMP_RAW",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP44",
+   "sheet": "/Signal Chain/",
+   "value": "AMP_RAW"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Comparators/CMP_JUMP",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP45",
+   "sheet": "/Comparators/",
+   "value": "CMP_JUMP"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Comparators/CMP_OC",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP46",
+   "sheet": "/Comparators/",
+   "value": "CMP_OC"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "/Comparators/CMP_UP",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP47",
+   "sheet": "/Comparators/",
+   "value": "CMP_UP"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "1",
+     "net": "Net-(JP2-C)",
+     "pin": "1"
+    }
+   ],
+   "ref": "TP48",
+   "sheet": "/Digital Inputs/",
+   "value": "VCC_B"
+  },
+  {
+   "mpn": "SC1632",
+   "pins": [
+    {
+     "function": "GPIO0",
+     "net": "Net-(J1-Pin_1)",
+     "pin": "1"
+    },
+    {
+     "function": "GPIO1",
+     "net": "Net-(J1-Pin_2)",
+     "pin": "2"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "3"
+    },
+    {
+     "function": "GPIO2",
+     "net": "/Controller/GATE_R1",
+     "pin": "4"
+    },
+    {
+     "function": "GPIO3",
+     "net": "/Controller/GATE_R2",
+     "pin": "5"
+    },
+    {
+     "function": "GPIO4",
+     "net": "/Controller/GATE_R3",
+     "pin": "6"
+    },
+    {
+     "function": "GPIO5",
+     "net": "/Controller/MUX_A0",
+     "pin": "7"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "8"
+    },
+    {
+     "function": "GPIO6",
+     "net": "/Controller/MUX_A1",
+     "pin": "9"
+    },
+    {
+     "function": "GPIO7",
+     "net": "/Controller/GATE_OUT",
+     "pin": "10"
+    },
+    {
+     "function": "GPIO8",
+     "net": "/Comparators/CMP_UP",
+     "pin": "11"
+    },
+    {
+     "function": "GPIO9",
+     "net": "/Comparators/CMP_JUMP",
+     "pin": "12"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "13"
+    },
+    {
+     "function": "GPIO10",
+     "net": "/Comparators/CMP_OC",
+     "pin": "14"
+    },
+    {
+     "function": "GPIO11",
+     "net": "Net-(U1-GPIO11)",
+     "pin": "15"
+    },
+    {
+     "function": "GPIO12",
+     "net": "Net-(RN1-R1.1)",
+     "pin": "16"
+    },
+    {
+     "function": "GPIO13",
+     "net": "Net-(RN1-R2.1)",
+     "pin": "17"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "18"
+    },
+    {
+     "function": "GPIO14",
+     "net": "Net-(RN1-R3.1)",
+     "pin": "19"
+    },
+    {
+     "function": "GPIO15",
+     "net": "Net-(RN1-R4.1)",
+     "pin": "20"
+    },
+    {
+     "function": "GPIO16",
+     "net": "/Controller/ADC_DOUT",
+     "pin": "21"
+    },
+    {
+     "function": "GPIO17",
+     "net": "/Controller/SIDE_DOUT",
+     "pin": "22"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "23"
+    },
+    {
+     "function": "GPIO18",
+     "net": "/Controller/SMU_ON",
+     "pin": "24"
+    },
+    {
+     "function": "GPIO19",
+     "net": "Net-(RN3-R1.1)",
+     "pin": "25"
+    },
+    {
+     "function": "GPIO20",
+     "net": "Net-(RN3-R2.1)",
+     "pin": "26"
+    },
+    {
+     "function": "GPIO21",
+     "net": "Net-(RN3-R3.1)",
+     "pin": "27"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "28"
+    },
+    {
+     "function": "GPIO22",
+     "net": "Net-(RN3-R4.1)",
+     "pin": "29"
+    },
+    {
+     "function": "RUN",
+     "net": "Net-(U1-RUN)",
+     "pin": "30"
+    },
+    {
+     "function": "GPIO26_ADC0",
+     "net": "/Controller/GATE_SRC",
+     "pin": "31"
+    },
+    {
+     "function": "GPIO27_ADC1",
+     "net": "/Controller/GATE_AMP",
+     "pin": "32"
+    },
+    {
+     "function": "AGND",
+     "net": "Net-(U1-AGND)",
+     "pin": "33"
+    },
+    {
+     "function": "GPIO28_ADC2",
+     "net": "Net-(U1-GPIO28_ADC2)",
+     "pin": "34"
+    },
+    {
+     "function": "ADC_VREF",
+     "net": "unconnected-(U1-ADC_VREF-Pad35)",
+     "pin": "35"
+    },
+    {
+     "function": "3V3",
+     "net": "unconnected-(U1-3V3-Pad36)",
+     "pin": "36"
+    },
+    {
+     "function": "3V3_EN",
+     "net": "unconnected-(U1-3V3_EN-Pad37)",
+     "pin": "37"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "38"
+    },
+    {
+     "function": "VSYS",
+     "net": "Net-(D1-K)",
+     "pin": "39"
+    },
+    {
+     "function": "VBUS",
+     "net": "Net-(JP1-A)",
+     "pin": "40"
+    }
+   ],
+   "ref": "U1",
+   "sheet": "/Controller/",
+   "value": "Raspberry Pi Pico 2"
+  },
+  {
+   "mpn": "TPD4E1U06DBVR",
+   "pins": [
+    {
+     "function": "IO1",
+     "net": "/Monitors/CC1",
+     "pin": "1"
+    },
+    {
+     "function": "VN",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "IO2",
+     "net": "/Monitors/CC2",
+     "pin": "3"
+    },
+    {
+     "function": "IO3",
+     "net": "GND",
+     "pin": "4"
+    },
+    {
+     "function": "VP",
+     "net": "unconnected-(U2-VP-Pad5)",
+     "pin": "5"
+    },
+    {
+     "function": "IO4",
+     "net": "GND",
+     "pin": "6"
+    }
+   ],
+   "ref": "U2",
+   "sheet": "/Power Input/",
+   "value": "TPD4E1U06DBVR"
+  },
+  {
+   "mpn": "TPS259621DDAR",
+   "pins": [
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "dV/dT",
+     "net": "unconnected-(U3-dV/dT-Pad2)",
+     "pin": "2"
+    },
+    {
+     "function": "EN/UVLO",
+     "net": "Net-(U3-EN/UVLO)",
+     "pin": "3"
+    },
+    {
+     "function": "VIN",
+     "net": "/Controller/PICO_5V",
+     "pin": "4"
+    },
+    {
+     "function": "OUT",
+     "net": "Net-(D3-A)",
+     "pin": "5"
+    },
+    {
+     "function": "~{FLT}",
+     "net": "unconnected-(U3-~{FLT}-Pad6)",
+     "pin": "6"
+    },
+    {
+     "function": "ILM",
+     "net": "Net-(U3-ILM)",
+     "pin": "7"
+    },
+    {
+     "function": "OVLO/OVCSEL",
+     "net": "Net-(U3-OVLO/OVCSEL)",
+     "pin": "8"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "9"
+    }
+   ],
+   "ref": "U3",
+   "sheet": "/Power Input/",
+   "value": "TPS259621DDAR"
+  },
+  {
+   "mpn": "TPS259621DDAR",
+   "pins": [
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "dV/dT",
+     "net": "Net-(U4-dV/dT)",
+     "pin": "2"
+    },
+    {
+     "function": "EN/UVLO",
+     "net": "Net-(U4-EN/UVLO)",
+     "pin": "3"
+    },
+    {
+     "function": "VIN",
+     "net": "Net-(D2-A1)",
+     "pin": "4"
+    },
+    {
+     "function": "OUT",
+     "net": "Net-(D4-A)",
+     "pin": "5"
+    },
+    {
+     "function": "~{FLT}",
+     "net": "unconnected-(U4-~{FLT}-Pad6)",
+     "pin": "6"
+    },
+    {
+     "function": "ILM",
+     "net": "Net-(U4-ILM)",
+     "pin": "7"
+    },
+    {
+     "function": "OVLO/OVCSEL",
+     "net": "Net-(U4-OVLO/OVCSEL)",
+     "pin": "8"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "9"
+    }
+   ],
+   "ref": "U4",
+   "sheet": "/Power Input/",
+   "value": "TPS259621DDAR"
+  },
+  {
+   "mpn": "TPS2116DRLR",
+   "pins": [
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "VOUT",
+     "net": "+5V",
+     "pin": "2"
+    },
+    {
+     "function": "VIN1",
+     "net": "Net-(D4-A)",
+     "pin": "3"
+    },
+    {
+     "function": "PR1",
+     "net": "Net-(U5-PR1)",
+     "pin": "4"
+    },
+    {
+     "function": "MODE",
+     "net": "Net-(D4-A)",
+     "pin": "5"
+    },
+    {
+     "function": "VIN2",
+     "net": "Net-(D3-A)",
+     "pin": "6"
+    },
+    {
+     "function": "VOUT",
+     "net": "+5V",
+     "pin": "7"
+    },
+    {
+     "function": "ST",
+     "net": "/Monitors/SRC_ST",
+     "pin": "8"
+    }
+   ],
+   "ref": "U5",
+   "sheet": "/Power Input/",
+   "value": "TPS2116DRLR"
+  },
+  {
+   "mpn": "TPS3808G01DBVR",
+   "pins": [
+    {
+     "function": "~{RESET}",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "1"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "~{MR}",
+     "net": "unconnected-(U6-~{MR}-Pad3)",
+     "pin": "3"
+    },
+    {
+     "function": "CT",
+     "net": "Net-(U6-CT)",
+     "pin": "4"
+    },
+    {
+     "function": "SENSE",
+     "net": "Net-(U6-SENSE)",
+     "pin": "5"
+    },
+    {
+     "function": "VDD",
+     "net": "+5V",
+     "pin": "6"
+    }
+   ],
+   "ref": "U6",
+   "sheet": "/Logic Supplies/",
+   "value": "TPS3808G01DBVR"
+  },
+  {
+   "mpn": "LP5907MFX-3.3/NOPB",
+   "pins": [
+    {
+     "function": "IN",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "EN",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "3"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U7-NC-Pad4)",
+     "pin": "4"
+    },
+    {
+     "function": "OUT",
+     "net": "+3V3_C",
+     "pin": "5"
+    }
+   ],
+   "ref": "U7",
+   "sheet": "/Logic Supplies/",
+   "value": "LP5907MFX-3.3"
+  },
+  {
+   "mpn": "LP5907MFX-3.3/NOPB",
+   "pins": [
+    {
+     "function": "IN",
+     "net": "+5V",
+     "pin": "1"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "EN",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "3"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U8-NC-Pad4)",
+     "pin": "4"
+    },
+    {
+     "function": "OUT",
+     "net": "+3V3_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U8",
+   "sheet": "/Logic Supplies/",
+   "value": "LP5907MFX-3.3"
+  },
+  {
+   "mpn": "",
+   "pins": [
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "1"
+    },
+    {
+     "function": "~{RESET}",
+     "net": "Net-(U10-EN)",
+     "pin": "2"
+    },
+    {
+     "function": "V_{DD}",
+     "net": "+5V",
+     "pin": "3"
+    }
+   ],
+   "ref": "U9",
+   "sheet": "/Analog Rails/",
+   "value": "803 type, 3.08 V"
+  },
+  {
+   "mpn": "LMR62014XMF/NOPB",
+   "pins": [
+    {
+     "function": "SW",
+     "net": "Net-(D6-A)",
+     "pin": "1"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "FB",
+     "net": "Net-(U10-FB)",
+     "pin": "3"
+    },
+    {
+     "function": "EN",
+     "net": "Net-(U10-EN)",
+     "pin": "4"
+    },
+    {
+     "function": "VIN",
+     "net": "+5V",
+     "pin": "5"
+    }
+   ],
+   "ref": "U10",
+   "sheet": "/Analog Rails/",
+   "value": "LMR62014XMF"
+  },
+  {
+   "mpn": "LM27761DSGT",
+   "pins": [
+    {
+     "function": "VIN",
+     "net": "Net-(U11-VIN)",
+     "pin": "1"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "CPOUT",
+     "net": "Net-(U11-CPOUT)",
+     "pin": "3"
+    },
+    {
+     "function": "VOUT",
+     "net": "-4V_A",
+     "pin": "4"
+    },
+    {
+     "function": "VFB",
+     "net": "Net-(U11-VFB)",
+     "pin": "5"
+    },
+    {
+     "function": "EN",
+     "net": "Net-(U11-EN)",
+     "pin": "6"
+    },
+    {
+     "function": "C-",
+     "net": "Net-(U11-C-)",
+     "pin": "7"
+    },
+    {
+     "function": "C+",
+     "net": "Net-(U11-C+)",
+     "pin": "8"
+    },
+    {
+     "function": "PAD",
+     "net": "GND",
+     "pin": "9"
+    }
+   ],
+   "ref": "U11",
+   "sheet": "/Analog Rails/",
+   "value": "LM27761DSG"
+  },
+  {
+   "mpn": "REF5025AID",
+   "pins": [
+    {
+     "function": "DNC",
+     "net": "unconnected-(U12-DNC-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "Vin",
+     "net": "Net-(U12-Vin)",
+     "pin": "2"
+    },
+    {
+     "function": "Temp",
+     "net": "unconnected-(U12-Temp-Pad3)",
+     "pin": "3"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "4"
+    },
+    {
+     "function": "Trim/NR",
+     "net": "Net-(U12-Trim/NR)",
+     "pin": "5"
+    },
+    {
+     "function": "Vout",
+     "net": "VREF",
+     "pin": "6"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U12-NC-Pad7)",
+     "pin": "7"
+    },
+    {
+     "function": "DNC",
+     "net": "unconnected-(U12-DNC-Pad8)",
+     "pin": "8"
+    }
+   ],
+   "ref": "U12",
+   "sheet": "/Analog Rails/",
+   "value": "REF5025AID"
+  },
+  {
+   "mpn": "LT3042EMSE#PBF",
+   "pins": [
+    {
+     "function": "IN",
+     "net": "Net-(C29-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "IN",
+     "net": "Net-(C29-Pad1)",
+     "pin": "2"
+    },
+    {
+     "function": "EN/UV",
+     "net": "/Analog Rails/5V_OK",
+     "pin": "3"
+    },
+    {
+     "function": "PG",
+     "net": "unconnected-(U13-PG-Pad4)",
+     "pin": "4"
+    },
+    {
+     "function": "ILIM",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "PGFB",
+     "net": "Net-(U13-PGFB)",
+     "pin": "6"
+    },
+    {
+     "function": "SET",
+     "net": "Net-(U13-SET)",
+     "pin": "7"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "8"
+    },
+    {
+     "function": "OUTS",
+     "net": "+12V_A",
+     "pin": "9"
+    },
+    {
+     "function": "OUT",
+     "net": "+12V_A",
+     "pin": "10"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "11"
+    }
+   ],
+   "ref": "U13",
+   "sheet": "/Analog Rails/",
+   "value": "LT3042EMSE"
+  },
+  {
+   "mpn": "MCP6569-E/SL",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "1"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U14A--)",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U14A-+)",
+     "pin": "3"
+    },
+    {
+     "function": "V+",
+     "net": "+3V3_C",
+     "pin": "4"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U14A--)",
+     "pin": "5"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U14B--)",
+     "pin": "6"
+    },
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "7"
+    },
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "8"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U14C--)",
+     "pin": "9"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U14C-+)",
+     "pin": "10"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "11"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U14D-+)",
+     "pin": "12"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U14A--)",
+     "pin": "13"
+    },
+    {
+     "function": "",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "14"
+    }
+   ],
+   "ref": "U14",
+   "sheet": "/Rail Monitor/",
+   "value": "MCP6569-E/SL"
+  },
+  {
+   "mpn": "MCP4921-E/SN",
+   "pins": [
+    {
+     "function": "Vdd",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "~{CS}",
+     "net": "/Controller/C_DAC_CS",
+     "pin": "2"
+    },
+    {
+     "function": "SCK",
+     "net": "/Controller/C_SCK",
+     "pin": "3"
+    },
+    {
+     "function": "SDI",
+     "net": "/Controller/C_MOSI",
+     "pin": "4"
+    },
+    {
+     "function": "~{LDAC}",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "Vref",
+     "net": "Net-(U15-Vref)",
+     "pin": "6"
+    },
+    {
+     "function": "Vss",
+     "net": "GND",
+     "pin": "7"
+    },
+    {
+     "function": "Vout",
+     "net": "Net-(U15-Vout)",
+     "pin": "8"
+    }
+   ],
+   "ref": "U15",
+   "sheet": "/Source Meter/",
+   "value": "MCP4921-E/SN"
+  },
+  {
+   "mpn": "TPS63020DSJR",
+   "pins": [
+    {
+     "function": "VINA",
+     "net": "Net-(U16-PS/SYNC)",
+     "pin": "1"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "FB",
+     "net": "Net-(U16-FB)",
+     "pin": "3"
+    },
+    {
+     "function": "VOUT",
+     "net": "Net-(C42-Pad1)",
+     "pin": "4"
+    },
+    {
+     "function": "VOUT",
+     "net": "Net-(C42-Pad1)",
+     "pin": "5"
+    },
+    {
+     "function": "L2",
+     "net": "Net-(L2-Pad2)",
+     "pin": "6"
+    },
+    {
+     "function": "L2",
+     "net": "Net-(L2-Pad2)",
+     "pin": "7"
+    },
+    {
+     "function": "L1",
+     "net": "Net-(L2-Pad1)",
+     "pin": "8"
+    },
+    {
+     "function": "L1",
+     "net": "Net-(L2-Pad1)",
+     "pin": "9"
+    },
+    {
+     "function": "VIN",
+     "net": "+5V",
+     "pin": "10"
+    },
+    {
+     "function": "VIN",
+     "net": "+5V",
+     "pin": "11"
+    },
+    {
+     "function": "EN",
+     "net": "Net-(Q1-S)",
+     "pin": "12"
+    },
+    {
+     "function": "PS/SYNC",
+     "net": "Net-(U16-PS/SYNC)",
+     "pin": "13"
+    },
+    {
+     "function": "PG",
+     "net": "unconnected-(U16-PG-Pad14)",
+     "pin": "14"
+    },
+    {
+     "function": "PGND",
+     "net": "GND",
+     "pin": "15"
+    }
+   ],
+   "ref": "U16",
+   "sheet": "/Source Meter/",
+   "value": "TPS63020DSJ"
+  },
+  {
+   "mpn": "OPA197IDBVR",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R58-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "-4V_A",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U17-+)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U17--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+12V_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U17",
+   "sheet": "/Source Meter/",
+   "value": "OPA197IDBV"
+  },
+  {
+   "mpn": "LT3080EDD#PBF",
+   "pins": [
+    {
+     "function": "OUT",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "1"
+    },
+    {
+     "function": "OUT",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "2"
+    },
+    {
+     "function": "OUT",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "3"
+    },
+    {
+     "function": "SET",
+     "net": "Net-(U18-SET)",
+     "pin": "4"
+    },
+    {
+     "function": "V_{CONTROL}",
+     "net": "Net-(D10-K)",
+     "pin": "5"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U18-NC-Pad6)",
+     "pin": "6"
+    },
+    {
+     "function": "IN",
+     "net": "Net-(D11-K)",
+     "pin": "7"
+    },
+    {
+     "function": "IN",
+     "net": "Net-(D11-K)",
+     "pin": "8"
+    },
+    {
+     "function": "OUT",
+     "net": "/Path Switching/LDO_OUT",
+     "pin": "9"
+    }
+   ],
+   "ref": "U18",
+   "sheet": "/Source Meter/",
+   "value": "LT3080EDD"
+  },
+  {
+   "mpn": "OPA365AIDBVR",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U16-FB)",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U19-+)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U19--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+3V3_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U19",
+   "sheet": "/Source Meter/",
+   "value": "OPA365AIDBV"
+  },
+  {
+   "mpn": "TC4427EOA713",
+   "pins": [
+    {
+     "function": "NC",
+     "net": "unconnected-(U20-NC-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "IN_A",
+     "net": "Net-(U20-IN_A)",
+     "pin": "2"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "3"
+    },
+    {
+     "function": "IN_B",
+     "net": "Net-(Q2-D)",
+     "pin": "4"
+    },
+    {
+     "function": "OUT_B",
+     "net": "Net-(U20-OUT_B)",
+     "pin": "5"
+    },
+    {
+     "function": "V_{DD}",
+     "net": "+12V_A",
+     "pin": "6"
+    },
+    {
+     "function": "OUT_A",
+     "net": "Net-(U20-OUT_A)",
+     "pin": "7"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U20-NC-Pad8)",
+     "pin": "8"
+    }
+   ],
+   "ref": "U20",
+   "sheet": "/Path Switching/",
+   "value": "TC4427EOA"
+  },
+  {
+   "mpn": "MCP6561T-E/OT",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Controller/VIN_OV",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(D15-common)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "VREF",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+3V3_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U21",
+   "sheet": "/Path Switching/",
+   "value": "MCP6561T-E/OT"
+  },
+  {
+   "mpn": "TC4427EOA713",
+   "pins": [
+    {
+     "function": "NC",
+     "net": "unconnected-(U22-NC-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "IN_A",
+     "net": "Net-(U22-IN_A)",
+     "pin": "2"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "3"
+    },
+    {
+     "function": "IN_B",
+     "net": "Net-(U22-IN_B)",
+     "pin": "4"
+    },
+    {
+     "function": "OUT_B",
+     "net": "Net-(U22-OUT_B)",
+     "pin": "5"
+    },
+    {
+     "function": "V_{DD}",
+     "net": "+12V_A",
+     "pin": "6"
+    },
+    {
+     "function": "OUT_A",
+     "net": "/Output Stage/DRV_OUT",
+     "pin": "7"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U22-NC-Pad8)",
+     "pin": "8"
+    }
+   ],
+   "ref": "U22",
+   "sheet": "/Shunt Ladder/",
+   "value": "TC4427EOA"
+  },
+  {
+   "mpn": "TC4427EOA713",
+   "pins": [
+    {
+     "function": "NC",
+     "net": "unconnected-(U23-NC-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "IN_A",
+     "net": "Net-(U23-IN_A)",
+     "pin": "2"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "3"
+    },
+    {
+     "function": "IN_B",
+     "net": "Net-(U23-IN_B)",
+     "pin": "4"
+    },
+    {
+     "function": "OUT_B",
+     "net": "Net-(U23-OUT_B)",
+     "pin": "5"
+    },
+    {
+     "function": "V_{DD}",
+     "net": "+12V_A",
+     "pin": "6"
+    },
+    {
+     "function": "OUT_A",
+     "net": "Net-(U23-OUT_A)",
+     "pin": "7"
+    },
+    {
+     "function": "NC",
+     "net": "unconnected-(U23-NC-Pad8)",
+     "pin": "8"
+    }
+   ],
+   "ref": "U23",
+   "sheet": "/Shunt Ladder/",
+   "value": "TC4427EOA"
+  },
+  {
+   "mpn": "MUX509IPWR",
+   "pins": [
+    {
+     "function": "A0",
+     "net": "Net-(U24-A0)",
+     "pin": "1"
+    },
+    {
+     "function": "EN",
+     "net": "Net-(U24-EN)",
+     "pin": "2"
+    },
+    {
+     "function": "VSS",
+     "net": "-4V_A",
+     "pin": "3"
+    },
+    {
+     "function": "S1A",
+     "net": "/Path Switching/SUPPLY",
+     "pin": "4"
+    },
+    {
+     "function": "S2A",
+     "net": "Net-(Q12-S)",
+     "pin": "5"
+    },
+    {
+     "function": "S3A",
+     "net": "Net-(U24-S3A)",
+     "pin": "6"
+    },
+    {
+     "function": "S4A",
+     "net": "Net-(U24-S4A)",
+     "pin": "7"
+    },
+    {
+     "function": "DA",
+     "net": "/Shunt Ladder/INP",
+     "pin": "8"
+    },
+    {
+     "function": "DB",
+     "net": "/Shunt Ladder/INN",
+     "pin": "9"
+    },
+    {
+     "function": "S4B",
+     "net": "Net-(U24-S4B)",
+     "pin": "10"
+    },
+    {
+     "function": "S3B",
+     "net": "Net-(U24-S3B)",
+     "pin": "11"
+    },
+    {
+     "function": "S2B",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "12"
+    },
+    {
+     "function": "S1B",
+     "net": "/Output Stage/VOUT_S",
+     "pin": "13"
+    },
+    {
+     "function": "VDD",
+     "net": "+12V_A",
+     "pin": "14"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "15"
+    },
+    {
+     "function": "A1",
+     "net": "Net-(U24-A1)",
+     "pin": "16"
+    }
+   ],
+   "ref": "U24",
+   "sheet": "/Shunt Ladder/",
+   "value": "MUX509IPWR"
+  },
+  {
+   "mpn": "OPA197IDBVR",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U25--)",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "-4V_A",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U25-+)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U25--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+12V_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U25",
+   "sheet": "/Output Stage/",
+   "value": "OPA197IDBV"
+  },
+  {
+   "mpn": "OPA197IDBVR",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U26--)",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "-4V_A",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U26-+)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U26--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+12V_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U26",
+   "sheet": "/Signal Chain/",
+   "value": "OPA197IDBV"
+  },
+  {
+   "mpn": "AD8421ARZ",
+   "pins": [
+    {
+     "function": "-",
+     "net": "/Shunt Ladder/INN",
+     "pin": "1"
+    },
+    {
+     "function": "Rg",
+     "net": "Net-(R123-Pad1)",
+     "pin": "2"
+    },
+    {
+     "function": "Rg",
+     "net": "Net-(R123-Pad2)",
+     "pin": "3"
+    },
+    {
+     "function": "+",
+     "net": "/Shunt Ladder/INP",
+     "pin": "4"
+    },
+    {
+     "function": "Vs-",
+     "net": "-4V_A",
+     "pin": "5"
+    },
+    {
+     "function": "Ref",
+     "net": "Net-(U26--)",
+     "pin": "6"
+    },
+    {
+     "function": "",
+     "net": "/Comparators/AMP_RAW",
+     "pin": "7"
+    },
+    {
+     "function": "Vs+",
+     "net": "+12V_A",
+     "pin": "8"
+    }
+   ],
+   "ref": "U27",
+   "sheet": "/Signal Chain/",
+   "value": "AD8421ARZ"
+  },
+  {
+   "mpn": "OPA365AIDBVR",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(R127-Pad1)",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U28-+)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U28--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+3V3_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U28",
+   "sheet": "/Signal Chain/",
+   "value": "OPA365AIDBV"
+  },
+  {
+   "mpn": "OPA365AIDBVR",
+   "pins": [
+    {
+     "function": "",
+     "net": "Net-(U29--)",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(U29-+)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U29--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "Net-(D22-K)",
+     "pin": "5"
+    }
+   ],
+   "ref": "U29",
+   "sheet": "/Signal Chain/",
+   "value": "OPA365AIDBV"
+  },
+  {
+   "mpn": "ADS8860IDGS",
+   "pins": [
+    {
+     "function": "REF",
+     "net": "VREF",
+     "pin": "1"
+    },
+    {
+     "function": "AVDD",
+     "net": "+3V3_A",
+     "pin": "2"
+    },
+    {
+     "function": "AINP",
+     "net": "Net-(U30-AINP)",
+     "pin": "3"
+    },
+    {
+     "function": "AINN",
+     "net": "GND",
+     "pin": "4"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "5"
+    },
+    {
+     "function": "CONVST",
+     "net": "Net-(RN5-R3.1)",
+     "pin": "6"
+    },
+    {
+     "function": "DOUT",
+     "net": "Net-(RN5-R2.1)",
+     "pin": "7"
+    },
+    {
+     "function": "SCLK",
+     "net": "Net-(RN5-R1.1)",
+     "pin": "8"
+    },
+    {
+     "function": "DIN",
+     "net": "+3V3_C",
+     "pin": "9"
+    },
+    {
+     "function": "DVDD",
+     "net": "+3V3_C",
+     "pin": "10"
+    }
+   ],
+   "ref": "U30",
+   "sheet": "/Signal Chain/",
+   "value": "ADS8860IDGS"
+  },
+  {
+   "mpn": "MCP6562-E/SN",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Comparators/CMP_JUMP",
+     "pin": "1"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U31A--)",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(D23-common)",
+     "pin": "3"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "4"
+    },
+    {
+     "function": "+",
+     "net": "Net-(D23-common)",
+     "pin": "5"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U31B--)",
+     "pin": "6"
+    },
+    {
+     "function": "",
+     "net": "/Comparators/CMP_OC",
+     "pin": "7"
+    },
+    {
+     "function": "V+",
+     "net": "+3V3_A",
+     "pin": "8"
+    }
+   ],
+   "ref": "U31",
+   "sheet": "/Comparators/",
+   "value": "MCP6562-E/SN"
+  },
+  {
+   "mpn": "MCP6561T-E/OT",
+   "pins": [
+    {
+     "function": "",
+     "net": "/Comparators/CMP_UP",
+     "pin": "1"
+    },
+    {
+     "function": "V-",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "+",
+     "net": "Net-(D23-common)",
+     "pin": "3"
+    },
+    {
+     "function": "-",
+     "net": "Net-(U32--)",
+     "pin": "4"
+    },
+    {
+     "function": "V+",
+     "net": "+3V3_A",
+     "pin": "5"
+    }
+   ],
+   "ref": "U32",
+   "sheet": "/Comparators/",
+   "value": "MCP6561T-E/OT"
+  },
+  {
+   "mpn": "SN74LV165ADR",
+   "pins": [
+    {
+     "function": "~{PL}",
+     "net": "/Controller/SIDE_LOAD",
+     "pin": "1"
+    },
+    {
+     "function": "CP",
+     "net": "/Controller/ADC_SCK",
+     "pin": "2"
+    },
+    {
+     "function": "D4",
+     "net": "/Digital Inputs/DIN4",
+     "pin": "3"
+    },
+    {
+     "function": "D5",
+     "net": "/Digital Inputs/DIN5",
+     "pin": "4"
+    },
+    {
+     "function": "D6",
+     "net": "/Digital Inputs/DIN6",
+     "pin": "5"
+    },
+    {
+     "function": "D7",
+     "net": "/Digital Inputs/DIN7",
+     "pin": "6"
+    },
+    {
+     "function": "~{Q7}",
+     "net": "unconnected-(U33-~{Q7}-Pad7)",
+     "pin": "7"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "8"
+    },
+    {
+     "function": "Q7",
+     "net": "Net-(U33-Q7)",
+     "pin": "9"
+    },
+    {
+     "function": "DS",
+     "net": "+3V3_C",
+     "pin": "10"
+    },
+    {
+     "function": "D0",
+     "net": "/Digital Inputs/DIN0",
+     "pin": "11"
+    },
+    {
+     "function": "D1",
+     "net": "/Digital Inputs/DIN1",
+     "pin": "12"
+    },
+    {
+     "function": "D2",
+     "net": "/Digital Inputs/DIN2",
+     "pin": "13"
+    },
+    {
+     "function": "D3",
+     "net": "/Digital Inputs/DIN3",
+     "pin": "14"
+    },
+    {
+     "function": "~{CE}",
+     "net": "GND",
+     "pin": "15"
+    },
+    {
+     "function": "VCC",
+     "net": "+3V3_C",
+     "pin": "16"
+    }
+   ],
+   "ref": "U33",
+   "sheet": "/Side Data/",
+   "value": "SN74LV165ADR"
+  },
+  {
+   "mpn": "SN74LV165ADR",
+   "pins": [
+    {
+     "function": "~{PL}",
+     "net": "/Controller/SIDE_LOAD",
+     "pin": "1"
+    },
+    {
+     "function": "CP",
+     "net": "/Controller/ADC_SCK",
+     "pin": "2"
+    },
+    {
+     "function": "D4",
+     "net": "/Controller/VIN_OV",
+     "pin": "3"
+    },
+    {
+     "function": "D5",
+     "net": "/Controller/GATE_OUT",
+     "pin": "4"
+    },
+    {
+     "function": "D6",
+     "net": "/Controller/MUX_A0",
+     "pin": "5"
+    },
+    {
+     "function": "D7",
+     "net": "/Controller/MUX_A1",
+     "pin": "6"
+    },
+    {
+     "function": "~{Q7}",
+     "net": "unconnected-(U34-~{Q7}-Pad7)",
+     "pin": "7"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "8"
+    },
+    {
+     "function": "Q7",
+     "net": "Net-(U34-Q7)",
+     "pin": "9"
+    },
+    {
+     "function": "DS",
+     "net": "Net-(U33-Q7)",
+     "pin": "10"
+    },
+    {
+     "function": "D0",
+     "net": "/Controller/PWR_GOOD",
+     "pin": "11"
+    },
+    {
+     "function": "D1",
+     "net": "/Comparators/CMP_UP",
+     "pin": "12"
+    },
+    {
+     "function": "D2",
+     "net": "/Comparators/CMP_JUMP",
+     "pin": "13"
+    },
+    {
+     "function": "D3",
+     "net": "/Comparators/CMP_OC",
+     "pin": "14"
+    },
+    {
+     "function": "~{CE}",
+     "net": "GND",
+     "pin": "15"
+    },
+    {
+     "function": "VCC",
+     "net": "+3V3_C",
+     "pin": "16"
+    }
+   ],
+   "ref": "U34",
+   "sheet": "/Side Data/",
+   "value": "SN74LV165ADR"
+  },
+  {
+   "mpn": "TPD4E1U06DBVR",
+   "pins": [
+    {
+     "function": "IO1",
+     "net": "Net-(J5-Pin_1)",
+     "pin": "1"
+    },
+    {
+     "function": "VN",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "IO2",
+     "net": "unconnected-(U35-IO2-Pad3)",
+     "pin": "3"
+    },
+    {
+     "function": "IO3",
+     "net": "unconnected-(U35-IO3-Pad4)",
+     "pin": "4"
+    },
+    {
+     "function": "VP",
+     "net": "unconnected-(U35-VP-Pad5)",
+     "pin": "5"
+    },
+    {
+     "function": "IO4",
+     "net": "unconnected-(U35-IO4-Pad6)",
+     "pin": "6"
+    }
+   ],
+   "ref": "U35",
+   "sheet": "/Digital Inputs/",
+   "value": "TPD4E1U06DBVR"
+  },
+  {
+   "mpn": "TPD4E1U06DBVR",
+   "pins": [
+    {
+     "function": "IO1",
+     "net": "Net-(J5-Pin_10)",
+     "pin": "1"
+    },
+    {
+     "function": "VN",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "IO2",
+     "net": "Net-(J5-Pin_9)",
+     "pin": "3"
+    },
+    {
+     "function": "IO3",
+     "net": "Net-(J5-Pin_8)",
+     "pin": "4"
+    },
+    {
+     "function": "VP",
+     "net": "unconnected-(U36-VP-Pad5)",
+     "pin": "5"
+    },
+    {
+     "function": "IO4",
+     "net": "Net-(J5-Pin_7)",
+     "pin": "6"
+    }
+   ],
+   "ref": "U36",
+   "sheet": "/Digital Inputs/",
+   "value": "TPD4E1U06DBVR"
+  },
+  {
+   "mpn": "TPD4E1U06DBVR",
+   "pins": [
+    {
+     "function": "IO1",
+     "net": "Net-(J5-Pin_6)",
+     "pin": "1"
+    },
+    {
+     "function": "VN",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "IO2",
+     "net": "Net-(J5-Pin_5)",
+     "pin": "3"
+    },
+    {
+     "function": "IO3",
+     "net": "Net-(J5-Pin_4)",
+     "pin": "4"
+    },
+    {
+     "function": "VP",
+     "net": "unconnected-(U37-VP-Pad5)",
+     "pin": "5"
+    },
+    {
+     "function": "IO4",
+     "net": "Net-(J5-Pin_3)",
+     "pin": "6"
+    }
+   ],
+   "ref": "U37",
+   "sheet": "/Digital Inputs/",
+   "value": "TPD4E1U06DBVR"
+  },
+  {
+   "mpn": "SN74LVC8T245PWR",
+   "pins": [
+    {
+     "function": "V_{CCA}",
+     "net": "+3V3_C",
+     "pin": "1"
+    },
+    {
+     "function": "DIR",
+     "net": "GND",
+     "pin": "2"
+    },
+    {
+     "function": "A1",
+     "net": "/Digital Inputs/DIN0",
+     "pin": "3"
+    },
+    {
+     "function": "A2",
+     "net": "/Digital Inputs/DIN1",
+     "pin": "4"
+    },
+    {
+     "function": "A3",
+     "net": "/Digital Inputs/DIN2",
+     "pin": "5"
+    },
+    {
+     "function": "A4",
+     "net": "/Digital Inputs/DIN3",
+     "pin": "6"
+    },
+    {
+     "function": "A5",
+     "net": "/Digital Inputs/DIN4",
+     "pin": "7"
+    },
+    {
+     "function": "A6",
+     "net": "/Digital Inputs/DIN5",
+     "pin": "8"
+    },
+    {
+     "function": "A7",
+     "net": "/Digital Inputs/DIN6",
+     "pin": "9"
+    },
+    {
+     "function": "A8",
+     "net": "/Digital Inputs/DIN7",
+     "pin": "10"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "11"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "12"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "13"
+    },
+    {
+     "function": "B8",
+     "net": "Net-(RN10-R4.1)",
+     "pin": "14"
+    },
+    {
+     "function": "B7",
+     "net": "Net-(RN10-R3.1)",
+     "pin": "15"
+    },
+    {
+     "function": "B6",
+     "net": "Net-(RN10-R2.1)",
+     "pin": "16"
+    },
+    {
+     "function": "B5",
+     "net": "Net-(RN10-R1.1)",
+     "pin": "17"
+    },
+    {
+     "function": "B4",
+     "net": "Net-(RN11-R4.1)",
+     "pin": "18"
+    },
+    {
+     "function": "B3",
+     "net": "Net-(RN11-R3.1)",
+     "pin": "19"
+    },
+    {
+     "function": "B2",
+     "net": "Net-(RN11-R2.1)",
+     "pin": "20"
+    },
+    {
+     "function": "B1",
+     "net": "Net-(RN11-R1.1)",
+     "pin": "21"
+    },
+    {
+     "function": "~{OE}",
+     "net": "GND",
+     "pin": "22"
+    },
+    {
+     "function": "V_{CCB}",
+     "net": "Net-(JP2-C)",
+     "pin": "23"
+    },
+    {
+     "function": "V_{CCB}",
+     "net": "Net-(JP2-C)",
+     "pin": "24"
+    }
+   ],
+   "ref": "U38",
+   "sheet": "/Digital Inputs/",
+   "value": "SN74LVC8T245PW"
+  },
+  {
+   "mpn": "MCP9700AT-E/TT",
+   "pins": [
+    {
+     "function": "V_{DD}",
+     "net": "+3V3_A",
+     "pin": "1"
+    },
+    {
+     "function": "V_{OUT}",
+     "net": "Net-(U39-V_{OUT})",
+     "pin": "2"
+    },
+    {
+     "function": "GND",
+     "net": "GND",
+     "pin": "3"
+    }
+   ],
+   "ref": "U39",
+   "sheet": "/Monitors/",
+   "value": "MCP9700AT-E/TT"
+  },
+  {
+   "mpn": "MCP3208T-BI/SL",
+   "pins": [
+    {
+     "function": "CH0",
+     "net": "Net-(U40-CH0)",
+     "pin": "1"
+    },
+    {
+     "function": "CH1",
+     "net": "Net-(U40-CH1)",
+     "pin": "2"
+    },
+    {
+     "function": "CH2",
+     "net": "Net-(U40-CH2)",
+     "pin": "3"
+    },
+    {
+     "function": "CH3",
+     "net": "Net-(U40-CH3)",
+     "pin": "4"
+    },
+    {
+     "function": "CH4",
+     "net": "Net-(U40-CH4)",
+     "pin": "5"
+    },
+    {
+     "function": "CH5",
+     "net": "Net-(U40-CH5)",
+     "pin": "6"
+    },
+    {
+     "function": "CH6",
+     "net": "Net-(U40-CH6)",
+     "pin": "7"
+    },
+    {
+     "function": "CH7",
+     "net": "Net-(U40-CH7)",
+     "pin": "8"
+    },
+    {
+     "function": "DGND",
+     "net": "GND",
+     "pin": "9"
+    },
+    {
+     "function": "~{CS}/SHDN",
+     "net": "/Controller/C_MON_CS",
+     "pin": "10"
+    },
+    {
+     "function": "Din",
+     "net": "/Controller/C_MOSI",
+     "pin": "11"
+    },
+    {
+     "function": "Dout",
+     "net": "/Controller/C_MISO",
+     "pin": "12"
+    },
+    {
+     "function": "CLK",
+     "net": "/Controller/C_SCK",
+     "pin": "13"
+    },
+    {
+     "function": "AGND",
+     "net": "GND",
+     "pin": "14"
+    },
+    {
+     "function": "Vref",
+     "net": "VREF",
+     "pin": "15"
+    },
+    {
+     "function": "Vdd",
+     "net": "+3V3_A",
+     "pin": "16"
+    }
+   ],
+   "ref": "U40",
+   "sheet": "/Monitors/",
+   "value": "MCP3208-BI/SL"
+  }
+ ],
+ "format": 1,
+ "revision": "A2 (draft)",
+ "title": "Open Power Profiler - Carrier Board"
+}

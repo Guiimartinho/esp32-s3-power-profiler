@@ -1,0 +1,18 @@
+* Variants written for the benches of the range control logic. None of these
+* is a model of a manufacturer.
+
+* ---------------------------------------------------------------------
+* The two comparators of one MCP6562 package (U31), each with its own
+* offset, delay and hysteresis. It holds two of the comparator model of
+* logic.lib and adds nothing to it: the shared model map gives both halves
+* one parameter set, and a tolerance run needs an offset for each.
+*   Pins in the order of the package: OUTA, INA-, INA+, VSS, INB+, INB-,
+*   OUTB, VDD.
+*   Every figure is that of the model MCP656X of logic.lib; this file names
+*   no datasheet of its own. Parameters: delay, offset and hysteresis of
+*   the first half (tda, vosa, vhya) and of the second (tdb, vosb, vhyb).
+.subckt RL_MCP6562 outa inna inpa gnd inpb innb outb vdd
++ params: tda=47n tdb=47n vosa=0 vosb=0 vhya=3m vhyb=3m
+XA inpa inna outa vdd gnd MCP656X td={tda} vhy={vhya} vos={vosa}
+XB inpb innb outb vdd gnd MCP656X td={tdb} vhy={vhyb} vos={vosb}
+.ends RL_MCP6562

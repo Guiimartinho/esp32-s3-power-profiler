@@ -1,0 +1,62 @@
+* Monitor channels at rest, nominal values
+.include "../../models/digital.lib"
+RRN1_1 gp12 c_miso 2200
+RRN1_2 gp13 c_mon_cs 2200
+RRN1_3 gp14 c_sck 2200
+RRN1_4 gp15 c_mosi 2200
+RRN2_1 c_miso 0 4700
+RRN2_2 gp13 v3a 4700
+RRN2_3 gp14 0 4700
+RRN2_4 gp15 0 4700
+XU15_1 c_dac_cs v3a 0 DIGITAL_INPUT_PIN
+XU15_2 c_sck v3a 0 DIGITAL_INPUT_PIN
+XU15_3 c_mosi v3a 0 DIGITAL_INPUT_PIN
+XU39 v3a temp_out 0 DIGITAL_MCP9700A
+XU40 ch0 ch1 ch2 ch3 ch4 ch5 ch6 ch7 0 c_mon_cs c_mosi c_miso c_sck 0 vref v3a DIGITAL_MCP3208
+C102 v3a 0 1e-07
+C103 ch0 0 1e-07
+C104 ch1 0 1e-07
+C105 ch2 0 1e-07
+C106 ch3 0 1e-07
+C107 ch4 0 1e-07
+C108 ch5 0 1e-07
+C109 ch6 0 1e-07
+C110 ch7 0 1e-07
+C111 v3a 0 1e-07
+C112 v3a 0 1e-06
+C113 vref 0 1e-07
+R140 vout_buf ch0 120000
+R141 vin_p ch1 430000
+R142 v5 ch2 120000
+R143 ch2 src_st 68100
+R144 cc1 ch3 10000
+R145 cc2 ch4 10000
+R146 temp_out ch5 1000
+R147 v12 ch6 47000
+R148 vref ch7 100000
+R149 ch0 0 100000
+R150 ch1 0 10000
+R151 ch2 0 100000
+R152 ch6 0 10000
+R153 ch7 vm4 200000
+* what the channels read, as ideal sources
+Vout vout_buf 0 5
+Vin vin_p 0 5
+Vrail v5 0 5
+Vcc1 cc1 0 0.92
+Vcc2 cc2 0 0
+Vp12 v12 0 12
+Vm4 vm4 0 -4
+Vref vref 0 2.5
+Vanalog v3a 0 3.3
+* the select of the DAC rests high; its pad and resistors are not here
+Vdac c_dac_cs 0 3.3
+* the bus at rest: select high, clock and data low, as ideal sources
+Vcs gp13 0 3.3
+Vck gp14 0 0
+Vdi gp15 0 0
+.options temp=27
+.control
+tran 1u 50u
+.endc
+.end

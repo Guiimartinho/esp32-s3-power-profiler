@@ -1,0 +1,308 @@
+{
+ "block": "digital",
+ "block_title": "Digital Lines and Monitors",
+ "bench": "logic-input",
+ "title": "A logic input: edge, levels, open line, load on the device under test",
+ "covers": "section 4.8 (D-50, D-79), section 4.7, requirement R-10",
+ "summary": "One line of the logic port is driven from the connector to the register. The supply of the user side is set to five values from 1.65 V to 5.5 V. Line D0 gets a clean edge of that height at the connector; the edge at the translator pin behind 330 ohm is read with the largest pin capacitance, and the delay to the register input with the largest delay of the translator. Lines D1 and D2 are open and carry the leakage limit of the translator pin, 1 uA and 2 uA. Line D3 is held high and the current that the device under test gives is read. A last run takes the supply of the user side away and holds all eight lines at 5 V.",
+ "status": "ok",
+ "error": "",
+ "tier": "open",
+ "engine": "ngspice-45.2 shared library",
+ "library_sha256": "793fa0431a144ffa268aac9d2a37ee094d3b2710639603853c04b54401962ff7",
+ "figures": [
+  {
+   "key": "edge_1p65v",
+   "label": "1.65 V: edge at the translator pin, 10 % to 90 %, per volt",
+   "value": 5.499677,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "section 4.8: the translator allows 20 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "between_levels_1p65v",
+   "label": "1.65 V: time between the low and the high input level, per volt",
+   "value": 4.126217,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "section 4.8: the translator allows 20 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_1p65v",
+   "label": "1.65 V: edge at the connector to a valid level at the register, slower edge",
+   "value": 1.01527e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 12, test of R-10: edges aligned with the current within one sample, 10 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "open_1ua",
+   "label": "Open line with 1 uA of pin leakage: level at the translator pin",
+   "value": 0.4717148,
+   "unit": "V",
+   "expected": 0.47,
+   "low": null,
+   "high": 0.5775,
+   "source": "section 4.8: 0.47 V against a low level of 0.58 V at 1.65 V",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_1p65v",
+   "label": "Line held high at 1.65 V: current from the device under test",
+   "value": 3.508179e-06,
+   "unit": "A",
+   "expected": 3.5e-06,
+   "low": 3.395e-06,
+   "high": 3.605e-06,
+   "source": "section 4.8: the voltage across 470 kohm (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "edge_1p8v",
+   "label": "1.8 V: edge at the translator pin, 10 % to 90 %, per volt",
+   "value": 5.041254,
+   "unit": "ns/V",
+   "expected": 9.2,
+   "low": null,
+   "high": 20.0,
+   "source": "section 4.8: the translator allows 20 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "between_levels_1p8v",
+   "label": "1.8 V: time between the low and the high input level, per volt",
+   "value": 3.778166,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 20.0,
+   "source": "section 4.8: the translator allows 20 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_1p8v",
+   "label": "1.8 V: edge at the connector to a valid level at the register, slower edge",
+   "value": 1.015466e-08,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 12, test of R-10: edges aligned with the current within one sample, 10 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "edge_3p3v",
+   "label": "3.3 V: edge at the translator pin, 10 % to 90 %, per volt",
+   "value": 2.751827,
+   "unit": "ns/V",
+   "expected": 5.0,
+   "low": null,
+   "high": 10.0,
+   "source": "section 4.8: the translator allows 10 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "between_levels_3p3v",
+   "label": "3.3 V: time between the low and the high input level, per volt",
+   "value": 1.792204,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 10.0,
+   "source": "section 4.8: the translator allows 10 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_3p3v",
+   "label": "3.3 V: edge at the connector to a valid level at the register, slower edge",
+   "value": 9.050926e-09,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 12, test of R-10: edges aligned with the current within one sample, 10 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "open_2ua_3p3v",
+   "label": "Open line with 2 uA of pin leakage against the low level at 3.3 V",
+   "value": 0.9422435,
+   "unit": "V",
+   "expected": 0.94,
+   "low": null,
+   "high": null,
+   "source": "section 4.8 states no limit here; the low level is 0.8 V",
+   "verdict": "info"
+  },
+  {
+   "key": "load_3p3v",
+   "label": "Line held high at 3.3 V: current from the device under test",
+   "value": 7.016352e-06,
+   "unit": "A",
+   "expected": 7e-06,
+   "low": 6.79e-06,
+   "high": 7.21e-06,
+   "source": "section 4.8: the voltage across 470 kohm (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "edge_5v",
+   "label": "5 V: edge at the translator pin, 10 % to 90 %, per volt",
+   "value": 1.814276,
+   "unit": "ns/V",
+   "expected": 3.3,
+   "low": null,
+   "high": 5.0,
+   "source": "section 4.8: the translator allows 5 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "between_levels_5v",
+   "label": "5 V: time between the low and the high input level, per volt",
+   "value": 1.398892,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 5.0,
+   "source": "section 4.8: the translator allows 5 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_5v",
+   "label": "5 V: edge at the connector to a valid level at the register, slower edge",
+   "value": 8.94501e-09,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 12, test of R-10: edges aligned with the current within one sample, 10 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "open_2ua_5v",
+   "label": "Open line with 2 uA of pin leakage against the low level at 5 V",
+   "value": 0.9421131,
+   "unit": "V",
+   "expected": 0.94,
+   "low": null,
+   "high": 1.5,
+   "source": "section 4.8: at 2 uA an open line reads 0 only from 4.5 V on",
+   "verdict": "pass"
+  },
+  {
+   "key": "load_5v",
+   "label": "Line held high at 5 V: current from the device under test",
+   "value": 1.063083e-05,
+   "unit": "A",
+   "expected": 1.06e-05,
+   "low": 1.0282e-05,
+   "high": 1.0918e-05,
+   "source": "section 4.8: the voltage across 470 kohm (calculated)",
+   "verdict": "pass"
+  },
+  {
+   "key": "edge_5p5v",
+   "label": "5.5 V: edge at the translator pin, 10 % to 90 %, per volt",
+   "value": 1.650958,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 5.0,
+   "source": "section 4.8: the translator allows 5 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "between_levels_5p5v",
+   "label": "5.5 V: time between the low and the high input level, per volt",
+   "value": 1.273734,
+   "unit": "ns/V",
+   "expected": null,
+   "low": null,
+   "high": 5.0,
+   "source": "section 4.8: the translator allows 5 ns/V (datasheet)",
+   "verdict": "pass"
+  },
+  {
+   "key": "delay_5p5v",
+   "label": "5.5 V: edge at the connector to a valid level at the register, slower edge",
+   "value": 8.947398e-09,
+   "unit": "s",
+   "expected": null,
+   "low": null,
+   "high": 1e-05,
+   "source": "section 12, test of R-10: edges aligned with the current within one sample, 10 us",
+   "verdict": "pass"
+  },
+  {
+   "key": "unpowered_lines",
+   "label": "User side without supply, all lines at 5 V: highest level at the register",
+   "value": 3.400868e-05,
+   "unit": "V",
+   "expected": null,
+   "low": null,
+   "high": 0.99,
+   "source": "sections 4.7 and 4.8: all eight bits read 0",
+   "verdict": "pass"
+  },
+  {
+   "key": "unpowered_current",
+   "label": "User side without supply: current that one line at 5 V takes",
+   "value": 1.062986e-05,
+   "unit": "A",
+   "expected": 1.06e-05,
+   "low": null,
+   "high": 1.26e-05,
+   "source": "section 4.8: 10.6 uA in the pull-down; 2 uA of pin leakage allowed (TI SCES584D, page 9), which the model does not have",
+   "verdict": "pass"
+  }
+ ],
+ "graphs": [
+  [
+   "edge",
+   "A clean edge at the connector, at the translator pin and at the register",
+   "logic-input.edge.png"
+  ]
+ ],
+ "notes": [
+  "The device under test is an ideal source with an edge of 0.5 ns: cable, source resistance and ringing are not in this circuit, and a slower edge of the device under test adds to the figures.",
+  "The edge rates use the largest pin capacitance, 10 pF, and the delay the largest delay of the translator. The specification takes four to five time constants for the whole swing; this bench reads the 10 % to 90 % time, which is 2.2 time constants over 80 % of the swing, so its figures are about half of the stated ones.",
+  "The threshold of the translator model is half its supply, an assumption inside the input levels of the datasheet. The open-line figures are compared with the highest low level, which does not depend on it.",
+  "The leakage of an open line is a source of 1 uA and 2 uA at the translator pin, the limits of the datasheet; the arrays have no leakage in their model, so the load on a device under test is the pull-down alone."
+ ],
+ "models": [
+  [
+   "U33",
+   "DIGITAL_LV165A",
+   "written here"
+  ],
+  [
+   "U36",
+   "DIGITAL_TPD4E1U06",
+   "written here"
+  ],
+  [
+   "U37",
+   "DIGITAL_TPD4E1U06",
+   "written here"
+  ],
+  [
+   "U38",
+   "DIGITAL_LVC8T245",
+   "written here"
+  ]
+ ],
+ "decks": [
+  "logic-input.3p3v.cir",
+  "logic-input.unpowered.cir"
+ ],
+ "format": 1
+}
