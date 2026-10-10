@@ -23,22 +23,36 @@ block and the controller module, D-85).
 Where an item says "calculated" or "simulated", that part of the question
 has a figure, and its measurement is what stays open. Nothing in the tables
 is measured. The files of the simulations are not in the repository yet;
-the [hardware guide](../../hardware/README.md#still-to-do) lists, block by
-block, which figures rest on one. Test points are named by their reference
-on the drawings of draft A2.
+the [hardware guide](../../hardware/README.md) lists, block by block, which
+figures rest on a simulation. The scripts behind the figures calculated
+from the board are filed in `tools/board/`, with a
+[guide](../../tools/board/README.md). Test points are named by their
+reference on the drawings of draft A2.
 
-State on 2026-10-10: 31 items under "Parts and Blocks", 5 before the board
-is ordered and 4 before a DUT is connected; 40 open, none closed, no record
-filed.
+State on 2026-10-10: 31 items under "Parts and Blocks", 7 before the board
+is ordered and 4 before a DUT is connected; 42 open, none closed, no record
+filed. The item of the LT3080 (U18) gained a question on that day: the
+temperature rise of U18 at its full dissipation on the island of copper of
+draft A2 (D-93), read on the first board.
 
 What comes next: no check is started. The questions that a datasheet
 answers can be worked on now, part by part, as described under
 [Writing a Record](#writing-a-record). The questions that ask for a
 measurement wait for loose parts, for the prototypes of phase 1 or for the
-first board, as the three lists say. The
-[hardware guide](../../hardware/README.md#still-to-do) puts the bench
-items in its order of work, as step 4, behind the open connections of the
-board, the layout review and the filing of the simulations.
+first board, as the three lists say. In the order of work of the project
+the checks come behind three things: the rest of the board step (the
+review by a person, the open items of the layout, the silkscreen and the
+test points), the software step, and the filing of the simulations. The
+[hardware guide](../../hardware/README.md) has that order with its lists.
+
+The layout review of 2026-10-10 closed no item of these tables. It drew
+copper and calculated figures from it; a check is closed by a record with
+datasheet values or by a measurement, and the review produced neither.
+The seven points in which the drawn board deviates from the earlier text of
+section 10 are recorded as decisions D-87 to D-93 of the specification. A
+decision is not a check either, and D-93 opens one: the island of copper
+under U18 is smaller on the top layer than the copper the datasheet figure
+is given for.
 
 ### Parts and Blocks
 
@@ -47,7 +61,7 @@ board, the layout review and the filing of the simulations.
 | AD8421 (U27) | Common-mode range with +12 V / −4 V, settling time and noise at G = 19.93, bias current against the leakage budget; linear range near full scale with the output below 0.2 V; overload recovery and output polarity after an overdrive of up to 3.9 V for 1 µs; offset with a transmitting DUT on its cable | — | Open |
 | ADS8860 (U30) | Convert-start and data timing against the acquisition program at 100 kSPS and 500 kSPS, with convert-start still high at the end of the conversion; input driver and reference drive; operation at a 2.5 V reference, where the datasheet gives typical figures only; noise with R131 at 0 Ω, 0.22 Ω and 0.47 Ω (D-75); driver rail (D-73) of about 2.68 V at TP42 and 2.73 V at the output of its buffer (calculated), and its step response; TP43 never above VREF + 0.25 V in overload, at power-up, at power-down and while 3V3_A is between 1 V and 2.2 V | — | Open |
 | RP2350 PIO | Size of the acquisition program and of the range sequencer against 32 instructions, reaction time from the jump comparator to the gate line of range 3 of 100 ns or less (20 ns to 80 ns, estimate), blanking of 2 µs (F-17) and trip qualification of 12 µs (F-18) as programs, DMA pacing | — | Open |
-| LT3080 (U18) | Dropout on both supply pins on the R-08 curve (calculated, margin 2 mV at 5.0 V; measurement on several warm units open), minimum load of 3.7 mA to 6.9 mA through R69 (calculated), output noise with that load, operation from the control pin alone, thermal resistance | — | Open |
+| LT3080 (U18) | Dropout on both supply pins on the R-08 curve (calculated, margin 2 mV at 5.0 V; measurement on several warm units open), minimum load of 3.7 mA to 6.9 mA through R69 (calculated), output noise with that load, operation from the control pin alone, thermal resistance of the package on the planned copper; temperature rise at its full dissipation (1.02 W at the limits, 1.5 W to 2.0 W in a sustained short circuit, calculated) on the island of draft A2, 291 mm² on the bottom layer joined by 22 vias to 102 mm² on the top layer (D-93): the datasheet figure of 65 K/W is for 225 mm² of top copper and does not describe that island, so the rise is read on the first board | — | Open |
 | Pre-regulator (TPS63020, U16) | Stability with the difference amplifier U19 in the feedback path over 1.2 V to 5.5 V and the charge returned to the 5 V rail (behavioral model only; phase 1 prototype); power taken from the 5 V rail in source mode without load, 0.25 W or more (0.54 W to 0.60 W estimated); behavior below 1.2 V and at the 5.5 V end against its over-voltage protection; ripple after the filter; land pattern (lead pads agree with the drawing of the manufacturer, center pad 1.7 mm × 3.3 mm against 1.58 mm × 2.85 mm accepted, with a via array); inductor L2 (saturation current of 4.6 A at 30 % drop, datasheet value, against the current limit of the converter; no stock on 2026-10-09, second source on the same pads); bead FB1 (inductance below 1 MHz) | — | Open |
 | Set-point path (D-58) | Ceiling of 5.26 V (calculated) at TP23 with the DAC at full scale; half the reference at TP19 | — | Open |
 | Range MOSFETs, ladder clamps (Q10, Q11) and multiplexer | Leakage across the whole ladder at 100 mV and 40 °C against 100 nA, leakage of the node behind the shunts to ground at 5 V and 40 °C against 10 nA, on-resistance of the multiplexer at +12 V / −4 V (125 Ω to 340 Ω expected; the simulations cover up to 430 Ω), gate-charge injection into VOUT, pulse series of section 11 with leakage and gain compared before and after, and the case temperature of both clamps | — | Open |
@@ -78,14 +92,18 @@ board, the layout review and the filing of the simulations.
 
 ### Before the Board Is Ordered
 
-These items need no carrier board.
+These items need no carrier board. The temperature rise of U18 (D-93) is
+not among them: it is a question of the item "LT3080 (U18)" above and is
+read on the first board.
 
 | Item | Record | Status |
 | --- | --- | --- |
 | The risk prototypes of phase 1 that concern the carrier: reaction of the sequencer, pre-regulator with its tracking amplifier, start of the boost converter from 0.7 A | — | Open |
 | Linear range of the AD8421 near full scale with the output below 0.2 V, on the test board of phase 2. Until the result exists, range 3 above 1 A, the trip level and the jump level are specified for output voltages of 0.2 V or more | — | Open |
 | On loose parts: leakage of the suppressor PTVS15VS1UR at 5 V and at 40 °C to 50 °C; leakage of the IRLML0030 at 100 mV and 40 °C; on-resistance of the MUX509 at +12 V / −4 V | — | Open |
-| Review of the routed board (D-86) against the rules of section 10, with the resistance of the 1 A path and of the copper from the pre-regulator to FB1 (15 mΩ or less) | — | Open |
+| Review of the routed board (D-86) against the rules of section 10, with the resistance of the 1 A path and of the copper from the pre-regulator to FB1 (15 mΩ or less). Done on 2026-10-10 with scripts and checked by independent calculation: 19.5 squares in source mode and 23.3 squares in ampere mode against 30, and 7.1 mΩ to FB1 (calculated from the drawn copper, section 10.8). Open: a person opens the board in the KiCad editor and reviews it, and the rest of the exit check of section 10.8 | — | Open |
+| The open items of section 10.8 that need parts moved or another footprint: which of them are closed before the order, by a change of placement with a local redraw | — | Open |
+| Files that have to be in the repository so that a figure can be repeated: the simulation files in `hardware/simulation/`, which are not filed yet. The figures calculated from the board (resistance of a pour in squares, path on one layer, surface leakage into the measured node, lengths of the pairs) are produced by the scripts in [`tools/board/`](../../tools/board/) | — | Open |
 | Stock of the parts that had none on 2026-10-09 (L2, 10 µF and 22 µF 25 V X5R), and the order of the parts with long lead times | — | Open |
 
 ### Before a DUT Is Connected to a Board
@@ -104,12 +122,45 @@ was reviewed independently against the datasheets of its parts. That review
 is not a check record and closes no item above. A closed record can
 therefore change the schematic.
 
-The board of draft A2 is routed by an autorouter and passes the design
-rules check with no violation, but 28 of its 984 connections are open and
-its layout is not reviewed. The item "Review of the routed board" above
-stays open until that review is done; the
-[hardware guide](../../hardware/README.md#still-to-do) names the open
-connections and what the review has to draw.
+The board of draft A2 was placed by a script and routed by an autorouter
+(D-86), which left 28 of its 984 connections open. On 2026-10-10 its layout
+was reviewed against the rules of section 10: the open connections were
+closed and the pours, the guard, the Kelvin pairs and the copper of the
+converters were drawn, with scripts, block by block, each block checked by
+an independent calculation. The board now has 984 of 984 connections
+routed and passes the design rules check with no violation, no unconnected
+pad and no difference from the schematic.
+
+What that review gives for the item "Review of the routed board" above, all
+of it calculated from the drawn copper and none of it measured:
+
+- The 1 A path is 19.5 squares in source mode and 23.3 squares in ampere
+  mode, against the limit of 30 squares of section 10.4: 10.4 mΩ and
+  12.3 mΩ of 35 µm copper at 40 °C. The figures count copper only;
+  transistors, shunt, fuse and contacts are not in them, so the item
+  "Path resistance" (copper and contacts at or below 20 mΩ) is not
+  answered.
+- The copper from the output capacitors of the pre-regulator to FB1 is
+  13.4 squares, 7.1 mΩ, against the limit of 15 mΩ.
+- Not every rule of section 10 is kept. The capacitor loops of the
+  pre-regulator close on the top layer over 8.2 mm to 17.1 mm, where 5 mm
+  is the limit; that is one of the open items of the layout. The seven
+  points in which the drawn board deviates from the earlier text of
+  section 10 are recorded as decisions D-87 to D-93, and the section
+  describes the board as it is drawn.
+
+These figures can be calculated again from the board file with the package
+in `tools/board/`; its [guide](../../tools/board/README.md) gives the
+method, the assumptions and the limits.
+
+The item stays open. No record is filed for it, a person has not yet
+opened the board in the KiCad editor and reviewed it, and the open items of
+the layout that need a part moved are not closed. The
+[hardware guide](../../hardware/README.md) lists the decided deviations and
+the open items of the layout one by one. The review of the
+layout is not a component check either: every part on the board is still a
+candidate, and a closed record can change a footprint and with it the
+copper around it.
 
 ## Writing a Record
 
