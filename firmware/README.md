@@ -8,7 +8,7 @@ the data to the host over USB.
 
 | Part | State |
 | --- | --- |
-| Hardware-independent core | Done for the wire protocol, the block queue between the two cores, the ranging rules and the device state machine. Unit-tested on the PC |
+| Hardware-independent core | Done for the wire protocol, the block queue between the two cores, the settling window and the step-down rule of the ranging, and the states and transitions of the device state machine. Unit-tested on the PC |
 | Target build for the Pico 2 | Not started. It will use the Pico SDK (C and CMake), the TinyUSB stack the SDK brings, and PIO programs for the sampling clock and the range sequencer |
 | Adapters for acquisition, analog front end and USB | Not started. They come with the target build, in phase 1 |
 | Target build in this directory today | The ESP-IDF project of the first plan, for the ESP32-S3. It builds, boots into a banner and drives no hardware. The port replaces it |
@@ -17,7 +17,8 @@ The controller changed from the ESP32-S3 to the Pico 2 with decision D-39 of
 the [specification](../docs/specification.md). The core does not depend on
 the controller, so it and its tests carry over as they are; sections 5 and 6
 of the specification describe the pins and the execution model the port
-follows.
+follows. Section 6.6 lists the firmware rules that guard hardware: they are
+requirements for the port, and none of them is implemented yet.
 
 Nothing here has run on a board: timing, throughput and loss figures are
 still design targets of the specification.
@@ -87,8 +88,8 @@ the ones of section 6.1 of the specification.
 - **Incremental parser** (`pp_frame_parser_feed`). Bytes arrive from USB in
   pieces of any size. The parser keeps its own state, does no input or
   output, and resynchronizes after noise or a damaged frame.
-- **Table-driven state machine with an observer** (`pp_fsm`). The whole
-  behavior of section 6.4 is one table that can be compared with the
+- **Table-driven state machine with an observer** (`pp_fsm`). The states and
+  transitions of section 6.4 are one table that can be compared with the
   specification. The machine decides the next state; the observer performs
   the actions, so the machine itself touches no hardware.
 - **Caller-owned memory.** No heap means no fragmentation and no allocation
