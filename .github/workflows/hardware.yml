@@ -66,10 +66,9 @@ jobs:
           kicad-cli sch export pdf --output schematic.pdf
           power-profiler-carrier.kicad_sch
 
-      # The board is an autorouted draft with connections still open, so the
-      # unconnected items are expected and the exit code of the check cannot
-      # be used. The report must show no rule violation and no difference
-      # between board and schematic.
+      # Warnings count as violations here, so the exit code of the check is
+      # not used: the report must show no rule violation, no open connection
+      # and no difference between board and schematic.
       - name: Check the board
         run: >-
           kicad-cli pcb drc --schematic-parity --severity-all
@@ -85,9 +84,10 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Fail on rule violations and on differences from the schematic
+      - name: Fail on violations, open connections and schematic differences
         run: |
           grep -q '^\*\* Found 0 DRC violations \*\*' drc-report.txt
+          grep -q '^\*\* Found 0 unconnected pads \*\*' drc-report.txt
           grep -q '^\*\* Found 0 Footprint errors \*\*' drc-report.txt
 
       - name: Upload the schematic and the reports
