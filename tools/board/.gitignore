@@ -1,0 +1,3 @@
+# A board dump is a working file of a few megabytes, made again from the
+# board file whenever it is needed.
+/*.json
